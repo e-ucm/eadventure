@@ -206,9 +206,9 @@ public class EAdUtils {
 		return prefix + id;
 	}
 
-	public static <T, S> EAdMap<S, T> invertMap(EAdMap<T, S> map) {
-		EAdMap<S, T> map2 = new EAdMap<S, T>();
-		for (Map.Entry<T, S> e : map.entrySet()) {
+	public static EAdMap<String> invertMap(EAdMap<String> map) {
+		EAdMap<String> map2 = new EAdMap<String>();
+		for (Map.Entry<String, String> e : map.entrySet()) {
 			map2.put(e.getValue(), e.getKey());
 		}
 		return map2;

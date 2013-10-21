@@ -98,12 +98,11 @@ public class GameLoader {
 		final AdventureGame adventure = currentManifest.getModel();
 		// Load plugins
 		eventFactory.put(adventure.getProperty(AdventureGame.EVENTS_BINDS,
-				(EAdMap<String, String>) null));
+				(EAdMap<String>) null));
 		effectFactory.put(adventure.getProperty(AdventureGame.EFFECTS_BINDS,
-				(EAdMap<String, String>) null));
+				(EAdMap<String>) null));
 		sceneElementFactory.put(adventure.getProperty(
-				AdventureGame.SCENES_ELEMENT_BINDS,
-				(EAdMap<String, String>) null));
+				AdventureGame.SCENES_ELEMENT_BINDS, (EAdMap<String>) null));
 
 		// FIXME detect language
 		stringHandler.setLanguage("");

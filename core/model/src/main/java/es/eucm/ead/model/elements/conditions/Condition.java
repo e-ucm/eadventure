@@ -57,6 +57,6 @@ public abstract class Condition extends Operation {
 	 *
 	 * @param fields
 	 */
-	public abstract void extractFields(List<ElementField<?>> fields);
+	public abstract void extractFields(List<ElementField> fields);
 
 }

@@ -77,10 +77,10 @@ public class ShowSceneElementEf extends Effect {
 		this.sceneElement = text;
 		switch (animation) {
 		case FADE_IN:
-			text.setVarInitialValue(SceneElement.VAR_ALPHA, 0.0f);
-			InterpolationEf effect = new InterpolationEf(
-					new ElementField<Float>(text, SceneElement.VAR_ALPHA),
-					0.0f, 1.0f, 500, InterpolationLoopType.NO_LOOP);
+			text.setVar(SceneElement.VAR_ALPHA, 0.0f);
+			InterpolationEf effect = new InterpolationEf(new ElementField(text,
+					SceneElement.VAR_ALPHA), 0.0f, 1.0f, 500,
+					InterpolationLoopType.NO_LOOP);
 
 			SceneElementEv event = new SceneElementEv();
 			event.addEffect(SceneElementEvType.INIT, effect);

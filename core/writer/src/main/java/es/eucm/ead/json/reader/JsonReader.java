@@ -43,7 +43,6 @@ import com.google.gson.reflect.TypeToken;
 import es.eucm.ead.model.elements.AdventureGame;
 import es.eucm.ead.model.elements.Chapter;
 import es.eucm.ead.model.elements.scenes.Scene;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.reader.ObjectsFactory;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
@@ -229,10 +228,6 @@ public class JsonReader {
 							new Object[] { file, t }, e);
 				}
 			}
-	}
-
-	public void registerVariable(String string, EAdVarDef<?> var) {
-		objectsFactory.registerVariable(string, var);
 	}
 
 	public ObjectsFactory getObjectsFactory() {

@@ -38,7 +38,6 @@
 package es.eucm.ead.model.interfaces.features;
 
 import es.eucm.ead.model.elements.extra.EAdMap;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 
 /**
  * 
@@ -52,23 +51,10 @@ public interface Variabled {
 	 * 
 	 * @return
 	 */
-	EAdMap<EAdVarDef<?>, Object> getVars();
+	EAdMap<Object> getVars();
 
-	/**
-	 * Sets a initial value for the given variable
-	 * 
-	 * @param var
-	 *            variable's definition
-	 * @param value
-	 *            the initial value
-	 */
-	<T> void setVarInitialValue(EAdVarDef<T> var, T value);
+	void setVar(String varName, Object value);
 
-	/**
-	 * Returns the initial value for a variable
-	 * @param var
-	 * @param <T>
-	 * @return
-	 */
-	<T> T getVarInitialValue(EAdVarDef<T> var);
+	<T> T getVar(String varName, T defaultValue);
+
 }

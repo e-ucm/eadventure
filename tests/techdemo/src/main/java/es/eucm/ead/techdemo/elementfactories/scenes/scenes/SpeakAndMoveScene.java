@@ -56,7 +56,6 @@ import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
-import es.eucm.ead.model.elements.trajectories.Trajectory;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
@@ -68,7 +67,7 @@ import es.eucm.ead.techdemo.elementfactories.scenes.normalguy.NgCommon;
 public class SpeakAndMoveScene extends EmptyScene {
 
 	private int dispY = 0;
-	private ElementField<Trajectory> trajectoryField;
+	private ElementField trajectoryField;
 
 	public SpeakAndMoveScene() {
 		this.setId("SpeakAndMoveScene");
@@ -133,8 +132,8 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		actionsObject.setId("ActionsObject");
 
-		actionsObject.getDefinition().setVarInitialValue(
-				ActorActionsEf.VAR_ACTIONS, actions);
+		actionsObject.getDefinition().putProperty(ActorActionsEf.VAR_ACTIONS,
+				actions);
 
 		Effect showActions = new ActorActionsEf(actionsObject.getDefinition());
 		actionsObject.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, showActions);
@@ -142,8 +141,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		// Trajectories
 
-		trajectoryField = new ElementField<Trajectory>(this,
-				VAR_TRAJECTORY_DEFINITION);
+		trajectoryField = new ElementField(this, VAR_TRAJECTORY_DEFINITION);
 
 		SimpleTrajectory freeWalk = new SimpleTrajectory();
 		setTrajectoryDefinition(freeWalk);

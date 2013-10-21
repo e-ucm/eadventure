@@ -118,12 +118,12 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		if (effect.getStateField() != null) {
 			BasicElement element = effect.getStateField().getElement();
 			MoveSceneElementGO moving = game.getGameState().getValue(element,
-					MoveSceneElementGO.VAR_ELEMENT_MOVING);
+					MoveSceneElementGO.VAR_ELEMENT_MOVING, null);
 			if (moving != null) {
 				moving.stop();
 			}
-			previousState = game.getGameState()
-					.getValue(effect.getStateField());
+			previousState = game.getGameState().getValue(
+					effect.getStateField(), "");
 			game.getGameState().setValue(effect.getStateField(),
 					CommonStates.TALKING.toString());
 		}
@@ -159,8 +159,9 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	}
 
 	protected GroupElement getVisualRepresentation() {
-		int width = game.getGameState().getValue(SystemFields.GAME_WIDTH);
-		int height = game.getGameState().getValue(SystemFields.GAME_HEIGHT);
+		int width = game.getGameState().getValue(SystemFields.GAME_WIDTH, 800);
+		int height = game.getGameState()
+				.getValue(SystemFields.GAME_HEIGHT, 600);
 		int horizontalMargin = width / MARGIN_PROPORTION;
 		int verticalMargin = height / MARGIN_PROPORTION;
 		int left = horizontalMargin;
@@ -172,10 +173,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 
 		if (effect.getX() != null && effect.getY() != null) {
 
-			int xOrigin = game.getGameState().operate(Float.class,
-					effect.getX()).intValue();
-			int yOrigin = game.getGameState().operate(Float.class,
-					effect.getY()).intValue();
+			int xOrigin = game.getGameState().operate(effect.getX());
+			int yOrigin = game.getGameState().operate(effect.getY());
 
 			xOrigin += (int) effectsHud.getX();
 			yOrigin += (int) effectsHud.getY();

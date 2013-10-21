@@ -38,14 +38,10 @@
 package es.eucm.ead.model.elements.scenes;
 
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
-import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.ead.model.elements.trajectories.Trajectory;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.util.Position.Corner;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 
 /**
  * <p>
@@ -55,8 +51,7 @@ import es.eucm.ead.model.params.variables.VarDef;
 @Element
 public class Scene extends GroupElement {
 
-	public static final EAdVarDef<Trajectory> VAR_TRAJECTORY_DEFINITION = new VarDef<Trajectory>(
-			"trajectory_generator", Trajectory.class, null);
+	public static final String VAR_TRAJECTORY_DEFINITION = "trajectory_generator";
 
 	@Param
 	protected SceneElement background;
@@ -66,18 +61,21 @@ public class Scene extends GroupElement {
 	 * cutscene or similiar
 	 */
 	@Param
-	protected Boolean returnable;
+	protected boolean returnable;
 
 	/**
-	 * Default constructor.
-	 *
+	 * Default constructor. Creates an completely empty scene
 	 */
 	public Scene() {
-		this(new RectangleShape(800, 600, ColorFill.BLACK));
+
 	}
 
+	/**
+	 * Creates a scene with its backgrounds. Sets the position for the scene and the background to 0, 0 (corner top left)
+	 *
+	 * @param bg the background
+	 */
 	public Scene(SceneElement bg) {
-		super();
 		background = bg;
 		background.setPosition(Corner.TOP_LEFT, 0, 0);
 		returnable = true;
@@ -98,7 +96,7 @@ public class Scene extends GroupElement {
 	/**
 	 * Sets the scene element representing the background
 	 *
-	 * @param sceneElement the scene element for the background
+	 * @param background the scene element for the background
 	 */
 	public void setBackground(SceneElement background) {
 		this.background = background;
@@ -108,7 +106,7 @@ public class Scene extends GroupElement {
 	 * @return true if the game can return to this scene after a cutscene or
 	 *         similiar
 	 */
-	public Boolean getReturnable() {
+	public boolean getReturnable() {
 		return returnable;
 	}
 
@@ -118,14 +116,17 @@ public class Scene extends GroupElement {
 	 * @param returnable if the game can return to this scene after a cutscene or
 	 *                   similar
 	 */
-	public void setReturnable(Boolean returnable) {
+	public void setReturnable(boolean returnable) {
 		this.returnable = returnable;
 	}
 
+	/**
+	 * Sets trajectory for the scene. It's a shortcut for setting {@link Scene#VAR_TRAJECTORY_DEFINITION} property with the trajectory definition
+	 *
+	 * @param trajectoryDefinition the trajectory definition
+	 */
 	public void setTrajectoryDefinition(Trajectory trajectoryDefinition) {
-		this
-				.setVarInitialValue(VAR_TRAJECTORY_DEFINITION,
-						trajectoryDefinition);
+		putProperty(VAR_TRAJECTORY_DEFINITION, trajectoryDefinition);
 	}
 
 	/**

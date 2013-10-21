@@ -105,7 +105,7 @@ public class OperationCond extends Condition {
 		this(op, new ValueOp(object), comparator);
 	}
 
-	public OperationCond(ElementField<Boolean> field) {
+	public OperationCond(ElementField field) {
 		this(field, new ValueOp(Boolean.TRUE), Comparator.EQUAL);
 	}
 
@@ -144,13 +144,13 @@ public class OperationCond extends Condition {
 		return op1 + " " + comparator + " than " + op2;
 	}
 
-	public void extractFields(List<ElementField<?>> fields) {
+	public void extractFields(List<ElementField> fields) {
 		if (op1 instanceof ElementField) {
-			fields.add((ElementField<?>) op1);
+			fields.add((ElementField) op1);
 		}
 
 		if (op2 instanceof ElementField) {
-			fields.add((ElementField<?>) op2);
+			fields.add((ElementField) op2);
 		}
 	}
 

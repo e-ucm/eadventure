@@ -429,9 +429,8 @@ public class SceneConverter {
 		TriggerMacroEf triggerMacroVisible = new TriggerMacroEf();
 		TriggerMacroEf triggerMacroMusic = new TriggerMacroEf();
 		// Prepare visibility for foreground
-		ElementField<Boolean> foregroundVisible = (foreground != null ? foreground
-				.getField(SceneElement.VAR_VISIBLE)
-				: null);
+		ElementField foregroundVisible = (foreground != null ? foreground
+				.getField(SceneElement.VAR_VISIBLE) : null);
 		ChangeFieldEf makeForegroundVisible = new ChangeFieldEf(
 				foregroundVisible, EmptyCond.TRUE);
 		ChangeFieldEf makeForegroundInvisible = new ChangeFieldEf(
@@ -440,7 +439,7 @@ public class SceneConverter {
 		for (Resources r : resources) {
 			Condition cond = conditionsConverter.convert(r.getConditions());
 			// Watch all the fields in the condition
-			for (ElementField<?> field : conditionsConverter
+			for (ElementField field : conditionsConverter
 					.getFieldsLastCondition()) {
 				watchField.watchField(field);
 			}

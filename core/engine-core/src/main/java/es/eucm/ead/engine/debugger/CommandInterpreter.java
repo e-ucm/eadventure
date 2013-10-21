@@ -123,8 +123,7 @@ public class CommandInterpreter {
 				result = "OK.";
 			} else if (command.startsWith("watching")) {
 				String[] parts = command.split(" ");
-				String[] field = parts[1].split("\\.");
-				result = game.getGameState().countWatchers(field[0], field[1])
+				result = game.getGameState().countWatchers(parts[1])
 						+ " watchers.";
 			}
 		} catch (Exception e)

@@ -78,11 +78,11 @@ public class MathOp extends Operation {
 	 * @param floatVar2
 	 * @param fields
 	 */
-	public MathOp(String expression, ElementField<?>... fields) {
+	public MathOp(String expression, ElementField... fields) {
 		super();
 		this.expression = expression;
 		if (fields != null) {
-			for (ElementField<?> f : fields) {
+			for (ElementField f : fields) {
 				operations.add(f);
 			}
 		}
@@ -115,7 +115,7 @@ public class MathOp extends Operation {
 	 *            the increment
 	 * @return the operation
 	 */
-	public static MathOp getIncrementExpression(ElementField<?> var,
+	public static MathOp getIncrementExpression(ElementField var,
 			Integer increment) {
 		return new MathOp("[0] + " + increment, var);
 	}

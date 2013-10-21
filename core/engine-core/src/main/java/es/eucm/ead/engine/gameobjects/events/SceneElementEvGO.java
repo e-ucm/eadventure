@@ -42,12 +42,10 @@ import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.effects.ChangeSceneGO;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.params.variables.VarDef;
 
 public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 
-	private static final VarDef<Boolean> INIT = new VarDef<Boolean>("init",
-			Boolean.class, false);
+	private static final String INIT = "init";
 
 	private int checks;
 
@@ -72,7 +70,7 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 
 		if (inTransition) {
 			inTransition = game.getGameState().getValue(
-					ChangeSceneGO.IN_TRANSITION);
+					ChangeSceneGO.IN_TRANSITION, false);
 			if (inTransition) {
 				return;
 			}
@@ -83,10 +81,11 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 		}
 
 		if (checks == 0) {
-			boolean init = game.getGameState().getValue(element, INIT);
+			boolean init = (Boolean) game.getGameState().getValue(
+					element.getId(), INIT, false);
 			if (!init) {
 				runEffects(element.getEffectsForEvent(SceneElementEvType.INIT));
-				game.getGameState().setValue(element, INIT, true);
+				game.getGameState().setValue(element.getId(), INIT, true);
 			}
 			runEffects(element.getEffectsForEvent(SceneElementEvType.ADDED));
 		}

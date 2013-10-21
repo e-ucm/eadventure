@@ -40,48 +40,24 @@ package es.eucm.ead.model.elements.operations;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 
 @Element
-public class ElementField<T> extends Operation {
+public class ElementField extends Operation {
 
 	@Param
 	private BasicElement element;
 
 	@Param
-	private EAdVarDef<T> varDef;
+	private String varDef;
+
+	@Param
+	private Object defaultValue;
 
 	public ElementField() {
 
 	}
 
-	/**
-	 * Constructs a field
-	 * 
-	 * @param element
-	 *            field owner. It can be {@code null}, if there's no owner
-	 * @param name
-	 *            field name
-	 * @param fieldType
-	 *            field type
-	 * @param initialValue
-	 *            field initial value
-	 */
-	public ElementField(BasicElement element, String name, Class<T> fieldType,
-			T initialValue) {
-		this(element, new VarDef<T>(name, fieldType, initialValue));
-	}
-
-	/**
-	 * Constructs a field
-	 * 
-	 * @param element
-	 *            field owner
-	 * @param varDef
-	 *            variable definition
-	 */
-	public ElementField(BasicElement element, EAdVarDef<T> varDef) {
+	public ElementField(BasicElement element, String varDef) {
 		this.element = element;
 		this.varDef = varDef;
 	}
@@ -97,27 +73,35 @@ public class ElementField<T> extends Operation {
 		return element;
 	}
 
+	public void setElement(BasicElement element) {
+		this.element = element;
+	}
+
+	public void setVarDef(String varDef) {
+		this.varDef = varDef;
+	}
+
 	/**
 	 * Returns the variable definition for the field
 	 *
 	 * @return
 	 */
-	public EAdVarDef<T> getVarDef() {
+	public String getVarDef() {
 		return varDef;
+	}
+
+	public Object getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(Object defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 
 	@Override
 	public String toString() {
-		return (element != null ? element.getId() : "NULL") + "."
-				+ varDef.getName();
-	}
-
-	public void setVarDef(EAdVarDef<T> varDef) {
-		this.varDef = varDef;
-	}
-
-	public void setElement(BasicElement element) {
-		this.element = element;
+		return (element != null ? element.getId() : "NULL") + "." + varDef
+				+ "(" + defaultValue + ")";
 	}
 
 }

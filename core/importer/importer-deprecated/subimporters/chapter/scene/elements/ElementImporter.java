@@ -115,7 +115,7 @@ public abstract class ElementImporter<T> implements
 							.getHeight()
 							+ INFLUENCE_MARGIN * 2);
 		}
-		sceneElement
+		sceneElement.
 				.setVarInitialValue(NodeTrajectory.VAR_INFLUENCE_AREA, rect);
 	}
 
@@ -150,7 +150,7 @@ public abstract class ElementImporter<T> implements
 		ConditionedEv event = new ConditionedEv();
 		event.setCondition(condition);
 
-		ElementField<Boolean> enableField = new ElementField<Boolean>(newReference,
+		ElementField enableField = new ElementField(newReference,
 				SceneElement.VAR_VISIBLE);
 
 		ChangeFieldEf changeEnable = new ChangeFieldEf();

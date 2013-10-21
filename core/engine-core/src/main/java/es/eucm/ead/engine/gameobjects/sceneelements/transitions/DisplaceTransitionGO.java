@@ -62,8 +62,8 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 			SceneElementFactory gameObjectFactory, Game game,
 			EventFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, game, eventFactory);
-		width = gameState.getValue(SystemFields.GAME_WIDTH);
-		height = gameState.getValue(SystemFields.GAME_HEIGHT);
+		width = gameState.getValue(SystemFields.GAME_WIDTH, 800);
+		height = gameState.getValue(SystemFields.GAME_HEIGHT, 600);
 		currentTime = 0;
 	}
 

@@ -47,7 +47,6 @@ import es.eucm.ead.editor.view.generic.table.MapOption;
 import es.eucm.ead.editor.view.generic.table.TableSupport.ColumnSpec;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,32 +90,18 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 				} };
 			}
 		});
-		op.add(new MapOption<EAdVarDef, Object>("Vars", "Available varDefs",
-				scene, "vars", EAdVarDef.class, target.getFirst()) {
+		op.add(new MapOption<Object>("Vars", "Available varDefs", scene,
+				"vars", String.class, target.getFirst()) {
 
 			@Override
 			public ColumnSpec<Object>[] getKeyColumns() {
-				return new ColumnSpec[] {
-						new ColumnSpec("Name", String.class, false, 50) {
-							@Override
-							public Object getValue(int index, Object o) {
-								return indexToKey(index).getName();
-							}
-						},
-						new ColumnSpec("Type", String.class, false, 50) {
-							@Override
-							public Object getValue(int index, Object o) {
-								return indexToKey(index).getType()
-										.getSimpleName();
-							}
-						},
-						new ColumnSpec("Initial v.", String.class, false, 60) {
-							@Override
-							public Object getValue(int index, Object o) {
-								return indexToKey(index).getInitialValue()
-										.toString();
-							}
-						} };
+				return new ColumnSpec[] { new ColumnSpec("Name", String.class,
+						false, 50) {
+					@Override
+					public Object getValue(int index, Object o) {
+						return indexToKey(index);
+					}
+				} };
 			}
 
 			@Override

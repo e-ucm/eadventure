@@ -40,7 +40,6 @@ package es.eucm.ead.importer;
 import com.google.inject.Singleton;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.operations.ElementField;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,11 +54,11 @@ public class EAdElementsCache {
 
 	private Map<String, BasicElement> elements;
 
-	private Map<String, Map<EAdVarDef<?>, ElementField<?>>> fields;
+	private Map<String, Map<String, ElementField>> fields;
 
 	public EAdElementsCache() {
 		elements = new HashMap<String, BasicElement>();
-		fields = new HashMap<String, Map<EAdVarDef<?>, ElementField<?>>>();
+		fields = new HashMap<String, Map<String, ElementField>>();
 	}
 
 	public void put(BasicElement element) {
@@ -74,29 +73,28 @@ public class EAdElementsCache {
 		return element;
 	}
 
-	public <T> ElementField<T> getField(String elementId, EAdVarDef<T> var) {
+	public <T> ElementField getField(String elementId, String var) {
 		return getField(elements.get(elementId), var);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> ElementField<T> getField(BasicElement element, EAdVarDef<T> var) {
+	public <T> ElementField getField(BasicElement element, String var) {
 		if (element != null && element.getId() != null) {
 
-			Map<EAdVarDef<?>, ElementField<?>> fieldsMap = fields.get(element
-					.getId());
+			Map<String, ElementField> fieldsMap = fields.get(element.getId());
 			if (fieldsMap == null) {
-				fieldsMap = new HashMap<EAdVarDef<?>, ElementField<?>>();
+				fieldsMap = new HashMap<String, ElementField>();
 				fields.put(element.getId(), fieldsMap);
 			}
 
-			ElementField<T> field = (ElementField<T>) fieldsMap.get(var);
+			ElementField field = (ElementField) fieldsMap.get(var);
 			if (field == null) {
-				field = new ElementField<T>(element, var);
+				field = new ElementField(element, var);
 				fieldsMap.put(var, field);
 			}
 			return field;
 		} else {
-			return new ElementField<T>(element, var);
+			return new ElementField(element, var);
 		}
 	}
 

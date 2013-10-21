@@ -127,8 +127,9 @@ public abstract class ElementConverter {
 				definition.addAsset(utilsConverter.getResourceBundleId(i),
 						resourceId, drawable);
 				if (i == 0) {
-					definition.setVarInitialValue(SceneElement.VAR_BUNDLE_ID,
+					definition.putProperty(SceneElement.VAR_BUNDLE_ID,
 							utilsConverter.getResourceBundleId(i));
+
 				}
 			}
 			i++;
@@ -169,7 +170,7 @@ public abstract class ElementConverter {
 		if (element.getActions().size() > 0) {
 			EAdList<SceneElementDef> actions = actionsConverter.convert(def,
 					element.getActions());
-			def.setVarInitialValue(ActorActionsEf.VAR_ACTIONS, actions);
+			def.putProperty(ActorActionsEf.VAR_ACTIONS, actions);
 			modelQuerier.addActionsInteraction(def, new ActorActionsEf(def));
 
 			// Add drag & drop

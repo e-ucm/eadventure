@@ -48,21 +48,21 @@ import es.eucm.ead.model.interfaces.Param;
 public class WatchFieldEv extends Event {
 
 	@Param
-	private EAdList<ElementField<?>> fields;
+	private EAdList<ElementField> fields;
 
 	public WatchFieldEv() {
-		fields = new EAdList<ElementField<?>>();
+		fields = new EAdList<ElementField>();
 	}
 
-	public EAdList<ElementField<?>> getFields() {
+	public EAdList<ElementField> getFields() {
 		return fields;
 	}
 
-	public void setFields(EAdList<ElementField<?>> fields) {
+	public void setFields(EAdList<ElementField> fields) {
 		this.fields = fields;
 	}
 
-	public void watchField(ElementField<?> f) {
+	public void watchField(ElementField f) {
 		if (!fields.contains(f)) {
 			fields.add(f);
 		}

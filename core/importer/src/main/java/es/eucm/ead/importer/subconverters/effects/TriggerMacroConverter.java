@@ -48,7 +48,6 @@ import es.eucm.ead.model.elements.effects.WaitUntilEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.ElementField;
-import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 
 import java.util.ArrayList;
@@ -57,8 +56,7 @@ import java.util.List;
 public class TriggerMacroConverter implements
 		EffectConverter<MacroReferenceEffect> {
 
-	public static final VarDef<Boolean> IN_MACRO = new VarDef<Boolean>(
-			"in_macro", Boolean.class, false);
+	public static final String IN_MACRO = "in_macro";
 
 	private ModelQuerier modelQuerier;
 
@@ -74,8 +72,7 @@ public class TriggerMacroConverter implements
 		effect.putEffects(EmptyCond.TRUE, macro);
 		list.add(effect);
 		// Add IN_MACRO field to hold next effects until the macro ends
-		ElementField<Boolean> field = new ElementField<Boolean>(effect,
-				IN_MACRO);
+		ElementField field = new ElementField(effect, IN_MACRO);
 		ChangeFieldEf macroIn = new ChangeFieldEf(field, EmptyCond.TRUE);
 		effect.addSimultaneousEffect(macroIn);
 

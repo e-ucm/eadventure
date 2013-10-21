@@ -39,14 +39,14 @@ package es.eucm.ead.engine.gameobjects.events;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.Game;
-import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.GameState.FieldWatcher;
 import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.events.WatchFieldEv;
 import es.eucm.ead.model.elements.events.enums.WatchFieldEvType;
 import es.eucm.ead.model.elements.operations.ElementField;
 
 public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
-		GameState.FieldWatcher {
+		FieldWatcher {
 
 	private boolean fieldUpdated;
 
@@ -58,8 +58,8 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 	public void setElement(WatchFieldEv ev) {
 		super.setElement(ev);
 		fieldUpdated = true;
-		for (ElementField<?> f : ev.getFields()) {
-			game.getGameState().addFieldWatcher(this, f);
+		for (ElementField f : ev.getFields()) {
+			game.getGameState().addFieldWatcher(this, f.getElement());
 		}
 	}
 
@@ -78,7 +78,13 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 	}
 
 	@Override
-	public <T> void fieldUpdated(String name, String field, T value) {
-		fieldUpdated = true;
+	public <T> boolean setField(String elementId, String varName, T value) {
+		for (ElementField f : this.element.getFields()) {
+			if (varName.equals(f.getVarDef())) {
+				fieldUpdated = true;
+				return false;
+			}
+		}
+		return false;
 	}
 }

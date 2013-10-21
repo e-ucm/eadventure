@@ -85,7 +85,7 @@ public interface WithBehavior {
 	 * 
 	 * @return the behavior of the element
 	 */
-	EAdMap<EAdGUIEvent, EAdList<Effect>> getBehavior();
+	EAdMap<EAdList<Effect>> getBehavior();
 
 	/**
 	 * Sets the behavior for the element
@@ -93,6 +93,6 @@ public interface WithBehavior {
 	 * @param behavior
 	 *            the behavior
 	 */
-	void setBehavior(EAdMap<EAdGUIEvent, EAdList<Effect>> behavior);
+	void setBehavior(EAdMap<EAdList<Effect>> behavior);
 
 }

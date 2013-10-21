@@ -181,14 +181,14 @@ public class ChapterConverter {
 		for (DropEvent e : npcConverter.getDropEvents()) {
 			WithBehavior w = (WithBehavior) elementsCache.get(e.target);
 			Variabled v = (Variabled) w;
-			v.setVarInitialValue(SceneElement.VAR_ENABLE, false);
+			v.setVar(SceneElement.VAR_ENABLE, false);
 			w.addBehavior(new DragGEv(e.owner, DragGEvType.DROP), e.effects);
 		}
 
 		for (DropEvent e : itemConverter.getDropEvents()) {
 			WithBehavior w = (WithBehavior) elementsCache.get(e.target);
 			Variabled v = (Variabled) w;
-			v.setVarInitialValue(SceneElement.VAR_ENABLE, false);
+			v.setVar(SceneElement.VAR_ENABLE, false);
 			w.addBehavior(new DragGEv(e.owner, DragGEvType.DROP), e.effects);
 		}
 

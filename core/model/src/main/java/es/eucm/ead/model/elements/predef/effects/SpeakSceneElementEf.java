@@ -58,24 +58,20 @@ public class SpeakSceneElementEf extends SpeakEf {
 	public void setElement(BasicElement element) {
 		if (element instanceof SceneElement) {
 			setOrigin(element);
-			setStateField(new ElementField<String>(element,
-					SceneElement.VAR_STATE));
+			setStateField(new ElementField(element, SceneElement.VAR_STATE));
 		} else if (element instanceof SceneElementDef) {
-			ElementField<SceneElement> fieldElement = new ElementField<SceneElement>(
-					element, SceneElementDef.VAR_SCENE_ELEMENT);
+			ElementField fieldElement = new ElementField(element,
+					SceneElementDef.VAR_SCENE_ELEMENT);
 			setOrigin(fieldElement);
-			setStateField(new ElementField<String>(fieldElement,
-					SceneElement.VAR_STATE));
+			setStateField(new ElementField(fieldElement, SceneElement.VAR_STATE));
 		} else if (element != null) {
 			setOrigin(element);
 		}
 	}
 
 	private void setOrigin(BasicElement element) {
-		ElementField<Float> centerX = new ElementField<Float>(element,
-				SceneElement.VAR_CENTER_X);
-		ElementField<Float> centerY = new ElementField<Float>(element,
-				SceneElement.VAR_CENTER_Y);
+		ElementField centerX = new ElementField(element, SceneElement.VAR_X);
+		ElementField centerY = new ElementField(element, SceneElement.VAR_Y);
 
 		setPosition(centerX, centerY);
 

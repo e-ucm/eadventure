@@ -117,16 +117,16 @@ public class TimerImporter implements EAdElementImporter<Timer, Event> {
 		initCondition = conditionsImporter.convert(oldTimer.getInitCond(),
 				initCondition);
 		SceneElement timer = getSceneElementForTimer(oldTimer, initCondition);
-		ElementField<Boolean> runningField = new ElementField<Boolean>(timer,
+		ElementField runningField = new ElementField(timer,
 				RUNNING_VAR);
-		ElementField<Boolean> notTriggeredField = new ElementField<Boolean>(timer,
+		ElementField notTriggeredField = new ElementField(timer,
 				NOT_TRIGGERED_VAR);
 
-		ElementField<Boolean> visibleField = new ElementField<Boolean>(timer,
+		ElementField visibleField = new ElementField(timer,
 				SceneElement.VAR_VISIBLE);
 		ChangeFieldEf changeVisible = new ChangeFieldEf(visibleField,
 				EmptyCond.TRUE);
-		ElementField<Integer> currentTimeField = new ElementField<Integer>(timer,
+		ElementField currentTimeField = new ElementField(timer,
 				CURRENT_TIME_VAR);
 
 		ModifyHUDEf modifyHUD = new ModifyHUDEf(timer, true);
@@ -177,12 +177,12 @@ public class TimerImporter implements EAdElementImporter<Timer, Event> {
 		SceneElement timer = new SceneElement();
 		timer.setVarInitialValue(SceneElement.VAR_ENABLE, false);
 
-		ElementField<Integer> currentTimeField = new ElementField<Integer>(timer,
+		ElementField currentTimeField = new ElementField(timer,
 				CURRENT_TIME_VAR);
-		ElementField<Boolean> runningField = new ElementField<Boolean>(timer,
+		ElementField runningField = new ElementField(timer,
 				RUNNING_VAR);
 
-		ElementField<Boolean> visibleField = new ElementField<Boolean>(timer,
+		ElementField visibleField = new ElementField(timer,
 				SceneElement.VAR_VISIBLE);
 
 		timer.setVarInitialValue(SceneElement.VAR_VISIBLE, false);
@@ -211,7 +211,7 @@ public class TimerImporter implements EAdElementImporter<Timer, Event> {
 	}
 
 	private void addEffectsWhenStopped(SceneElement timer, Timer oldTimer,
-			ElementField<Boolean> runningField, Condition initCondition) {
+			ElementField runningField, Condition initCondition) {
 		EAdList<Effect> stopEffects = effectsImporter.getMacroEffects(oldTimer
 				.getPostEffects());
 		if (stopEffects != null) {
@@ -239,8 +239,8 @@ public class TimerImporter implements EAdElementImporter<Timer, Event> {
 	}
 
 	private void addEffectsTimeExpired(SceneElement timer,
-			SceneElementEv updater, ElementField<Integer> currentTimeField,
-			ElementField<Boolean> visibleField, ElementField<Boolean> runningField,
+			SceneElementEv updater, ElementField currentTimeField,
+			ElementField visibleField, ElementField runningField,
 			Timer oldTimer) {
 		int time = oldTimer.getTime().intValue() * 1000;
 
@@ -274,7 +274,7 @@ public class TimerImporter implements EAdElementImporter<Timer, Event> {
 	}
 
 	private void addUpdateCurrentTime(SceneElementEv updater,
-			ElementField<Integer> currentTimeField, ElementField<Boolean> runningField) {
+			ElementField currentTimeField, ElementField runningField) {
 		ChangeFieldEf updateCurrentTime = new ChangeFieldEf();
 		updateCurrentTime.addField(currentTimeField);
 		updateCurrentTime.setOperation(new MathOp("[0] + [1]",
@@ -284,7 +284,7 @@ public class TimerImporter implements EAdElementImporter<Timer, Event> {
 	}
 
 	private void addAppearance(SceneElement timer, Timer oldTimer,
-			ElementField<Integer> currentTimeField) {
+			ElementField currentTimeField) {
 		Caption text = new Caption(stringHandler.generateNewString());
 		text.setFont(BasicFont.BIG);
 

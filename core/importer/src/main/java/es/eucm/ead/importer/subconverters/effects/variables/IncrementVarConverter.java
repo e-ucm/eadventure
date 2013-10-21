@@ -60,7 +60,7 @@ public class IncrementVarConverter implements
 	@Override
 	public List<Effect> convert(IncrementVarEffect oldObject) {
 		ArrayList<Effect> list = new ArrayList<Effect>();
-		ElementField<?> var = modelQuerier.getVariable(oldObject.getTargetId());
+		ElementField var = modelQuerier.getVariable(oldObject.getTargetId());
 		MathOp op = new MathOp("[0] + " + oldObject.getIncrement(), var);
 		op.setResultAsInteger(true);
 		ChangeFieldEf effect = new ChangeFieldEf(var, op);

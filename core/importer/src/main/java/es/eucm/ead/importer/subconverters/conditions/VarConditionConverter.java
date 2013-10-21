@@ -58,7 +58,7 @@ public class VarConditionConverter {
 	public OperationCond convert(VarCondition oldObject) {
 		// [COND - Variable]
 		Comparator op = getComparator(oldObject.getState());
-		ElementField<Integer> var = modelQuerier.getVariable(oldObject.getId());
+		ElementField var = modelQuerier.getVariable(oldObject.getId());
 		OperationCond condition = new OperationCond(var, oldObject.getValue(),
 				op);
 		return condition;

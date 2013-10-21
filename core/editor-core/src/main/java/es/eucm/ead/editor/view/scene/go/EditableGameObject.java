@@ -37,21 +37,18 @@
 
 package es.eucm.ead.editor.view.scene.go;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.google.inject.Inject;
-
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.params.util.Rectangle;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
 import es.eucm.ead.engine.canvas.GdxCanvas;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.util.Rectangle;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 @SuppressWarnings( { "unchecked", "rawtypes" })
 public class EditableGameObject {
@@ -130,7 +127,7 @@ public class EditableGameObject {
 
 	public void setSceneElement(SceneElement element) {
 		this.element = element;
-		for (Entry<EAdVarDef<?>, Object> var : element.getVars().entrySet()) {
+		for (Entry<String, Object> var : element.getVars().entrySet()) {
 			if (var.getKey().equals(SceneElement.VAR_X)) {
 				this.x = (Integer) var.getValue();
 			} else if (var.getKey().equals(SceneElement.VAR_Y)) {

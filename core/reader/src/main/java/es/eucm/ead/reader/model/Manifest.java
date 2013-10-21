@@ -61,7 +61,7 @@ public class Manifest extends BasicElement {
 	 * Map relating chapters ids wit their scenes
 	 */
 	@Param
-	private EAdMap<String, EAdList<String>> chaptersScenes;
+	private EAdMap<EAdList<String>> chaptersScenes;
 
 	/**
 	 * Id of the initial chapter
@@ -73,25 +73,25 @@ public class Manifest extends BasicElement {
 	 * Translation between abbreviations and classes
 	 */
 	@Param
-	private EAdMap<String, String> classes;
+	private EAdMap<String> classes;
 
 	/**
 	 * Translation between abbreviations and fields
 	 */
 	@Param
-	private EAdMap<String, String> fields;
+	private EAdMap<String> fields;
 
 	/**
 	 * Translation between abbreviations and params
 	 */
 	@Param
-	private EAdMap<String, String> params;
+	private EAdMap<String> params;
 
 	@Param
 	private AdventureGame model;
 
 	@Param
-	private EAdMap<String, EAdList<String>> sceneGraph;
+	private EAdMap<EAdList<String>> sceneGraph;
 
 	/**
 	 * Creates an empty manifest. You need to call {@link Manifest#clear()} to init its fields
@@ -117,22 +117,22 @@ public class Manifest extends BasicElement {
 			initialScenes.clear();
 		}
 		if (classes == null) {
-			classes = new EAdMap<String, String>();
+			classes = new EAdMap<String>();
 		} else {
 			classes.clear();
 		}
 		if (fields == null) {
-			fields = new EAdMap<String, String>();
+			fields = new EAdMap<String>();
 		} else {
 			fields.clear();
 		}
 		if (params == null) {
-			params = new EAdMap<String, String>();
+			params = new EAdMap<String>();
 		} else {
 			params.clear();
 		}
 		if (chaptersScenes == null) {
-			chaptersScenes = new EAdMap<String, EAdList<String>>();
+			chaptersScenes = new EAdMap<EAdList<String>>();
 		} else {
 			chaptersScenes.clear();
 		}
@@ -182,43 +182,43 @@ public class Manifest extends BasicElement {
 		this.initialScenes = initialScenes;
 	}
 
-	public EAdMap<String, String> getClasses() {
+	public EAdMap<String> getClasses() {
 		return classes;
 	}
 
-	public void setClasses(EAdMap<String, String> classes) {
+	public void setClasses(EAdMap<String> classes) {
 		this.classes = classes;
 	}
 
-	public EAdMap<String, String> getFields() {
+	public EAdMap<String> getFields() {
 		return fields;
 	}
 
-	public void setFields(EAdMap<String, String> fields) {
+	public void setFields(EAdMap<String> fields) {
 		this.fields = fields;
 	}
 
-	public EAdMap<String, String> getParams() {
+	public EAdMap<String> getParams() {
 		return params;
 	}
 
-	public void setParams(EAdMap<String, String> params) {
+	public void setParams(EAdMap<String> params) {
 		this.params = params;
 	}
 
-	public EAdMap<String, EAdList<String>> getSceneGraph() {
+	public EAdMap<EAdList<String>> getSceneGraph() {
 		return sceneGraph;
 	}
 
-	public void setSceneGraph(EAdMap<String, EAdList<String>> sceneGraph) {
+	public void setSceneGraph(EAdMap<EAdList<String>> sceneGraph) {
 		this.sceneGraph = sceneGraph;
 	}
 
-	public EAdMap<String, EAdList<String>> getChaptersScenes() {
+	public EAdMap<EAdList<String>> getChaptersScenes() {
 		return chaptersScenes;
 	}
 
-	public void setChaptersScenes(EAdMap<String, EAdList<String>> chaptersScenes) {
+	public void setChaptersScenes(EAdMap<EAdList<String>> chaptersScenes) {
 		this.chaptersScenes = chaptersScenes;
 	}
 

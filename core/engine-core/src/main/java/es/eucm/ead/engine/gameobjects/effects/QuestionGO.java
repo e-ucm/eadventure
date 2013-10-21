@@ -107,13 +107,10 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 
 		y = 10;
 
-		ChangeFieldEf inEffect = new ChangeFieldEf();
-		inEffect.setVarDef(SceneElement.VAR_ALPHA);
-		inEffect.setOperation(new ValueOp(0.5f));
-
-		ChangeFieldEf outEffect = new ChangeFieldEf();
-		outEffect.setVarDef(SceneElement.VAR_ALPHA);
-		outEffect.setOperation(new ValueOp(1.0f));
+		ChangeFieldEf inEffect = new ChangeFieldEf(null,
+				SceneElement.VAR_ALPHA, new ValueOp(0.5f));
+		ChangeFieldEf outEffect = new ChangeFieldEf(null,
+				SceneElement.VAR_ALPHA, new ValueOp(1.0f));
 
 		setUpQuestion(question);
 
@@ -152,7 +149,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 			SceneElement questionElement = new SceneElement(caption);
 			questionElement.setPosition(10, y);
 
-			questionElement.setVarInitialValue(SceneElement.VAR_ALPHA, 0.0f);
+			questionElement.setVar(SceneElement.VAR_ALPHA, 0.0f);
 			root.getSceneElements().add(questionElement);
 			SceneElementEv event = new SceneElementEv();
 

@@ -55,7 +55,7 @@ public class StringOperator implements Operator<StringOp> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, StringOp operation) {
+	public <S> S operate(StringOp operation) {
 
 		Object value = gameState.maybeDecodeField(operation.getString());
 		if (value instanceof EAdString) {

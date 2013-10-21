@@ -67,8 +67,6 @@ import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.guievents.enums.DragGEvType;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Position.Corner;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.ead.techdemo.elementfactories.EAdElementsFactory;
 import es.eucm.ead.techdemo.elementfactories.StringFactory;
 import es.eucm.ead.techdemo.elementfactories.scenes.scenes.EmptyScene;
@@ -83,14 +81,14 @@ public class NgRoom1 extends EmptyScene {
 	private SceneElement darkness;
 	private OperationCond isDark;
 	private NOTCond isNotDark;
-	private ElementField<Float> darknessAlpha;
+	private ElementField darknessAlpha;
 	private SceneElement table;
 	private SceneElement lamp;
 	private SceneElement carpet;
 	private SceneElement door;
 	private SceneElement portrait;
 	private SceneElement key;
-	private ElementField<Integer> timesField;
+	private ElementField timesField;
 
 	// private Scene initScene;
 
@@ -123,8 +121,7 @@ public class NgRoom1 extends EmptyScene {
 	}
 
 	private void initConditions() {
-		darknessAlpha = new ElementField<Float>(darkness,
-				SceneElement.VAR_ALPHA);
+		darknessAlpha = new ElementField(darkness, SceneElement.VAR_ALPHA);
 
 		isDark = new OperationCond(darknessAlpha, new ValueOp(0.9f),
 				Comparator.GREATER_EQUAL);
@@ -224,11 +221,11 @@ public class NgRoom1 extends EmptyScene {
 	 */
 	private void setDarkness(SceneElement ng) {
 		SceneElementEv event = new SceneElementEv();
-		ChangeFieldEf changeX = new ChangeFieldEf(new ElementField<Float>(
-				darkness, SceneElement.VAR_X), new ElementField<Float>(ng,
+		ChangeFieldEf changeX = new ChangeFieldEf(new ElementField(darkness,
+				SceneElement.VAR_X), new ElementField(ng,
 				SceneElement.VAR_CENTER_X));
-		ChangeFieldEf changeY = new ChangeFieldEf(new ElementField<Float>(
-				darkness, SceneElement.VAR_Y), new ElementField<Float>(ng,
+		ChangeFieldEf changeY = new ChangeFieldEf(new ElementField(darkness,
+				SceneElement.VAR_Y), new ElementField(ng,
 				SceneElement.VAR_CENTER_Y));
 		event.addEffect(SceneElementEvType.ALWAYS, changeX);
 		event.addEffect(SceneElementEvType.ALWAYS, changeY);
@@ -263,9 +260,7 @@ public class NgRoom1 extends EmptyScene {
 	}
 
 	private void addText(SceneElement portrait) {
-		EAdVarDef<Integer> timesClicked = new VarDef<Integer>("timesClicked",
-				Integer.class, 0);
-		timesField = new ElementField<Integer>(portrait, timesClicked);
+		timesField = new ElementField(portrait, "timesClicked");
 
 		ChangeFieldEf addTimes = new ChangeFieldEf(timesField, new MathOp(
 				"[0] + 1 ", timesField));
@@ -291,10 +286,9 @@ public class NgRoom1 extends EmptyScene {
 		}
 
 		OperationCond cond = new OperationCond(timesField, 4, Comparator.EQUAL);
-		InterpolationEf portraitGoDown = new InterpolationEf(
-				new ElementField<Float>(portrait, SceneElement.VAR_Y), 0, 80,
-				200, InterpolationLoopType.NO_LOOP,
-				InterpolationType.BOUNCE_END);
+		InterpolationEf portraitGoDown = new InterpolationEf(new ElementField(
+				portrait, SceneElement.VAR_Y), 0, 80, 200,
+				InterpolationLoopType.NO_LOOP, InterpolationType.BOUNCE_END);
 
 		Effect e1 = getSpeakEffect(4);
 		Effect e3 = getSpeakEffect(5);
@@ -316,8 +310,7 @@ public class NgRoom1 extends EmptyScene {
 		key.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, e);
 	}
 
-	protected Condition getTextCondition(ElementField<Integer> timesField,
-			int value) {
+	protected Condition getTextCondition(ElementField timesField, int value) {
 		OperationCond op = new OperationCond(timesField, new ValueOp(value),
 				Comparator.EQUAL);
 		return op;

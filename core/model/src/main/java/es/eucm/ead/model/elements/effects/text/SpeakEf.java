@@ -80,7 +80,7 @@ public class SpeakEf extends Effect {
 	private BalloonType ballonType;
 
 	@Param
-	private ElementField<String> stateField;
+	private ElementField stateField;
 
 	@Param
 	private int time;
@@ -195,11 +195,11 @@ public class SpeakEf extends Effect {
 		return caption.getLabel();
 	}
 
-	public void setStateField(ElementField<String> stateField) {
+	public void setStateField(ElementField stateField) {
 		this.stateField = stateField;
 	}
 
-	public ElementField<String> getStateField() {
+	public ElementField getStateField() {
 		return this.stateField;
 	}
 

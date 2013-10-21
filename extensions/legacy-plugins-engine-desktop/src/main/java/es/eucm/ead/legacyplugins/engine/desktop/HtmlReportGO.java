@@ -88,7 +88,7 @@ public class HtmlReportGO extends AbstractEffectGO<HtmlReportEf> {
 						int i = 0;
 						for (Operation operation : effect.getOperations()) {
 							String value = game.getGameState().operate(
-									Object.class, operation)
+									operation)
 									+ "";
 							String label = stringHandler.getString(effect
 									.getLabels().get(i));

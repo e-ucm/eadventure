@@ -58,10 +58,9 @@ public class ColumnContainer extends GroupElement {
 	public void add(SceneElement element) {
 		element.setPosition(Corner.TOP_LEFT, 0, 0);
 		if (lastAdded != null) {
-			ElementField<Float> fieldBottom = new ElementField<Float>(
-					lastAdded, SceneElement.VAR_BOTTOM);
-			ElementField<Float> fieldY = new ElementField<Float>(element,
+			ElementField fieldBottom = new ElementField(lastAdded,
 					SceneElement.VAR_Y);
+			ElementField fieldY = new ElementField(element, SceneElement.VAR_Y);
 
 			SceneElementEv event = new SceneElementEv();
 			ChangeFieldEf updateField = new ChangeFieldEf(fieldY, fieldBottom);

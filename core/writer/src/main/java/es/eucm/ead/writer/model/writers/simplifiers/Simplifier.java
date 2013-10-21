@@ -48,7 +48,6 @@ import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.interfaces.features.Variabled;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.tools.EAdUtils;
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
@@ -203,7 +202,7 @@ public class Simplifier {
 		return null;
 	}
 
-	public Map<Object, Map<EAdVarDef<?>, ElementField<?>>> getFields() {
+	public Map<Object, Map<String, ElementField>> getFields() {
 		return fieldsSimplifier.getFields();
 	}
 

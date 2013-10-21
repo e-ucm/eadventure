@@ -6,8 +6,8 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
 import es.eucm.ead.engine.assets.drawables.RuntimeNinePatchImage;
 import es.eucm.ead.engine.factories.SceneElementFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.events.AbstractEventGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.legacyplugins.model.BubbleNameEv;
@@ -20,14 +20,11 @@ import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Position.Corner;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 
 @Reflectable
 public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 
-	private EAdVarDef<EAdString> NAME = new VarDef<EAdString>("name",
-			EAdString.class, null);
+	private String NAME = "name";
 
 	private final float TIME = 100.0f;
 
@@ -43,7 +40,7 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 
 	private SceneElementGO bubble;
 
-	private ElementField<EAdString> currentDescription;
+	private ElementField currentDescription;
 
 	private AssetHandler assetHandler;
 
@@ -63,7 +60,7 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 	@Override
 	public void setElement(BubbleNameEv element) {
 		super.setElement(element);
-		currentDescription = new ElementField<EAdString>(element, NAME);
+		currentDescription = new ElementField(element, NAME);
 		SceneElement e = new SceneElement();
 		e.setId("#engine.huds.namesbubble");
 		e.setInitialZ(500);

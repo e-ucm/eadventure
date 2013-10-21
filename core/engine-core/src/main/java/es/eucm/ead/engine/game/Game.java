@@ -285,10 +285,6 @@ public class Game {
 		}
 
 		doHook(HOOK_AFTER_UPDATE);
-		// Update game time
-		Long l = gameState.getValue(SystemFields.GAME_TIME);
-		l += getSkippedMilliseconds();
-		gameState.setValue(SystemFields.GAME_TIME, l);
 	}
 
 	public void addHook(String hookName, EngineHook hook) {

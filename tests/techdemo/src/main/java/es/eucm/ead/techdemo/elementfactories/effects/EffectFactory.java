@@ -67,7 +67,7 @@ public class EffectFactory {
 		return effect;
 	}
 
-	public InterpolationEf getInterpolationEffect(ElementField<?> var,
+	public InterpolationEf getInterpolationEffect(ElementField var,
 			float startValue, float endValue, int time,
 			InterpolationLoopType loop, InterpolationType interpolationType) {
 		InterpolationEf interpolation = new InterpolationEf(var, startValue,
@@ -118,7 +118,7 @@ public class EffectFactory {
 		return this.getShowText(text, x, y, ShowTextAnimation.NONE);
 	}
 
-	public ChangeFieldEf getChangeVarValueEffect(ElementField<?> var,
+	public ChangeFieldEf getChangeVarValueEffect(ElementField var,
 			Operation operation) {
 		ChangeFieldEf effect = new ChangeFieldEf(var, operation);
 		return effect;

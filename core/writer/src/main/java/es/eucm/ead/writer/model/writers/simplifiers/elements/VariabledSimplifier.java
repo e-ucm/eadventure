@@ -37,37 +37,16 @@
 
 package es.eucm.ead.writer.model.writers.simplifiers.elements;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-
 import es.eucm.ead.model.interfaces.features.Variabled;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
 public class VariabledSimplifier implements ObjectSimplifier<Variabled> {
 
-	private List<EAdVarDef<?>> varDefsAux;
-
 	public VariabledSimplifier() {
-		varDefsAux = new ArrayList<EAdVarDef<?>>();
 	}
 
 	@Override
 	public Object simplify(Variabled object) {
-		// Remove those variables that are set to its initial value
-		varDefsAux.clear();
-		for (Entry<EAdVarDef<?>, Object> e : object.getVars().entrySet()) {
-			Object value = e.getKey().getInitialValue();
-			if (value == e.getValue()
-					|| (value != null && value.equals(e.getValue()))) {
-				varDefsAux.add(e.getKey());
-			}
-		}
-
-		for (EAdVarDef<?> v : varDefsAux) {
-			object.getVars().remove(v);
-		}
 		return object;
 	}
 

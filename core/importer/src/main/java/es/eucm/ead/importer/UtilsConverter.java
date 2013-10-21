@@ -63,7 +63,6 @@ import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.util.Matrix;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import org.slf4j.Logger;
@@ -105,17 +104,16 @@ public class UtilsConverter {
 	 * @param stateVar  the variable controlling the state for the element
 	 */
 	public void addResourcesConditions(List<Resources> resources,
-			BasicElement e, EAdVarDef<String> stateVar) {
+			BasicElement e, String stateVar) {
 		if (resources.size() > 1) {
 			WatchFieldEv watchField = new WatchFieldEv();
-			ElementField<String> stateField = new ElementField<String>(e,
-					stateVar);
+			ElementField stateField = new ElementField(e, stateVar);
 			// An effect that changes the state attending to the conditions
 			TriggerMacroEf triggerMacro = new TriggerMacroEf();
 			int i = 0;
 			for (Resources r : resources) {
 				Condition cond = conditionsConverter.convert(r.getConditions());
-				for (ElementField<?> f : conditionsConverter
+				for (ElementField f : conditionsConverter
 						.getFieldsLastCondition()) {
 					watchField.watchField(f);
 				}
@@ -142,13 +140,13 @@ public class UtilsConverter {
 	 * @param varState
 	 */
 	public void addWatchDefinitionField(SceneElement sceneElement,
-			EAdVarDef<String> varState) {
+			String varState) {
 		WatchFieldEv watchField = new WatchFieldEv();
-		watchField.watchField(new ElementField<String>(sceneElement
-				.getDefinition(), varState));
-		watchField.addEffect(new ChangeFieldEf(new ElementField<String>(
-				sceneElement, varState), new ElementField<String>(sceneElement
-				.getDefinition(), varState)));
+		watchField.watchField(new ElementField(sceneElement.getDefinition(),
+				varState));
+		watchField.addEffect(new ChangeFieldEf(new ElementField(sceneElement,
+				varState), new ElementField(sceneElement.getDefinition(),
+				varState)));
 		sceneElement.addEvent(watchField);
 	}
 
@@ -175,14 +173,13 @@ public class UtilsConverter {
 	 * @param c
 	 */
 	public void addWatchCondition(SceneElement sceneElement,
-			ElementField<Boolean> field, Conditions c) {
+			ElementField field, Conditions c) {
 		Condition cond = conditionsConverter.convert(c);
 		// If condition is true, the scene element is always visible, so no need
 		// for watch event
 		if (!cond.equals(EmptyCond.TRUE)) {
 			WatchFieldEv watchField = new WatchFieldEv();
-			for (ElementField<?> f : conditionsConverter
-					.getFieldsLastCondition()) {
+			for (ElementField f : conditionsConverter.getFieldsLastCondition()) {
 				watchField.watchField(f);
 			}
 			watchField.addEffect(new ChangeFieldEf(field, cond));

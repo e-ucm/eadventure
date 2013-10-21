@@ -37,13 +37,13 @@
 
 package es.eucm.ead.editor.view.panel;
 
-import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.editor.model.nodes.CharacterNode;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.JSeparator;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * An elementPanel that can display anything, in a non-editable fashion.
@@ -64,10 +64,10 @@ public class ActorPanel extends AbstractElementPanel<CharacterNode> {
 		add(new JLabel("This is an actor panel for ID " + actor.getId()));
 		add(new JSeparator(JSeparator.HORIZONTAL));
 		add(new JLabel("This actor has desc= "
-				+ actor.getVars().get(SceneElementDef.VAR_DOC_DESC)));
+				+ actor.getProperty(SceneElementDef.VAR_DOC_DESC, "")));
 		add(new JSeparator(JSeparator.HORIZONTAL));
 		add(new JLabel("This actor has detailDesc= "
-				+ actor.getVars().get(SceneElementDef.VAR_DOC_DETAILED_DESC)));
+				+ actor.getProperty(SceneElementDef.VAR_DOC_DETAILED_DESC, "")));
 		add(new JSeparator(JSeparator.HORIZONTAL));
 
 		actor.getAppearance();

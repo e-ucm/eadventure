@@ -56,7 +56,7 @@ public class BasicElement implements Identified {
 	private String id;
 
 	@Param
-	private EAdMap<String, Object> properties;
+	private EAdMap<Object> properties;
 
 	/**
 	 * Creates a reference to an element
@@ -102,7 +102,7 @@ public class BasicElement implements Identified {
 	 */
 	public void putProperty(String propertyId, Object value) {
 		if (properties == null) {
-			properties = new EAdMap<String, Object>();
+			properties = new EAdMap<Object>();
 		}
 		properties.put(propertyId, value);
 	}
@@ -126,11 +126,11 @@ public class BasicElement implements Identified {
 
 	// Required for GWT
 
-	public EAdMap<String, Object> getProperties() {
+	public EAdMap<Object> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(EAdMap<String, Object> properties) {
+	public void setProperties(EAdMap<Object> properties) {
 		this.properties = properties;
 	}
 }

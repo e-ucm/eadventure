@@ -153,11 +153,11 @@ public abstract class ActorImporter<P extends Element> implements
 		actor.setDoc(documentation);
 
 		TriggerMacroEf triggerMacro = new TriggerMacroEf();
-		ElementField<EAdString> nameField = new ElementField<EAdString>(actor,
+		ElementField nameField = new ElementField(actor,
 				SceneElementDef.VAR_DOC_NAME);
-		ElementField<EAdString> descField = new ElementField<EAdString>(actor,
+		ElementField descField = new ElementField(actor,
 				SceneElementDef.VAR_DOC_DESC);
-		ElementField<EAdString> detailedDesc = new ElementField<EAdString>(actor,
+		ElementField detailedDesc = new ElementField(actor,
 				SceneElementDef.VAR_DOC_DETAILED_DESC);
 		for (Description d : descriptions) {
 			EAdString[] strings = setStrings(stringHandler, d);
@@ -250,7 +250,7 @@ public abstract class ActorImporter<P extends Element> implements
 		} else {
 			SpeakEf showDescription = new SpeakEf(stringHandler
 					.generateNewString());
-			ElementField<EAdString> desc = new ElementField<EAdString>(actor,
+			ElementField desc = new ElementField(actor,
 					SceneElementDef.VAR_DOC_DESC);
 			showDescription.getCaption().getOperations().add(desc);
 			stringHandler.setString(showDescription.getCaption().getText(),

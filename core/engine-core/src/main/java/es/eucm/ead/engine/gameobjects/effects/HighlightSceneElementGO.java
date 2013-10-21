@@ -66,7 +66,7 @@ public class HighlightSceneElementGO extends
 		highLightElement = game.getGameState().maybeDecodeField(
 				effect.getSceneElement());
 		oldScale = game.getGameState().getValue(highLightElement,
-				SceneElement.VAR_SCALE);
+				SceneElement.VAR_SCALE, 1f);
 		time = effect.getTime();
 		started = false;
 	}
@@ -79,7 +79,7 @@ public class HighlightSceneElementGO extends
 				started = true;
 			}
 			time -= game.getGameState().getValue(
-					SystemFields.ELAPSED_TIME_PER_UPDATE);
+					SystemFields.ELAPSED_TIME_PER_UPDATE, 0);
 			if (time <= 0) {
 				game.getGameState().setValue(highLightElement,
 						SceneElement.VAR_SCALE, oldScale);

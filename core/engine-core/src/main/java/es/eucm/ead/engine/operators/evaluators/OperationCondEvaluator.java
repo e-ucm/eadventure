@@ -62,10 +62,8 @@ public class OperationCondEvaluator implements Evaluator<OperationCond> {
 	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public boolean evaluate(OperationCond condition) {
-		Object value1 = operatorFactory.operate(Object.class, condition
-				.getOp1());
-		Object value2 = operatorFactory.operate(Object.class, condition
-				.getOp2());
+		Object value1 = operatorFactory.operate(condition.getOp1());
+		Object value2 = operatorFactory.operate(condition.getOp2());
 
 		if (value1 == null || value2 == null)
 			return false;

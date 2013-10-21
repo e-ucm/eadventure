@@ -42,16 +42,13 @@ import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.predef.effects.MakeActiveElementEf;
 import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.trajectories.Trajectory;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
-import es.eucm.ead.model.elements.trajectories.Side;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.LinearGradientFill;
 import es.eucm.ead.model.params.guievents.MouseGEv;
@@ -84,8 +81,8 @@ public class TrajectoriesScene extends EmptyScene {
 				new MoveActiveElementToMouseEf());
 
 		ChangeFieldEf changeSide = new ChangeFieldEf();
-		changeSide.addField(new ElementField<Side>(element,
-				NodeTrajectory.VAR_CURRENT_SIDE));
+		changeSide.setElement(element);
+		changeSide.setVarName(NodeTrajectory.VAR_CURRENT_SIDE);
 		changeSide.setOperation(new ValueOp(null));
 
 		// Sets up character's movement
@@ -113,8 +110,8 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.addSide("0", "1", 700);
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.addField(new ElementField<Trajectory>(this,
-				Scene.VAR_TRAJECTORY_DEFINITION));
+		effect.setElement(this);
+		effect.setVarName(Scene.VAR_TRAJECTORY_DEFINITION);
 		effect.setOperation(new ValueOp(trajectory));
 
 		Caption c = new Caption("techDemo.TrajectoriesScene.1");
@@ -164,8 +161,8 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.setInitial("0");
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.addField(new ElementField<Trajectory>(this,
-				Scene.VAR_TRAJECTORY_DEFINITION));
+		effect.setElement(this);
+		effect.setVarName(Scene.VAR_TRAJECTORY_DEFINITION);
 		effect.setOperation(new ValueOp(trajectory));
 
 		Caption c = new Caption("techDemo.TrajectoriesScene.2");
@@ -186,8 +183,8 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.addSide("1", "0", 700);
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.addField(new ElementField<Trajectory>(this,
-				Scene.VAR_TRAJECTORY_DEFINITION));
+		effect.setElement(this);
+		effect.setVarName(Scene.VAR_TRAJECTORY_DEFINITION);
 		effect.setOperation(new ValueOp(trajectory));
 
 		Caption c = new Caption("techDemo.TrajectoriesScene.3");

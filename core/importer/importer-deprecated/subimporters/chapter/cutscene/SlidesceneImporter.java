@@ -94,7 +94,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 
 	private EAdElementImporter<Conditions, Condition> conditionsImporter;
 
-	private static final ElementField<Boolean> SHOW_INVENTORY = new ElementField<Boolean>(
+	private static final ElementField SHOW_INVENTORY = new ElementField(
 			new BasicElement(InventoryHud.ID), SceneElement.VAR_VISIBLE);
 
 	@Inject

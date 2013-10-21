@@ -52,8 +52,8 @@ public class ApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 	@Override
 	public void initialize() {
 		super.initialize();
-		float x = game.getGameState().operate(Float.class, effect.getxForce());
-		float y = game.getGameState().operate(Float.class, effect.getyForce());
+		float x = game.getGameState().operate(effect.getxForce());
+		float y = game.getGameState().operate(effect.getyForce());
 		ValueMap valueMap = game.getGameState();
 		Object finalElement = valueMap.maybeDecodeField(effect
 				.getSceneElement());

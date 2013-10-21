@@ -58,7 +58,7 @@ public class ActivateFlagConverter implements EffectConverter<ActivateEffect> {
 
 	public List<Effect> convert(ActivateEffect oldObject) {
 		ArrayList<Effect> list = new ArrayList<Effect>();
-		ElementField<?> var = modelQuerier.getFlag(oldObject.getTargetId());
+		ElementField var = modelQuerier.getFlag(oldObject.getTargetId());
 		ChangeFieldEf changeVar = new ChangeFieldEf(var, EmptyCond.TRUE);
 		list.add(changeVar);
 		return list;

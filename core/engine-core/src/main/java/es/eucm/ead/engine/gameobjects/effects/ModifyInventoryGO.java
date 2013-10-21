@@ -38,14 +38,12 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.BasicInventory;
 import es.eucm.ead.model.elements.effects.ModifyInventoryEf;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElementDef;
 
 /**
  * <p>
@@ -78,7 +76,7 @@ public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 				inventory.addSceneElement(new SceneElement(effect
 						.getSceneElementDef()));
 				if (effect.isRemoveFromScene()) {
-					SceneElement sceneElement = game.getGameState().getValue(
+					/*SceneElement sceneElement = game.getGameState().getValue(
 							effect.getSceneElementDef(),
 							SceneElementDef.VAR_SCENE_ELEMENT);
 					if (sceneElement != null) {
@@ -86,7 +84,7 @@ public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 								SceneElement.VAR_VISIBLE, false);
 						game.getGameState().setValue(sceneElement,
 								SceneElement.VAR_ENABLE, true);
-					}
+					}*/
 				}
 				break;
 			case REMOVE_FROM_INVENTORY:

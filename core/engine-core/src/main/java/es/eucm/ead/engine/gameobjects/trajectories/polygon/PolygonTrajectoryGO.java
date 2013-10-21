@@ -114,7 +114,8 @@ public class PolygonTrajectoryGO extends
 	@Override
 	public void act(float delta) {
 		movingElement = sceneElementFactory.get(sceneElement);
-		currentTime += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
+		currentTime += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
+				0);
 		if (updateEnd) {
 			updateEnd = false;
 			endX = path.get(currentTarget);
@@ -148,8 +149,8 @@ public class PolygonTrajectoryGO extends
 		}
 
 		if (!isDone()) {
-			currentTime += gameState
-					.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
+			currentTime += gameState.getValue(
+					SystemFields.ELAPSED_TIME_PER_UPDATE, 0);
 			float x = (currentTime / totalTime) * diffX;
 			float y = (currentTime / totalTime) * diffY;
 			movingElement.setX((int) (startX + x));

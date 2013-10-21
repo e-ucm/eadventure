@@ -51,17 +51,13 @@ public class ScrollWithSceneElementEv extends SceneElementEv {
 	}
 
 	public ScrollWithSceneElementEv(BasicElement scene, BasicElement character) {
-		ElementField<Float> xElement = new ElementField<Float>(character,
-				SceneElement.VAR_X);
-		ElementField<Float> yElement = new ElementField<Float>(character,
-				SceneElement.VAR_Y);
-		ElementField<Float> xScene = new ElementField<Float>(scene,
-				SceneElement.VAR_X);
-		ElementField<Float> yScene = new ElementField<Float>(scene,
-				SceneElement.VAR_Y);
-		ElementField<Integer> widthScene = new ElementField<Integer>(scene,
+		ElementField xElement = new ElementField(character, SceneElement.VAR_X);
+		ElementField yElement = new ElementField(character, SceneElement.VAR_Y);
+		ElementField xScene = new ElementField(scene, SceneElement.VAR_X);
+		ElementField yScene = new ElementField(scene, SceneElement.VAR_Y);
+		ElementField widthScene = new ElementField(scene,
 				SceneElement.VAR_WIDTH);
-		ElementField<Integer> heightScene = new ElementField<Integer>(scene,
+		ElementField heightScene = new ElementField(scene,
 				SceneElement.VAR_HEIGHT);
 
 		// [0] = x-element
@@ -73,12 +69,8 @@ public class ScrollWithSceneElementEv extends SceneElementEv {
 		Operation opY = new MathOp(expression, yElement, heightScene,
 				SystemFields.GAME_HEIGHT);
 
-		ChangeFieldEf effectX = new ChangeFieldEf();
-		effectX.addField(xScene);
-		effectX.setOperation(opX);
-		ChangeFieldEf effectY = new ChangeFieldEf();
-		effectY.addField(yScene);
-		effectY.setOperation(opY);
+		ChangeFieldEf effectX = new ChangeFieldEf(xScene, opX);
+		ChangeFieldEf effectY = new ChangeFieldEf(yScene, opY);
 
 		addEffect(SceneElementEvType.ALWAYS, effectX);
 		addEffect(SceneElementEvType.ALWAYS, effectY);

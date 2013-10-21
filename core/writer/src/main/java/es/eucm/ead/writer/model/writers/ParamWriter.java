@@ -40,7 +40,6 @@ package es.eucm.ead.writer.model.writers;
 import es.eucm.ead.model.params.EAdParam;
 import es.eucm.ead.model.params.guievents.EAdGUIEvent;
 import es.eucm.ead.model.params.paint.EAdPaint;
-import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.xml.XMLNode;
 import org.slf4j.Logger;
@@ -60,7 +59,7 @@ public class ParamWriter implements Writer<Object> {
 		String translatedClass = context.translateClass(o.getClass());
 		node.setAttribute(DOMTags.CLASS_AT, translatedClass);
 		String value;
-		if (o instanceof VarDef || o instanceof EAdPaint || o instanceof Enum
+		if (o instanceof EAdPaint || o instanceof Enum
 				|| o instanceof EAdGUIEvent) {
 			value = context.translateParam(o.toString());
 		} else if (o instanceof EAdParam) {

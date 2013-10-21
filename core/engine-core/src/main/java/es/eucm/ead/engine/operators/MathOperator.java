@@ -45,11 +45,7 @@ import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.tools.MathEvaluator;
 
 /**
- * Calculates results for {@link MathOp}. The result returned by
- * {@link MathOp#operate(es.eucm.ead.engine.game.interfaces.ValueMap, MathOp)} is always a Float
- * object
- * 
- * 
+ * Calculates results for {@link MathOp}
  */
 @Singleton
 public class MathOperator implements Operator<MathOp> {
@@ -68,11 +64,11 @@ public class MathOperator implements Operator<MathOp> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, MathOp operation) {
+	public <S> S operate(MathOp operation) {
 		evaluator.setExpression(operation.getExpression(), gameState, operation
 				.getOperations());
 
-		if (clazz.equals(Integer.class) || operation.isResultAsInteger()) {
+		if (operation.isResultAsInteger()) {
 			Float f = evaluator.getValue();
 			return (S) new Integer(f.intValue());
 		} else {

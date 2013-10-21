@@ -168,13 +168,13 @@ public class DrawablesScene extends EmptyScene {
 		sceneElement.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED,
 				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeVarValueEffect(
-								new ElementField<String>(sceneElement,
+								new ElementField(sceneElement,
 										SceneElement.VAR_STATE),
 								new ValueOp(CommonStates.DEFAULT.toString())));
 		sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeVarValueEffect(
-								new ElementField<String>(sceneElement,
+								new ElementField(sceneElement,
 										SceneElement.VAR_STATE),
 								new ValueOp(CommonStates.TALKING.toString())));
 		getSceneElements().add(sceneElement);

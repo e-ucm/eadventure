@@ -39,8 +39,6 @@ package es.eucm.ead.model.elements.scenes;
 
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.elements.AbstractElementWithBehavior;
-import es.eucm.ead.model.elements.ResourcedElement;
-import es.eucm.ead.model.elements.enums.CommonStates;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.interfaces.Element;
@@ -49,93 +47,56 @@ import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Position.Corner;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 
 @Element
 public class SceneElement extends AbstractElementWithBehavior implements
 		Variabled {
 
-	public static final EAdVarDef<Orientation> VAR_ORIENTATION = new VarDef<Orientation>(
-			"orientation", Orientation.class, Orientation.S);
+	public static final String VAR_ORIENTATION = "orientation";
 
-	public static final EAdVarDef<String> VAR_STATE = new VarDef<String>(
-			"state", String.class, CommonStates.DEFAULT.toString());
+	public static final String VAR_STATE = "state";
 
-	public static final EAdVarDef<String> VAR_BUNDLE_ID = new VarDef<String>(
-			"bundleId", String.class, ResourcedElement.INITIAL_BUNDLE);
+	public static final String VAR_BUNDLE_ID = "bundleId";
 
-	public static final EAdVarDef<Float> VAR_SCALE = new VarDef<Float>("scale",
-			Float.class, 1.0f);
+	public static final String VAR_SCALE = "scale";
 
-	public static final EAdVarDef<Float> VAR_SCALE_X = new VarDef<Float>(
-			"scale_x", Float.class, 1.0f);
+	public static final String VAR_SCALE_X = "scale_x";
 
-	public static final EAdVarDef<Float> VAR_SCALE_Y = new VarDef<Float>(
-			"scale_y", Float.class, 1.0f);
+	public static final String VAR_SCALE_Y = "scale_y";
 
-	public static final EAdVarDef<Float> VAR_ALPHA = new VarDef<Float>("alpha",
-			Float.class, 1.0f);
+	public static final String VAR_ALPHA = "alpha";
 
 	/**
 	 * Rotation in degrees
 	 */
-	public static final EAdVarDef<Float> VAR_ROTATION = new VarDef<Float>(
-			"rotation", Float.class, 0.0f);
+	public static final String VAR_ROTATION = "rotation";
 
-	public static final EAdVarDef<Boolean> VAR_VISIBLE = new VarDef<Boolean>(
-			"visible", Boolean.class, Boolean.TRUE);
+	public static final String VAR_VISIBLE = "visible";
 
-	public static final EAdVarDef<Boolean> VAR_ENABLE = new VarDef<Boolean>(
-			"enable", Boolean.class, Boolean.TRUE);
+	public static final String VAR_ENABLE = "enable";
 
-	public static final EAdVarDef<Float> VAR_X = new VarDef<Float>("x",
-			Float.class, 0.f);
+	public static final String VAR_X = "x";
 
-	public static final EAdVarDef<Float> VAR_Y = new VarDef<Float>("y",
-			Float.class, 0.f);
+	public static final String VAR_Y = "y";
 
-	public static final EAdVarDef<Float> VAR_LEFT = new VarDef<Float>("left",
-			Float.class, 0.f);
+	public static final String VAR_Z = "z";
 
-	public static final EAdVarDef<Float> VAR_TOP = new VarDef<Float>("top",
-			Float.class, 0.f);
+	public static final String VAR_DISP_X = "disp_x";
 
-	public static final EAdVarDef<Float> VAR_RIGHT = new VarDef<Float>("right",
-			Float.class, 0.f);
+	public static final String VAR_DISP_Y = "disp_y";
 
-	public static final EAdVarDef<Float> VAR_BOTTOM = new VarDef<Float>(
-			"bottom", Float.class, 0.f);
+	public static final String VAR_WIDTH = "width";
 
-	public static final EAdVarDef<Float> VAR_CENTER_X = new VarDef<Float>(
-			"center_x", Float.class, 0.f);
-
-	public static final EAdVarDef<Float> VAR_CENTER_Y = new VarDef<Float>(
-			"center_y", Float.class, 0.f);
-
-	public static final EAdVarDef<Integer> VAR_Z = new VarDef<Integer>("z",
-			Integer.class, 0);
-
-	public static final EAdVarDef<Float> VAR_DISP_X = new VarDef<Float>(
-			"disp_x", Float.class, 0.0f);
-
-	public static final EAdVarDef<Float> VAR_DISP_Y = new VarDef<Float>(
-			"disp_y", Float.class, 0.0f);
-
-	public static final EAdVarDef<Integer> VAR_WIDTH = new VarDef<Integer>(
-			"width", Integer.class, 0);
-
-	public static final EAdVarDef<Integer> VAR_HEIGHT = new VarDef<Integer>(
-			"height", Integer.class, 0);
-
-	public static final EAdVarDef<Integer> VAR_TIME_DISPLAYED = new VarDef<Integer>(
-			"timeDisplayed", Integer.class, 0);
-
-	public static final EAdVarDef<Boolean> VAR_MOUSE_OVER = new VarDef<Boolean>(
-			"mouse_over", Boolean.class, Boolean.FALSE);
+	public static final String VAR_HEIGHT = "height";
+	public static final String VAR_CENTER_X = "center_x";
+	public static final String VAR_CENTER_Y = "center_y";
+	public static final String VAR_TOP = "top";
+	public static final String VAR_LEFT = "left";
+	public static final String VAR_BOTTOM = "bottom";
+	public static final String VAR_RIGHT = "right";
 
 	@Param
-	private EAdMap<EAdVarDef<?>, Object> vars;
+	private EAdMap<Object> vars;
 
 	@Param
 	protected SceneElementDef definition;
@@ -146,79 +107,77 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	@Param
 	protected boolean containsBounds;
 
+	/**
+	 * Creates an empty scene element
+	 */
 	public SceneElement() {
-		super();
-		definition = new SceneElementDef();
-		vars = new EAdMap<EAdVarDef<?>, Object>();
-		this.setPosition(Corner.TOP_LEFT, 0, 0);
+
 	}
 
 	/**
 	 * Creates a basic scene element
 	 *
-	 * @param appearance
-	 *            the initial appearance
+	 * @param appearance the initial appearance
 	 */
 	public SceneElement(EAdDrawable appearance) {
-		this();
 		this.definition = new SceneElementDef(appearance);
 	}
 
 	public SceneElement(EAdDrawable appearance, EAdDrawable overAppearance) {
-		this();
 		this.definition = new SceneElementDef(appearance, overAppearance);
 	}
 
 	public SceneElement(SceneElementDef actor) {
-		this();
 		this.definition = actor;
 	}
 
-	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
+	public void setVars(EAdMap<Object> vars) {
 		this.vars = vars;
 	}
 
-	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
-		vars.put(var, value);
-	}
-
 	public void setPosition(Position position) {
-		vars.put(VAR_X, position.getX());
-		vars.put(VAR_Y, position.getY());
-		vars.put(VAR_DISP_X, position.getDispX());
-		vars.put(VAR_DISP_Y, position.getDispY());
+		setVar(VAR_X, position.getX());
+		setVar(VAR_Y, position.getY());
+		setVar(VAR_DISP_X, position.getDispX());
+		setVar(VAR_DISP_Y, position.getDispY());
 	}
 
 	public void setCenter(Corner center) {
-		vars.put(VAR_DISP_X, center.getDispX());
-		vars.put(VAR_DISP_Y, center.getDispY());
+		setVar(VAR_DISP_X, center.getDispX());
+		setVar(VAR_DISP_Y, center.getDispY());
 	}
 
 	/**
 	 * Sets the initial orientation for the actor reference
 	 *
-	 * @param orientation
-	 *            the orientation
+	 * @param orientation the orientation
 	 */
 	public void setInitialOrientation(Orientation orientation) {
-		vars.put(VAR_ORIENTATION, orientation);
+		setVar(VAR_ORIENTATION, orientation);
 	}
 
-	public EAdMap<EAdVarDef<?>, Object> getVars() {
+	public EAdMap<Object> getVars() {
 		return vars;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T getVarInitialValue(EAdVarDef<T> var) {
-		if (vars.containsKey(var)) {
-			return (T) vars.get(var);
+	@Override
+	public void setVar(String varName, Object value) {
+		if (vars == null) {
+			vars = new EAdMap<Object>();
 		}
-		return var.getInitialValue();
+		vars.put(varName, value);
+	}
+
+	@SuppressWarnings("all")
+	@Override
+	public <T> T getVar(String varName, T defaultValue) {
+		return (T) (vars != null && vars.containsKey(varName) ? vars
+				.get(varName) : defaultValue);
 	}
 
 	public void setPosition(float x, float y) {
-		vars.put(VAR_X, x);
-		vars.put(VAR_Y, y);
+		setVar(VAR_X, x);
+		setVar(VAR_Y, y);
 	}
 
 	public void setPosition(Corner corner, float x, float y) {
@@ -234,45 +193,46 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	}
 
 	public void setInitialAlpha(float f) {
-		this.setVarInitialValue(SceneElement.VAR_ALPHA, f);
+		this.setVar(SceneElement.VAR_ALPHA, f);
 
 	}
 
 	/**
 	 * Sets the initial scale for the scene element
 	 *
-	 * @param scale
-	 *            the initial scale
+	 * @param scale the initial scale
 	 */
 	public void setInitialScale(float scale) {
-		setVarInitialValue(SceneElement.VAR_SCALE, scale);
+		setVar(SceneElement.VAR_SCALE, scale);
 	}
 
 	public void setInitialScale(float scaleX, float scaleY) {
-		setVarInitialValue(SceneElement.VAR_SCALE_X, scaleX);
-		setVarInitialValue(SceneElement.VAR_SCALE_Y, scaleY);
+		setVar(SceneElement.VAR_SCALE_X, scaleX);
+		setVar(SceneElement.VAR_SCALE_Y, scaleY);
 	}
 
 	/**
 	 * Sets the initial appearance for the scene element
 	 *
-	 * @param appearance
-	 *            the initial appearance
+	 * @param appearance the initial appearance
 	 */
 	public void setAppearance(EAdDrawable appearance) {
-		getDefinition().setAppearance(appearance);
+		if (definition == null) {
+			definition = new SceneElementDef();
+		}
+		definition.setAppearance(appearance);
 	}
 
 	public void setInitialEnable(boolean enable) {
-		setVarInitialValue(SceneElement.VAR_ENABLE, enable);
+		setVar(SceneElement.VAR_ENABLE, enable);
 	}
 
 	public void setInitialRotation(float rotation) {
-		setVarInitialValue(SceneElement.VAR_ROTATION, rotation);
+		setVar(SceneElement.VAR_ROTATION, rotation);
 	}
 
-	public <T> ElementField<T> getField(EAdVarDef<T> varDef) {
-		return new ElementField<T>(this, varDef);
+	public ElementField getField(String varName) {
+		return new ElementField(this, varName);
 	}
 
 	public String toString() {
@@ -288,7 +248,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	}
 
 	public void setInitialVisible(boolean visible) {
-		setVarInitialValue(SceneElement.VAR_VISIBLE, visible);
+		setVar(SceneElement.VAR_VISIBLE, visible);
 	}
 
 	public void setOverAppearance(EAdDrawable d) {
@@ -296,16 +256,16 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	}
 
 	public void setInitialZ(int z) {
-		setVarInitialValue(SceneElement.VAR_Z, z);
+		setVar(SceneElement.VAR_Z, z);
 
 	}
 
 	public void setInitialState(String state) {
-		setVarInitialValue(SceneElement.VAR_STATE, state);
+		setVar(SceneElement.VAR_STATE, state);
 	}
 
 	/**
-	 *  If for the contains method, must be used only the scene element bounds
+	 * If for the contains method, must be used only the scene element bounds
 	 */
 	public boolean isContainsBounds() {
 		return containsBounds;
@@ -316,7 +276,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	}
 
 	public void setInitialBundle(String bundleId) {
-		this.setVarInitialValue(SceneElement.VAR_BUNDLE_ID, bundleId);
+		this.setVar(SceneElement.VAR_BUNDLE_ID, bundleId);
 
 	}
 

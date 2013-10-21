@@ -52,7 +52,6 @@ import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.node.ConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
@@ -71,8 +70,7 @@ public class ConversationsConverter {
 	static private Logger logger = LoggerFactory
 			.getLogger(ConversationsConverter.class);
 
-	public static final VarDef<Boolean> IN_CONVERSATION = new VarDef<Boolean>(
-			"in_conversation", Boolean.class, true);
+	public static final String IN_CONVERSATION = "in_conversation";
 
 	private ModelQuerier modelQuerier;
 
@@ -96,10 +94,8 @@ public class ConversationsConverter {
 	}
 
 	/**
-	 * Converts and old conversation into a list of speak effects
-	 *
-	 * @param c
-	 * @return
+	 * @param c the old conversation
+	 * @return Converts and old conversation into a list of speak effects
 	 */
 	public Effect convert(Conversation c) {
 		nodes.clear();
@@ -113,8 +109,7 @@ public class ConversationsConverter {
 		// until effect, with a condition that checks if the conversation is
 		// over
 		Effect empty = modelQuerier.getConversation(c.getId());
-		ElementField<Boolean> inConversation = new ElementField<Boolean>(empty,
-				IN_CONVERSATION);
+		ElementField inConversation = new ElementField(empty, IN_CONVERSATION);
 
 		ChangeFieldEf endConversation = new ChangeFieldEf(inConversation,
 				EmptyCond.FALSE);
@@ -136,15 +131,12 @@ public class ConversationsConverter {
 				effects.get(effects.size() - 1).addNextEffect(endConversation);
 			}
 		}
-		Effect root = nodes.get(c.getRootNode()).get(0);
-		return root;
+		return nodes.get(c.getRootNode()).get(0);
 	}
 
 	/**
-	 * Converts a conversation node into an effect
-	 *
-	 * @param n
-	 * @return
+	 * @param n a node
+	 * @return Converts a conversation node into an effect
 	 */
 	public List<Effect> convert(ConversationNode n) {
 		List<Effect> node = null;
@@ -172,10 +164,8 @@ public class ConversationsConverter {
 	}
 
 	/**
-	 * Converts a dialogue node into a list of effects
-	 *
-	 * @param n
-	 * @return
+	 * @param n a node
+	 * @return Converts a conversation node into an effect
 	 */
 	private List<Effect> convertDialog(DialogueConversationNode n) {
 		ArrayList<Effect> nodes = new ArrayList<Effect>();
@@ -214,10 +204,8 @@ public class ConversationsConverter {
 	}
 
 	/**
-	 * Returns a list with only one node, with a question effect
-	 *
-	 * @param n
-	 * @return
+	 * @param n a node
+	 * @return Returns a list with only one node, with a question effect
 	 */
 	private List<Effect> convertOption(OptionConversationNode n) {
 		ArrayList<Effect> nodes = new ArrayList<Effect>();
@@ -234,7 +222,7 @@ public class ConversationsConverter {
 	/**
 	 * Adds answers nodes to an option node
 	 *
-	 * @param n
+	 * @param n a node
 	 */
 	private void addAnswers(OptionConversationNode n) {
 		QuestionEf question = (QuestionEf) nodes.get(n).get(0);

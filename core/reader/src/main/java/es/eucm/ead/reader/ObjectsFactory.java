@@ -41,9 +41,6 @@ import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.operations.ElementField;
-import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.params.EAdParam;
 import es.eucm.ead.model.params.fills.ColorFill;
@@ -57,8 +54,6 @@ import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Matrix;
 import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Rectangle;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.ead.reader.model.ReaderVisitor;
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
@@ -78,43 +73,17 @@ public class ObjectsFactory {
 	private Map<String, Identified> identified;
 	private ReaderVisitor readerVisitor;
 
-	private Map<String, EAdVarDef<?>> registeredVars;
-
 	public ObjectsFactory(ReflectionProvider reflectionProvider,
 			ReaderVisitor readerVisitor) {
 		this.reflectionProvider = reflectionProvider;
 		this.readerVisitor = readerVisitor;
 		identified = new HashMap<String, Identified>();
 		paramsMap = new HashMap<Class<?>, Map<String, Object>>();
-		registeredVars = new HashMap<String, EAdVarDef<?>>();
-
-		addDefaultVars();
 	}
 
 	public void clear() {
 		paramsMap.clear();
 		identified.clear();
-	}
-
-	private void addDefaultVars() {
-		registeredVars.put("alpha", SceneElement.VAR_ALPHA);
-		registeredVars.put("visible", SceneElement.VAR_VISIBLE);
-		registeredVars.put("x", SceneElement.VAR_X);
-		registeredVars.put("y", SceneElement.VAR_Y);
-		registeredVars.put("rotation", SceneElement.VAR_ROTATION);
-		registeredVars.put("scale", SceneElement.VAR_SCALE);
-		registeredVars.put("scale_x", SceneElement.VAR_SCALE_X);
-		registeredVars.put("scale_y", SceneElement.VAR_SCALE_Y);
-		registeredVars.put("enable", SceneElement.VAR_ENABLE);
-		registeredVars.put("disp_x", SceneElement.VAR_DISP_X);
-		registeredVars.put("disp_y", SceneElement.VAR_DISP_Y);
-		registeredVars.put("z", SceneElement.VAR_Z);
-		registeredVars.put("state", SceneElement.VAR_STATE);
-		registeredVars.put("orientation", SceneElement.VAR_ORIENTATION);
-		registeredVars.put("influence_area", NodeTrajectory.VAR_INFLUENCE_AREA);
-		registeredVars.put("bundle", SceneElement.VAR_BUNDLE_ID);
-		registeredVars.put("sound_on", SystemFields.SOUND_ON.getVarDef());
-
 	}
 
 	public Object getObjectById(String id) {
@@ -157,29 +126,6 @@ public class ObjectsFactory {
 			p = new KeyGEv(value);
 		} else if (clazz.equals(DragGEv.class)) {
 			p = new DragGEv(value);
-		} else if (clazz.equals(VarDef.class)) {
-			p = registeredVars.get(value);
-			if (p == null) {
-				try {
-					Object initialValue = null;
-					String values[] = value.split(";");
-					Class<?> c = getClassFromName(values[1]);
-
-					boolean forLater = false;
-					if (values.length == 3) {
-						initialValue = this.getObject(values[2], c);
-						forLater = initialValue == null;
-					}
-					p = new VarDef(values[0], c, initialValue);
-					if (forLater) {
-						readerVisitor.addFinalStep(new VarInitStep(
-								(EAdVarDef) p, values[2]));
-					}
-				} catch (Exception e) {
-					logger.warn("VarDef with representation {} poorly parsed",
-							value);
-				}
-			}
 		}
 		return p;
 	}
@@ -339,41 +285,7 @@ public class ObjectsFactory {
 		}
 	}
 
-	public ElementField<?> getField(String element, String varName) {
-		if (registeredVars.containsKey(varName)) {
-			return new ElementField(new BasicElement(element), registeredVars
-					.get(varName));
-		} else {
-			return null;
-		}
-	}
-
-	public EAdVarDef getVarDef(String key) {
-		return registeredVars.get(key);
-	}
-
-	public void registerVariable(String string, EAdVarDef<?> var) {
-		registeredVars.put(string, var);
-	}
-
-	public class VarInitStep implements ReaderVisitor.FinalStep {
-		private EAdVarDef varDef;
-		private String initialValue;
-
-		public VarInitStep(EAdVarDef<?> varDef, String initialValue) {
-			this.varDef = varDef;
-			this.initialValue = initialValue;
-		}
-
-		@Override
-		@SuppressWarnings("unchecked")
-		public void execute() {
-			Object value = getObject(initialValue, varDef.getType());
-			if (value == null) {
-				logger.warn("Invalid value for variable definition {}", varDef);
-			} else {
-				varDef.setInitialValue(value);
-			}
-		}
+	public ElementField getField(String element, String varName) {
+		return new ElementField(new BasicElement(element), varName);
 	}
 }

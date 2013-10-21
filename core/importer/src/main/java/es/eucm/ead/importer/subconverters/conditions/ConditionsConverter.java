@@ -59,7 +59,7 @@ public class ConditionsConverter {
 	/**
 	 * A list with the fields contained by the last condition converted
 	 */
-	private List<ElementField<?>> fieldsInLastCond;
+	private List<ElementField> fieldsInLastCond;
 
 	@Inject
 	public ConditionsConverter(FlagConditionConverter flagConditionConverter,
@@ -68,7 +68,7 @@ public class ConditionsConverter {
 		this.flagConditionConverter = flagConditionConverter;
 		this.varConditionConverter = varConditionConverter;
 		this.modelQuerier = modelQuerier;
-		this.fieldsInLastCond = new ArrayList<ElementField<?>>();
+		this.fieldsInLastCond = new ArrayList<ElementField>();
 		modelQuerier.setConditionConverter(this);
 	}
 
@@ -120,12 +120,12 @@ public class ConditionsConverter {
 		if (c.getType() == es.eucm.eadventure.common.data.chapter.conditions.Condition.FLAG_CONDITION) {
 			OperationCond cond = flagConditionConverter
 					.convert((FlagCondition) c);
-			fieldsInLastCond.add((ElementField<?>) cond.getOp1());
+			fieldsInLastCond.add((ElementField) cond.getOp1());
 			return cond;
 		} else if (c.getType() == es.eucm.eadventure.common.data.chapter.conditions.Condition.VAR_CONDITION) {
 			OperationCond cond = varConditionConverter
 					.convert((VarCondition) c);
-			fieldsInLastCond.add((ElementField<?>) cond.getOp1());
+			fieldsInLastCond.add((ElementField) cond.getOp1());
 			return cond;
 		} else if (c.getType() == es.eucm.eadventure.common.data.chapter.conditions.Condition.GLOBAL_STATE_CONDITION) {
 			// [COND - State]
@@ -136,7 +136,7 @@ public class ConditionsConverter {
 		return null;
 	}
 
-	public List<ElementField<?>> getFieldsLastCondition() {
+	public List<ElementField> getFieldsLastCondition() {
 		return fieldsInLastCond;
 	}
 

@@ -58,7 +58,6 @@ import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.VideoScene;
 import es.eucm.ead.model.params.guievents.MouseGEv;
-import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.Frame;
 import es.eucm.eadventure.common.data.animation.Transition;
@@ -78,8 +77,7 @@ public class CutsceneConverter {
 	private static Logger logger = LoggerFactory
 			.getLogger(CutsceneConverter.class);
 
-	public static final VarDef<Boolean> IN_CUTSCENE = new VarDef<Boolean>(
-			"in_cutscene", Boolean.class, false);
+	public static final String IN_CUTSCENE = "in_cutscene";
 
 	private ResourcesConverter resourceConverter;
 
@@ -134,10 +132,8 @@ public class CutsceneConverter {
 							.getUri(), true);
 
 					// XXX Sound
-					Scene scene = new Scene();
-					scene.getBackground().getDefinition().setAppearance(
-							background);
-					Effect nextEffect = null;
+					Scene scene = new Scene(new SceneElement(background));
+					Effect nextEffect;
 
 					if (cs.getNext() == Slidescene.ENDCHAPTER) {
 						// XXX Games with more than one chapter will fail
@@ -218,8 +214,7 @@ public class CutsceneConverter {
 		// (trigger cutscene effect, for example)
 		Scene firstScene = cutscene.get(0);
 		Scene lastScene = cutscene.get(cutscene.size() - 1);
-		ElementField<Boolean> inCutscene = new ElementField<Boolean>(
-				firstScene, IN_CUTSCENE);
+		ElementField inCutscene = new ElementField(firstScene, IN_CUTSCENE);
 		// Event for the first scene
 		SceneElementEv event1 = new SceneElementEv();
 		event1.addEffect(SceneElementEvType.ADDED, new ChangeFieldEf(

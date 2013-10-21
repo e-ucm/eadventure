@@ -66,8 +66,8 @@ public class MouseHudGO extends SceneGO {
 
 	public void act(float delta) {
 		super.act(delta);
-		mouse.setX(gameState.getValue(SystemFields.MOUSE_X));
-		mouse.setY(gameState.getValue(SystemFields.MOUSE_Y));
+		mouse.setX(gameState.getValue(SystemFields.MOUSE_X, 0.0f));
+		mouse.setY(gameState.getValue(SystemFields.MOUSE_Y, 0.0f));
 	}
 
 }

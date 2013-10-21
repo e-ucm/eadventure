@@ -169,13 +169,13 @@ public class AdventureConverter {
 		model.addEvent(event);
 
 		// Setting plugins
-		EAdMap<String, String> eventPlugins = new EAdMap<String, String>();
+		EAdMap<String> eventPlugins = new EAdMap<String>();
 		eventPlugins.put(BubbleNameEv.class.getName(),
 				"es.eucm.ead.legacyplugins.engine.BubbleNameGO");
 		eventPlugins.put(TimerEv.class.getName(),
 				"es.eucm.ead.legacyplugins.engine.events.TimerGO");
 		// [GE - Arrow] [GE - Follow]
-		EAdMap<String, String> sceneElementPlugins = new EAdMap<String, String>();
+		EAdMap<String> sceneElementPlugins = new EAdMap<String>();
 		sceneElementPlugins
 				.put(Scene.class.getName(),
 						"es.eucm.ead.legacyplugins.engine.sceneelements.DynamicSceneGO");

@@ -37,9 +37,9 @@
 
 package es.eucm.ead.model.elements.effects;
 
+import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.extra.EAdMap;
 
 /**
  * An effect that launches a random effect from a list of effects
@@ -53,11 +53,12 @@ public class RandomEf extends Effect {
 	 * Effect's list
 	 */
 	@Param
-	private EAdMap<Effect, Float> effects;
+	private EAdList<Effect> effects;
+
+	@Param
+	private EAdList<Float> probabilities;
 
 	public RandomEf() {
-		super();
-		effects = new EAdMap<Effect, Float>();
 	}
 
 	/**
@@ -69,20 +70,30 @@ public class RandomEf extends Effect {
 	 *            the probability
 	 */
 	public void addEffect(Effect effect, float probability) {
-		effects.put(effect, probability);
+		if (effects == null) {
+			effects = new EAdList<Effect>();
+		}
+
+		if (probabilities == null) {
+			probabilities = new EAdList<Float>();
+		}
+		effects.add(effect);
+		probabilities.add(probability);
 	}
 
-	/**
-	 * Returns the effects
-	 * 
-	 * @return the effects
-	 */
-	public EAdMap<Effect, Float> getEffects() {
+	public EAdList<Effect> getEffects() {
 		return effects;
 	}
 
-	public void setEffects(EAdMap<Effect, Float> effects) {
+	public void setEffects(EAdList<Effect> effects) {
 		this.effects = effects;
 	}
 
+	public EAdList<Float> getProbabilities() {
+		return probabilities;
+	}
+
+	public void setProbabilities(EAdList<Float> probabilities) {
+		this.probabilities = probabilities;
+	}
 }

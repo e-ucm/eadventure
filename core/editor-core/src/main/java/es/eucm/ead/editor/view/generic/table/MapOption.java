@@ -1,3 +1,40 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -34,8 +71,8 @@ import org.slf4j.LoggerFactory;
  * @param <K> key-type
  * @param <V> value-type (for underlying list)
  */
-public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
-		implements TableLikeControl<V, K> {
+public class MapOption<V> extends DefaultAbstractOption<EAdMap<V>> implements
+		TableLikeControl<V, String> {
 
 	static private Logger logger = LoggerFactory.getLogger(MapOption.class);
 
@@ -52,7 +89,7 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	}
 
 	public MapOption(String title, String toolTipText,
-			Accessor<EAdMap<K, V>> fieldDescriptor, Class<?> contentClass,
+			Accessor<EAdMap<V>> fieldDescriptor, Class<?> contentClass,
 			DependencyNode... changed) {
 		super(title, toolTipText, fieldDescriptor, changed);
 		this.contentClass = contentClass;
@@ -73,8 +110,8 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 				"Value", contentClass, false, -1) };
 	}
 
-	public int keyToIndex(K key) {
-		Iterator<K> it = oldValue.keySet().iterator();
+	public int keyToIndex(String key) {
+		Iterator<String> it = oldValue.keySet().iterator();
 		for (int i = 0; it.hasNext(); i++) {
 			if (it.next() == key)
 				return i;
@@ -82,10 +119,10 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 		return -1;
 	}
 
-	public K indexToKey(int index) {
-		Iterator<K> it = oldValue.keySet().iterator();
+	public String indexToKey(int index) {
+		Iterator<String> it = oldValue.keySet().iterator();
 		for (int i = 0; it.hasNext(); i++) {
-			K key = it.next();
+			String key = it.next();
 			if (i == index)
 				return key;
 		}
@@ -204,7 +241,7 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				V value = chooseElementToAdd();
-				K key = chooseKeyToAdd();
+				String key = chooseKeyToAdd();
 				if (value != null) {
 					add(value, key);
 				}
@@ -222,12 +259,12 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	}
 
 	@Override
-	public EAdMap<K, V> getControlValue() {
+	public EAdMap<V> getControlValue() {
 		return fieldDescriptor.read();
 	}
 
 	@Override
-	protected void setControlValue(EAdMap<K, V> newValue) {
+	protected void setControlValue(EAdMap<V> newValue) {
 		tableModel.fireTableDataChanged();
 	}
 
@@ -236,10 +273,10 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	}
 
 	@Override
-	public void remove(K key) {
+	public void remove(String key) {
 		V o = oldValue.get(key);
 		logger.info("Removing {} (at {})", new Object[] { o, key });
-		Command c = new MapCommand.RemoveFromMap<K, V>(oldValue, key, changed);
+		Command c = new MapCommand.RemoveFromMap<V>(oldValue, key, changed);
 		executeCommand(c);
 	}
 
@@ -254,15 +291,15 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	 * Launches UI prompt to add a key to a list element
 	 */
 	@Override
-	public K chooseKeyToAdd() {
+	public String chooseKeyToAdd() {
 		logger.info("User wants to CHOOSE a KEY to ADD something! Madness!!");
 		return null;
 	}
 
 	@Override
-	public void add(V added, K key) {
+	public void add(V added, String key) {
 		logger.info("Adding {}", oldValue);
-		Command c = new MapCommand.AddToMap<K, V>(oldValue, added, key, changed);
+		Command c = new MapCommand.AddToMap<V>(oldValue, added, key, changed);
 		executeCommand(c);
 	}
 
@@ -271,7 +308,7 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	 * button-click.
 	 */
 	@Override
-	public void moveUp(K index) {
+	public void moveUp(String index) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -280,7 +317,7 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	 * button-click.
 	 */
 	@Override
-	public void moveDown(K index) {
+	public void moveDown(String index) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -288,7 +325,7 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	 * Returns the key for a given row
 	 */
 	@Override
-	public K keyForRow(int row) {
+	public String keyForRow(int row) {
 		return indexToKey(row);
 	}
 
@@ -301,8 +338,8 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	 * @return
 	 */
 	@Override
-	protected boolean changeConsideredRelevant(EAdMap<K, V> oldValue,
-			EAdMap<K, V> newValue) {
+	protected boolean changeConsideredRelevant(EAdMap<V> oldValue,
+			EAdMap<V> newValue) {
 		return true;
 	}
 }

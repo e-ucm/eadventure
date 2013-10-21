@@ -87,8 +87,8 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEf> {
 	private static final ChangeFieldEf HIDE_CURSOR;
 
 	static {
-		ElementField<Boolean> field = new ElementField<Boolean>(
-				MouseHud.MOUSE_REF, SceneElement.VAR_VISIBLE);
+		ElementField field = new ElementField(MouseHud.MOUSE_REF,
+				SceneElement.VAR_VISIBLE);
 		SHOW_CURSOR = new ChangeFieldEf(field, EmptyCond.TRUE);
 		HIDE_CURSOR = new ChangeFieldEf(field, EmptyCond.FALSE);
 	}

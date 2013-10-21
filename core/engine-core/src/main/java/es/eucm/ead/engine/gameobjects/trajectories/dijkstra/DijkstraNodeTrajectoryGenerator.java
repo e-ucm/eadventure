@@ -99,11 +99,7 @@ public class DijkstraNodeTrajectoryGenerator {
 	 * (http://en.wikipedia.org/wiki/Dijkstra's_algorithm), where all relevant
 	 * points in the representation (including those in each side that are
 	 * closest to the target) are turned into nodes.
-	 * 
-	 * @param fromX
-	 *            The current position along the x-axis
-	 * @param fromY
-	 *            The current position along the y-axis
+	 *
 	 * @param toX
 	 *            The current position along the x-axis
 	 * @param toY
@@ -246,7 +242,6 @@ public class DijkstraNodeTrajectoryGenerator {
 	 * 
 	 * @param trajectoryDefinition
 	 * @param nodeMap
-	 * @param currentPosition
 	 * @param toX
 	 * @param toY
 	 * @param sceneElement
@@ -277,7 +272,7 @@ public class DijkstraNodeTrajectoryGenerator {
 				else {
 					currentNode = new DijkstraNode(currentPosition);
 					currentNode.setScale(valueMap.getValue(movingElement,
-							SceneElement.VAR_SCALE));
+							SceneElement.VAR_SCALE, 1f));
 					intersections.add(currentNode);
 				}
 			}
@@ -355,8 +350,6 @@ public class DijkstraNodeTrajectoryGenerator {
 	 *            one of the nodes in the the segment
 	 * @param B
 	 *            the other node in the segment
-	 * @param P
-	 *            the point
 	 * @return null if the closest point is one of the nodes, or a position
 	 *         otherwise
 	 */
@@ -393,9 +386,9 @@ public class DijkstraNodeTrajectoryGenerator {
 	 */
 	private void addInfluenceAreaIntersections(SceneElementGO sceneElement,
 			List<DijkstraNode> intersections) {
-		Rectangle rectangle = valueMap.getValue(new ElementField<Rectangle>(
+		Rectangle rectangle = valueMap.getValue(new ElementField(
 				(SceneElement) sceneElement.getElement(),
-				NodeTrajectory.VAR_INFLUENCE_AREA));
+				NodeTrajectory.VAR_INFLUENCE_AREA), (Rectangle) null);
 		// TODO check if the position of the element isn't relevant (i.e. if the
 		// position of the rectangle is not relative to the element)
 		if (rectangle != null) {
@@ -417,9 +410,9 @@ public class DijkstraNodeTrajectoryGenerator {
 	private boolean isGetsTo(Position position, SceneElementGO sceneElement) {
 		if (sceneElement == null)
 			return false;
-		Rectangle rectangle = valueMap.getValue(new ElementField<Rectangle>(
+		Rectangle rectangle = valueMap.getValue(new ElementField(
 				(SceneElement) sceneElement.getElement(),
-				NodeTrajectory.VAR_INFLUENCE_AREA));
+				NodeTrajectory.VAR_INFLUENCE_AREA), (Rectangle) null);
 		if (rectangle == null)
 			return false;
 		// TODO check if the position of the element isn't relevant (i.e. if the
@@ -445,9 +438,9 @@ public class DijkstraNodeTrajectoryGenerator {
 			List<DijkstraNode> intersections) {
 		for (SceneElement barrier : trajectoryDefinition.getBarriers()) {
 			SceneElementGO go = gameObjectFactory.get(barrier);
-			ElementField<Boolean> barrierOn = new ElementField<Boolean>(
-					barrier, NodeTrajectory.VAR_BARRIER_ON);
-			if (valueMap.getValue(barrierOn)) {
+			ElementField barrierOn = new ElementField(barrier,
+					NodeTrajectory.VAR_BARRIER_ON);
+			if (valueMap.getValue(barrierOn, false)) {
 				Position position = new Position(go.getX(), go.getY(), go
 						.getDispX(), go.getDispY());
 
@@ -560,24 +553,23 @@ public class DijkstraNodeTrajectoryGenerator {
 	 * none is available
 	 * 
 	 * @param nodeTrajectoryDefinition
-	 * @param currentPosition
 	 * @return
 	 */
 	private Side getCurrentSide(NodeTrajectory nodeTrajectoryDefinition,
 			SceneElement movingElement) {
 		Side side = valueMap.getValue(movingElement,
-				NodeTrajectory.VAR_CURRENT_SIDE);
+				NodeTrajectory.VAR_CURRENT_SIDE, null);
 		if (!nodeTrajectoryDefinition.getSides().contains(side))
 			side = null;
 		if (side == null) {
 			int distance = Integer.MAX_VALUE;
 			for (Node node : nodeTrajectoryDefinition.getNodes()) {
 				int d = (int) Math.sqrt(Math.pow(node.getX()
-						- valueMap.getValue(movingElement, SceneElement.VAR_X),
-						2)
+						- valueMap.getValue(movingElement, SceneElement.VAR_X,
+								0), 2)
 						+ Math.pow(node.getY()
 								- valueMap.getValue(movingElement,
-										SceneElement.VAR_Y), 2));
+										SceneElement.VAR_Y, 0), 2));
 				if (d < distance) {
 					for (Side side2 : nodeTrajectoryDefinition.getSides())
 						if (side2.getIdEnd().getId().equals(node.getId())
@@ -593,8 +585,8 @@ public class DijkstraNodeTrajectoryGenerator {
 	}
 
 	private Position getCurrentPosition(SceneElement element) {
-		float x = valueMap.getValue(element, SceneElement.VAR_X);
-		float y = valueMap.getValue(element, SceneElement.VAR_Y);
+		float x = valueMap.getValue(element, SceneElement.VAR_X, 0);
+		float y = valueMap.getValue(element, SceneElement.VAR_Y, 0);
 		return new Position(x, y);
 	}
 

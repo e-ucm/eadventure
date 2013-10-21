@@ -86,9 +86,8 @@ public class HighlightItemConverter implements
 		}
 
 		ChangeColorEf changeColor = new ChangeColorEf(red, green, blue);
-		ElementField<SceneElement> sceneElementField = new ElementField<SceneElement>(
-				elementsCache.get(e.getTargetId()),
-				SceneElementDef.VAR_SCENE_ELEMENT);
+		ElementField sceneElementField = new ElementField(elementsCache.get(e
+				.getTargetId()), SceneElementDef.VAR_SCENE_ELEMENT);
 		changeColor.setSceneElement(sceneElementField);
 
 		// Effects after highlight effects doesn't wait

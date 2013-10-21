@@ -50,14 +50,14 @@ import es.eucm.ead.model.elements.extra.EAdMap;
  * 
  * FIXME: currently does not update graph dependencies.
  */
-public abstract class MapCommand<K, V> extends Command {
+public abstract class MapCommand<V> extends Command {
 
 	protected String commandName;
 
 	/**
 	 * The map in which the elements will be placed.
 	 */
-	protected EAdMap<K, V> elementMap;
+	protected EAdMap<V> elementMap;
 
 	/**
 	 * The element to be added to the list.
@@ -66,8 +66,8 @@ public abstract class MapCommand<K, V> extends Command {
 
 	protected DependencyNode[] changed;
 
-	protected K oldKey;
-	protected K newKey;
+	protected String oldKey;
+	protected String newKey;
 
 	/**
 	 * Constructor for the MapCommand class.
@@ -77,7 +77,7 @@ public abstract class MapCommand<K, V> extends Command {
 	 * @param newKey
 	 * @param changed
 	 */
-	protected MapCommand(EAdMap<K, V> map, V value, K oldKey, K newKey,
+	protected MapCommand(EAdMap<V> map, V value, String oldKey, String newKey,
 			DependencyNode... changed) {
 		this.elementMap = map;
 		this.anElement = value;
@@ -86,17 +86,17 @@ public abstract class MapCommand<K, V> extends Command {
 		this.changed = changed;
 	}
 
-	protected ModelEvent put(EditorModel em, K key) {
+	protected ModelEvent put(EditorModel em, String key) {
 		elementMap.put(key, anElement);
 		return new DefaultModelEvent(commandName, this, null, null, changed);
 	}
 
-	protected ModelEvent remove(EditorModel em, K key) {
+	protected ModelEvent remove(EditorModel em, String key) {
 		elementMap.remove(key);
 		return new DefaultModelEvent(commandName, this, null, null, changed);
 	}
 
-	protected ModelEvent reorder(EditorModel em, K from, K to) {
+	protected ModelEvent reorder(EditorModel em, String from, String to) {
 		elementMap.remove(from);
 		elementMap.put(to, anElement);
 		return new DefaultModelEvent(commandName, this, null, null, changed);
@@ -126,9 +126,10 @@ public abstract class MapCommand<K, V> extends Command {
 	/**
 	 * adds the element (element must NOT exist; position argument optional)
 	 */
-	public static class AddToMap<K, V> extends MapCommand<K, V> {
+	public static class AddToMap<V> extends MapCommand<V> {
 
-		public AddToMap(EAdMap<K, V> map, V e, K key, DependencyNode... changed) {
+		public AddToMap(EAdMap<V> map, V e, String key,
+				DependencyNode... changed) {
 			super(map, e, null, key, changed);
 			commandName = "AddToMap";
 		}
@@ -152,9 +153,10 @@ public abstract class MapCommand<K, V> extends Command {
 	/**
 	 * removes the element (element MUST exist)
 	 */
-	public static class RemoveFromMap<K, V> extends MapCommand<K, V> {
+	public static class RemoveFromMap<V> extends MapCommand<V> {
 
-		public RemoveFromMap(EAdMap<K, V> map, K key, DependencyNode... changed) {
+		public RemoveFromMap(EAdMap<V> map, String key,
+				DependencyNode... changed) {
 			super(map, map.get(key), null, key, changed);
 			commandName = "RemoveFromMap";
 		}
@@ -176,9 +178,9 @@ public abstract class MapCommand<K, V> extends Command {
 	}
 
 	/** reorders the element (element MUST exist; MUST give position argument) */
-	public static class ChangeKeyInMap<K, V> extends MapCommand<K, V> {
+	public static class ChangeKeyInMap<V> extends MapCommand<V> {
 
-		public ChangeKeyInMap(EAdMap<K, V> map, K from, K to,
+		public ChangeKeyInMap(EAdMap<V> map, String from, String to,
 				DependencyNode... changed) {
 			super(map, map.get(from), from, to, changed);
 			commandName = "ChangeKeyInMap";

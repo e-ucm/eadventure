@@ -46,7 +46,6 @@ import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Evented;
 import es.eucm.ead.model.interfaces.features.Resourced;
 import es.eucm.ead.model.interfaces.features.Variabled;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 
 /**
  * Model of the eAdventure chapter.
@@ -63,7 +62,7 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 	private Scene initialScene;
 
 	@Param
-	private EAdMap<EAdVarDef<?>, Object> vars;
+	private EAdMap<Object> vars;
 
 	/**
 	 * Default constructor.
@@ -73,7 +72,7 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 		super();
 		scenes = new EAdList<Scene>();
 		events = new EAdList<Event>();
-		vars = new EAdMap<EAdVarDef<?>, Object>();
+		vars = new EAdMap<Object>();
 	}
 
 	/**
@@ -108,13 +107,8 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 	}
 
 	@Override
-	public EAdMap<EAdVarDef<?>, Object> getVars() {
+	public EAdMap<Object> getVars() {
 		return vars;
-	}
-
-	@Override
-	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
-		vars.put(var, value);
 	}
 
 	public Scene getSceneById(String nextSceneId) {
@@ -133,17 +127,19 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 		this.scenes = scenes;
 	}
 
-	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
+	public void setVars(EAdMap<Object> vars) {
 		this.vars = vars;
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getVarInitialValue(EAdVarDef<T> var) {
-		if (vars.containsKey(var)) {
-			return (T) vars.get(var);
-		}
-		return var.getInitialValue();
+	public void setVar(String varName, Object value) {
+		vars.put(varName, value);
+	}
+
+	@Override
+	public <T> T getVar(String varName, T defaultValue) {
+		return (T) (vars.containsKey(varName) ? vars.get(varName)
+				: defaultValue);
 	}
 
 	public void addScene(Scene scene) {

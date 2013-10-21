@@ -37,12 +37,13 @@
 
 package es.eucm.ead.engine.gameobjects.effects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
 import es.eucm.ead.model.elements.operations.SystemFields;
@@ -81,7 +82,8 @@ public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 	public void act(float delta) {
 		if (!effect.isWaitUntilClick()) {
 			time -= game.getGameState().getValue(
-					SystemFields.ELAPSED_TIME_PER_UPDATE);
+					SystemFields.ELAPSED_TIME_PER_UPDATE,
+					(int) (Gdx.graphics.getDeltaTime() * 1000));
 		}
 	}
 

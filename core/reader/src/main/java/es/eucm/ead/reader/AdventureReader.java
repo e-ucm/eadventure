@@ -131,8 +131,7 @@ public class AdventureReader {
 		AdventureGame model = manifest.getModel();
 		int chapterIndex = 0;
 
-		EAdMap<String, EAdList<String>> chaptersScenes = manifest
-				.getChaptersScenes();
+		EAdMap<EAdList<String>> chaptersScenes = manifest.getChaptersScenes();
 
 		for (String chapterId : manifest.getChapterIds()) {
 			// Chapters

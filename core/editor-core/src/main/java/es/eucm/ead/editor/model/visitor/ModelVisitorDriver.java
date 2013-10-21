@@ -263,10 +263,10 @@ public class ModelVisitorDriver {
 	/**
 	 * visits a map (keys and values).
 	 */
-	private class MapDriver implements VisitorDriver<EAdMap<?, ?>> {
+	private class MapDriver implements VisitorDriver<EAdMap<?>> {
 
 		@Override
-		public void drive(EAdMap<?, ?> target, Object source, String sourceName) {
+		public void drive(EAdMap<?> target, Object source, String sourceName) {
 			int i = 0;
 			for (Map.Entry<?, ?> e : target.entrySet()) {
 				if (e.getKey() != null && e.getValue() != null) {
@@ -408,7 +408,7 @@ public class ModelVisitorDriver {
 	public static boolean isEmpty(Object o) {
 		return ((o == null)
 				|| (o instanceof Collection && ((Collection<?>) o).isEmpty())
-				|| (o instanceof EAdList && ((EAdList<?>) o).size() == 0) || (o instanceof EAdMap && ((EAdMap<?, ?>) o)
+				|| (o instanceof EAdList && ((EAdList<?>) o).size() == 0) || (o instanceof EAdMap && ((EAdMap<?>) o)
 				.isEmpty()));
 	}
 

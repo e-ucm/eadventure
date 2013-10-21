@@ -87,9 +87,9 @@ public class AdventureWriter implements WriterContext {
 
 	private int contextId;
 
-	private EAdMap<String, String> paramsTranslation;
-	private EAdMap<String, String> fieldsTranslation;
-	private EAdMap<String, String> classesTranslation;
+	private EAdMap<String> paramsTranslation;
+	private EAdMap<String> fieldsTranslation;
+	private EAdMap<String> classesTranslation;
 
 	public AdventureWriter(ReflectionProvider reflectionProvider) {
 		idGenerator = new IdGenerator();
@@ -99,9 +99,9 @@ public class AdventureWriter implements WriterContext {
 		visitor = new WriterVisitor(reflectionProvider, this);
 		documents = new HashMap<String, XMLNode>();
 		contextIds = new ArrayList<String>();
-		paramsTranslation = new EAdMap<String, String>();
-		fieldsTranslation = new EAdMap<String, String>();
-		classesTranslation = new EAdMap<String, String>();
+		paramsTranslation = new EAdMap<String>();
+		fieldsTranslation = new EAdMap<String>();
+		classesTranslation = new EAdMap<String>();
 	}
 
 	/**
@@ -269,8 +269,7 @@ public class AdventureWriter implements WriterContext {
 		return type.getName();
 	}
 
-	private String getTranslation(String string,
-			EAdMap<String, String> mapTranslations) {
+	private String getTranslation(String string, EAdMap<String> mapTranslations) {
 		String value = mapTranslations.get(string);
 		if (value == null) {
 			value = EAdUtils.generateId("", mapTranslations.size());

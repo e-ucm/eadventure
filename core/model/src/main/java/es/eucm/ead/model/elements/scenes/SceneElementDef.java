@@ -40,37 +40,24 @@ package es.eucm.ead.model.elements.scenes;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.elements.ResourcedElement;
-import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.ResourcedEvented;
-import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.interfaces.features.WithBehavior;
 import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 
 @Element
 public class SceneElementDef extends ResourcedElement implements
-		ResourcedEvented, WithBehavior, Variabled {
+		ResourcedEvented, WithBehavior {
 
-	public static final EAdVarDef<SceneElement> VAR_SCENE_ELEMENT = new VarDef<SceneElement>(
-			"scene_element", SceneElement.class, null);
+	public static final String VAR_SCENE_ELEMENT = "scene_element";
 
-	public static final EAdVarDef<EAdString> VAR_DOC_NAME = new VarDef<EAdString>(
-			"doc_name", EAdString.class, null);
+	public static final String VAR_DOC_NAME = "doc_name";
 
-	public static final EAdVarDef<EAdString> VAR_DOC_DESC = new VarDef<EAdString>(
-			"doc_desc", EAdString.class, null);
+	public static final String VAR_DOC_DESC = "doc_desc";
 
-	public static final EAdVarDef<EAdString> VAR_DOC_DETAILED_DESC = new VarDef<EAdString>(
-			"detailed_desc", EAdString.class, null);
+	public static final String VAR_DOC_DETAILED_DESC = "detailed_desc";
 
-	public static final EAdVarDef<EAdString> VAR_DOCUMENTATION = new VarDef<EAdString>(
-			"documentation", EAdString.class, null);
-
-	@Param
-	private EAdMap<EAdVarDef<?>, Object> vars;
+	public static final String VAR_DOCUMENTATION = "documentation";
 
 	public static final String appearance = "appearance";
 
@@ -78,7 +65,6 @@ public class SceneElementDef extends ResourcedElement implements
 
 	public SceneElementDef() {
 		super();
-		vars = new EAdMap<EAdVarDef<?>, Object>();
 	}
 
 	public void setAppearance(String bundle, EAdDrawable drawable) {
@@ -96,25 +82,25 @@ public class SceneElementDef extends ResourcedElement implements
 	}
 
 	public void setName(EAdString name) {
-		setVarInitialValue(VAR_DOC_NAME, name);
+		putProperty(VAR_DOC_NAME, name);
 	}
 
 	public void setDesc(EAdString description) {
-		setVarInitialValue(VAR_DOC_DESC, description);
+		putProperty(VAR_DOC_DESC, description);
 	}
 
 	public void setDetailDesc(EAdString detailedDescription) {
-		setVarInitialValue(VAR_DOC_DETAILED_DESC, detailedDescription);
+		putProperty(VAR_DOC_DETAILED_DESC, detailedDescription);
 	}
 
 	public void setDoc(EAdString documentation) {
-		setVarInitialValue(VAR_DOCUMENTATION, documentation);
+		putProperty(VAR_DOCUMENTATION, documentation);
 	}
 
 	/**
 	 * Sets the initial appearance for the scene element
 	 *
-	 * @param appearance the initial appearance
+	 * @param d the initial appearance
 	 */
 	public void setAppearance(EAdDrawable d) {
 		addAsset(SceneElementDef.appearance, d);
@@ -132,28 +118,7 @@ public class SceneElementDef extends ResourcedElement implements
 		return (EAdDrawable) getResources().get(SceneElementDef.appearance);
 	}
 
-	public EAdMap<EAdVarDef<?>, Object> getVars() {
-		return vars;
-	}
-
-	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
-		vars.put(var, value);
-	}
-
 	public EAdDrawable getAppearance(String currentBundle) {
 		return (EAdDrawable) getAsset(currentBundle, SceneElementDef.appearance);
-	}
-
-	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
-		this.vars = vars;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getVarInitialValue(EAdVarDef<T> var) {
-		if (vars.containsKey(var)) {
-			return (T) vars.get(var);
-		}
-		return var.getInitialValue();
 	}
 }

@@ -113,11 +113,11 @@ public class PhysicsScene extends EmptyScene {
 
 		SceneElement wall = new SceneElement(groundS);
 		wall.setPosition(new Position(Corner.CENTER, 775, 300));
-		wall.setVarInitialValue(VAR_ROTATION, 90.0f);
+		wall.setVar(VAR_ROTATION, 90.0f);
 
 		SceneElement wall2 = new SceneElement(groundS);
 		wall2.setPosition(new Position(Corner.CENTER, 25, 300));
-		wall2.setVarInitialValue(VAR_ROTATION, 90.0f);
+		wall2.setVar(VAR_ROTATION, 90.0f);
 
 		effect.addSceneElement(ground);
 		getSceneElements().add(ground);
@@ -156,27 +156,27 @@ public class PhysicsScene extends EmptyScene {
 
 		this.getSceneElements().add(grass);
 
-		ElementField<Float> rotationField = new ElementField<Float>(canyon,
-				VAR_ROTATION);
+		ElementField rotationField = new ElementField(canyon, VAR_ROTATION);
 
 		ChangeFieldEf followMouse = new ChangeFieldEf();
 
-		ElementField<Float> mouseX = SystemFields.MOUSE_X;
-		ElementField<Float> mouseY = SystemFields.MOUSE_Y;
-		ElementField<Float> canyonX = new ElementField<Float>(canyon, VAR_X);
+		ElementField mouseX = SystemFields.MOUSE_X;
+		ElementField mouseY = SystemFields.MOUSE_Y;
+		ElementField canyonX = new ElementField(canyon, VAR_X);
 
-		ElementField<Float> canyonY = new ElementField<Float>(canyon, VAR_Y);
+		ElementField canyonY = new ElementField(canyon, VAR_Y);
 
 		String expression = "deg( - acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) ) )";
 		MathOp op = new MathOp(expression, canyonX, canyonY, mouseX, mouseY);
 		followMouse.setOperation(op);
-		followMouse.addField(rotationField);
+		followMouse.setElement(rotationField.getElement());
+		followMouse.setVarName(rotationField.getVarDef());
 		OperationCond c1 = new OperationCond(mouseX, 0,
 				Comparator.GREATER_EQUAL);
-		OperationCond c2 = new OperationCond(mouseY, new ElementField<Float>(
-				canyon, VAR_Y), Comparator.LESS_EQUAL);
-		OperationCond c3 = new OperationCond(mouseX, new ElementField<Float>(
-				canyon, VAR_X), Comparator.GREATER_EQUAL);
+		OperationCond c2 = new OperationCond(mouseY, new ElementField(canyon,
+				VAR_Y), Comparator.LESS_EQUAL);
+		OperationCond c3 = new OperationCond(mouseX, new ElementField(canyon,
+				VAR_X), Comparator.GREATER_EQUAL);
 		followMouse.setCondition(new ANDCond(c1, c2, c3));
 
 		SceneElementEv event = new SceneElementEv();
@@ -223,8 +223,8 @@ public class PhysicsScene extends EmptyScene {
 				new LinearGradientFill(ColorFill.YELLOW, ColorFill.LIGHT_BROWN,
 						150, 10)));
 		rope.setPosition(new Position(Corner.CENTER, 450, 50));
-		rope.setVarInitialValue(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
-		rope.setVarInitialValue(PhysicsEf.VAR_PH_FRICTION, 0.7f);
+		rope.setVar(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
+		rope.setVar(PhysicsEf.VAR_PH_FRICTION, 0.7f);
 		getSceneElements().add(rope);
 		getSceneElements().add(holder);
 
@@ -239,7 +239,7 @@ public class PhysicsScene extends EmptyScene {
 
 		SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf effect = new InterpolationEf(new ElementField<Float>(
+		InterpolationEf effect = new InterpolationEf(new ElementField(
 				getBackground(), VAR_X), 0, -800, 100000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 

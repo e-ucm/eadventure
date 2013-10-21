@@ -37,24 +37,18 @@
 
 package es.eucm.ead.model.elements.effects;
 
-import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.effects.enums.ChangeActorActions;
-import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 
 @Element
 public class ActorActionsEf extends Effect {
 
 	@SuppressWarnings("rawtypes")
-	public static final EAdVarDef<EAdList> VAR_ACTIONS = new VarDef<EAdList>(
-			"actions", EAdList.class, null);
+	public static final String VAR_ACTIONS = "actions";
 
-	public static final EAdVarDef<Condition> VAR_ACTION_COND = new VarDef<Condition>(
-			"action_cond", Condition.class, null);
+	public static final String VAR_ACTION_COND = "action_cond";
 
 	@Param
 	private SceneElementDef actionElement;

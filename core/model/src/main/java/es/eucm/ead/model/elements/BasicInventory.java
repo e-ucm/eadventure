@@ -38,15 +38,12 @@
 package es.eucm.ead.model.elements;
 
 import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 
 @Element
 public class BasicInventory extends BasicElement {
 
 	public static final String ID = "#engine.inventory";
-	public static final EAdVarDef<Boolean> VAR_IN_INVENTORY = new VarDef<Boolean>(
-			"in_inventory", Boolean.class, false);
+	public static final String VAR_IN_INVENTORY = "in_inventory";
 
 	public BasicInventory() {
 		this.setId(ID);

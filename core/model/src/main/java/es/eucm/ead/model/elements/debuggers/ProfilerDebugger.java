@@ -52,14 +52,14 @@ import es.eucm.ead.model.params.fills.ColorFill;
 @Element
 public class ProfilerDebugger extends GroupElement {
 
-	private ElementField<?>[] fields = new ElementField<?>[] {
+	private ElementField[] fields = new ElementField[] {
 			SystemFields.DEBUG_GAME_OBJECTS, SystemFields.DEBUG_ASSETS };
 
 	public ProfilerDebugger() {
 		int y = 0;
 		int marginY = 40;
-		for (ElementField<?> f : fields) {
-			Label l = new Label(f.getVarDef().getName() + ": [0]   ");
+		for (ElementField f : fields) {
+			Label l = new Label(f.getVarDef() + ": [0]   ");
 			l.getCaption().setPadding(20);
 			l.getCaption().addOperation(f);
 			l.setPosition(10, y);

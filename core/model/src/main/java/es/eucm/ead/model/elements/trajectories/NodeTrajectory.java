@@ -41,9 +41,6 @@ import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.params.util.Rectangle;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 
 /**
  * 
@@ -56,17 +53,14 @@ public class NodeTrajectory extends Trajectory {
 	/**
 	 * Variable's definition for whether a barrier is on or not
 	 */
-	public static final EAdVarDef<Boolean> VAR_BARRIER_ON = new VarDef<Boolean>(
-			"barrierOn", Boolean.class, Boolean.FALSE);
+	public static final String VAR_BARRIER_ON = "barrierOn";
 
-	public static final EAdVarDef<Rectangle> VAR_INFLUENCE_AREA = new VarDef<Rectangle>(
-			"influence_area", Rectangle.class, null);
+	public static final String VAR_INFLUENCE_AREA = "influence_area";
 
 	/**
 	 * Variable for the current side
 	 */
-	public static final EAdVarDef<Side> VAR_CURRENT_SIDE = new VarDef<Side>(
-			"currentSide", Side.class, null);
+	public static final String VAR_CURRENT_SIDE = "currentSide";
 
 	@Param
 	private EAdList<Node> nodes;

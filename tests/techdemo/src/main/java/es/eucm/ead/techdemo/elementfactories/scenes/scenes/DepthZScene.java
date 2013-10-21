@@ -72,9 +72,9 @@ public class DepthZScene extends EmptyScene {
 		getSceneElements().add(e2);
 		e2.setId("BallZ");
 
-		ElementField<Float> xField = new ElementField<Float>(e2, VAR_X);
-		ElementField<Integer> zField = new ElementField<Integer>(e2, VAR_Z);
-		ElementField<Float> scaleField = new ElementField<Float>(e2, VAR_SCALE);
+		ElementField xField = new ElementField(e2, VAR_X);
+		ElementField zField = new ElementField(e2, VAR_Z);
+		ElementField scaleField = new ElementField(e2, VAR_SCALE);
 
 		ChangeFieldEf changeZ1 = new ChangeFieldEf(zField, new ValueOp(1));
 		ChangeFieldEf changeScale1 = new ChangeFieldEf(scaleField, new ValueOp(

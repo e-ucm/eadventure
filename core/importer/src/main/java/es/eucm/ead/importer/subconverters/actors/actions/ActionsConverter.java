@@ -54,7 +54,6 @@ import es.eucm.ead.model.elements.effects.ActorActionsEf;
 import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.guievents.MouseGEv;
@@ -67,6 +66,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -177,7 +177,7 @@ public class ActionsConverter {
 		definitions = new EAdList<SceneElementDef>();
 		// A map relating trigger macro effects with actions definitions. We need them
 		// to update the visibility condition
-		macros = new EAdMap<TriggerMacroEf, SceneElementDef>();
+		macros = new LinkedHashMap<TriggerMacroEf, SceneElementDef>();
 	}
 
 	/**
@@ -252,8 +252,8 @@ public class ActionsConverter {
 		// We add the effects to the macro and updates the visibility condition
 		visibility = addEffects(owner, a, triggerMacroEf, visibility);
 		// Update visibility
-		macros.get(triggerMacroEf).setVarInitialValue(
-				ActorActionsEf.VAR_ACTION_COND, visibility);
+		macros.get(triggerMacroEf).putProperty(ActorActionsEf.VAR_ACTION_COND,
+				visibility);
 
 		// We update the maps
 		if (a.getType() == Action.CUSTOM) {

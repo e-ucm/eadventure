@@ -283,10 +283,10 @@ public class ActionImporter implements
 		case Action.GRAB:
 			if (!isActiveArea) {
 
-				ElementField<SceneElement> sceneElement = new ElementField<SceneElement>(
+				ElementField sceneElement = new ElementField(
 						actor, SceneElementDef.VAR_SCENE_ELEMENT);
 
-				ElementField<Boolean> inInventory = new ElementField<Boolean>(
+				ElementField inInventory = new ElementField(
 						sceneElement, BasicInventory.VAR_IN_INVENTORY);
 
 				ModifyInventoryEf addToInventory = new ModifyInventoryEf(actor,
@@ -348,7 +348,7 @@ public class ActionImporter implements
 		}
 
 		// Effect
-		ElementField<EAdString> descField = new ElementField<EAdString>(actor,
+		ElementField descField = new ElementField(actor,
 				SceneElementDef.VAR_DOC_DETAILED_DESC);
 
 		SpeakEf effect = new SpeakEf(stringHandler.generateNewString());

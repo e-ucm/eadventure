@@ -168,7 +168,7 @@ public class BookImporter implements EAdElementImporter<Book, Scene> {
 	public Scene convert(Book oldObject, Object newElement) {
 		Scene book = (Scene) newElement;
 		ChangeFieldEf hideInventory = new ChangeFieldEf(
-				new ElementField<Boolean>(new BasicElement(InventoryHud.ID),
+				new ElementField(new BasicElement(InventoryHud.ID),
 						SceneElement.VAR_VISIBLE), EmptyCond.FALSE);
 		SceneElementEv hideEvent = new SceneElementEv();
 		hideEvent.addEffect(SceneElementEvType.ADDED, hideInventory);
@@ -182,7 +182,7 @@ public class BookImporter implements EAdElementImporter<Book, Scene> {
 		SceneElementDef.appearance, background);
 
 		ChangeFieldEf showInventory = new ChangeFieldEf(
-				new ElementField<Boolean>(new BasicElement(InventoryHud.ID),
+				new ElementField(new BasicElement(InventoryHud.ID),
 						SceneElement.VAR_VISIBLE), EmptyCond.TRUE);
 
 		EAdDrawable image = null;
@@ -197,7 +197,7 @@ public class BookImporter implements EAdElementImporter<Book, Scene> {
 
 		SceneElement content = new SceneElement(image);
 
-		ElementField<Float> xField = new ElementField<Float>(content,
+		ElementField xField = new ElementField(content,
 				SceneElement.VAR_X);
 		// Event to restart the x variable
 		SceneElementEv xEvent = new SceneElementEv();
@@ -214,7 +214,7 @@ public class BookImporter implements EAdElementImporter<Book, Scene> {
 	}
 
 	private void addArrowsParagraphs(GroupElement book, SceneElement content,
-			Book oldObject, ElementField<Float> xField, Effect showInventory) {
+			Book oldObject, ElementField xField, Effect showInventory) {
 		content.setPosition(Corner.TOP_LEFT, 0, 0);
 
 		SceneElementEv event = new SceneElementEv();
@@ -384,10 +384,10 @@ public class BookImporter implements EAdElementImporter<Book, Scene> {
 		SceneElement arrow = new SceneElement();
 		this.addAppearance(book, arrow, resourceNormal, resourceOver);
 
-		ElementField<Float> xVar = new ElementField<Float>(content,
+		ElementField xVar = new ElementField(content,
 				SceneElement.VAR_X);
 
-		ElementField<Boolean> visibleVar = new ElementField<Boolean>(arrow,
+		ElementField visibleVar = new ElementField(arrow,
 				SceneElement.VAR_VISIBLE);
 		InterpolationEf move = new InterpolationEf(xVar, 0, expression, 500,
 				InterpolationLoopType.NO_LOOP, InterpolationType.DESACCELERATE);

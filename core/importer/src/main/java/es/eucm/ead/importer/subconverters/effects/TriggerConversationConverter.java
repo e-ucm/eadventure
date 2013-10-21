@@ -67,7 +67,7 @@ public class TriggerConversationConverter implements
 
 		Effect root = modelQuerier.getConversation(e.getTargetId());
 
-		ElementField<Boolean> inConversation = new ElementField<Boolean>(root,
+		ElementField inConversation = new ElementField(root,
 				ConversationsConverter.IN_CONVERSATION);
 
 		ChangeFieldEf startConversation = new ChangeFieldEf(inConversation,

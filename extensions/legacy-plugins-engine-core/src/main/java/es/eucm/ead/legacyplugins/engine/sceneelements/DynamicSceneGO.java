@@ -41,7 +41,7 @@ public class DynamicSceneGO extends SceneGO {
 				LegacyVars.FIRST_PERSON, false);
 		sceneWidth = element.getProperty(LegacyVars.SCENE_WIDTH, 800);
 		adjust = sceneWidth > 800;
-		gameWidth = gameState.getValue(SystemFields.GAME_WIDTH);
+		gameWidth = gameState.getValue(SystemFields.GAME_WIDTH, 800);
 	}
 
 	public void act(float delta) {
@@ -49,7 +49,7 @@ public class DynamicSceneGO extends SceneGO {
 		if (adjust) {
 			if (firstPerson) {
 				// [GE - Arrows]
-				float x = gameState.getValue(SystemFields.MOUSE_X);
+				float x = gameState.getValue(SystemFields.MOUSE_X, 0f);
 				float deltaX = delta * 0.5f;
 				if (x < sceneWidth * 0.1f && this.getX() < 0) {
 					this.setX(Math.min(0, this.getRelativeX() + deltaX));
@@ -61,8 +61,8 @@ public class DynamicSceneGO extends SceneGO {
 				}
 			} else {
 				// [GE - Follow]
-				SceneElement s = gameState
-						.getValue(SystemFields.ACTIVE_ELEMENT);
+				SceneElement s = gameState.getValue(
+						SystemFields.ACTIVE_ELEMENT, (SceneElement) null);
 				SceneElementGO active = gui.getSceneElement(s);
 				this.setX(-Math.max(Math.min(sceneWidth - gameWidth,
 						(int) active.getX() - gameWidth / 2), 0));

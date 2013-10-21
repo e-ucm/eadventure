@@ -45,7 +45,6 @@ import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Evented;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.interfaces.features.Variabled;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 
 /**
  * The eAdventure game model.
@@ -70,7 +69,7 @@ public class AdventureGame extends BasicElement implements Variabled, Evented {
 	private Chapter initialChapter;
 
 	@Param
-	private EAdMap<EAdVarDef<?>, Object> vars;
+	private EAdMap<Object> vars;
 
 	@Param
 	/**
@@ -89,7 +88,7 @@ public class AdventureGame extends BasicElement implements Variabled, Evented {
 	 */
 	public AdventureGame() {
 		chapters = new EAdList<Chapter>();
-		vars = new EAdMap<EAdVarDef<?>, Object>();
+		vars = new EAdMap<Object>();
 		events = new EAdList<Event>();
 		identified = new EAdList<Identified>();
 	}
@@ -104,29 +103,26 @@ public class AdventureGame extends BasicElement implements Variabled, Evented {
 	}
 
 	@Override
-	public EAdMap<EAdVarDef<?>, Object> getVars() {
+	public EAdMap<Object> getVars() {
 		return vars;
 	}
 
 	@Override
-	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
-		vars.put(var, value);
+	public void setVar(String varName, Object value) {
+		vars.put(varName, value);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getVarInitialValue(EAdVarDef<T> var) {
-		if (vars.containsKey(var)) {
-			return (T) vars.get(var);
-		}
-		return var.getInitialValue();
+	public <T> T getVar(String varName, T defaultValue) {
+		return (T) (vars.containsKey(varName) ? vars.get(varName)
+				: defaultValue);
 	}
 
 	public void setChapters(EAdList<Chapter> chapters) {
 		this.chapters = chapters;
 	}
 
-	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
+	public void setVars(EAdMap<Object> vars) {
 		this.vars = vars;
 	}
 

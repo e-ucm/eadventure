@@ -41,13 +41,15 @@ import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.enums.InterpolationLoopType;
 import es.eucm.ead.model.elements.effects.enums.InterpolationType;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.*;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.MathOp;
+import es.eucm.ead.model.elements.operations.Operation;
+import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 
 /**
- * Effect that performs an interpolation between two values in an {@link EAdVar}
+ * Effect that performs an interpolation between two values
  * 
  * 
  */
@@ -56,7 +58,7 @@ import es.eucm.ead.model.params.variables.EAdVarDef;
 public class InterpolationEf extends Effect {
 
 	@Param
-	private EAdList<ElementField<?>> fields;
+	private EAdList<ElementField> fields;
 
 	@Param
 	private EAdList<Operation> initialValues;
@@ -83,8 +85,6 @@ public class InterpolationEf extends Effect {
 	private boolean relative;
 
 	/**
-	 * @param elementField
-	 *            field containing the element holding the variable
 	 * @param element
 	 *            the element holding the variable
 	 * @param varDef
@@ -105,7 +105,7 @@ public class InterpolationEf extends Effect {
 	 * @param interpolationType
 	 *            the interpolation type
 	 */
-	public InterpolationEf(BasicElement element, EAdVarDef<?> varDef,
+	public InterpolationEf(BasicElement element, String varDef,
 			Operation initialValue, Operation endValue, int interpolationTime,
 			int delay, InterpolationLoopType loopType, int loops,
 			InterpolationType interpolationType) {
@@ -122,7 +122,7 @@ public class InterpolationEf extends Effect {
 
 	public InterpolationEf() {
 		super();
-		fields = new EAdList<ElementField<?>>();
+		fields = new EAdList<ElementField>();
 		initialValues = new EAdList<Operation>();
 		endValues = new EAdList<Operation>();
 		delay = 0;
@@ -132,7 +132,7 @@ public class InterpolationEf extends Effect {
 		interpolationType = InterpolationType.LINEAR;
 	}
 
-	public InterpolationEf(BasicElement element, EAdVarDef<?> varDef,
+	public InterpolationEf(BasicElement element, String varDef,
 			Number initialValue, Number endValue, int interpolationTime,
 			int delay, InterpolationLoopType loopType, int loops,
 			InterpolationType interpolationType) {
@@ -141,55 +141,55 @@ public class InterpolationEf extends Effect {
 				interpolationType);
 	}
 
-	public InterpolationEf(BasicElement element, EAdVarDef<?> varDef,
+	public InterpolationEf(BasicElement element, String varDef,
 			Number initialValue, Number endValue, int interpolationTime) {
 		this(element, varDef, new MathOp(initialValue + ""), new MathOp(
 				endValue + ""), interpolationTime, 0,
 				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
 	}
 
-	public InterpolationEf(ElementField<?> field, Operation target,
+	public InterpolationEf(ElementField field, Operation target,
 			int interpolationTime) {
 		this(field.getElement(), field.getVarDef(), new ValueOp(0), target,
 				interpolationTime, 0, InterpolationLoopType.NO_LOOP, 0,
 				InterpolationType.LINEAR);
 	}
 
-	public InterpolationEf(ElementField<?> field, float startValue,
+	public InterpolationEf(ElementField field, float startValue,
 			float endValue, int time) {
 		this(field, startValue, endValue, time, InterpolationLoopType.NO_LOOP,
 				InterpolationType.LINEAR);
 	}
 
-	public InterpolationEf(ElementField<?> field, float startValue,
+	public InterpolationEf(ElementField field, float startValue,
 			float endValue, int time, InterpolationLoopType loopType,
 			InterpolationType interpolationType) {
 		this(field.getElement(), field.getVarDef(), startValue, endValue, time,
 				0, loopType, -1, interpolationType);
 	}
 
-	public InterpolationEf(ElementField<?> field, float start, float endValue,
+	public InterpolationEf(ElementField field, float start, float endValue,
 			int time, InterpolationLoopType loopType) {
 		this(field, start, endValue, time, loopType, InterpolationType.LINEAR);
 	}
 
-	public InterpolationEf(ElementField<?> field, int start, int end,
+	public InterpolationEf(ElementField field, int start, int end,
 			int timeToFinish, InterpolationLoopType loopType) {
 		this(field, (float) start, (float) end, timeToFinish, loopType);
 	}
 
-	public InterpolationEf(ElementField<Integer> field, MathOp start,
-			MathOp end, int time, InterpolationLoopType loopType,
+	public InterpolationEf(ElementField field, MathOp start, MathOp end,
+			int time, InterpolationLoopType loopType,
 			InterpolationType interpolation) {
 		this(field.getElement(), field.getVarDef(), start, end, time, 0,
 				loopType, -1, interpolation);
 	}
 
-	public void setFields(EAdList<ElementField<?>> fields) {
+	public void setFields(EAdList<ElementField> fields) {
 		this.fields = fields;
 	}
 
-	public EAdList<ElementField<?>> getFields() {
+	public EAdList<ElementField> getFields() {
 		return fields;
 	}
 
@@ -241,11 +241,11 @@ public class InterpolationEf extends Effect {
 		this.relative = relative;
 	}
 
-	public void addField(ElementField<?> field, Operation target) {
+	public void addField(ElementField field, Operation target) {
 		addField(field, new ValueOp(0), target);
 	}
 
-	public void addField(ElementField<?> field, Operation initialValue,
+	public void addField(ElementField field, Operation initialValue,
 			Operation target) {
 		fields.add(field);
 		initialValues.add(initialValue);

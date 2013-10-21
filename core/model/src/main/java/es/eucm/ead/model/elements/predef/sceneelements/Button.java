@@ -63,7 +63,7 @@ public class Button extends GroupElement {
 
 		SceneElement text = new SceneElement(caption);
 		text.setPosition(Corner.CENTER, 100, 15);
-		text.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
+		text.setVar(SceneElement.VAR_ENABLE, Boolean.FALSE);
 
 		createButton();
 		getSceneElements().add(text);
@@ -77,10 +77,8 @@ public class Button extends GroupElement {
 		RectangleShape buttonBgOver = new RectangleShape(200, 30);
 		buttonBgOver.setPaint(new Paint(new LinearGradientFill(lightGray,
 				ColorFill.WHITE, 0, 20), ColorFill.BLACK));
-
-		definition.addAsset(SceneElementDef.appearance, buttonBgNormal);
-		definition.addAsset(SceneElementDef.overAppearance, buttonBgOver);
-
+		SceneElementDef def = new SceneElementDef(buttonBgNormal, buttonBgOver);
+		this.setDefinition(def);
 		setPosition(Corner.CENTER, 0, 0);
 	}
 
