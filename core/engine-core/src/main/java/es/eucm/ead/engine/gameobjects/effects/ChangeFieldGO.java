@@ -63,7 +63,8 @@ public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 		Operation operation = effect.getOperation();
 
 		if (owner != null && varName != null && operation != null) {
-			game.getGameState().setValue(owner, varName, operation);
+			game.getGameState().setValue(owner, varName,
+					game.getGameState().operate(operation));
 		} else {
 			logger
 					.debug(

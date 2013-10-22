@@ -172,7 +172,7 @@ public class SceneConverter {
 	public void addAppearance(Scene scene,
 			es.eucm.eadventure.common.data.chapter.scenes.Scene s) {
 		// Appearance tab
-		SceneElement background = (SceneElement) scene.getBackground();
+		SceneElement background = scene.getBackground();
 		// The foreground is only initialized if needed
 		SceneElement foreground = null;
 		// Resources blocks

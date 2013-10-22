@@ -45,7 +45,7 @@ import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 
 /**
- * Effect to change a field from an {@link es.eucm.ead.model.interfaces.features.Variabled} element during runtime
+ * Effect to change a field from an element during runtime
  */
 @Element
 public class ChangeFieldEf extends Effect {

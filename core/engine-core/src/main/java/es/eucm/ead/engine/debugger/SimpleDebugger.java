@@ -182,6 +182,7 @@ public class SimpleDebugger extends Group {
 		} else {
 			interpreter.setText(history.get(historyPointer));
 		}
+		interpreter.setCursorPosition(interpreter.getText().length());
 	}
 
 	private void nextCommand() {

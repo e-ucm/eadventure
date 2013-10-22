@@ -1,6 +1,5 @@
 package es.eucm.ead.techdemo.desktop;
 
-import com.badlogic.gdx.utils.Array;
 import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.engine.tracking.gleaner.GleanerGameTracker;
@@ -17,7 +16,6 @@ import es.eucm.gleaner.tracker.Tracker;
 public class TechDemoMain {
 
 	public static void main(String[] args) {
-		Array a;
 		DesktopGame g = new DesktopGame();
 		g.setDebug(true);
 		g.setBind(GameTracker.class, GleanerGameTracker.class);

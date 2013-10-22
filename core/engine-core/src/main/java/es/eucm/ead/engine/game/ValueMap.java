@@ -115,8 +115,9 @@ public class ValueMap implements TweenAccessor<ElementField> {
 	}
 
 	public <S> S getValue(Identified element, String varName, S defaultValue) {
-		return getValue(element == null ? null : maybeDecodeField(element)
-				.getId(), varName, defaultValue);
+		element = maybeDecodeField(element);
+		return getValue(element == null ? null : element.getId(), varName,
+				defaultValue);
 	}
 
 	/**

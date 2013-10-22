@@ -61,6 +61,7 @@ import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
 import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.elements.ResourcedElement;
 import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.extra.EAdList;
@@ -143,11 +144,6 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	 * Current z
 	 */
 	private int z;
-
-	/**
-	 * Global scale
-	 */
-	protected float scale;
 
 	/**
 	 * Element orientation
@@ -281,7 +277,6 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 		mouseOver = false;
 		reorder = false;
 		runtimeDrawable = null;
-		scale = 1.0f;
 		state = null;
 		timeDisplayed = 0;
 		this.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -303,9 +298,7 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	 */
 	protected void setVars() {
 
-		boolean enable = element.getProperty(SceneElement.VAR_ENABLE, true);
-		this.setTouchable(enable ? Touchable.enabled : Touchable.disabled);
-
+		setEnabled(element.getProperty(SceneElement.VAR_ENABLE, true));
 		orientation = element.getProperty(SceneElement.VAR_ORIENTATION,
 				Orientation.S);
 		state = element.getProperty(SceneElement.VAR_STATE, "default");
@@ -314,25 +307,42 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 		// Transformation
 		setVisible(element.getProperty(SceneElement.VAR_VISIBLE, true));
 		setRotation(element.getProperty(SceneElement.VAR_ROTATION, 0f));
-		setScale(element.getProperty(SceneElement.VAR_SCALE, 1f));
+
 		setScaleX(element.getProperty(SceneElement.VAR_SCALE_X, 1f));
 		setScaleY(element.getProperty(SceneElement.VAR_SCALE_Y, 1f));
+		// Scale value overwrites scale_x and scale_y
+		setScale(element.getProperty(SceneElement.VAR_SCALE, 1f));
+
 		setAlpha(element.getProperty(SceneElement.VAR_ALPHA, 1f));
 
-		statesList.clear();
-		statesList.add(state);
-		statesList.add(orientation.toString());
-
+		String definitionBundle = element.getDefinition() == null ? null
+				: element.getDefinition().getProperty(
+						SceneElement.VAR_BUNDLE_ID,
+						ResourcedElement.INITIAL_BUNDLE);
+		/*if ( definitionBundle != null ){
+			gameState.addFieldWatcher(this, element.getDefinition());
+		}*/
+		currentBundle = element.getProperty(SceneElement.VAR_BUNDLE_ID,
+				definitionBundle == null ? ResourcedElement.INITIAL_BUNDLE
+						: definitionBundle);
 		updateBundle();
 
-		setX(element.getProperty(SceneElement.VAR_X, 0f));
-		setY(element.getProperty(SceneElement.VAR_Y, 0f));
+		// This order is important
 		setDispX(element.getProperty(SceneElement.VAR_DISP_X, 0f));
 		setDispY(element.getProperty(SceneElement.VAR_DISP_Y, 0f));
+		setX(element.getProperty(SceneElement.VAR_X, 0f));
+		setY(element.getProperty(SceneElement.VAR_Y, 0f));
 
 	}
 
+	protected void updateStateList() {
+		statesList.clear();
+		statesList.add(state);
+		statesList.add(orientation.toString());
+	}
+
 	private void updateBundle() {
+		updateStateList();
 		if (element.getDefinition() != null) {
 			AssetDescriptor a = element.getDefinition().getAsset(
 					currentBundle,
@@ -406,7 +416,6 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	public void setRotation(float rotation) {
 		super.setRotation(rotation);
-		gameState.setValue(getElement(), SceneElement.VAR_ROTATION, rotation);
 		updateRelatives = true;
 	}
 
@@ -418,7 +427,6 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	public void setX(float x) {
 		updateRelatives = true;
 		super.setX(x - this.getOriginX());
-		gameState.setValue(getElement(), SceneElement.VAR_X, x);
 	}
 
 	private void updateRelatives() {
@@ -466,19 +474,16 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	public void setY(float y) {
 		updateRelatives = true;
 		super.setY(y - this.getOriginY());
-		gameState.setValue(getElement(), SceneElement.VAR_Y, y);
 	}
 
 	public void setDispX(float dispX) {
 		this.dispX = dispX;
 		setOriginX(getWidth() * dispX);
-		gameState.setValue(getElement(), SceneElement.VAR_DISP_X, dispX);
 	}
 
 	public void setDispY(float dispY) {
 		this.dispY = dispY;
 		setOriginY(getHeight() * dispY);
-		gameState.setValue(getElement(), SceneElement.VAR_DISP_Y, dispY);
 	}
 
 	/**
@@ -511,7 +516,6 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	 */
 	public void setZ(int z) {
 		if (this.z != z) {
-			gameState.setValue(element, SceneElement.VAR_Z, z);
 			this.z = z;
 			if (getParent() != null) {
 				((SceneElementGO) getParent()).invalidateOrder();
@@ -525,18 +529,7 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	 * @param scale the scale
 	 */
 	public void setScale(float scale) {
-		if (scale != this.scale) {
-			this.scale = scale;
-			updateRelatives = true;
-			gameState.setValue(element, SceneElement.VAR_SCALE, scale);
-		}
-	}
-
-	/**
-	 * @return Returns the current scale of the element
-	 */
-	public float getScale() {
-		return scale;
+		this.setScale(scale, scale);
 	}
 
 	/**
@@ -545,8 +538,11 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	public void setAlpha(float alpha) {
 		if (alpha != this.getColor().a) {
 			getColor().a = alpha;
-			gameState.setValue(element, SceneElement.VAR_ALPHA, alpha);
 		}
+	}
+
+	public float getAlpha() {
+		return getColor().a;
 	}
 
 	/**
@@ -581,13 +577,16 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	 */
 	public void setState(String state) {
 		this.state = state;
-		gameState.setValue(getElement(), SceneElement.VAR_STATE, state);
+		updateCurrentDawable();
+	}
+
+	public String getState() {
+		return state;
 	}
 
 	public void setVisible(boolean visible) {
 		if (visible != this.isVisible()) {
 			super.setVisible(visible);
-			gameState.setValue(getElement(), SceneElement.VAR_VISIBLE, visible);
 		}
 	}
 
@@ -614,8 +613,7 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	@Override
 	public void setOrientation(Orientation orientation) {
 		this.orientation = orientation;
-		gameState.setValue(getElement(), SceneElement.VAR_ORIENTATION,
-				orientation);
+		updateCurrentDawable();
 	}
 
 	public void addSceneElement(SceneElementGO e) {
@@ -697,16 +695,12 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 			updateRelatives();
 		}
 
-		if (this.isVisible()) {
-			gameState.setValue(element.getDefinition(),
-					SceneElementDef.VAR_SCENE_ELEMENT, element);
-		}
-
 		super.act(delta);
 
 	}
 
 	protected void updateCurrentDawable() {
+		updateStateList();
 		if (runtimeDrawable != null) {
 			currentDrawable = runtimeDrawable.getDrawable(timeDisplayed,
 					statesList, 0);
@@ -1123,7 +1117,6 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 		updateRelatives = true;
 		super.setHeight(height);
 		setOriginY(height * dispY);
-		gameState.setValue(element, SceneElement.VAR_HEIGHT, (int) height);
 	}
 
 	public void setMouseOver(boolean mouseOver) {
@@ -1131,16 +1124,8 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 		updateBundle();
 	}
 
-	public void setScaleX(float scaleX) {
-		updateRelatives = true;
-		super.setScaleX(scaleX * scale);
-		gameState.setValue(getElement(), SceneElement.VAR_SCALE_X, scaleX);
-	}
-
-	public void setScaleY(float scaleY) {
-		updateRelatives = true;
-		super.setScaleY(scaleY * scale);
-		gameState.setValue(getElement(), SceneElement.VAR_SCALE_Y, scaleY);
+	public void setEnabled(boolean enabled) {
+		this.setTouchable(enabled ? Touchable.enabled : Touchable.disabled);
 	}
 
 	public void free() {
@@ -1167,11 +1152,94 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	@Override
 	public <T> T getField(String elementId, String varName, T defaultvalue) {
-		return null; //To change body of implemented methods use File | Settings | File Templates.
+		T result = null;
+		if (varName.equals(SceneElement.VAR_X)) {
+			result = (T) (Float) this.getX();
+		} else if (varName.equals(SceneElement.VAR_Y)) {
+			result = (T) (Float) this.getY();
+		} else if (varName.equals(SceneElement.VAR_DISP_Y)) {
+			result = (T) (Float) this.getDispY();
+		} else if (varName.equals(SceneElement.VAR_DISP_X)) {
+			result = (T) (Float) this.getDispX();
+		} else if (varName.equals(SceneElement.VAR_ENABLE)) {
+			result = (T) (Boolean) this.isEnabled();
+		} else if (varName.equals(SceneElement.VAR_VISIBLE)) {
+			result = (T) (Boolean) this.isVisible();
+		} else if (varName.equals(SceneElement.VAR_ALPHA)) {
+			result = (T) (Float) this.getAlpha();
+		} else if (varName.equals(SceneElement.VAR_ROTATION)) {
+			result = (T) (Float) this.getRotation();
+		} else if (varName.equals(SceneElement.VAR_STATE)) {
+			result = (T) this.getState();
+		} else if (varName.equals(SceneElement.VAR_BUNDLE_ID)) {
+			result = (T) this.currentBundle;
+		} else if (varName.equals(SceneElement.VAR_ORIENTATION)) {
+			result = (T) this.getOrientation();
+		} else if (varName.equals(SceneElement.VAR_SCALE)) {
+			result = (T) (Float) this.getScaleX();
+		} else if (varName.equals(SceneElement.VAR_SCALE_X)) {
+			result = (T) (Float) this.getScaleX();
+		} else if (varName.equals(SceneElement.VAR_SCALE_Y)) {
+			result = (T) (Float) this.getScaleY();
+		} else if (varName.equals(SceneElement.VAR_Z)) {
+			result = (T) (Integer) this.getZ();
+		}
+		return result;
 	}
 
 	@Override
 	public <T> boolean setField(String elementId, String varName, T value) {
-		return false; //To change body of implemented methods use File | Settings | File Templates.
+		if (varName.equals(SceneElement.VAR_X)) {
+			this.setX((Float) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_Y)) {
+			this.setY((Float) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_DISP_Y)) {
+			this.setDispY((Float) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_DISP_X)) {
+			this.setDispX((Float) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_ENABLE)) {
+			this.setEnabled((Boolean) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_VISIBLE)) {
+			this.setVisible((Boolean) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_ALPHA)) {
+			this.setAlpha((Float) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_ROTATION)) {
+			this.setRotation((Float) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_STATE)) {
+			this.setState((String) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_BUNDLE_ID)) {
+			this.currentBundle = (String) value;
+			updateBundle();
+			return true;
+		} else if (varName.equals(SceneElement.VAR_ORIENTATION)) {
+			this.setOrientation((Orientation) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_SCALE)) {
+			this.setScale((Float) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_SCALE_X)) {
+			this.setScaleX((Float) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_SCALE_Y)) {
+			this.setScaleY((Float) value);
+			return true;
+		} else if (varName.equals(SceneElement.VAR_Z)) {
+			this.setZ((Integer) value);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isEnabled() {
+		return this.getTouchable() == Touchable.enabled;
 	}
 }

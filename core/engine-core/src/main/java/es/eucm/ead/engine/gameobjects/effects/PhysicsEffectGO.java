@@ -38,8 +38,14 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.Game;
@@ -48,7 +54,6 @@ import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.model.elements.effects.enums.PhShape;
 import es.eucm.ead.model.elements.effects.enums.PhType;
 import es.eucm.ead.model.elements.effects.physics.PhysicsEf;
-import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 
@@ -117,8 +122,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEf> {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		timeStep = game.getGameState().getValue(
-				SystemFields.ELAPSED_TIME_PER_UPDATE, 0) / 1000.0f;
+		timeStep = delta / 1000.0f;
 		world.step(timeStep, velocityIterations, positionIterations);
 
 		Scene scene = (Scene) gui.getScene().getElement();

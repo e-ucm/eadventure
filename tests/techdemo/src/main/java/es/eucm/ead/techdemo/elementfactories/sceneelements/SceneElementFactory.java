@@ -59,7 +59,6 @@ public class SceneElementFactory {
 	public SceneElement createSceneElement(EAdDrawable appearance, int x, int y) {
 		SceneElement sceneElement = new SceneElement(appearance);
 		sceneElement.setPosition(new Position(x, y));
-		sceneElement.setDefinition(new SceneElementDef());
 		return sceneElement;
 	}
 

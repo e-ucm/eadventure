@@ -324,7 +324,7 @@ public class ModelQuerier {
 	public ElementField getFlag(String id) {
 		ElementField field = flagFields.get(id);
 		if (field == null) {
-			field = new ElementField(currentChapter, id);
+			field = new ElementField(currentChapter, id, false);
 			currentChapter.putProperty(id, false);
 			flagFields.put(id, field);
 		}
@@ -334,7 +334,7 @@ public class ModelQuerier {
 	public ElementField getVariable(String id) {
 		ElementField field = variableFields.get(id);
 		if (field == null) {
-			field = new ElementField(currentChapter, id);
+			field = new ElementField(currentChapter, id, 0);
 			currentChapter.putProperty(id, 0);
 			variableFields.put(id, field);
 		}

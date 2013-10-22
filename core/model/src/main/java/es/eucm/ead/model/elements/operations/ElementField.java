@@ -62,6 +62,13 @@ public class ElementField extends Operation {
 		this.varName = varName;
 	}
 
+	public ElementField(BasicElement element, String varName,
+			Object defaultValue) {
+		this.element = element;
+		this.varName = varName;
+		this.defaultValue = defaultValue;
+	}
+
 	/**
 	 * Returns the element holding the field. If the element is {@code null}
 	 * should be considered as a system variable. Can be another

@@ -44,7 +44,6 @@ import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.trajectories.AbstractTrajectoryGO;
 import es.eucm.ead.model.elements.enums.CommonStates;
-import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
 import es.eucm.ead.model.interfaces.features.enums.Orientation;
@@ -129,8 +128,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 	@Override
 	public void act(float delta) {
 		movingElement = sceneElementFactory.get(sceneElement);
-		currentTime += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
-				0);
+		currentTime += delta;
 		if (!finished) {
 			if (firstUpdate) {
 				firstUpdate = false;

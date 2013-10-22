@@ -73,7 +73,6 @@ public class InitScene extends EmptyScene {
 	private EAdFont font = BasicFont.REGULAR;
 
 	private Paint speakPaint = new Paint(fill, ColorFill.LIGHT_GRAY, 5);
-	private Scene[] scenes;
 
 	public InitScene() {
 		this.setId("InitScene");

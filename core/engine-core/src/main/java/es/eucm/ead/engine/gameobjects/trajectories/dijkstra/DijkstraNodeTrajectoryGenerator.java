@@ -448,8 +448,8 @@ public class DijkstraNodeTrajectoryGenerator {
 				while (i < intersections.size() - 1) {
 					List<DijkstraNode> newIntersections = getIntersections(
 							intersections.get(i), intersections.get(i + 1),
-							(int) (go.getWidth() * go.getScale()), (int) (go
-									.getHeight() * go.getScale()), position);
+							(int) (go.getWidth() * go.getScaleX()), (int) (go
+									.getHeight() * go.getScaleY()), position);
 					for (DijkstraNode newNode : newIntersections)
 						newNode.setBreakNode(true);
 					intersections.addAll(i + 1, newIntersections);

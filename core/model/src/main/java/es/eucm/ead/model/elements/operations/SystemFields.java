@@ -78,9 +78,6 @@ public class SystemFields {
 	public static final ElementField ACTIVE_ELEMENT = new ElementField(null,
 			"active_element");
 
-	public static final ElementField ELAPSED_TIME_PER_UPDATE = new ElementField(
-			null, "elapsed_time_per_update");
-
 	public static ElementField LANGUAGE = new ElementField(null, "language");
 
 	public static ElementField LANGUAGES = new ElementField(null, "languages");

@@ -151,7 +151,8 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 	 *         If not, returns {@code null}
 	 */
 	public EAdList<Effect> getEffects(EAdGUIEvent event) {
-		return behavior == null ? null : behavior.get(event.toString());
+		return behavior == null || event == null ? null : behavior.get(event
+				.toString());
 	}
 
 	/**

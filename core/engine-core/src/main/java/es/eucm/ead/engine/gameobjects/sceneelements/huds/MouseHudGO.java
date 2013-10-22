@@ -50,7 +50,13 @@ import es.eucm.ead.model.elements.scenes.SceneElement;
 
 public class MouseHudGO extends SceneGO {
 
+	public static final float DIFF = 0.001f;
+
 	private SceneElementGO mouse;
+
+	private float currentX;
+
+	private float currentY;
 
 	@Inject
 	public MouseHudGO(AssetHandler assetHandler,
@@ -66,8 +72,16 @@ public class MouseHudGO extends SceneGO {
 
 	public void act(float delta) {
 		super.act(delta);
-		mouse.setX(gameState.getValue(SystemFields.MOUSE_X, 0.0f));
-		mouse.setY(gameState.getValue(SystemFields.MOUSE_Y, 0.0f));
+		float newX = gameState.getValue(SystemFields.MOUSE_X, 0.0f);
+		float newY = gameState.getValue(SystemFields.MOUSE_Y, 0.0f);
+		if (Math.abs(newX - currentX) > DIFF) {
+			mouse.setX(newX);
+			currentX = newX;
+		}
+		if (Math.abs(newY - currentY) > DIFF) {
+			mouse.setY(newY);
+			currentY = newY;
+		}
 	}
 
 }
