@@ -113,11 +113,11 @@ public class PhysicsScene extends EmptyScene {
 
 		SceneElement wall = new SceneElement(groundS);
 		wall.setPosition(new Position(Corner.CENTER, 775, 300));
-		wall.setVar(VAR_ROTATION, 90.0f);
+		wall.putProperty(VAR_ROTATION, 90.0f);
 
 		SceneElement wall2 = new SceneElement(groundS);
 		wall2.setPosition(new Position(Corner.CENTER, 25, 300));
-		wall2.setVar(VAR_ROTATION, 90.0f);
+		wall2.putProperty(VAR_ROTATION, 90.0f);
 
 		effect.addSceneElement(ground);
 		getSceneElements().add(ground);
@@ -223,8 +223,8 @@ public class PhysicsScene extends EmptyScene {
 				new LinearGradientFill(ColorFill.YELLOW, ColorFill.LIGHT_BROWN,
 						150, 10)));
 		rope.setPosition(new Position(Corner.CENTER, 450, 50));
-		rope.setVar(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
-		rope.setVar(PhysicsEf.VAR_PH_FRICTION, 0.7f);
+		rope.putProperty(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
+		rope.putProperty(PhysicsEf.VAR_PH_FRICTION, 0.7f);
 		getSceneElements().add(rope);
 		getSceneElements().add(holder);
 

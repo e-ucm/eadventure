@@ -78,8 +78,8 @@ public class ShapeScene extends EmptyScene {
 		SceneElement e = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(rectangleAsset1,
 						rectangleAsset2, x + 20, margin);
-		e.setVar(SceneElement.VAR_SCALE, 0.5f);
-		e.setVar(SceneElement.VAR_ROTATION, 10.0f);
+		e.putProperty(SceneElement.VAR_SCALE, 0.5f);
+		e.putProperty(SceneElement.VAR_ROTATION, 10.0f);
 		getSceneElements().add(e);
 		x += margin + size;
 

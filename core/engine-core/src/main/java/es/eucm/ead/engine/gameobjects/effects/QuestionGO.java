@@ -149,7 +149,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 			SceneElement questionElement = new SceneElement(caption);
 			questionElement.setPosition(10, y);
 
-			questionElement.setVar(SceneElement.VAR_ALPHA, 0.0f);
+			questionElement.putProperty(SceneElement.VAR_ALPHA, 0.0f);
 			root.getSceneElements().add(questionElement);
 			SceneElementEv event = new SceneElementEv();
 

@@ -68,9 +68,9 @@ public class CheckBox extends GroupElement {
 	}
 
 	public CheckBox(boolean checked, String stringId, EAdFont font) {
-		setVar(CHECKED, checked);
-		setVar(CHECKED_INT, checked ? 1 : 0);
-		setVar(SceneElement.VAR_BUNDLE_ID, (checked ? CHECKED_BUNDLE
+		putProperty(CHECKED, checked);
+		putProperty(CHECKED_INT, checked ? 1 : 0);
+		putProperty(SceneElement.VAR_BUNDLE_ID, (checked ? CHECKED_BUNDLE
 				: SceneElementDef.INITIAL_BUNDLE));
 		setAppearance(new Image("@drawable/checkboxoff.png"));
 		setAppearance(CHECKED_BUNDLE, new Image("@drawable/checkboxon.png"));

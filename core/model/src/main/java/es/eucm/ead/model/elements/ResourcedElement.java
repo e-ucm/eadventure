@@ -43,8 +43,7 @@ import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.elements.extra.EAdMap;
 
 /**
- * Abstract {@link EAdElement} implementation, with resources
- * and events
+ * Abstract {@link BasicElement} implementation, with resources
  */
 public abstract class ResourcedElement extends AbstractElementWithBehavior
 		implements Resourced {

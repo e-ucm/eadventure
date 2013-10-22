@@ -63,7 +63,7 @@ public class Button extends GroupElement {
 
 		SceneElement text = new SceneElement(caption);
 		text.setPosition(Corner.CENTER, 100, 15);
-		text.setVar(SceneElement.VAR_ENABLE, Boolean.FALSE);
+		text.putProperty(SceneElement.VAR_ENABLE, Boolean.FALSE);
 
 		createButton();
 		getSceneElements().add(text);

@@ -72,19 +72,19 @@ public class DragDropScene extends EmptyScene {
 		SceneElement e1 = new SceneElement(def);
 		e1.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new DragEf());
 		e1.setPosition(new Position(Corner.CENTER, 600, 300));
-		e1.setVar(SceneElement.VAR_Z, 0);
+		e1.putProperty(SceneElement.VAR_Z, 0);
 
 		SceneElement e4 = new SceneElement(def);
 		e4.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new DragEf());
 		e4.setPosition(new Position(Corner.TOP_LEFT, 20, 20));
 		e4.setInitialScale(0.5f);
-		e4.setVar(SceneElement.VAR_Z, 1);
+		e4.putProperty(SceneElement.VAR_Z, 1);
 
 		SceneElement e5 = new SceneElement(def);
 		e5.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new DragEf());
 		e5.setPosition(new Position(Corner.TOP_RIGHT, 500, 10));
 		e5.setInitialScale(1.5f);
-		e5.setVar(SceneElement.VAR_Z, 2);
+		e5.putProperty(SceneElement.VAR_Z, 2);
 
 		// addComplexElement( );
 

@@ -240,9 +240,9 @@ public class NgRoom2 extends EmptyScene {
 						spotX + i * 20 + desp, spotY + j * 20));
 				getSceneElements().add(e);
 				effect.addSceneElement(e);
-				e.setVar(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
-				e.setVar(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
-				e.setVar(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
+				e.putProperty(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
+				e.putProperty(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
+				e.putProperty(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
 				// Ng moving to the selected ball
 				MoveSceneElementEf move = new MoveSceneElementEf();
 				move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,

@@ -300,7 +300,7 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 				shape.setPaint(p);
 
 				SceneElement area = new SceneElement(shape);
-				area.setVar(SceneElement.VAR_ENABLE, false);
+				area.putProperty(SceneElement.VAR_ENABLE, false);
 				area.setPosition(rectangle.getX(), rectangle.getY());
 				addSceneElement(sceneElementFactory.get(area));
 			}
@@ -345,7 +345,7 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 
 		for (SceneElement e : ((Scene) gui.getScene().getElement())
 				.getSceneElements()) {
-			Rectangle r = (Rectangle) e.getVars().get(
+			Rectangle r = (Rectangle) e.getProperties().get(
 					NodeTrajectory.VAR_INFLUENCE_AREA);
 			if (r != null) {
 				RectangleShape influenceArea = new RectangleShape(r.width,

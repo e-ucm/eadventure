@@ -127,7 +127,7 @@ public class EditableGameObject {
 
 	public void setSceneElement(SceneElement element) {
 		this.element = element;
-		for (Entry<String, Object> var : element.getVars().entrySet()) {
+		for (Entry<String, Object> var : element.getProperties().entrySet()) {
 			if (var.getKey().equals(SceneElement.VAR_X)) {
 				this.x = (Integer) var.getValue();
 			} else if (var.getKey().equals(SceneElement.VAR_Y)) {

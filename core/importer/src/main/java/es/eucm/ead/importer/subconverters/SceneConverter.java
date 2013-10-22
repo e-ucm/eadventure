@@ -55,7 +55,11 @@ import es.eucm.ead.model.assets.multimedia.Music;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
-import es.eucm.ead.model.elements.effects.*;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.EmptyEffect;
+import es.eucm.ead.model.elements.effects.PlayMusicEf;
+import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.WatchFieldEv;
 import es.eucm.ead.model.elements.extra.EAdList;
@@ -415,7 +419,7 @@ public class SceneConverter {
 	/**
 	 * Foregrounds are imported os objects over the scene. A bundle could have an empty foreground. Then, the foreground
 	 * should be invisible.
-	 *
+	 * <p/>
 	 * Also, music of the scene is converted (since it shares conditions with the foreground)
 	 *
 	 * @param scene
@@ -429,12 +433,16 @@ public class SceneConverter {
 		TriggerMacroEf triggerMacroVisible = new TriggerMacroEf();
 		TriggerMacroEf triggerMacroMusic = new TriggerMacroEf();
 		// Prepare visibility for foreground
-		ElementField foregroundVisible = (foreground != null ? foreground
-				.getField(SceneElement.VAR_VISIBLE) : null);
-		ChangeFieldEf makeForegroundVisible = new ChangeFieldEf(
-				foregroundVisible, EmptyCond.TRUE);
-		ChangeFieldEf makeForegroundInvisible = new ChangeFieldEf(
-				foregroundVisible, EmptyCond.FALSE);
+		ChangeFieldEf makeForegroundVisible = null;
+		ChangeFieldEf makeForegroundInvisible = null;
+		if (foreground != null) {
+			ElementField foregroundVisible = (foreground
+					.getField(SceneElement.VAR_VISIBLE));
+			makeForegroundVisible = new ChangeFieldEf(foregroundVisible,
+					EmptyCond.TRUE);
+			makeForegroundInvisible = new ChangeFieldEf(foregroundVisible,
+					EmptyCond.FALSE);
+		}
 
 		for (Resources r : resources) {
 			Condition cond = conditionsConverter.convert(r.getConditions());

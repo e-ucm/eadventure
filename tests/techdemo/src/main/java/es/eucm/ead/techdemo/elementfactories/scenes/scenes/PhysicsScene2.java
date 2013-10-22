@@ -69,7 +69,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		SceneElement e2 = new SceneElement(rShape);
 		getSceneElements().add(e2);
 		e2.setPosition(new Position(Corner.CENTER, 500, 200));
-		e2.setVar(SceneElement.VAR_ROTATION, 45.0f);
+		e2.putProperty(SceneElement.VAR_ROTATION, 45.0f);
 
 		PhysicsEf effect = new PhysicsEf();
 		effect.addSceneElement(e2);
@@ -77,7 +77,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		SceneElement e3 = new SceneElement(rShape);
 		getSceneElements().add(e3);
 		e3.setPosition(new Position(Corner.CENTER, 200, 100));
-		e3.setVar(SceneElement.VAR_ROTATION, 90.0f);
+		e3.putProperty(SceneElement.VAR_ROTATION, 90.0f);
 
 		effect.addSceneElement(e3);
 
@@ -89,11 +89,11 @@ public class PhysicsScene2 extends PhysicsScene {
 		b.setPosition(new Position(Corner.CENTER, 500, 0));
 		getSceneElements().add(0, b);
 		effect.addSceneElement(b);
-		b.setVar(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
+		b.putProperty(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				new PhApplyImpulseEf(b, new MathOp("0"), new MathOp("-1")));
-		b.setVar(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
-		b.setVar(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
+		b.putProperty(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
+		b.putProperty(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
 
 		for (int i = 0; i < 5; i++)
 			for (int j = 0; j < 5; j++) {
@@ -102,13 +102,13 @@ public class PhysicsScene2 extends PhysicsScene {
 						j * 60 + 200));
 				getSceneElements().add(e);
 				effect.addSceneElement(e);
-				e.setVar(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
+				e.putProperty(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
 				getBackground().addBehavior(
 						MouseGEv.MOUSE_LEFT_PRESSED,
 						new PhApplyImpulseEf(e, new MathOp("0"), new MathOp(
 								"-100")));
-				e.setVar(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
-				e.setVar(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
+				e.putProperty(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
+				e.putProperty(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
 			}
 
 		SceneElementEv event = new SceneElementEv();

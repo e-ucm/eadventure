@@ -71,7 +71,7 @@ public class ComplexElementScene extends EmptyScene {
 				.getSceneElementFactory().createSceneElement(r1, r2, 40, 40);
 
 		e.setInitialScale(0.1f);
-		e.setVar(VAR_ROTATION, 30.0f);
+		e.putProperty(VAR_ROTATION, 30.0f);
 		e.setPosition(new Position(Corner.CENTER, 50, 50));
 
 		complex.getSceneElements().add(e);

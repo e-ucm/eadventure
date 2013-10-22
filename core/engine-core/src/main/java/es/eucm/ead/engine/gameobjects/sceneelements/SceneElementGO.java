@@ -303,21 +303,21 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	 */
 	protected void setVars() {
 
-		boolean enable = element.getVar(SceneElement.VAR_ENABLE, true);
+		boolean enable = element.getProperty(SceneElement.VAR_ENABLE, true);
 		this.setTouchable(enable ? Touchable.enabled : Touchable.disabled);
 
-		orientation = element.getVar(SceneElement.VAR_ORIENTATION,
+		orientation = element.getProperty(SceneElement.VAR_ORIENTATION,
 				Orientation.S);
-		state = element.getVar(SceneElement.VAR_STATE, "default");
-		setZ(element.getVar(SceneElement.VAR_Z, 0));
+		state = element.getProperty(SceneElement.VAR_STATE, "default");
+		setZ(element.getProperty(SceneElement.VAR_Z, 0));
 
 		// Transformation
-		setVisible(element.getVar(SceneElement.VAR_VISIBLE, true));
-		setRotation(element.getVar(SceneElement.VAR_ROTATION, 0f));
-		setScale(element.getVar(SceneElement.VAR_SCALE, 1f));
-		setScaleX(element.getVar(SceneElement.VAR_SCALE_X, 1f));
-		setScaleY(element.getVar(SceneElement.VAR_SCALE_Y, 1f));
-		setAlpha(element.getVar(SceneElement.VAR_ALPHA, 1f));
+		setVisible(element.getProperty(SceneElement.VAR_VISIBLE, true));
+		setRotation(element.getProperty(SceneElement.VAR_ROTATION, 0f));
+		setScale(element.getProperty(SceneElement.VAR_SCALE, 1f));
+		setScaleX(element.getProperty(SceneElement.VAR_SCALE_X, 1f));
+		setScaleY(element.getProperty(SceneElement.VAR_SCALE_Y, 1f));
+		setAlpha(element.getProperty(SceneElement.VAR_ALPHA, 1f));
 
 		statesList.clear();
 		statesList.add(state);
@@ -325,10 +325,10 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 		updateBundle();
 
-		setX(element.getVar(SceneElement.VAR_X, 0f));
-		setY(element.getVar(SceneElement.VAR_Y, 0f));
-		setDispX(element.getVar(SceneElement.VAR_DISP_X, 0f));
-		setDispY(element.getVar(SceneElement.VAR_DISP_Y, 0f));
+		setX(element.getProperty(SceneElement.VAR_X, 0f));
+		setY(element.getProperty(SceneElement.VAR_Y, 0f));
+		setDispX(element.getProperty(SceneElement.VAR_DISP_X, 0f));
+		setDispY(element.getProperty(SceneElement.VAR_DISP_Y, 0f));
 
 	}
 

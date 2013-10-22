@@ -39,18 +39,16 @@ package es.eucm.ead.model.elements.scenes;
 
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.elements.AbstractElementWithBehavior;
-import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.model.elements.ResourcedElement;
 import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Position.Corner;
 
 @Element
-public class SceneElement extends AbstractElementWithBehavior implements
-		Variabled {
+public class SceneElement extends AbstractElementWithBehavior {
 
 	public static final String VAR_ORIENTATION = "orientation";
 
@@ -96,9 +94,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public static final String VAR_RIGHT = "right";
 
 	@Param
-	private EAdMap<Object> vars;
-
-	@Param
 	protected SceneElementDef definition;
 
 	/**
@@ -131,20 +126,16 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		this.definition = actor;
 	}
 
-	public void setVars(EAdMap<Object> vars) {
-		this.vars = vars;
-	}
-
 	public void setPosition(Position position) {
-		setVar(VAR_X, position.getX());
-		setVar(VAR_Y, position.getY());
-		setVar(VAR_DISP_X, position.getDispX());
-		setVar(VAR_DISP_Y, position.getDispY());
+		putProperty(VAR_X, position.getX());
+		putProperty(VAR_Y, position.getY());
+		putProperty(VAR_DISP_X, position.getDispX());
+		putProperty(VAR_DISP_Y, position.getDispY());
 	}
 
 	public void setCenter(Corner center) {
-		setVar(VAR_DISP_X, center.getDispX());
-		setVar(VAR_DISP_Y, center.getDispY());
+		putProperty(VAR_DISP_X, center.getDispX());
+		putProperty(VAR_DISP_Y, center.getDispY());
 	}
 
 	/**
@@ -153,31 +144,12 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	 * @param orientation the orientation
 	 */
 	public void setInitialOrientation(Orientation orientation) {
-		setVar(VAR_ORIENTATION, orientation);
-	}
-
-	public EAdMap<Object> getVars() {
-		return vars;
-	}
-
-	@Override
-	public void setVar(String varName, Object value) {
-		if (vars == null) {
-			vars = new EAdMap<Object>();
-		}
-		vars.put(varName, value);
-	}
-
-	@SuppressWarnings("all")
-	@Override
-	public <T> T getVar(String varName, T defaultValue) {
-		return (T) (vars != null && vars.containsKey(varName) ? vars
-				.get(varName) : defaultValue);
+		putProperty(VAR_ORIENTATION, orientation);
 	}
 
 	public void setPosition(float x, float y) {
-		setVar(VAR_X, x);
-		setVar(VAR_Y, y);
+		putProperty(VAR_X, x);
+		putProperty(VAR_Y, y);
 	}
 
 	public void setPosition(Corner corner, float x, float y) {
@@ -193,7 +165,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	}
 
 	public void setInitialAlpha(float f) {
-		this.setVar(SceneElement.VAR_ALPHA, f);
+		this.putProperty(SceneElement.VAR_ALPHA, f);
 
 	}
 
@@ -203,12 +175,19 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	 * @param scale the initial scale
 	 */
 	public void setInitialScale(float scale) {
-		setVar(SceneElement.VAR_SCALE, scale);
+		putProperty(SceneElement.VAR_SCALE, scale);
 	}
 
 	public void setInitialScale(float scaleX, float scaleY) {
-		setVar(SceneElement.VAR_SCALE_X, scaleX);
-		setVar(SceneElement.VAR_SCALE_Y, scaleY);
+		putProperty(SceneElement.VAR_SCALE_X, scaleX);
+		putProperty(SceneElement.VAR_SCALE_Y, scaleY);
+	}
+
+	public void addAsset(String bundle, String id, EAdDrawable drawable) {
+		if (definition == null) {
+			definition = new SceneElementDef();
+		}
+		definition.addAsset(bundle, id, drawable);
 	}
 
 	/**
@@ -217,18 +196,27 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	 * @param appearance the initial appearance
 	 */
 	public void setAppearance(EAdDrawable appearance) {
-		if (definition == null) {
-			definition = new SceneElementDef();
-		}
-		definition.setAppearance(appearance);
+		setAppearance(ResourcedElement.INITIAL_BUNDLE, appearance);
+	}
+
+	public void setAppearance(String bundle, EAdDrawable drawable) {
+		addAsset(bundle, SceneElementDef.appearance, drawable);
+	}
+
+	public void setOverAppearance(String bundle, EAdDrawable drawable) {
+		addAsset(bundle, SceneElementDef.overAppearance, drawable);
+	}
+
+	public void setOverAppearance(EAdDrawable d) {
+		setOverAppearance(ResourcedElement.INITIAL_BUNDLE, d);
 	}
 
 	public void setInitialEnable(boolean enable) {
-		setVar(SceneElement.VAR_ENABLE, enable);
+		putProperty(SceneElement.VAR_ENABLE, enable);
 	}
 
 	public void setInitialRotation(float rotation) {
-		setVar(SceneElement.VAR_ROTATION, rotation);
+		putProperty(SceneElement.VAR_ROTATION, rotation);
 	}
 
 	public ElementField getField(String varName) {
@@ -239,29 +227,17 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		return getId();
 	}
 
-	public void setAppearance(String bundle, EAdDrawable drawable) {
-		getDefinition().setAppearance(bundle, drawable);
-	}
-
-	public void setOverAppearance(String bundle, EAdDrawable drawable) {
-		getDefinition().setOverAppearance(bundle, drawable);
-	}
-
 	public void setInitialVisible(boolean visible) {
-		setVar(SceneElement.VAR_VISIBLE, visible);
-	}
-
-	public void setOverAppearance(EAdDrawable d) {
-		this.getDefinition().setOverAppearance(d);
+		putProperty(SceneElement.VAR_VISIBLE, visible);
 	}
 
 	public void setInitialZ(int z) {
-		setVar(SceneElement.VAR_Z, z);
+		putProperty(SceneElement.VAR_Z, z);
 
 	}
 
 	public void setInitialState(String state) {
-		setVar(SceneElement.VAR_STATE, state);
+		putProperty(SceneElement.VAR_STATE, state);
 	}
 
 	/**
@@ -276,7 +252,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	}
 
 	public void setInitialBundle(String bundleId) {
-		this.setVar(SceneElement.VAR_BUNDLE_ID, bundleId);
+		this.putProperty(SceneElement.VAR_BUNDLE_ID, bundleId);
 
 	}
 

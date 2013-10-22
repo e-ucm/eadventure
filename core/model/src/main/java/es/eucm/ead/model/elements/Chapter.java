@@ -39,20 +39,16 @@ package es.eucm.ead.model.elements;
 
 import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Evented;
 import es.eucm.ead.model.interfaces.features.Resourced;
-import es.eucm.ead.model.interfaces.features.Variabled;
 
 /**
  * Model of the eAdventure chapter.
  */
 @Element
-public class Chapter extends ResourcedElement implements Resourced, Variabled,
-		Evented {
+public class Chapter extends ResourcedElement implements Resourced, Evented {
 
 	/**
 	 * Scenes of the game
@@ -60,9 +56,6 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 	private EAdList<Scene> scenes;
 
 	private Scene initialScene;
-
-	@Param
-	private EAdMap<Object> vars;
 
 	/**
 	 * Default constructor.
@@ -72,7 +65,6 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 		super();
 		scenes = new EAdList<Scene>();
 		events = new EAdList<Event>();
-		vars = new EAdMap<Object>();
 	}
 
 	/**
@@ -106,11 +98,6 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 
 	}
 
-	@Override
-	public EAdMap<Object> getVars() {
-		return vars;
-	}
-
 	public Scene getSceneById(String nextSceneId) {
 		if (nextSceneId == null) {
 			return null;
@@ -125,21 +112,6 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 
 	public void setScenes(EAdList<Scene> scenes) {
 		this.scenes = scenes;
-	}
-
-	public void setVars(EAdMap<Object> vars) {
-		this.vars = vars;
-	}
-
-	@Override
-	public void setVar(String varName, Object value) {
-		vars.put(varName, value);
-	}
-
-	@Override
-	public <T> T getVar(String varName, T defaultValue) {
-		return (T) (vars.containsKey(varName) ? vars.get(varName)
-				: defaultValue);
 	}
 
 	public void addScene(Scene scene) {
