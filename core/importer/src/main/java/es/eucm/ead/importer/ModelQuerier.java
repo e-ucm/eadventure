@@ -380,13 +380,10 @@ public class ModelQuerier {
 				&& npc.equals(Player.IDENTIFIER)) {
 			effect = new SpeakEf(text);
 		} else {
-			ElementField fieldElement = elementsCache.getField(element,
-					SceneElementDef.VAR_SCENE_ELEMENT);
 			effect = new SpeakSceneElementEf(element, text);
-			effect.setX(elementsCache.getField(fieldElement,
+			effect.setX(elementsCache.getField(element,
 					SceneElement.VAR_CENTER_X));
-			effect.setY(elementsCache.getField(fieldElement,
-					SceneElement.VAR_TOP));
+			effect.setY(elementsCache.getField(element, SceneElement.VAR_TOP));
 		}
 
 		effect.setColor(npcTexts.get(npc), npcBubbles.get(npc));

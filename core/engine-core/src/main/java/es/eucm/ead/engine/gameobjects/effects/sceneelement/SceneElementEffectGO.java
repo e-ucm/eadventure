@@ -41,7 +41,6 @@ import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.effects.AbstractEffectGO;
 import es.eucm.ead.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.interfaces.features.Identified;
 
 public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
@@ -61,9 +60,6 @@ public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 
 		if (sceneElement instanceof SceneElement) {
 			this.sceneElement = (SceneElement) sceneElement;
-		} else if (sceneElement != null) {
-			this.sceneElement = game.getGameState().getValue(sceneElement,
-					SceneElementDef.VAR_SCENE_ELEMENT, null);
 		} else {
 			this.sceneElement = this.parent;
 		}

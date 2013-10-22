@@ -173,8 +173,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 
 		if (effect.getX() != null && effect.getY() != null) {
 
-			int xOrigin = game.getGameState().operate(effect.getX());
-			int yOrigin = game.getGameState().operate(effect.getY());
+			Float xOrigin = game.getGameState().operate(effect.getX());
+			Float yOrigin = game.getGameState().operate(effect.getY());
 
 			xOrigin += (int) effectsHud.getX();
 			yOrigin += (int) effectsHud.getY();
@@ -182,13 +182,13 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 			if (yOrigin < height / 2) {
 				bottom = height - verticalMargin;
 				top = bottom - height / HEIGHT_PROPORTION;
-				yOrigin = top - MARGIN * 2;
+				yOrigin = top - MARGIN * 2f;
 			} else {
-				yOrigin = bottom + MARGIN * 2;
+				yOrigin = bottom + MARGIN * 2f;
 			}
 
 			rectangle = new BalloonShape(left, top, right, bottom, effect
-					.getBallonType(), xOrigin, yOrigin);
+					.getBallonType(), xOrigin.intValue(), yOrigin.intValue());
 		} else {
 			int offsetY = height / 2 - (bottom - top) / 2;
 			top += offsetY;

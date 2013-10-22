@@ -49,8 +49,6 @@ import es.eucm.ead.model.params.text.EAdString;
 public class SceneElementDef extends ResourcedElement implements
 		ResourcedEvented, WithBehavior {
 
-	public static final String VAR_SCENE_ELEMENT = "scene_element";
-
 	public static final String VAR_DOC_NAME = "doc_name";
 
 	public static final String VAR_DOC_DESC = "doc_desc";

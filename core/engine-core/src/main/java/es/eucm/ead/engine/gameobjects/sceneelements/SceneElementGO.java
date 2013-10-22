@@ -257,15 +257,20 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 		// Scene element events
 		initEvents(element.getEvents());
-		// Definition events
-		if (element.getDefinition() != null) {
-			initEvents(element.getDefinition().getEvents());
-		}
 
 		setVars();
 		setExtraVars();
 		gameState.addFieldWatcher(element.getId(), this);
 		gameState.setFieldGetter(element.getId(), this);
+
+		SceneElementDef definition = this.element.getDefinition();
+		if (definition != null) {
+			// Definition events
+			initEvents(definition.getEvents());
+			if (definition.getId() != null) {
+				gameState.setFieldGetter(definition.getId(), this);
+			}
+		}
 	}
 
 	private void resetVars() {
@@ -1150,6 +1155,7 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 		remove();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getField(String elementId, String varName, T defaultvalue) {
 		T result = null;
@@ -1160,7 +1166,19 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 		} else if (varName.equals(SceneElement.VAR_DISP_Y)) {
 			result = (T) (Float) this.getDispY();
 		} else if (varName.equals(SceneElement.VAR_DISP_X)) {
-			result = (T) (Float) this.getDispX();
+			result = (T) (Float) this.getDispY();
+		} else if (varName.equals(SceneElement.VAR_LEFT)) {
+			result = (T) (Float) this.getLeft();
+		} else if (varName.equals(SceneElement.VAR_TOP)) {
+			result = (T) (Float) this.getTop();
+		} else if (varName.equals(SceneElement.VAR_RIGHT)) {
+			result = (T) (Float) this.getRight();
+		} else if (varName.equals(SceneElement.VAR_BOTTOM)) {
+			result = (T) (Float) this.getBottom();
+		} else if (varName.equals(SceneElement.VAR_CENTER_X)) {
+			result = (T) (Float) this.getCenterX();
+		} else if (varName.equals(SceneElement.VAR_CENTER_Y)) {
+			result = (T) (Float) this.getCenterY();
 		} else if (varName.equals(SceneElement.VAR_ENABLE)) {
 			result = (T) (Boolean) this.isEnabled();
 		} else if (varName.equals(SceneElement.VAR_VISIBLE)) {

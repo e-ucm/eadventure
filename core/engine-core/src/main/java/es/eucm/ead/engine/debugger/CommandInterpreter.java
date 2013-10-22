@@ -125,6 +125,12 @@ public class CommandInterpreter {
 				String[] parts = command.split(" ");
 				result = game.getGameState().countWatchers(parts[1])
 						+ " watchers.";
+			} else if (command.startsWith("whois")) {
+				result = game.getGUI().getGameObjectUnderPointer() + "";
+			} else if (command.startsWith("is")) {
+				String[] parts = command.split(" ");
+				result = game.getGUI().getScene().findActor(parts[1]) == null ? "false"
+						: "true";
 			}
 		} catch (Exception e)
 
