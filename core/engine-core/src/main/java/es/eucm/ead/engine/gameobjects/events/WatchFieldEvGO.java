@@ -80,7 +80,7 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 	@Override
 	public <T> boolean setField(String elementId, String varName, T value) {
 		for (ElementField f : this.element.getFields()) {
-			if (varName.equals(f.getVarDef())) {
+			if (varName.equals(f.getVarName())) {
 				fieldUpdated = true;
 				return false;
 			}

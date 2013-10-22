@@ -59,7 +59,7 @@ public class ProfilerDebugger extends GroupElement {
 		int y = 0;
 		int marginY = 40;
 		for (ElementField f : fields) {
-			Label l = new Label(f.getVarDef() + ": [0]   ");
+			Label l = new Label(f.getVarName() + ": [0]   ");
 			l.getCaption().setPadding(20);
 			l.getCaption().addOperation(f);
 			l.setPosition(10, y);

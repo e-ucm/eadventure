@@ -150,7 +150,7 @@ public class InterpolationEf extends Effect {
 
 	public InterpolationEf(ElementField field, Operation target,
 			int interpolationTime) {
-		this(field.getElement(), field.getVarDef(), new ValueOp(0), target,
+		this(field.getElement(), field.getVarName(), new ValueOp(0), target,
 				interpolationTime, 0, InterpolationLoopType.NO_LOOP, 0,
 				InterpolationType.LINEAR);
 	}
@@ -164,8 +164,8 @@ public class InterpolationEf extends Effect {
 	public InterpolationEf(ElementField field, float startValue,
 			float endValue, int time, InterpolationLoopType loopType,
 			InterpolationType interpolationType) {
-		this(field.getElement(), field.getVarDef(), startValue, endValue, time,
-				0, loopType, -1, interpolationType);
+		this(field.getElement(), field.getVarName(), startValue, endValue,
+				time, 0, loopType, -1, interpolationType);
 	}
 
 	public InterpolationEf(ElementField field, float start, float endValue,
@@ -181,7 +181,7 @@ public class InterpolationEf extends Effect {
 	public InterpolationEf(ElementField field, MathOp start, MathOp end,
 			int time, InterpolationLoopType loopType,
 			InterpolationType interpolation) {
-		this(field.getElement(), field.getVarDef(), start, end, time, 0,
+		this(field.getElement(), field.getVarName(), start, end, time, 0,
 				loopType, -1, interpolation);
 	}
 

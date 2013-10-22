@@ -170,7 +170,7 @@ public class PhysicsScene extends EmptyScene {
 		MathOp op = new MathOp(expression, canyonX, canyonY, mouseX, mouseY);
 		followMouse.setOperation(op);
 		followMouse.setElement(rotationField.getElement());
-		followMouse.setVarName(rotationField.getVarDef());
+		followMouse.setVarName(rotationField.getVarName());
 		OperationCond c1 = new OperationCond(mouseX, 0,
 				Comparator.GREATER_EQUAL);
 		OperationCond c2 = new OperationCond(mouseY, new ElementField(canyon,

@@ -452,7 +452,7 @@ public class EffectsReader {
 			// XXX only takes the last field in the list
 			ElementField field = operationReader.translateField(f);
 			changeField.setElement(field.getElement());
-			changeField.setVarName(field.getVarDef());
+			changeField.setVarName(field.getVarName());
 		}
 		changeField.setOperation(operation);
 

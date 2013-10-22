@@ -91,7 +91,7 @@ public class ValueMap implements TweenAccessor<ElementField> {
 	public <S> void setValue(ElementField field, S value) {
 		setValue(
 				field.getElement() == null ? null : field.getElement().getId(),
-				field.getVarDef(), value);
+				field.getVarName(), value);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class ValueMap implements TweenAccessor<ElementField> {
 	 */
 	public <S> S getValue(ElementField field, S defaultValue) {
 		return getValue(field.getElement() == null ? null : field.getElement()
-				.getId(), field.getVarDef(), defaultValue);
+				.getId(), field.getVarName(), defaultValue);
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class ValueMap implements TweenAccessor<ElementField> {
 		if (element != null && element instanceof ElementField) {
 			ElementField field = (ElementField) element;
 			Object result = getValue(field.getElement() == null ? null : field
-					.getElement().getId(), field.getVarDef(), null);
+					.getElement().getId(), field.getVarName(), null);
 			return maybeDecodeField((Identified) result);
 		}
 		return element;

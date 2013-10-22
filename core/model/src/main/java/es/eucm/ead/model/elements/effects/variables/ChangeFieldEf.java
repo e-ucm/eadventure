@@ -90,7 +90,7 @@ public class ChangeFieldEf extends Effect {
 	 */
 	public ChangeFieldEf(ElementField field, Operation operation) {
 		this.element = field.getElement();
-		this.varName = field.getVarDef();
+		this.varName = field.getVarName();
 		this.operation = operation;
 	}
 

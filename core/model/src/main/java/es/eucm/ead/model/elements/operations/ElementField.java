@@ -48,7 +48,7 @@ public class ElementField extends Operation {
 	private BasicElement element;
 
 	@Param
-	private String varDef;
+	private String varName;
 
 	@Param
 	private Object defaultValue;
@@ -57,9 +57,9 @@ public class ElementField extends Operation {
 
 	}
 
-	public ElementField(BasicElement element, String varDef) {
+	public ElementField(BasicElement element, String varName) {
 		this.element = element;
-		this.varDef = varDef;
+		this.varName = varName;
 	}
 
 	/**
@@ -77,8 +77,8 @@ public class ElementField extends Operation {
 		this.element = element;
 	}
 
-	public void setVarDef(String varDef) {
-		this.varDef = varDef;
+	public void setVarName(String varName) {
+		this.varName = varName;
 	}
 
 	/**
@@ -86,8 +86,8 @@ public class ElementField extends Operation {
 	 *
 	 * @return
 	 */
-	public String getVarDef() {
-		return varDef;
+	public String getVarName() {
+		return varName;
 	}
 
 	public Object getDefaultValue() {
@@ -100,7 +100,7 @@ public class ElementField extends Operation {
 
 	@Override
 	public String toString() {
-		return (element != null ? element.getId() : "NULL") + "." + varDef
+		return (element != null ? element.getId() : "NULL") + "." + varName
 				+ "(" + defaultValue + ")";
 	}
 

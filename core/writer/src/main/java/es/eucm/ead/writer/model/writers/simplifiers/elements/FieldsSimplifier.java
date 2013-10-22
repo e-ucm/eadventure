@@ -62,10 +62,10 @@ public class FieldsSimplifier implements ObjectSimplifier<ElementField> {
 			elementFields = new HashMap<String, ElementField>();
 			fields.put(field.getElement(), elementFields);
 		}
-		ElementField copy = elementFields.get(field.getVarDef());
+		ElementField copy = elementFields.get(field.getVarName());
 		if (copy == null) {
 			copy = field;
-			elementFields.put(field.getVarDef(), copy);
+			elementFields.put(field.getVarName(), copy);
 		}
 		return copy;
 	}

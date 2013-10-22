@@ -132,12 +132,10 @@ public class NodeTrajectory extends Trajectory {
 	}
 
 	public void setInitial(String id) {
-
 		initial = getNodeForId(id);
 	}
 
 	public Node getInitial() {
-
 		return initial;
 	}
 
