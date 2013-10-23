@@ -41,6 +41,7 @@ import aurelienribon.tweenengine.TweenAccessor;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.game.interfaces.TextProcessor;
+import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.operators.OperatorFactory;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.conditions.Condition;
@@ -182,6 +183,10 @@ public class GameState extends ValueMap implements OperationResolver,
 	public void addFieldWatcher(FieldWatcher fieldWatcher, BasicElement element) {
 		Identified i = maybeDecodeField(element);
 		addFieldWatcher(i == null ? null : i.getId(), fieldWatcher);
+	}
+
+	public void removeGetter(SceneElementGO sceneElementGO) {
+		fieldGetters.remove(sceneElementGO.getElement() + "");
 	}
 
 	public interface FieldWatcher {

@@ -75,6 +75,7 @@ public class GameLoader {
 	private Map<String, Scene> scenes;
 
 	private String currentChapterId;
+	private EAdEngine engine;
 
 	@Inject
 	public GameLoader(AdventureReader reader, Game game,
@@ -94,6 +95,7 @@ public class GameLoader {
 
 	@SuppressWarnings( { "all" })
 	public void loadGame(EAdEngine engine) {
+		this.engine = engine;
 		currentManifest = reader.getManifest();
 		final AdventureGame adventure = currentManifest.getModel();
 		// Load plugins
@@ -169,5 +171,9 @@ public class GameLoader {
 
 	public Game getGame() {
 		return game;
+	}
+
+	public EAdEngine getEngine() {
+		return engine;
 	}
 }

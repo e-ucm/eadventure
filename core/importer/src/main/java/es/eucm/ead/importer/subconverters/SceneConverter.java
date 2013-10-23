@@ -287,8 +287,9 @@ public class SceneConverter {
 
 			// Add visibility condition
 			// [ER - Conditions]
-			utilsConverter.addWatchCondition(sceneElement, sceneElement
-					.getField(SceneElement.VAR_VISIBLE), e.getConditions());
+			utilsConverter.addWatchCondition(sceneElement, new ElementField(
+					sceneElement, SceneElement.VAR_VISIBLE, true), e
+					.getConditions());
 		}
 	}
 

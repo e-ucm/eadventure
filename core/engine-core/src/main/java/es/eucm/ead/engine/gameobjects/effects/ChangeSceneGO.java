@@ -59,7 +59,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	static private Logger logger = LoggerFactory.getLogger(ChangeSceneGO.class);
 
 	public static ElementField IN_TRANSITION = new ElementField(null,
-			"in_transition");
+			"in_transition", false);
 	private final GameLoader gameLoader;
 
 	private GUI gui;

@@ -82,7 +82,7 @@ public class ChangeSceneConverter implements EffectConverter {
 			// to be launched until the cutscene ends. We make sure that
 			// IN_CUTSCENE is set to true before launching any other effect
 			ElementField field = new ElementField(nextScene,
-					CutsceneConverter.IN_CUTSCENE);
+					CutsceneConverter.IN_CUTSCENE, false);
 			changeScene.getSimultaneousEffects().add(
 					new ChangeFieldEf(field, EmptyCond.TRUE));
 			Condition cond = new NOTCond(new OperationCond(field));

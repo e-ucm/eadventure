@@ -1151,8 +1151,9 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	@Override
 	public void release() {
-		// Que se elimine field watcher
 		remove();
+		gameState.removeFieldWatcher(this);
+		gameState.removeGetter(this);
 	}
 
 	@SuppressWarnings("unchecked")

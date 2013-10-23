@@ -52,7 +52,6 @@ import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.writer.AdventureWriter;
-import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -60,7 +59,7 @@ public class RunGameTest {
 
 	private Error error;
 
-	@Test
+	//@Test
 	public void testGame() {
 		final DesktopGame g = new DesktopGame();
 		g.setDebug(true);

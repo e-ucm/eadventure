@@ -214,7 +214,8 @@ public class CutsceneConverter {
 		// (trigger cutscene effect, for example)
 		Scene firstScene = cutscene.get(0);
 		Scene lastScene = cutscene.get(cutscene.size() - 1);
-		ElementField inCutscene = new ElementField(firstScene, IN_CUTSCENE);
+		ElementField inCutscene = new ElementField(firstScene, IN_CUTSCENE,
+				false);
 		// Event for the first scene
 		SceneElementEv event1 = new SceneElementEv();
 		event1.addEffect(SceneElementEvType.ADDED, new ChangeFieldEf(

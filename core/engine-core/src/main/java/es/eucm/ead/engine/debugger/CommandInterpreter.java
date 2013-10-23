@@ -38,6 +38,7 @@
 package es.eucm.ead.engine.debugger;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -135,10 +136,28 @@ public class CommandInterpreter {
 				String[] parts = command.split(" ");
 				result = game.getGUI().getScene().findActor(parts[1]) == null ? "false"
 						: "true";
+			} else if (command.startsWith("move")) {
+				String[] parts = command.split(" ");
+				int x = Integer.parseInt(parts[1]);
+				int y = Integer.parseInt(parts[2]);
+				Gdx.input.setCursorPosition(x, Gdx.graphics.getHeight() - y);
+				result = "OK.";
+			} else if (command.startsWith("where")) {
+				result = "(" + Gdx.input.getX() + ", "
+						+ (Gdx.graphics.getHeight() - Gdx.input.getY()) + ")";
+			} else if (command.startsWith("click")) {
+				String[] parts = command.split(" ");
+				int x = Integer.parseInt(parts[1]);
+				int y = Integer.parseInt(parts[2]);
+				Gdx.input.setCursorPosition(x, Gdx.graphics.getHeight() - y);
+				gameLoader.getEngine().getStage().touchDown(x, y, 0,
+						Input.Buttons.LEFT);
+				result = "OK.";
 			}
 		} catch (Exception e)
 
 		{
+			logger.error("{}", e);
 			result = "Wrong parameters";
 		}
 
