@@ -43,6 +43,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameLoader;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
@@ -57,6 +59,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
 
+@Singleton
 public class CommandInterpreter {
 
 	private static final Logger logger = LoggerFactory
@@ -66,6 +69,7 @@ public class CommandInterpreter {
 
 	private GameLoader gameLoader;
 
+	@Inject
 	public CommandInterpreter(Game game, GameLoader gameLoader) {
 		this.game = game;
 		this.gameLoader = gameLoader;

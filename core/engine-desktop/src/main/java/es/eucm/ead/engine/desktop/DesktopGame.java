@@ -97,7 +97,7 @@ public class DesktopGame {
 		setPath(path);
 	}
 
-	private void initInjector() {
+	public void initInjector() {
 		if (injector == null) {
 			injector = Guice.createInjector(new DesktopModule(binds),
 					new JavaToolsModule());
@@ -175,5 +175,9 @@ public class DesktopGame {
 
 	public void setBind(Class<?> clazz, Class<?> bindTo) {
 		binds.put(clazz, bindTo);
+	}
+
+	public Injector getInjector() {
+		return injector;
 	}
 }

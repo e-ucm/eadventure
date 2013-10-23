@@ -174,8 +174,7 @@ public class NgCommon {
 
 		stateDrawables.addDrawable(CommonStates.TALKING + "", oriented);
 
-		mainCharacterSceneElement = new ElementField(mainCharacter,
-				SceneElementDef.VAR_SCENE_ELEMENT);
+		//mainCharacterSceneElement = mainCharacter;
 
 	}
 

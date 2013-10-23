@@ -49,6 +49,8 @@ public class JavaTextFileWriter implements TextFileWriter {
 	public boolean write(String text, String fileName) {
 		boolean done = true;
 		File f = new File(fileName);
+		File parent = new File(f.getParent());
+		parent.mkdirs();
 		BufferedWriter writer = null;
 		try {
 			writer = new BufferedWriter(new FileWriter(f));

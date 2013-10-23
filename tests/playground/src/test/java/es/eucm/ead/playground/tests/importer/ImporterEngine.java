@@ -1,4 +1,4 @@
-package es.eucm.ead.playground.importer;
+package es.eucm.ead.playground.tests.importer;
 
 import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.importer.AdventureConverter;

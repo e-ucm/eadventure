@@ -1,4 +1,4 @@
-package es.eucm.ead.playground.exporter;
+package es.eucm.ead.playground.tests.exporter;
 
 import es.eucm.ead.exporter.WarExporter;
 
