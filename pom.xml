@@ -313,6 +313,9 @@
                         <!-- ignore /etc and other non-project directories -->
                         <include>core/**</include>
                         <include>build-tools/**</include>
+						<include>tests/**</include>
+						<include>extensions/**</include>
+						<include>guitools/**</include>
                     </includes>
                 </configuration>
                 <executions>
