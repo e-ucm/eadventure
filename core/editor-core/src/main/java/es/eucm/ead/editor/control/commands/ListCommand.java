@@ -46,9 +46,8 @@ import es.eucm.ead.model.elements.extra.EAdList;
 
 /**
  * Contains subclasses for adding to, removing from, and reordering elements in
- * lists.
- * 
- * FIXME: currently does not update graph dependencies.
+ * lists. Changing existing elements can be achieved via the suitable 
+ * ChangeFieldCommand
  */
 public abstract class ListCommand<P> extends Command {
 

@@ -67,8 +67,8 @@ public class FileOptionTest extends AbstractOptionTest {
 				model, "dest", fc, node1) {
 			@Override
 			public Command createUpdateCommand() {
-				return new ChangeFileCommand(getControlValue(),
-						accessor, fc, changed) {
+				return new ChangeFileCommand(getControlValue(), accessor, fc,
+						changed) {
 					@Override
 					protected ModelEvent setValue(File value) {
 						ModelEvent me = super.setValue(value);
@@ -104,7 +104,7 @@ public class FileOptionTest extends AbstractOptionTest {
 				};
 			}
 		};
-		target = fno.resolveFile(((ExampleClass)model).getName());
+		target = fno.resolveFile(((ExampleClass) model).getName());
 
 		OptionPanel p1 = new PanelImpl("Test",
 				OptionPanel.LayoutPolicy.VerticalBlocks, 4);

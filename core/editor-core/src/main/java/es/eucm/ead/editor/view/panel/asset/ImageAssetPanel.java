@@ -396,8 +396,8 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 					imageAsset, "source", fileCache, imageAsset) {
 				@Override
 				public Command createUpdateCommand() {
-					return new ChangeFileCommand(getControlValue(),
-							accessor, fileCache, imageAsset) {
+					return new ChangeFileCommand(getControlValue(), accessor,
+							fileCache, imageAsset) {
 						@Override
 						protected ModelEvent setValue(File value) {
 							ModelEvent me = super.setValue(value);

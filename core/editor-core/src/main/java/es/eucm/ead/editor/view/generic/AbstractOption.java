@@ -130,8 +130,8 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 * @param toolTipText The toolTipText in the option (cannot be null)
 	 * @param changed dependency nodes to be considered "changed" when this changes
 	 */
-	public AbstractOption(String label, String toolTipText, Accessor<S> accessor, 
-			DependencyNode... changed) {
+	public AbstractOption(String label, String toolTipText,
+			Accessor<S> accessor, DependencyNode... changed) {
 		this.label = label;
 		this.toolTipText = toolTipText;
 		this.accessor = accessor;
@@ -166,17 +166,21 @@ public abstract class AbstractOption<S> implements Option<S> {
 			logger.debug("why am I even receiving this?");
 		}
 	}
-	
+
 	/**
 	 * Retargets exposed object. Essentially resets 
 	 * @param accessor access to newly-exposed object
 	 * @param changed updated dependency information; overwrites previous information
 	 */
-	public JComponent retarget(Accessor<S> accessor, DependencyNode... changed) {		
+	public JComponent retarget(Accessor<S> accessor, CommandManager manager,
+			DependencyNode... changed) {
 		this.accessor = accessor;
 		this.oldValue = accessor.read();
+		if (component == null) {
+			getComponent(manager);
+		}
 		setControlValue(oldValue);
-		this.changed = changed == null ? new DependencyNode[0] : changed;	
+		this.changed = changed == null ? new DependencyNode[0] : changed;
 		return component;
 	}
 
@@ -222,6 +226,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 	/**
 	 * Creates and initializes the component.
 	 * Also sets oldValue for the first time.
+	 * @param manager CommandManager that will receive change commands
 	 */
 	@Override
 	public JComponent getComponent(CommandManager manager) {
@@ -259,10 +264,9 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 * @return
 	 */
 	protected Command createUpdateCommand() {
-		return new ChangeFieldCommand<S>(getControlValue(),
-				accessor, changed);
-	}	
-	
+		return new ChangeFieldCommand<S>(getControlValue(), accessor, changed);
+	}
+
 	/**
 	 * Should return whether a value is valid or not. Invalid values will
 	 * not generate updates, and will therefore not affect either model or other

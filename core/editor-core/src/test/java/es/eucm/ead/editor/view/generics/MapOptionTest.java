@@ -42,18 +42,13 @@ import javax.swing.JComponent;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.model.nodes.EngineNode;
 import es.eucm.ead.editor.util.Log4jConfig;
-import es.eucm.ead.editor.view.generic.AccessorColumn;
 import es.eucm.ead.editor.view.generic.OptionPanel;
 import es.eucm.ead.editor.view.generic.PanelImpl;
 import es.eucm.ead.editor.view.generic.TextOption;
-import es.eucm.ead.editor.view.generic.TextOption.ExpectedLength;
-import es.eucm.ead.editor.view.generic.accessors.Accessor;
-import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 import es.eucm.ead.editor.view.generic.table.MapOption;
 import es.eucm.ead.editor.view.generic.table.OptionColumn;
 import es.eucm.ead.editor.view.generic.table.TableSupport;
 import es.eucm.ead.model.elements.extra.EAdMap;
-import javax.swing.JTable;
 
 public class MapOptionTest extends AbstractOptionTest {
 
@@ -61,7 +56,7 @@ public class MapOptionTest extends AbstractOptionTest {
 		model = new ExampleClass();
 		init();
 
-		DependencyNode node1 = new EngineNode<String>(1, "test1");
+		final DependencyNode node1 = new EngineNode<String>(1, "test1");
 
 		OptionPanel p1 = new PanelImpl("Test",
 				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
@@ -72,34 +67,34 @@ public class MapOptionTest extends AbstractOptionTest {
 		p1.add(new MapOption("map1", "toolTip3", model, "map",
 				StringPair.class, node1) {
 
-					@Override
-					public TableSupport.ColumnSpec<StringPair, String>[] getValueColumns() {
-						return (TableSupport.ColumnSpec<StringPair, String>[])new TableSupport.ColumnSpec[]{
-							new OptionColumn<String, String, TextOption>(
-								new TextOption("A", "A", null, (DependencyNode[])null), 
-								commandManager, String.class, true, -1) {
+			@Override
+			public TableSupport.ColumnSpec<StringPair, String>[] getValueColumns() {
+				return (TableSupport.ColumnSpec<StringPair, String>[]) new TableSupport.ColumnSpec[] {
 
-							@Override
-							public Accessor getAccessor(JTable table, Object value, int column, int row) {
-								return new IntrospectingAccessor<String>(value, "a");
-							}
-									
-								},
-							new AccessorColumn("B", "b", String.class, -1)
-						};
-					}
-				});
+						new OptionColumn.Text<StringPair, String>("A", "a",
+								true, -1),
+						new OptionColumn.Text<StringPair, String>("B", "b",
+								true, -1) };
+			}
+		});
 		p1.add(new MapOption("map2", "toolTip4", model, "map",
 				StringPair.class, node1) {
 
-					@Override
-					public TableSupport.ColumnSpec<StringPair, String>[] getValueColumns() {
-						return (TableSupport.ColumnSpec<StringPair, String>[])new TableSupport.ColumnSpec[]{
-							new AccessorColumn("A", "a", String.class, -1),
-							new AccessorColumn("B", "b", String.class, -1)
-						};
-					}
-				});
+			@Override
+			public TableSupport.ColumnSpec<StringPair, String>[] getKeyColumns() {
+				return (TableSupport.ColumnSpec<StringPair, String>[]) new TableSupport.ColumnSpec[] { new OptionColumn.Text<StringPair, String>(
+						"Key", null, true, true, 50) };
+			}
+
+			@Override
+			public TableSupport.ColumnSpec<StringPair, String>[] getValueColumns() {
+				return (TableSupport.ColumnSpec<StringPair, String>[]) new TableSupport.ColumnSpec[] {
+						new OptionColumn.Text<StringPair, String>("A", "a",
+								false, -1),
+						new OptionColumn.Text<StringPair, String>("B", "b",
+								false, -1) };
+			}
+		});
 
 		controller.getModel().addModelListener(p1);
 		JComponent internal = p1.getComponent(commandManager);
@@ -136,6 +131,10 @@ public class MapOptionTest extends AbstractOptionTest {
 
 		public void setB(String b) {
 			this.b = b;
+		}
+
+		public String toString() {
+			return "a: " + a + " b: " + b;
 		}
 	}
 
@@ -174,7 +173,7 @@ public class MapOptionTest extends AbstractOptionTest {
 
 	public static void main(String[] args) {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
-				new Object[]{});
+				new Object[] {});
 		AbstractOptionTest aot = new MapOptionTest();
 		aot.setVisible(true);
 	}

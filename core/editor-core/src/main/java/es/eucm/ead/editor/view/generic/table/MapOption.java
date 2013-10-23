@@ -1,27 +1,76 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To performCommand this license header, choose License Headers in Project Properties.
+ * To performCommand this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package es.eucm.ead.editor.view.generic.table;
 
 import es.eucm.ead.editor.control.Command;
+import es.eucm.ead.editor.control.commands.ChangeFieldCommand;
+import es.eucm.ead.editor.control.commands.CompositeCommand;
 import es.eucm.ead.editor.control.commands.MapCommand;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.view.generic.AbstractOption;
+import es.eucm.ead.editor.view.generic.accessors.Accessor;
 import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
+import es.eucm.ead.editor.view.generic.accessors.MapAccessor;
+import es.eucm.ead.editor.view.generic.table.TableSupport.AbstractRowTableModel;
+import es.eucm.ead.editor.view.generic.table.TableSupport.ColumnSpec;
+import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteButtonWidget;
+import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteIt;
+import es.eucm.ead.editor.view.generic.table.TableSupport.MoveButtonWidget;
+import es.eucm.ead.editor.view.generic.table.TableSupport.MoveIt;
+import es.eucm.ead.editor.view.generic.table.TableSupport.Row;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.AbstractTableModel;
 import org.jdesktop.swingx.JXTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +83,8 @@ import org.slf4j.LoggerFactory;
  * @param <K> key-type
  * @param <V> value-type (for underlying list)
  */
-public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>>
-		implements TableLikeControl<V, K> {
+public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
+		TableLikeControl<V, K> {
 
 	static private Logger logger = LoggerFactory.getLogger(MapOption.class);
 
@@ -47,114 +96,105 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>>
 
 	public MapOption(String title, String toolTipText, Object object,
 			String fieldName, Class<?> contentClass, DependencyNode... changed) {
-		super(title, toolTipText,
-				new IntrospectingAccessor<EAdMap<K, V>>(object, fieldName), changed);
+		super(title, toolTipText, new IntrospectingAccessor<EAdMap<K, V>>(
+				object, fieldName), changed);
 		this.contentClass = contentClass;
 
 	}
 
 	public TableSupport.ColumnSpec<V, K>[] getKeyColumns() {
-		return (TableSupport.ColumnSpec<V, K>[]) new TableSupport.ColumnSpec[]{
-			new TableSupport.ColumnSpec<V, K>(
-			"Key", String.class, false, -1) {
+		return (TableSupport.ColumnSpec<V, K>[]) new TableSupport.ColumnSpec[] { new TableSupport.ColumnSpec<V, K>(
+				"Key", String.class, false, -1) {
+
 			@Override
-			public Object getValue(V o, K i) {
-				return i.toString();
-			}}};
+			public Object getValue(Row<V, K> row, int columnIndex) {
+				return row.getKey().toString();
+			}
+
+		} };
 	}
 
 	public TableSupport.ColumnSpec<V, K>[] getValueColumns() {
-		return (TableSupport.ColumnSpec<V, K>[]) new TableSupport.ColumnSpec[]{
-			new TableSupport.ColumnSpec(
-			"Value", contentClass, false, -1)};
-	}
-
-	public int keyToIndex(K key) {
-		Iterator<K> it = oldValue.keySet().iterator();
-		for (int i = 0; it.hasNext(); i++) {
-			if (it.next() == key) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	public K indexToKey(int index) {
-		Iterator<K> it = oldValue.keySet().iterator();
-		for (int i = 0; it.hasNext(); i++) {
-			K key = it.next();
-			if (i == index) {
-				return key;
-			}
-		}
-		return null;
+		return (TableSupport.ColumnSpec<V, K>[]) new TableSupport.ColumnSpec[] { new TableSupport.ColumnSpec(
+				"Value", contentClass, false, -1) };
 	}
 
 	/**
 	 * Model used to represent the map. Looks directly at oldValue; which must
 	 * always be updated.
 	 */
-	private class MapTableModel extends AbstractTableModel {
+	private class MapTableModel extends AbstractRowTableModel<V, K> {
 
-		private TableSupport.ColumnSpec<V, K>[] cols;
+		private final HashMap<K, Integer> keysToRows = new HashMap<K, Integer>();
 
 		@SuppressWarnings("unchecked")
 		public MapTableModel() {
-			TableSupport.ColumnSpec<V, K> upDown = new TableSupport.ColumnSpec<V, K>(
-					"", TableSupport.MoveIt.class, true, 16);
-			upDown.setEditor(new TableSupport.MoveButtonWidget(MapOption.this));
-			upDown.setRenderer(new TableSupport.MoveButtonWidget(
-					MapOption.this));
-			TableSupport.ColumnSpec<V, K> delete = new TableSupport.ColumnSpec<V, K>(
-					"", TableSupport.DeleteIt.class, true, 20);
-			delete.setEditor(new TableSupport.DeleteButtonWidget(
-					MapOption.this));
-			delete.setRenderer(new TableSupport.DeleteButtonWidget(
-					MapOption.this));
-			TableSupport.ColumnSpec<V,K>[] keys = (TableSupport.ColumnSpec<V,K>[]) getKeyColumns();
-			TableSupport.ColumnSpec<V,K>[] values = (TableSupport.ColumnSpec<V,K>[]) getValueColumns();
-			cols = (TableSupport.ColumnSpec<V,K>[]) new TableSupport.ColumnSpec[keys.length
-					+ values.length + 1];
+			super(MapOption.this);
+
+			ColumnSpec<V, K> upDown = new ColumnSpec<V, K>("", MoveIt.class,
+					true, 16);
+			upDown.setEditor(new MoveButtonWidget(MapOption.this));
+			upDown.setRenderer(new MoveButtonWidget(MapOption.this));
+
+			ColumnSpec<V, K> delete = new ColumnSpec<V, K>("", DeleteIt.class,
+					true, 20);
+			delete.setEditor(new DeleteButtonWidget(MapOption.this));
+			delete.setRenderer(new DeleteButtonWidget(MapOption.this));
+
+			ColumnSpec<V, K>[] keys = (ColumnSpec<V, K>[]) getKeyColumns();
+			ColumnSpec<V, K>[] values = (ColumnSpec<V, K>[]) getValueColumns();
+			int totalColCount = keys.length + values.length + 1;
+			cols = (ColumnSpec<V, K>[]) new ColumnSpec[totalColCount];
 			System.arraycopy(keys, 0, cols, 0, keys.length);
 			System.arraycopy(values, 0, cols, keys.length, values.length);
 			cols[cols.length - 1] = delete;
+			if (logger.isDebugEnabled()) {
+				int i = 0;
+				for (ColumnSpec<V, K> c : cols) {
+					logger.debug(" -- at col {}: {}{}", i++, c.getClass()
+							.getSimpleName(), c.hashCode());
+				}
+			}
+
+			reindex();
 		}
 
 		@Override
-		public int getRowCount() {
-			return oldValue.size();
+		public void reindex() {
+			rows = new Row[oldValue.size()];
+			keysToRows.clear();
+			Iterator<Map.Entry<K, V>> it = oldValue.entrySet().iterator();
+			for (int i = 0; it.hasNext(); i++) {
+				rows[i] = new Row<V, K>(it.next());
+				keysToRows.put(rows[i].getKey(), i);
+			}
 		}
 
 		@Override
-		public int getColumnCount() {
-			return cols.length;
-		}
+		public void setValueAt(Object value, int rowIndex, int columnIndex) {
+			Row<V, K> r = rows[rowIndex];
+			Accessor a = cols[columnIndex].getAccessor(r, columnIndex);
 
-		@Override
-		public String getColumnName(int columnIndex) {
-			return cols[columnIndex].getName();
-		}
-
-		@Override
-		public Class<?> getColumnClass(int columnIndex) {
-			return cols[columnIndex].getClazz();
-		}
-
-		@Override
-		public boolean isCellEditable(int rowIndex, int columnIndex) {
-			return cols[columnIndex].isEditable();
-		}
-
-		@Override
-		public Object getValueAt(int rowIndex, int columnIndex) {
-			K k = keyForRow(rowIndex);
-			return cols[columnIndex].getValue(oldValue.get(k), k);
-		}
-
-		@Override
-		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-			K k = keyForRow(rowIndex);
-			cols[columnIndex].setValue(oldValue.get(k), k, aValue);
+			if (a.getSource() == r) {
+				// direct change
+				if (columnIndex == 0) {
+					// changing the key
+					if (oldValue.containsKey((K) value)) {
+						// refuse to change value - would overwrite existing
+						logger.warn("Refusing to allow user to overwrite key");
+					} else {
+						performCommand(new MapCommand.ChangeKeyInMap<K, V>(
+								oldValue, r.getKey(), (K) value, changed));
+					}
+				} else {
+					// changing a map value
+					a = new MapAccessor(oldValue, r.getKey());
+					performCommand(new ChangeFieldCommand(value, a, changed));
+				}
+			} else {
+				// changing a field within the key or value
+				performCommand(new ChangeFieldCommand(value, a, changed));
+			}
 		}
 	}
 
@@ -167,10 +207,10 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>>
 		for (int i = 0; i < tableModel.cols.length; i++) {
 			TableSupport.ColumnSpec<V, K> c = tableModel.cols[i];
 			if (c.getRenderer() != null) {
-				tableControl.setDefaultRenderer(c.getClazz(), c.getRenderer());
+				tableControl.getColumn(i).setCellRenderer(c.getRenderer());
 			}
 			if (c.getEditor() != null) {
-				tableControl.setDefaultEditor(c.getClazz(), c.getEditor());
+				tableControl.getColumn(i).setCellEditor(c.getEditor());
 			}
 			if (c.getWidth() != -1) {
 				tableControl.getColumn(i).setMinWidth(c.getWidth());
@@ -218,16 +258,12 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>>
 		tableModel.fireTableDataChanged();
 	}
 
-	private void executeCommand(Command c) {
-		manager.performCommand(c);
-	}
-
 	@Override
 	public void remove(K key) {
 		V o = oldValue.get(key);
-		logger.info("Removing {} (at {})", new Object[]{o, key});
+		logger.info("Removing {} (at {})", new Object[] { o, key });
 		Command c = new MapCommand.RemoveFromMap<K, V>(oldValue, key, changed);
-		executeCommand(c);
+		performCommand(c);
 	}
 
 	// FIXME - unimplemented
@@ -250,7 +286,7 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>>
 	public void add(V added, K key) {
 		logger.info("Adding {}", oldValue);
 		Command c = new MapCommand.AddToMap<K, V>(oldValue, added, key, changed);
-		executeCommand(c);
+		performCommand(c);
 	}
 
 	/**
@@ -276,7 +312,11 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>>
 	 */
 	@Override
 	public K keyForRow(int row) {
-		return indexToKey(row);
+		return tableModel.keyForRow(row);
+	}
+
+	private void performCommand(Command c) {
+		manager.performCommand(c);
 	}
 
 	/**

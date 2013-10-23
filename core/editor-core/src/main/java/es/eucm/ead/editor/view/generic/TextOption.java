@@ -67,7 +67,8 @@ public class TextOption extends AbstractOption<String> {
 
 	public TextOption(String title, String toolTipText, Object object,
 			String fieldName, ExpectedLength expectedLength, DependencyNode node) {
-		super(title, toolTipText, new IntrospectingAccessor<String>(object, fieldName), node);
+		super(title, toolTipText, new IntrospectingAccessor<String>(object,
+				fieldName), node);
 		this.expectedLength = expectedLength;
 	}
 
@@ -157,8 +158,8 @@ public class TextOption extends AbstractOption<String> {
 	@Override
 	protected Command createUpdateCommand() {
 		// Users expect to undo/redo entire words, rather than character-by-character
-		return new ChangeFieldCommand<String>(getControlValue(),
-				accessor, changed) {
+		return new ChangeFieldCommand<String>(getControlValue(), accessor,
+				changed) {
 			@Override
 			public boolean likesToCombine(String nextValue) {
 				return nextValue.startsWith(newValue)

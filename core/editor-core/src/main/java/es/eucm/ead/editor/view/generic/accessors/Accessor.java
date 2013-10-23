@@ -38,24 +38,25 @@
 package es.eucm.ead.editor.view.generic.accessors;
 
 /**
- * Descriptor for the field of an element.
- * <p>
- * The field is identified by a name (used to infer the value though
- * introspection). The descriptor has a method to get the element for which the
- * field is defined.
- *
- * @param <S>
- *            The type of the field (e.g. String, Boolean, etc)
+ * Very abstract access from a source to a a target. 
+ * 
+ * @param <S> The type of the object (e.g. MyClass.class, String.class, Integer.class, etc)
  */
 public interface Accessor<S> {
+
 	/**
-	 * Writes the field
+	 * @return the object that this accessor provides access from
+	 */
+	Object getSource();
+
+	/**
+	 * Writes the target
 	 * @param data to write
 	 */
 	void write(S data);
 
 	/**
-	 * Reads the field
+	 * Reads the target
 	 * @return whatever was read
 	 */
 	S read();

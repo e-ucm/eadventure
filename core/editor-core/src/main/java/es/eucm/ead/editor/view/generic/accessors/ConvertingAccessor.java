@@ -28,7 +28,7 @@
  *
  *      eAdventure is distributed in the hope that it will be useful,
  *      but WITHOUT ANY WARRANTY; without even the implied warranty of
- *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      MERCHANTABILITY or FITNESS FOR O PARTICULAR PURPOSE.  See the
  *      GNU Lesser General Public License for more details.
  *
  *      You should have received a copy of the GNU Lesser General Public License
@@ -41,33 +41,36 @@ package es.eucm.ead.editor.view.generic.accessors;
  * An accessor that wraps an inner accessor, converting from outer to inner
  * on-the-fly. This is useful in cases where a one-to-one mapping exist; for 
  * example, from integers to strings or filenames to files.
+ * @param <O> outer class (of instances returned by read and write)
+ * @param <I> inner class (of whatever is actually being accessed)
  */
-public abstract class ConvertingAccessor<A, B> implements Accessor<A> {
+public abstract class ConvertingAccessor<O, I> implements Accessor<O> {
 
-	private Accessor<B> inner;
-	private Class<A> outer;
+	private final Accessor<I> inner;
+	private final Class<O> outer;
 
 	/**
-	 * @param element
-	 *            The element where the value is stored
-	 * @param fieldName
-	 *            The name of the field
+	 * Constructor.
+	 * @param outer outwardly-visible class of returned instances
+	 * @param inner accessor used to retrieve inner object, which is 
+	 *  then converted via innerToOuter and outerToInner
 	 */
-	public ConvertingAccessor(Class<A> outer, Accessor<B> inner) {
+	public ConvertingAccessor(Class<O> outer, Accessor<I> inner) {
 		this.inner = inner;
 		this.outer = outer;
 	}
 
-	public abstract A innerToOuter(B b);
+	public abstract O innerToOuter(I inner);
 
-	public abstract B outerToInner(A a);
+	public abstract I outerToInner(O outer);
 
 	/**
-	 * Writes the field
+	 * Writes the field.
+	 * @param outer instance to write (after to outerToInner conversion)
 	 */
 	@Override
-	public void write(A data) {
-		inner.write(outerToInner(data));
+	public void write(O outer) {
+		inner.write(outerToInner(outer));
 	}
 
 	/**
@@ -75,7 +78,7 @@ public abstract class ConvertingAccessor<A, B> implements Accessor<A> {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public A read() {
+	public O read() {
 		return innerToOuter(inner.read());
 	}
 
@@ -100,11 +103,13 @@ public abstract class ConvertingAccessor<A, B> implements Accessor<A> {
 			return false;
 		}
 		@SuppressWarnings("unchecked")
-		final ConvertingAccessor<A, B> other = (ConvertingAccessor<A, B>) obj;
-		if (this.inner != other.inner
-				&& (this.inner == null || !this.inner.equals(other.inner))) {
-			return false;
-		}
-		return true;
+		final ConvertingAccessor<O, I> other = (ConvertingAccessor<O, I>) obj;
+		return this.inner == other.inner
+				|| (this.inner != null && this.inner.equals(other.inner));
+	}
+
+	@Override
+	public Object getSource() {
+		return inner.getSource();
 	}
 }

@@ -70,8 +70,8 @@ public class FileOption extends AbstractOption<File> {
 	public FileOption(String title, String toolTipText, String buttonText,
 			Object target, String fieldName, FileCache fileCache,
 			DependencyNode... changed) {
-		super(title, toolTipText, 
-			new IntrospectingAccessor<File>(target, fieldName), changed);
+		super(title, toolTipText, new IntrospectingAccessor<File>(target,
+				fieldName), changed);
 		this.fileCache = fileCache;
 		this.buttonText = buttonText;
 		validityConstraint.getList().add(new FileMustExistsAndBeReadable());
@@ -128,8 +128,8 @@ public class FileOption extends AbstractOption<File> {
 
 	@Override
 	protected Command createUpdateCommand() {
-		return new ChangeFileCommand(getControlValue(), accessor,
-				fileCache, changed);
+		return new ChangeFileCommand(getControlValue(), accessor, fileCache,
+				changed);
 	}
 
 	/**

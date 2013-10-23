@@ -46,6 +46,7 @@ import javax.swing.event.ChangeListener;
 import es.eucm.ead.editor.control.Command;
 import es.eucm.ead.editor.control.commands.ChangeFieldCommand;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
+import es.eucm.ead.editor.view.generic.accessors.Accessor;
 import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 
 public class IntegerOption extends AbstractOption<Integer> {
@@ -64,7 +65,15 @@ public class IntegerOption extends AbstractOption<Integer> {
 	 */
 	public IntegerOption(String title, String toolTipText, Object object,
 			String fieldName, DependencyNode node, SpinnerNumberModel model) {
-		super(title, toolTipText, new IntrospectingAccessor<Integer>(object, fieldName), node);
+		super(title, toolTipText, new IntrospectingAccessor<Integer>(object,
+				fieldName), node);
+		this.model = model;
+	}
+
+	public IntegerOption(String title, String toolTipText,
+			Accessor<Integer> accessor, DependencyNode node,
+			SpinnerNumberModel model) {
+		super(title, toolTipText, accessor, node);
 		this.model = model;
 	}
 
@@ -96,8 +105,8 @@ public class IntegerOption extends AbstractOption<Integer> {
 	@Override
 	protected Command createUpdateCommand() {
 		// Users expect to undo/redo entire words, rather than character-by-character
-		return new ChangeFieldCommand<Integer>(getControlValue(),
-				accessor, changed) {
+		return new ChangeFieldCommand<Integer>(getControlValue(), accessor,
+				changed) {
 			@Override
 			public boolean likesToCombine(Integer nextValue) {
 				// return Math.abs(nextValue - oldValue) <= 1;

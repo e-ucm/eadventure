@@ -37,35 +37,38 @@
 
 package es.eucm.ead.editor.view.generic.accessors;
 
-import java.util.Map;
+import java.util.List;
 
 /**
- * Reads and writes to a map value.
- * @param <K> key-type
+ * Reads and writes to a list value.
  * @param <V> value-type
  */
-public class MapAccessor<K, V> implements Accessor<V> {
+public class ListAccessor<V> implements Accessor<V> {
 
-	protected K key;
-	private final Accessor<Map<K, V>> mapDescriptor;
-	private final Map<K, V> map;
+	private final Accessor<List<V>> listDescriptor;
+	protected final int index;
+	private final List<V> list;
 
 	/**
-	 * @param element The element where the map is stored
-	 * @param fieldName The name of the field that contains the map
-	 * @param key the key under which it is stored
+	 * @param element The element where the list is stored
+	 * @param fieldName The name of the field that contains the list
+	 * @param index the index under which the interesting element is stored
 	 */
-	public MapAccessor(Object element, String fieldName, K key) {
-		this.mapDescriptor = new IntrospectingAccessor<Map<K, V>>(element,
+	public ListAccessor(Object element, String fieldName, int index) {
+		this.listDescriptor = new IntrospectingAccessor<List<V>>(element,
 				fieldName);
-		this.map = null;
-		this.key = key;
+		this.index = index;
+		this.list = null;
 	}
 
-	public MapAccessor(Map<K, V> map, K key) {
-		this.mapDescriptor = null;
-		this.map = map;
-		this.key = key;
+	/**
+	 * @param list The list 
+	 * @param index the index under which the interesting element is stored
+	 */
+	public ListAccessor(List<V> list, int index) {
+		this.listDescriptor = null;
+		this.index = index;
+		this.list = list;
 	}
 
 	/**
@@ -74,10 +77,10 @@ public class MapAccessor<K, V> implements Accessor<V> {
 	@Override
 	public void write(V data) {
 		try {
-			Map<K, V> m = (map == null ? mapDescriptor.read() : map);
-			m.put(key, data);
+			List<V> l = (list == null ? listDescriptor.read() : list);
+			l.set(index, data);
 		} catch (Exception e) {
-			throw new RuntimeException("Error writing to key " + key, e);
+			throw new RuntimeException("Error writing to index " + index, e);
 		}
 	}
 
@@ -87,32 +90,33 @@ public class MapAccessor<K, V> implements Accessor<V> {
 	@Override
 	public V read() {
 		try {
-			Map<K, V> m = (map == null ? mapDescriptor.read() : map);
-			return m.get(key);
+			List<V> l = (list == null ? listDescriptor.read() : list);
+			return l.get(index);
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading from key " + key, e);
+			throw new RuntimeException("Error reading from index " + index, e);
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "MapA{" + mapDescriptor + " map=" + map + " key=" + key + '}';
+		return "ListA{" + listDescriptor + " list=" + list + " idx=" + index
+				+ '}';
 	}
 
 	@Override
 	public Object getSource() {
-		return map == null ? mapDescriptor : map;
+		return list == null ? listDescriptor : list;
 	}
 
 	@Override
 	public int hashCode() {
-		int hash = 3;
-		hash = 31 * hash + (this.key != null ? this.key.hashCode() : 0);
-		hash = 31
+		int hash = 7;
+		hash = 73
 				* hash
-				+ (this.mapDescriptor != null ? this.mapDescriptor.hashCode()
+				+ (this.listDescriptor != null ? this.listDescriptor.hashCode()
 						: 0);
-		hash = 31 * hash + (this.map != null ? this.map.hashCode() : 0);
+		hash = 73 * hash + this.index;
+		hash = 73 * hash + (this.list != null ? this.list.hashCode() : 0);
 		return hash;
 	}
 
@@ -124,17 +128,16 @@ public class MapAccessor<K, V> implements Accessor<V> {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final MapAccessor other = (MapAccessor) obj;
-		if (this.key != other.key
-				&& (this.key == null || !this.key.equals(other.key))) {
+		final ListAccessor<V> other = (ListAccessor<V>) obj;
+		if (this.listDescriptor != other.listDescriptor
+				&& (this.listDescriptor == null || !this.listDescriptor
+						.equals(other.listDescriptor))) {
 			return false;
 		}
-		final Accessor<Map<K, V>> md = (Accessor<Map<K, V>>) other.mapDescriptor;
-		if (mapDescriptor != md
-				&& (mapDescriptor == null || !mapDescriptor.equals(md))) {
+		if (this.index != other.index) {
 			return false;
 		}
-		return this.map == other.map
-				|| (this.map != null && this.map.equals(other.map));
+		return this.list == other.list
+				|| (this.list != null && this.list.equals(other.list));
 	}
 }

@@ -43,7 +43,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
 /**
- * Generic implementation of {@link Accessor}
+ * Generic implementation of an introspecting {@link Accessor}
  *
  * @param <S>
  */
@@ -115,8 +115,8 @@ public class IntrospectingAccessor<S> implements Accessor<S> {
 			Method method = getPropertyDescriptor().getReadMethod();
 			return (S) method.invoke(element);
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading field '" 
-					+ fieldName + "' in '" + element + "' of type " + element.getClass(), e);
+			throw new RuntimeException("Error reading field '" + fieldName
+					+ "' in '" + element + "' of type " + element.getClass(), e);
 		}
 	}
 
@@ -154,5 +154,10 @@ public class IntrospectingAccessor<S> implements Accessor<S> {
 	public String toString() {
 		return "IntroFD{" + element.getClass().getSimpleName() + "@"
 				+ element.hashCode() + "::" + element + '}';
+	}
+
+	@Override
+	public Object getSource() {
+		return element;
 	}
 }

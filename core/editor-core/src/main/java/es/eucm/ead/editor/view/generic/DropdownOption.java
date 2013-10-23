@@ -99,7 +99,8 @@ public class DropdownOption<T> extends AbstractOption<T> {
 	 */
 	public DropdownOption(String title, String toolTipText, Object object,
 			String fieldName, DependencyNode node, T[] choices) {
-		super(title, toolTipText, new IntrospectingAccessor<T>(object, fieldName), node);
+		super(title, toolTipText, new IntrospectingAccessor<T>(object,
+				fieldName), node);
 		initializeItems(choices, null, null);
 		this.model = new DefaultComboBoxModel(items);
 	}
@@ -115,7 +116,8 @@ public class DropdownOption<T> extends AbstractOption<T> {
 	 */
 	public DropdownOption(String title, String toolTipText, Object object,
 			String fieldName, DependencyNode node, T[] choices, String[] names) {
-		super(title, toolTipText, new IntrospectingAccessor<T>(object, fieldName), node);
+		super(title, toolTipText, new IntrospectingAccessor<T>(object,
+				fieldName), node);
 		initializeItems(choices, names, null);
 		this.model = new DefaultComboBoxModel(items);
 	}
@@ -142,8 +144,7 @@ public class DropdownOption<T> extends AbstractOption<T> {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (changeConsideredRelevant(accessor.read(),
-						getControlValue())) {
+				if (changeConsideredRelevant(accessor.read(), getControlValue())) {
 					update();
 				}
 			}
@@ -153,7 +154,6 @@ public class DropdownOption<T> extends AbstractOption<T> {
 
 	@Override
 	protected Command createUpdateCommand() {
-		return new ChangeFieldCommand<T>(getControlValue(),
-				accessor, changed);
+		return new ChangeFieldCommand<T>(getControlValue(), accessor, changed);
 	}
 }

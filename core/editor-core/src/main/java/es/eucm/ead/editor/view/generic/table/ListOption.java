@@ -47,8 +47,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.AbstractTableModel;
 import es.eucm.ead.editor.control.Command;
+import es.eucm.ead.editor.control.commands.ChangeFieldCommand;
 import es.eucm.ead.editor.control.commands.ListCommand;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.view.generic.AbstractOption;
@@ -59,6 +59,7 @@ import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteButtonWidget;
 import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteIt;
 import es.eucm.ead.editor.view.generic.table.TableSupport.MoveButtonWidget;
 import es.eucm.ead.editor.view.generic.table.TableSupport.MoveIt;
+import es.eucm.ead.editor.view.generic.table.TableSupport.Row;
 import org.jdesktop.swingx.JXTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,30 +85,32 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 
 	public ListOption(String title, String toolTipText, Object object,
 			String fieldName, Class<?> contentClass, DependencyNode... changed) {
-		super(title, toolTipText, 
-				new IntrospectingAccessor<EAdList<T>>(object, fieldName), changed);
+		super(title, toolTipText, new IntrospectingAccessor<EAdList<T>>(object,
+				fieldName), changed);
 		this.contentClass = contentClass;
 	}
 
 	public ColumnSpec<T, Integer>[] getExtraColumns() {
-		return (ColumnSpec<T, Integer>[]) new ColumnSpec[] { 
-			new ColumnSpec<T, Integer>("Value",
-				contentClass, false, -1) };
+		return (ColumnSpec<T, Integer>[]) new ColumnSpec[] { new ColumnSpec<T, Integer>(
+				"Value", contentClass, false, -1) };
 	}
 
 	/**
 	 * Model used to represent the list. Looks directly at oldValue; which must
 	 * always be updated.
 	 */
-	private class ListTableModel extends AbstractTableModel {
-		private ColumnSpec<T, Integer>[] cols;
+	private class ListTableModel extends
+			TableSupport.AbstractRowTableModel<T, Integer> {
 
 		@SuppressWarnings("unchecked")
 		public ListTableModel() {
-			ColumnSpec<T, Integer> upDown = new ColumnSpec<T, Integer>("", MoveIt.class, true, 16);
+			super(ListOption.this);
+			ColumnSpec<T, Integer> upDown = new ColumnSpec<T, Integer>("",
+					MoveIt.class, true, 16);
 			upDown.setEditor(new MoveButtonWidget(ListOption.this));
 			upDown.setRenderer(new MoveButtonWidget(ListOption.this));
-			ColumnSpec<T, Integer> delete = new ColumnSpec<T, Integer>("", DeleteIt.class, true,	20);
+			ColumnSpec<T, Integer> delete = new ColumnSpec<T, Integer>("",
+					DeleteIt.class, true, 20);
 			delete.setEditor(new DeleteButtonWidget(ListOption.this));
 			delete.setRenderer(new DeleteButtonWidget(ListOption.this));
 			ColumnSpec<T, Integer>[] user = (ColumnSpec<T, Integer>[]) getExtraColumns();
@@ -115,43 +118,25 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 			cols[0] = upDown;
 			cols[cols.length - 1] = delete;
 			System.arraycopy(user, 0, cols, 1, user.length);
+
+			reindex();
 		}
 
 		@Override
-		public int getRowCount() {
-			return oldValue.size();
+		public void reindex() {
+			rows = new Row[oldValue.size()];
+			for (int i = 0; i < oldValue.size(); i++) {
+				rows[i] = new Row<T, Integer>(oldValue.get(i), i);
+			}
 		}
 
 		@Override
-		public int getColumnCount() {
-			return cols.length;
-		}
-
-		@Override
-		public String getColumnName(int columnIndex) {
-			return cols[columnIndex].getName();
-		}
-
-		@Override
-		public Class<?> getColumnClass(int columnIndex) {
-			return cols[columnIndex].getClazz();
-		}
-
-		@Override
-		public boolean isCellEditable(int rowIndex, int columnIndex) {
-			return cols[columnIndex].isEditable();
-		}
-
-		@Override
-		public Object getValueAt(int rowIndex, int columnIndex) {
-			return cols[columnIndex].getValue(
-					oldValue.get(rowIndex), keyForRow(rowIndex));
-		}
-
-		@Override
-		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-			cols[columnIndex].setValue(
-					oldValue.get(rowIndex), keyForRow(rowIndex), aValue);
+		public void setValueAt(Object value, int rowIndex, int columnIndex) {
+			Row<T, Integer> r = rows[rowIndex];
+			Accessor a = cols[columnIndex].getAccessor(r, columnIndex);
+			if (a == null) {
+				performCommand(new ChangeFieldCommand(value, a, changed));
+			}
 		}
 	}
 
@@ -214,16 +199,12 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 		tableModel.fireTableDataChanged();
 	}
 
-	private void executeCommand(Command c) {
-		manager.performCommand(c);
-	}
-
 	@Override
 	public void remove(Integer index) {
 		T o = oldValue.get(index);
 		logger.info("Removing {} (at {})", new Object[] { o, index });
 		Command c = new ListCommand.RemoveFromList<T>(oldValue, o, changed);
-		executeCommand(c);
+		performCommand(c);
 	}
 
 	@Override
@@ -245,7 +226,11 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 		logger.info("Adding {}", oldValue);
 		Command c = new ListCommand.AddToList<T>(oldValue, added, oldValue
 				.size(), changed);
-		executeCommand(c);
+		performCommand(c);
+	}
+
+	public void performCommand(Command c) {
+		manager.performCommand(c);
 	}
 
 	/**
@@ -263,7 +248,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 		}
 		Command c = new ListCommand.ReorderInList<T>(oldValue, o, index,
 				index - 1, changed);
-		executeCommand(c);
+		performCommand(c);
 	}
 
 	/**
@@ -280,7 +265,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 		}
 		Command c = new ListCommand.ReorderInList<T>(oldValue, o, index,
 				index + 1, changed);
-		executeCommand(c);
+		performCommand(c);
 	}
 
 	/**

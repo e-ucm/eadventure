@@ -41,16 +41,22 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
 import es.eucm.ead.editor.model.nodes.DependencyNode;
+import es.eucm.ead.editor.view.generic.accessors.Accessor;
 import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 
 public class BooleanOption extends AbstractOption<Boolean> {
 
 	private JCheckBox checkBox;
 
+	public BooleanOption(String title, String toolTipText, Object target,
+			String fieldName, DependencyNode... changed) {
+		super(title, toolTipText, new IntrospectingAccessor<Boolean>(target,
+				fieldName), changed);
+	}
+
 	public BooleanOption(String title, String toolTipText,
-			Object target, String fieldName, DependencyNode... changed) {
-		super(title, toolTipText, 
-				new IntrospectingAccessor<Boolean>(target, fieldName), changed);
+			Accessor<Boolean> accessor, DependencyNode... changed) {
+		super(title, toolTipText, accessor, changed);
 	}
 
 	@Override

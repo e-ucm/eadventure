@@ -38,13 +38,13 @@
 package es.eucm.ead.editor.view.panel;
 
 import es.eucm.ead.editor.model.nodes.SceneNode;
-import es.eucm.ead.editor.view.generic.AccessorColumn;
 import es.eucm.ead.editor.view.generic.OptionPanel;
 import es.eucm.ead.editor.view.generic.OptionPanel.LayoutPolicy;
 import es.eucm.ead.editor.view.generic.PanelImpl;
 import es.eucm.ead.editor.view.generic.TextOption;
 import es.eucm.ead.editor.view.generic.table.ListOption;
 import es.eucm.ead.editor.view.generic.table.MapOption;
+import es.eucm.ead.editor.view.generic.table.OptionColumn;
 import es.eucm.ead.editor.view.generic.table.TableSupport.ColumnSpec;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
@@ -80,14 +80,13 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 		op.add(new ListOption<SceneElement>("Elements",
 				"Contained sceneElements", scene, "sceneElements",
 				SceneElement.class, target.getFirst()) {
-
-			@Override
-			public ColumnSpec<SceneElement, Integer>[] getExtraColumns() {
-				return new ColumnSpec[] { 
-					new AccessorColumn("ID", "id", String.class, -1)
-				};
-
-			}
+			//
+			//			@Override
+			//			public ColumnSpec<SceneElement, Integer>[] getExtraColumns() {
+			//				return new ColumnSpec[] { new AccessorColumn("ID", "id",
+			//						String.class, -1) };
+			//
+			//			}
 		});
 		op.add(new MapOption<EAdVarDef, Object>("Vars", "Available varDefs",
 				scene, "vars", EAdVarDef.class, target.getFirst()) {
@@ -95,38 +94,12 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 			@Override
 			public ColumnSpec[] getKeyColumns() {
 				return new ColumnSpec[] {
-					new ColumnSpec<Object, EAdVarDef>("Name", String.class, false, 50) {
-						@Override
-						public Object getValue(Object o, EAdVarDef k) {
-							return k.getName();
-						}
-					},
-					new ColumnSpec<Object, EAdVarDef>("Type", String.class, false, 50) {
-						@Override
-						public Object getValue(Object o, EAdVarDef k) {
-							return k.getType().getSimpleName();
-						}
-					},
-					new ColumnSpec<Object, EAdVarDef>("Initial v.", String.class, false, 60) {
-						@Override
-						public Object getValue(Object o, EAdVarDef k) {
-							return k.getInitialValue().toString();
-						}
-					} 
-				};
-			}
-
-			@Override
-			public ColumnSpec[] getValueColumns() {
-				return new ColumnSpec[] { 
-					new ColumnSpec<Object, EAdVarDef>("Value", String.class,
-						false, 50) {
-							
-					@Override
-					public Object getValue(Object o, EAdVarDef k) {
-						return o.toString();
-					}
-				} };
+						new OptionColumn.Text<EAdVarDef, Object>("Name",
+								"name", true, true, -1),
+						new OptionColumn.Text<EAdVarDef, Object>("Type",
+								"type", true, false, -1),
+						new OptionColumn.Text<EAdVarDef, Object>("Initial v.",
+								"initialValue", true, true, -1) };
 			}
 		});
 

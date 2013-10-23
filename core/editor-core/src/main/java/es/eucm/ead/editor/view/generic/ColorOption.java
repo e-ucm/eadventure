@@ -74,17 +74,17 @@ public class ColorOption extends AbstractOption<Color> {
 		}
 	}
 
-	public ColorOption(String title, String toolTipText,
-			Object target, String fieldName, DependencyNode... changed) {
-		super(title, toolTipText, 
-				new IntrospectingAccessor<Color>(target, fieldName), changed);
+	public ColorOption(String title, String toolTipText, Object target,
+			String fieldName, DependencyNode... changed) {
+		super(title, toolTipText, new IntrospectingAccessor<Color>(target,
+				fieldName), changed);
 	}
 
 	public ColorOption(String title, String toolTipText,
 			Accessor<Color> accessor, DependencyNode... changed) {
 		super(title, toolTipText, accessor, changed);
 	}
-	
+
 	@Override
 	protected JComponent createControl() {
 		colorButton = new JButton();

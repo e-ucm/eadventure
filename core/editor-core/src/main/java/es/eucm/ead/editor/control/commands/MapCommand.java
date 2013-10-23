@@ -45,10 +45,9 @@ import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.model.elements.extra.EAdMap;
 
 /**
- * Contains subclasses for adding to, removing from, and reordering elements in
- * lists.
- * 
- * FIXME: currently does not update graph dependencies.
+ * Contains subclasses for adding to, removing from, and re-keying elements in
+ * lists. Changes to key or value-objects should be achieved via the 
+ * corresponding ChangeFieldCommands.
  */
 public abstract class MapCommand<K, V> extends Command {
 
@@ -130,7 +129,7 @@ public abstract class MapCommand<K, V> extends Command {
 
 		private boolean wasEmpty = false;
 		private V oldValue = null;
-		
+
 		public AddToMap(EAdMap<K, V> map, V e, K key, DependencyNode... changed) {
 			super(map, e, null, key, changed);
 			commandName = "AddToMap";
@@ -143,15 +142,13 @@ public abstract class MapCommand<K, V> extends Command {
 
 		@Override
 		public ModelEvent undoCommand(EditorModel em) {
-			return wasEmpty ?
-				remove(em, newKey) :
-				put(em, newKey, oldValue);
+			return wasEmpty ? remove(em, newKey) : put(em, newKey, oldValue);
 		}
 
 		@Override
 		public ModelEvent redoCommand(EditorModel em) {
-			wasEmpty = ! elementMap.containsKey(newKey);
-			if ( ! wasEmpty) {
+			wasEmpty = !elementMap.containsKey(newKey);
+			if (!wasEmpty) {
 				oldValue = elementMap.get(newKey);
 			}
 			return put(em, newKey, anElement);
