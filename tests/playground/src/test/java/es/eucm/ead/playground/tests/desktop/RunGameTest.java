@@ -43,44 +43,33 @@ import com.badlogic.gdx.utils.Array;
 import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.debugger.CommandInterpreter;
 import es.eucm.ead.engine.desktop.DesktopGame;
-import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.ead.model.elements.AdventureGame;
-import es.eucm.ead.model.elements.Chapter;
-import es.eucm.ead.model.elements.scenes.Scene;
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.playground.tests.application.TestGame;
-import es.eucm.ead.tools.java.JavaTextFileWriter;
-import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
-import es.eucm.ead.writer.AdventureWriter;
-import org.junit.Test;
+import es.eucm.ead.tools.java.JavaTextFileReader;
 
 import static junit.framework.Assert.assertEquals;
 
 public class RunGameTest {
 
-	@Test
-	public void testGame() {
+	private JavaTextFileReader reader;
+
+	public RunGameTest() {
+		reader = new JavaTextFileReader();
+	}
+
+	public void testGame(String path) {
 		final DesktopGame g = new TestGame();
 		g.setDebug(true);
-		g.setPath("src/main/resources/testproject/");
-		Scene scene = new Scene();
-		scene.setId("Initial");
-		scene.setBackground(new SceneElement(new RectangleShape(800, 600,
-				ColorFill.RED)));
-		Chapter chapter = new Chapter(scene);
-		chapter.addScene(scene);
-		AdventureGame model = new AdventureGame();
-		model.getChapters().add(chapter);
-		AdventureWriter writer = new AdventureWriter(
-				new JavaReflectionProvider());
-		writer.write(model, "src/main/resources/testproject",
-				new JavaTextFileWriter());
+		g.setPath(path);
 		g.initInjector();
 		EAdEngine e = g.getInjector().getInstance(EAdEngine.class);
 		Tester tester = new Tester(g.getInjector().getInstance(
 				CommandInterpreter.class));
-		tester.addCommandTest(new CommandTest(0, "scene", "Initial"));
+		String commands = reader.read(path + "/test");
+		for (String command : commands.split(System.lineSeparator())) {
+			String parts[] = command.split(";");
+			tester.addCommandTest(new CommandTest(Integer.parseInt(parts[0]),
+					parts[1], parts.length == 3 ? parts[2] : null));
+		}
 		e.addApplicationListener(tester);
 		g.start();
 	}
@@ -119,8 +108,12 @@ public class RunGameTest {
 			if (currentTest != null) {
 				currentTest.time -= Gdx.graphics.getDeltaTime() * 1000;
 				if (currentTest.time <= 0) {
-					assertEquals(interpreter.interpret(currentTest.command),
-							currentTest.result);
+					if (currentTest.result != null) {
+						assertEquals(
+								interpreter.interpret(currentTest.command),
+								currentTest.result);
+					}
+					currentTest = null;
 					if (tests.size == 0) {
 						Gdx.app.exit();
 					}

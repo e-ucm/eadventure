@@ -35,29 +35,43 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.model.elements.effects;
+package es.eucm.ead.importer;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
+import com.google.inject.Singleton;
+import es.eucm.ead.tools.TextFileWriter;
 
-@Element
-public class ChangeChapterEf extends Effect {
+import java.util.ArrayList;
 
-	@Param
-	private String chapterId;
+@Singleton
+public class ConverterTester {
 
-	public ChangeChapterEf() {
+	private ArrayList<String> instructions;
+
+	public ConverterTester() {
+		this.instructions = new ArrayList<String>();
 	}
 
-	public ChangeChapterEf(String chapterId) {
-		this.chapterId = chapterId;
+	public void check(String command, String result) {
+		check(0, command, result);
 	}
 
-	public String getChapterId() {
-		return chapterId;
+	public void command(String command) {
+		check(0, command, "");
 	}
 
-	public void setChapterId(String chapterId) {
-		this.chapterId = chapterId;
+	public void command(int time, String command) {
+		check(time, command, "");
+	}
+
+	public void check(int time, String command, String result) {
+		instructions.add(time + ";" + command + ";" + result);
+	}
+
+	public void write(String file, TextFileWriter writer) {
+		String text = "";
+		for (String s : instructions) {
+			text += s + System.lineSeparator();
+		}
+		writer.write(text, file);
 	}
 }

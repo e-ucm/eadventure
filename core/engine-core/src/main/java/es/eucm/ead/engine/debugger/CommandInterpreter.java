@@ -49,7 +49,9 @@ import com.google.inject.Singleton;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameLoader;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
+import es.eucm.ead.model.Commands;
 import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.effects.ChangeChapterEf;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.effects.ToggleSoundEf;
 import es.eucm.ead.reader.model.Manifest;
@@ -82,7 +84,7 @@ public class CommandInterpreter {
 			command = command.trim();
 			if (command.equals("scene")) {
 				return game.getGUI().getScene().getElement().getId();
-			} else if (command.equals("chapter")) {
+			} else if (command.equals(Commands.CHAPTER)) {
 				return gameLoader.getCurrentChapterId();
 			} else if (command.startsWith("go")) {
 				String[] parts = command.split(" ");
@@ -155,6 +157,9 @@ public class CommandInterpreter {
 				result = "OK.";
 			} else if (command.startsWith("exit")) {
 				Gdx.app.exit();
+			} else if (command.startsWith(Commands.GO_CHAPTER)) {
+				String[] parts = command.split(" ");
+				game.addEffect(new ChangeChapterEf(parts[1]));
 			}
 		} catch (Exception e)
 

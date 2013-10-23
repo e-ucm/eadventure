@@ -45,6 +45,7 @@ import es.eucm.ead.legacyplugins.model.BubbleNameEv;
 import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.legacyplugins.model.TimerEv;
 import es.eucm.ead.legacyplugins.model.elements.ClockDisplay;
+import es.eucm.ead.model.Commands;
 import es.eucm.ead.model.assets.drawable.basics.NinePatchImage;
 import es.eucm.ead.model.assets.text.BasicFont;
 import es.eucm.ead.model.elements.AdventureGame;
@@ -54,8 +55,8 @@ import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.huds.BottomHud;
-import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.GhostElement;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
@@ -97,6 +98,10 @@ public class AdventureConverter {
 
 	private Random rand;
 
+	private ConverterTester tester;
+
+	private boolean test;
+
 	public AdventureConverter() {
 		Injector i = Guice.createInjector();
 		oldReader = i.getInstance(OldReader.class);
@@ -107,11 +112,16 @@ public class AdventureConverter {
 		stringWriter = new StringWriter();
 		writer = new AdventureWriter(new JavaReflectionProvider());
 		resourcesConverter = i.getInstance(ResourcesConverter.class);
+		tester = i.getInstance(ConverterTester.class);
 		rand = new Random();
 	}
 
 	public AdventureGame getModel() {
 		return model;
+	}
+
+	public void setTest(boolean test) {
+		this.test = test;
 	}
 
 	/**
@@ -187,9 +197,14 @@ public class AdventureConverter {
 		model.putProperty(AdventureGame.SCENES_ELEMENT_BINDS,
 				sceneElementPlugins);
 
+		int i = 0;
 		for (es.eucm.eadventure.common.data.chapter.Chapter c : adventureData
 				.getChapters()) {
+			String id = "$chapter" + i++;
+			tester.command(Commands.GO_CHAPTER + " " + id);
+			tester.check(Commands.CHAPTER, id);
 			Chapter chapter = chapterConverter.convert(c);
+			chapter.setId(id);
 			model.addChapter(chapter);
 		}
 
@@ -197,7 +212,12 @@ public class AdventureConverter {
 				+ (destinationFolder.charAt(destinationFolder.length() - 1) == '/' ? ""
 						: "/");
 		// Create data.xml
-		writer.write(model, path, new JavaTextFileWriter());
+		JavaTextFileWriter fileWriter = new JavaTextFileWriter();
+		writer.write(model, path, fileWriter);
+
+		if (test) {
+			tester.write(path + "test", fileWriter);
+		}
 
 		// Create strings.xml
 		File f = new File(path, "strings.xml");

@@ -35,29 +35,21 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.model.elements.effects;
+package es.eucm.ead.model;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
+/**
+ * Interface containing admissible orders by the command interpreter. They're here to be shared with importer and
+ * with the engine
+ */
+public interface Commands {
 
-@Element
-public class ChangeChapterEf extends Effect {
+	/**
+	 * Goes to chapter
+	 */
+	public static final String GO_CHAPTER = "goc";
 
-	@Param
-	private String chapterId;
-
-	public ChangeChapterEf() {
-	}
-
-	public ChangeChapterEf(String chapterId) {
-		this.chapterId = chapterId;
-	}
-
-	public String getChapterId() {
-		return chapterId;
-	}
-
-	public void setChapterId(String chapterId) {
-		this.chapterId = chapterId;
-	}
+	/**
+	 * Returns the id of the current chapter
+	 */
+	public static final String CHAPTER = "chapter";
 }
