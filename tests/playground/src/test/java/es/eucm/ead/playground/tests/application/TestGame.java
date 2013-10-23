@@ -35,23 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.playground.tests.importer;
+package es.eucm.ead.playground.tests.application;
 
+import com.badlogic.gdx.ApplicationListener;
+import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.desktop.DesktopGame;
-import es.eucm.ead.importer.AdventureConverter;
+import es.eucm.ead.engine.desktop.platform.DesktopGUI;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
-public class ImporterEngine {
+import javax.swing.*;
 
-	public static String TEST = "/home/bender/juegos/firstAidGame";
+public class TestGame extends DesktopGame {
+	public JFrame start() {
+		initInjector();
+		// Init class loader
+		ReflectionClassLoader.init(new JavaReflectionClassLoader());
+		// Prepare Gdx configuration
+		int width = windowWidth;
+		int height = windowHeight;
+		DesktopGUI gui = (DesktopGUI) injector.getInstance(GUI.class);
+		final EAdEngine engine = (EAdEngine) injector
+				.getInstance(ApplicationListener.class);
+		engine.setDebug(debug);
 
-	public static void main(String args[]) {
-		AdventureConverter converter = new AdventureConverter();
-		converter.setEnableTranslations(false);
-		String convertedFolder = converter.convert(TEST, TEST + "/ead2");
+		TestApplication test = new TestApplication(engine, width, height);
+		test.run();
 
-		DesktopGame game = new DesktopGame();
-		game.setDebug(true);
-		game.setPath(convertedFolder);
-		game.start();
+		return null;
 	}
 }

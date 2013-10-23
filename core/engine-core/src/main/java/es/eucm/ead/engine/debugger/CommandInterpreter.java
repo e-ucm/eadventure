@@ -153,6 +153,8 @@ public class CommandInterpreter {
 				gameLoader.getEngine().getStage().touchDown(x, y, 0,
 						Input.Buttons.LEFT);
 				result = "OK.";
+			} else if (command.startsWith("exit")) {
+				Gdx.app.exit();
 			}
 		} catch (Exception e)
 

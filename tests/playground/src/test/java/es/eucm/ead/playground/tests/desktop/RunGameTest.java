@@ -49,19 +49,19 @@ import es.eucm.ead.model.elements.Chapter;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.playground.tests.application.TestGame;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.writer.AdventureWriter;
+import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 
 public class RunGameTest {
 
-	private Error error;
-
-	//@Test
+	@Test
 	public void testGame() {
-		final DesktopGame g = new DesktopGame();
+		final DesktopGame g = new TestGame();
 		g.setDebug(true);
 		g.setPath("src/main/resources/testproject/");
 		Scene scene = new Scene();
@@ -83,16 +83,6 @@ public class RunGameTest {
 		tester.addCommandTest(new CommandTest(0, "scene", "Initial"));
 		e.addApplicationListener(tester);
 		g.start();
-		synchronized (this) {
-			try {
-				this.wait();
-			} catch (Throwable throwable) {
-				throwable.printStackTrace();
-			}
-		}
-		if (error != null) {
-			throw error;
-		}
 	}
 
 	public class Tester implements ApplicationListener {
@@ -118,34 +108,22 @@ public class RunGameTest {
 
 		@Override
 		public void render() {
-			try {
-				if (currentTest == null) {
-					if (tests.size > 0) {
-						currentTest = tests.removeIndex(0);
-					} else {
-						synchronized (RunGameTest.this) {
-							RunGameTest.this.notify();
-						}
-					}
+			if (currentTest == null) {
+				if (tests.size > 0) {
+					currentTest = tests.removeIndex(0);
+				} else {
+					Gdx.app.exit();
 				}
+			}
 
-				if (currentTest != null) {
-					currentTest.time -= Gdx.graphics.getDeltaTime() * 1000;
-					if (currentTest.time <= 0) {
-						assertEquals(
-								interpreter.interpret(currentTest.command),
-								currentTest.result);
-						if (tests.size == 0) {
-							synchronized (RunGameTest.this) {
-								RunGameTest.this.notify();
-							}
-						}
+			if (currentTest != null) {
+				currentTest.time -= Gdx.graphics.getDeltaTime() * 1000;
+				if (currentTest.time <= 0) {
+					assertEquals(interpreter.interpret(currentTest.command),
+							currentTest.result);
+					if (tests.size == 0) {
+						Gdx.app.exit();
 					}
-				}
-			} catch (Error e) {
-				error = e;
-				synchronized (RunGameTest.this) {
-					RunGameTest.this.notify();
 				}
 			}
 
