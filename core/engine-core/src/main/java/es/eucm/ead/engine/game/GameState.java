@@ -121,9 +121,10 @@ public class GameState extends ValueMap implements OperationResolver,
 
 	@Override
 	public <S> S getValue(String element, String varName, S defaultValue) {
-		return fieldGetters.containsKey(element) ? fieldGetters.get(element)
-				.getField(element, varName, defaultValue) : super.getValue(
-				element, varName, defaultValue);
+		S value = fieldGetters.containsKey(element) ? fieldGetters.get(element)
+				.getField(element, varName, defaultValue) : null;
+		return value == null ? super.getValue(element, varName, defaultValue)
+				: value;
 	}
 
 	private <T> boolean notifyWatchers(String elementId, String varName, T value) {

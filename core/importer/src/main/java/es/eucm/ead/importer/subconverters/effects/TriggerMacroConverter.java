@@ -72,7 +72,7 @@ public class TriggerMacroConverter implements
 		effect.putEffects(EmptyCond.TRUE, macro);
 		list.add(effect);
 		// Add IN_MACRO field to hold next effects until the macro ends
-		ElementField field = new ElementField(effect, IN_MACRO);
+		ElementField field = new ElementField(effect, IN_MACRO, false);
 		ChangeFieldEf macroIn = new ChangeFieldEf(field, EmptyCond.TRUE);
 		effect.addSimultaneousEffect(macroIn);
 
