@@ -154,7 +154,7 @@ public class AdventureConverter {
 		// to avoid user interaction with other elements in the scene
 		GhostElement effectsGhost = new GhostElement(true);
 		effectsGhost.setId(EFFECTS_GHOST_ID);
-		effectsGhost.setInitialVisible(false);
+		effectsGhost.setVisible(false);
 
 		AddChildEf addEffectsGhost = new AddChildEf(BottomHud.ID, effectsGhost);
 

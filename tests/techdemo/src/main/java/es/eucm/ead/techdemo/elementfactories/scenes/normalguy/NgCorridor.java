@@ -74,7 +74,7 @@ public class NgCorridor extends EmptyScene {
 		// Puts main character into the scene
 		ng = new SceneElement(NgCommon.getMainCharacter());
 		ng.setPosition(Corner.BOTTOM_CENTER, 650, 495);
-		ng.setInitialScale(0.8f);
+		ng.setScale(0.8f);
 
 		// Star form node trajectory
 		ChangeFieldEf changeSide = new ChangeFieldEf(ng,

@@ -70,7 +70,7 @@ public class ComplexElementScene extends EmptyScene {
 		SceneElement e = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(r1, r2, 40, 40);
 
-		e.setInitialScale(0.1f);
+		e.setScale(0.1f);
 		e.putProperty(VAR_ROTATION, 30.0f);
 		e.setPosition(new Position(Corner.CENTER, 50, 50));
 
@@ -103,7 +103,7 @@ public class ComplexElementScene extends EmptyScene {
 
 		ElementField scale = new ElementField(complex, VAR_SCALE);
 
-		complex.setInitialScale(0.5f);
+		complex.setScale(0.5f);
 		InterpolationEf effect3 = new InterpolationEf(scale, 0.0f, 1.5f, 5000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 

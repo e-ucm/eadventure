@@ -53,13 +53,13 @@ public class LoaderSceneElement extends SceneElement {
 		super(new Image("@drawable/loader.png"));
 		this.setId(ID);
 		setPosition(Position.Corner.CENTER, 30, 30);
-		setInitialScale(0.5f);
+		setScale(0.5f);
 		SceneElementEv event = new SceneElementEv();
 		MathOp rotate = new MathOp("[0] + 0.5*33");
 		rotate.addOperation(getField(SceneElement.VAR_ROTATION));
 		event.addEffect(SceneElementEvType.ALWAYS, new ChangeFieldEf(
 				getField(SceneElement.VAR_ROTATION), rotate));
 		addEvent(event);
-		this.setInitialVisible(false);
+		this.setVisible(false);
 	}
 }

@@ -331,7 +331,7 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 		}
 
 		SceneElement mapElement = new SceneElement(map);
-		mapElement.setInitialEnable(false);
+		mapElement.setEnable(false);
 
 		for (SceneElement e : trajectory.getBarriers()) {
 			SceneElementDef def = e.getDefinition();

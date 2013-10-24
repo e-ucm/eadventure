@@ -78,7 +78,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		NgCommon.init();
 		SceneElement character = new SceneElement(NgCommon.getMainCharacter());
-		character.setInitialAlpha(0.5f);
+		character.setAlpha(0.5f);
 		character.setPosition(new Position(Corner.BOTTOM_CENTER, 400, 400));
 
 		SpeakEf effect = new SpeakSceneElementEf(character, new EAdString(

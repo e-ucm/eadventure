@@ -44,7 +44,7 @@ import es.eucm.ead.model.elements.scenes.SceneElement;
 public class TrajectoryDebugger extends SceneElement {
 
 	public TrajectoryDebugger() {
-		this.setInitialEnable(false);
+		this.setEnable(false);
 	}
 
 }

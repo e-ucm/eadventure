@@ -90,7 +90,7 @@ public class ModelFieldsDebuggerGO extends SceneElementGO {
 					this.getChildren().clear();
 				}
 				GroupElement fields = new GroupElement();
-				fields.setInitialEnable(false);
+				fields.setEnable(false);
 				for (String var : values.keySet()) {
 					Caption c = new Caption(var + ": [0]");
 					c.setPadding(1);

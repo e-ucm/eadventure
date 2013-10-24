@@ -45,7 +45,7 @@ public class FieldsDebugger extends SceneElement {
 
 	public FieldsDebugger() {
 		this.setPosition(0, 50);
-		this.setInitialEnable(false);
+		this.setEnable(false);
 	}
 
 }

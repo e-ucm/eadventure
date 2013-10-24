@@ -100,7 +100,7 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 		currentDescription = new ElementField(element, NAME);
 		SceneElement e = new SceneElement();
 		e.setId("#engine.huds.namesbubble");
-		e.setInitialZ(500);
+		e.setZ(500);
 		SceneElementGO hud = sceneElementFactory.get(e);
 		gui.addHud(hud);
 		// Bubble creation
@@ -114,9 +114,9 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 		drawable.addDrawable(c);
 		SceneElement b = new SceneElement(drawable);
 		b.setPosition(Corner.BOTTOM_CENTER, 0, 0);
-		b.setInitialEnable(false);
-		b.setInitialVisible(false);
-		b.setInitialScale(0.0f);
+		b.setEnable(false);
+		b.setVisible(false);
+		b.setScale(0.0f);
 		caption = (RuntimeCaption) assetHandler.getRuntimeAsset((EAdCaption) c);
 		ninePatch = (RuntimeNinePatchImage) assetHandler
 				.getRuntimeAsset(element.getBubble());

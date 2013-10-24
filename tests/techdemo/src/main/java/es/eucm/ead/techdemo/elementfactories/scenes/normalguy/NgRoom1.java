@@ -101,7 +101,7 @@ public class NgRoom1 extends EmptyScene {
 		ng = new SceneElement(NgCommon.getMainCharacter());
 
 		ng.setPosition(Corner.BOTTOM_CENTER, 200, 400);
-		ng.setInitialScale(0.8f);
+		ng.setScale(0.8f);
 
 		SimpleTrajectory d = new SimpleTrajectory(false);
 		d.setLimits(150, 380, 800, 600);
@@ -131,7 +131,7 @@ public class NgRoom1 extends EmptyScene {
 	private void createElements() {
 		darkness = new SceneElement(new Image("@drawable/ng_lights_off.png"));
 		darkness.setPosition(Corner.CENTER, 0, 0);
-		darkness.setInitialEnable(false);
+		darkness.setEnable(false);
 
 		table = new SceneElement(new Image("@drawable/ng_table.png"));
 		table.setPosition(Corner.CENTER, 576, 550);

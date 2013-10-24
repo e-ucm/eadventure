@@ -83,7 +83,7 @@ public class NgFinalRoom extends EmptyScene {
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
 		ng.setPosition(Corner.BOTTOM_CENTER, 629, 579);
-		ng.setInitialScale(0.8f);
+		ng.setScale(0.8f);
 
 		createTrajectory();
 

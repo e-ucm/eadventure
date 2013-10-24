@@ -44,7 +44,7 @@ import es.eucm.ead.model.elements.scenes.SceneElement;
 public class GhostDebugger extends SceneElement {
 
 	public GhostDebugger() {
-		this.setInitialEnable(false);
+		this.setEnable(false);
 	}
 
 }

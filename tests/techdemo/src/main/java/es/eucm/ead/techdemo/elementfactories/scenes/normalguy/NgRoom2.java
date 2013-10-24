@@ -90,7 +90,7 @@ public class NgRoom2 extends EmptyScene {
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
 		ng.setPosition(Corner.BOTTOM_CENTER, 715, 515);
-		ng.setInitialScale(0.8f);
+		ng.setScale(0.8f);
 
 		// Character can talk in the scene
 		SpeakEf effect = new SpeakSceneElementEf(ng, new EAdString("n.56"));

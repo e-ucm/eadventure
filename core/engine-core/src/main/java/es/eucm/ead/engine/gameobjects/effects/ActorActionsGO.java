@@ -143,6 +143,7 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 						if (gameState.evaluate(cond)) {
 							hasEnableActions = true;
 							SceneElement element = new SceneElement(a);
+							element.addProperties(a.getProperties());
 							element.setPosition(Corner.CENTER, x, y);
 							int targetX = (int) (Math.cos(accAngle) * radius);
 							int targetY = (int) (Math.sin(accAngle) * radius);

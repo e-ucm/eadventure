@@ -42,7 +42,8 @@ import es.eucm.ead.importer.AdventureConverter;
 
 public class ImporterEngine {
 
-	public static String TEST = "/home/bender/juegos/firstAidGame";
+	//public static String TEST = "/home/bender/juegos/firstAidGame";
+	public static String TEST = "/home/eva/eadventure/juegos/PrimerosAuxiliosGame";
 
 	public static void main(String args[]) {
 		AdventureConverter converter = new AdventureConverter();

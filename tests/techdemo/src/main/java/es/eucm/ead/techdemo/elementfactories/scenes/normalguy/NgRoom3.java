@@ -65,7 +65,7 @@ public class NgRoom3 extends EmptyScene {
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
 		ng.setPosition(Corner.BOTTOM_CENTER, 150, 525);
-		ng.setInitialScale(0.8f);
+		ng.setScale(0.8f);
 
 		// Character can talk in the scene
 		SpeakEf effect = new SpeakSceneElementEf(ng, new EAdString("n.001"));
@@ -106,7 +106,7 @@ public class NgRoom3 extends EmptyScene {
 
 		evil_ng = new SceneElement(
 				new Image("@drawable/evil_man_stand_s_1.png"));
-		evil_ng.setInitialScale(0.9f);
+		evil_ng.setScale(0.9f);
 		evil_ng.setPosition(Corner.BOTTOM_CENTER, 660, 510);
 
 	}

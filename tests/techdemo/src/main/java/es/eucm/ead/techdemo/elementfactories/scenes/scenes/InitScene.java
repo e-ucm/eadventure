@@ -94,7 +94,7 @@ public class InitScene extends EmptyScene {
 							DisplaceTransitionType.VERTICAL, true)));
 			this.getSceneElements().add(b);
 			SceneElement goBackButton = new SceneElement(goBack);
-			goBackButton.setInitialScale(0.5f);
+			goBackButton.setScale(0.5f);
 			goBackButton.setPosition(Corner.BOTTOM_LEFT, 10, 590);
 			s.getSceneElements().add(goBackButton);
 

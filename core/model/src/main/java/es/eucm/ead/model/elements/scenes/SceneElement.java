@@ -143,7 +143,7 @@ public class SceneElement extends AbstractElementWithBehavior {
 	 *
 	 * @param orientation the orientation
 	 */
-	public void setInitialOrientation(Orientation orientation) {
+	public void setOrientation(Orientation orientation) {
 		putProperty(VAR_ORIENTATION, orientation);
 	}
 
@@ -164,7 +164,7 @@ public class SceneElement extends AbstractElementWithBehavior {
 		this.definition = def;
 	}
 
-	public void setInitialAlpha(float f) {
+	public void setAlpha(float f) {
 		this.putProperty(SceneElement.VAR_ALPHA, f);
 
 	}
@@ -174,11 +174,11 @@ public class SceneElement extends AbstractElementWithBehavior {
 	 *
 	 * @param scale the initial scale
 	 */
-	public void setInitialScale(float scale) {
+	public void setScale(float scale) {
 		putProperty(SceneElement.VAR_SCALE, scale);
 	}
 
-	public void setInitialScale(float scaleX, float scaleY) {
+	public void setScale(float scaleX, float scaleY) {
 		putProperty(SceneElement.VAR_SCALE_X, scaleX);
 		putProperty(SceneElement.VAR_SCALE_Y, scaleY);
 	}
@@ -211,11 +211,11 @@ public class SceneElement extends AbstractElementWithBehavior {
 		setOverAppearance(ResourcedElement.INITIAL_BUNDLE, d);
 	}
 
-	public void setInitialEnable(boolean enable) {
+	public void setEnable(boolean enable) {
 		putProperty(SceneElement.VAR_ENABLE, enable);
 	}
 
-	public void setInitialRotation(float rotation) {
+	public void setRotation(float rotation) {
 		putProperty(SceneElement.VAR_ROTATION, rotation);
 	}
 
@@ -227,16 +227,16 @@ public class SceneElement extends AbstractElementWithBehavior {
 		return getId();
 	}
 
-	public void setInitialVisible(boolean visible) {
+	public void setVisible(boolean visible) {
 		putProperty(SceneElement.VAR_VISIBLE, visible);
 	}
 
-	public void setInitialZ(int z) {
+	public void setZ(int z) {
 		putProperty(SceneElement.VAR_Z, z);
 
 	}
 
-	public void setInitialState(String state) {
+	public void setState(String state) {
 		putProperty(SceneElement.VAR_STATE, state);
 	}
 
@@ -251,7 +251,7 @@ public class SceneElement extends AbstractElementWithBehavior {
 		this.containsBounds = containsBounds;
 	}
 
-	public void setInitialBundle(String bundleId) {
+	public void setBundle(String bundleId) {
 		this.putProperty(SceneElement.VAR_BUNDLE_ID, bundleId);
 
 	}
