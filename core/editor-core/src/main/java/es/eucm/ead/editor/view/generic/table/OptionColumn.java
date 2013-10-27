@@ -49,6 +49,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.text.JTextComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +63,7 @@ import org.slf4j.LoggerFactory;
  * @param <T> type of objects in cell
  */
 public abstract class OptionColumn<V, K, T> extends
-		TableSupport.ColumnSpec<V, K> {
+		ColumnSpec<V, K> {
 
 	static private Logger logger = LoggerFactory.getLogger(OptionColumn.class);
 
@@ -71,83 +72,17 @@ public abstract class OptionColumn<V, K, T> extends
 	protected OptionColumn(String title, Class<T> clazz, boolean editable,
 			int width) {
 		super(title, clazz, editable, width);
-		setEditor(createControl());
-		setRenderer(createControl());
 	}
 
+    protected void initialize() {
+		setEditor(createControl());
+		setRenderer(createControl());        
+    }
+    
 	@Override
 	public Object getValue(Row<V, K> row, int columnIndex) {
 		lastAccessor = (Accessor<T>) getAccessor(row, columnIndex);
 		return lastAccessor.read();
-	}
-
-	/**
-	 * A text-containing column. Use null for the fieldName if you are exposing
-	 * keys or values directly; use the corresponding field-name otherwise.
-	 * @param <V>
-	 * @param <K> 
-	 */
-	public static class Text<V, K> extends OptionColumn<V, K, String> {
-		private final String fieldName;
-		private boolean isKeyField = false;
-
-		public Text(String title, boolean editable, int width) {
-			this(title, null, false, editable, width);
-		}
-
-		public Text(String title, String fieldName, boolean editable, int width) {
-			this(title, fieldName, false, editable, width);
-		}
-
-		public Text(String title, String fieldName, boolean isKeyField,
-				boolean editable, int width) {
-			super(title, String.class, editable, width);
-			this.fieldName = fieldName;
-			this.isKeyField = isKeyField;
-			// logger.debug("Created TextOC{} for {} named {}", hashCode(), fieldName, title);
-		}
-
-		@Override
-		public Accessor<String> getAccessor(Row<V, K> row, int columnIndex) {
-			// logger.debug("{}: row is {}, fieldName is {}", hashCode(), row, fieldName);
-			return fieldName == null ? new IntrospectingAccessor<String>(row,
-					isKeyField ? "key" : "value")
-					: new IntrospectingAccessor<String>(isKeyField ? row
-							.getKey() : row.getValue(), fieldName);
-		}
-
-		@Override
-		public OptionCellControl createControl() {
-			return new OptionCellControl() {
-
-				@Override
-				public JComponent createEditControl() {
-					return new JTextField();
-				}
-
-				@Override
-				public JComponent createViewControl() {
-					JLabel jl = new JLabel();
-					jl.setFont(jl.getFont().deriveFont(Font.PLAIN));
-					return jl;
-				}
-
-				@Override
-				public void setEditControlValue(String value) {
-					((JTextField) control).setText(value);
-				}
-
-				@Override
-				public void setViewControlValue(String value) {
-					((JLabel) control).setText(value);
-				}
-
-				@Override
-				public String getCellEditorValue() {
-					return ((JTextField) control).getText();
-				}
-			};
-		}
 	}
 
 	public abstract OptionCellControl createControl();

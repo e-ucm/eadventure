@@ -52,7 +52,7 @@ import es.eucm.ead.editor.view.generic.accessors.Accessor;
 import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 import es.eucm.ead.editor.view.generic.accessors.MapAccessor;
 import es.eucm.ead.editor.view.generic.table.TableSupport.AbstractRowTableModel;
-import es.eucm.ead.editor.view.generic.table.TableSupport.ColumnSpec;
+import es.eucm.ead.editor.view.generic.table.ColumnSpec;
 import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteButtonWidget;
 import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteIt;
 import es.eucm.ead.editor.view.generic.table.TableSupport.MoveButtonWidget;
@@ -102,8 +102,8 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 
 	}
 
-	public TableSupport.ColumnSpec<V, K>[] getKeyColumns() {
-		return (TableSupport.ColumnSpec<V, K>[]) new TableSupport.ColumnSpec[] { new TableSupport.ColumnSpec<V, K>(
+	public ColumnSpec<V, K>[] getKeyColumns() {
+		return (ColumnSpec<V, K>[]) new ColumnSpec[] { new ColumnSpec<V, K>(
 				"Key", String.class, false, -1) {
 
 			@Override
@@ -114,8 +114,8 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 		} };
 	}
 
-	public TableSupport.ColumnSpec<V, K>[] getValueColumns() {
-		return (TableSupport.ColumnSpec<V, K>[]) new TableSupport.ColumnSpec[] { new TableSupport.ColumnSpec(
+	public ColumnSpec<V, K>[] getValueColumns() {
+		return (ColumnSpec<V, K>[]) new ColumnSpec[] { new ColumnSpec(
 				"Value", contentClass, false, -1) };
 	}
 
@@ -205,7 +205,7 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 		tableModel = new MapTableModel();
 		tableControl = new JXTable(tableModel);
 		for (int i = 0; i < tableModel.cols.length; i++) {
-			TableSupport.ColumnSpec<V, K> c = tableModel.cols[i];
+			ColumnSpec<V, K> c = tableModel.cols[i];
 			if (c.getRenderer() != null) {
 				tableControl.getColumn(i).setCellRenderer(c.getRenderer());
 			}

@@ -1,38 +1,40 @@
 /**
  * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
- * <e-UCM> research group.
+ *    <e-UCM> research group.
  *
- * Copyright 2005-2010 <e-UCM> research group.
+ *    Copyright 2005-2010 <e-UCM> research group.
  *
- * You can access a list of all the contributors to eAdventure at:
- * http://e-adventure.e-ucm.es/contributors
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
  *
- * <e-UCM> is a research group of the Department of Software Engineering and
- * Artificial Intelligence at the Complutense University of Madrid (School of
- * Computer Science).
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
  *
- * C Profesor Jose Garcia Santesmases sn, 28040 Madrid (Madrid), Spain.
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
  *
- * For more info please visit: <http://e-adventure.e-ucm.es> or
- * <http://www.e-ucm.es>
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
  *
  * ****************************************************************************
  *
- * This file is part of eAdventure, version 2.0
+ *  This file is part of eAdventure, version 2.0
  *
- * eAdventure is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option) any
- * later version.
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
  *
- * eAdventure is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with eAdventure. If not, see <http://www.gnu.org/licenses/>.
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package es.eucm.ead.exporter;
 
 import es.eucm.ead.importer.AdventureConverter;
@@ -95,14 +97,13 @@ public class ExporterMain {
 		Option quiet = new Option("quiet", "be extra quiet");
 		Option verbose = new Option("verbose", "be extra verbose");
 
-		Option legacy = OptionBuilder.withArgName("target> <s> <t")
-				.hasArgs(3).withDescription(
+		Option legacy = OptionBuilder.withArgName("target> <s> <t").hasArgs(3)
+				.withDescription(
 						"source is a version 1.x game; must specify\n"
 								+ "<target> folder for imported game \n"
 								+ "<simplify> if 'true', simplifies result\n"
 								+ "<translate> if 'true', enables translation")
-				.withLongOpt("import")
-                .create("i");
+				.withLongOpt("import").create("i");
 
 		Option war = OptionBuilder
 				.withArgName("web-base")
@@ -110,12 +111,10 @@ public class ExporterMain {
 				.withDescription(
 						"WAR packaging (web app); "
 								+ "must specify\n<web-base> the base WAR directory")
-				.withLongOpt("war")
-				.create("w");
+				.withLongOpt("war").create("w");
 
 		Option jar = OptionBuilder.withDescription("JAR packaging (desktop)")
-                .withLongOpt("jar")
-				.create("j");
+				.withLongOpt("jar").create("j");
 
 		Option apk = OptionBuilder.withArgName("props> <adk> <d").hasArgs(3)
 				.withDescription(
@@ -123,8 +122,7 @@ public class ExporterMain {
 								+ "<props> (a properties file) \n"
 								+ "<adk> (location of the ADK to use) \n"
 								+ "<deploy> ('true' to install & deploy)")
-				.withLongOpt("apk")
-                .create("a");
+				.withLongOpt("apk").create("a");
 
 		options.addOption(legacy);
 		options.addOption(help);
@@ -134,7 +132,7 @@ public class ExporterMain {
 		options.addOption(war);
 		options.addOption(apk);
 
-        CommandLineParser parser = new PosixParser();
+		CommandLineParser parser = new PosixParser();
 		CommandLine cmd;
 		try {
 			cmd = parser.parse(options, args);
@@ -145,8 +143,8 @@ public class ExporterMain {
 			return;
 		}
 
-        // general options
-        
+		// general options
+
 		String[] extras = cmd.getArgs();
 
 		if (cmd.hasOption(help.getOpt()) || extras.length < 2) {
@@ -159,17 +157,17 @@ public class ExporterMain {
 		if (cmd.hasOption(quiet.getArgName())) {
 			verbosity = Quiet;
 		}
-       
-        // import
-        
+
+		// import
+
 		String source = extras[0];
 
 		// optional import step
 		if (cmd.hasOption(legacy.getOpt())) {
-            String[] values = cmd.getOptionValues(legacy.getOpt());
-            for (String s : values) {
-                System.err.println("-- " + s);
-            }
+			String[] values = cmd.getOptionValues(legacy.getOpt());
+			for (String s : values) {
+				System.err.println("-- " + s);
+			}
 			String target = values[0];
 
 			AdventureConverter converter = new AdventureConverter();
@@ -193,8 +191,8 @@ public class ExporterMain {
 						verbosity.equals(Quiet) ? new QuietStream()
 								: System.err);
 			}
-		} else if (cmd.hasOption(apk.getOpt())) {            
-            String[] values = cmd.getOptionValues(apk.getOpt());
+		} else if (cmd.hasOption(apk.getOpt())) {
+			String[] values = cmd.getOptionValues(apk.getOpt());
 			if (checkFilesExist(cmd, options, values[0], values[1], source)) {
 				AndroidExporter e = new AndroidExporter();
 				Properties props = new Properties();
@@ -206,8 +204,8 @@ public class ExporterMain {
 							+ propsFile.getAbsolutePath());
 					return;
 				}
-				e.export(source, extras[1], props, 
-                        values.length > 2 && values[2].equalsIgnoreCase("true"));
+				e.export(source, extras[1], props, values.length > 2
+						&& values[2].equalsIgnoreCase("true"));
 			}
 		} else if (cmd.hasOption(war.getOpt())) {
 			if (checkFilesExist(cmd, options, extras[2], source)) {

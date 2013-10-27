@@ -54,7 +54,7 @@ import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.view.generic.AbstractOption;
 import es.eucm.ead.editor.view.generic.accessors.Accessor;
 import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
-import es.eucm.ead.editor.view.generic.table.TableSupport.ColumnSpec;
+import es.eucm.ead.editor.view.generic.table.ColumnSpec;
 import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteButtonWidget;
 import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteIt;
 import es.eucm.ead.editor.view.generic.table.TableSupport.MoveButtonWidget;

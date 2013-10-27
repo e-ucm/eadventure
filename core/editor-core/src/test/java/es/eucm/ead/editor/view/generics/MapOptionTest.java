@@ -45,9 +45,11 @@ import es.eucm.ead.editor.util.Log4jConfig;
 import es.eucm.ead.editor.view.generic.OptionPanel;
 import es.eucm.ead.editor.view.generic.PanelImpl;
 import es.eucm.ead.editor.view.generic.TextOption;
+import es.eucm.ead.editor.view.generic.table.ColumnSpec;
 import es.eucm.ead.editor.view.generic.table.MapOption;
 import es.eucm.ead.editor.view.generic.table.OptionColumn;
 import es.eucm.ead.editor.view.generic.table.TableSupport;
+import es.eucm.ead.editor.view.generic.table.TextColumn;
 import es.eucm.ead.model.elements.extra.EAdMap;
 
 public class MapOptionTest extends AbstractOptionTest {
@@ -68,31 +70,28 @@ public class MapOptionTest extends AbstractOptionTest {
 				StringPair.class, node1) {
 
 			@Override
-			public TableSupport.ColumnSpec<StringPair, String>[] getValueColumns() {
-				return (TableSupport.ColumnSpec<StringPair, String>[]) new TableSupport.ColumnSpec[] {
-
-						new OptionColumn.Text<StringPair, String>("A", "a",
-								true, -1),
-						new OptionColumn.Text<StringPair, String>("B", "b",
-								true, -1) };
+			public ColumnSpec<StringPair, String>[] getValueColumns() {
+				return (ColumnSpec<StringPair, String>[]) new ColumnSpec[] {
+						new TextColumn("A", "a", true, -1),
+						new TextColumn("B", "b", true, -1) };
 			}
 		});
 		p1.add(new MapOption("map2", "toolTip4", model, "map",
 				StringPair.class, node1) {
 
 			@Override
-			public TableSupport.ColumnSpec<StringPair, String>[] getKeyColumns() {
-				return (TableSupport.ColumnSpec<StringPair, String>[]) new TableSupport.ColumnSpec[] { new OptionColumn.Text<StringPair, String>(
+			public ColumnSpec<StringPair, String>[] getKeyColumns() {
+				return (ColumnSpec<StringPair, String>[]) new ColumnSpec[] {
+						new TextColumn<StringPair, String>(
 						"Key", null, true, true, 50) };
 			}
 
+			
 			@Override
-			public TableSupport.ColumnSpec<StringPair, String>[] getValueColumns() {
-				return (TableSupport.ColumnSpec<StringPair, String>[]) new TableSupport.ColumnSpec[] {
-						new OptionColumn.Text<StringPair, String>("A", "a",
-								false, -1),
-						new OptionColumn.Text<StringPair, String>("B", "b",
-								false, -1) };
+			public ColumnSpec<StringPair, String>[] getValueColumns() {
+				return (ColumnSpec<StringPair, String>[]) new ColumnSpec[] {
+						new TextColumn("A", "a", false, -1),
+						new TextColumn("B", "b", false, -1) };
 			}
 		});
 
