@@ -37,7 +37,6 @@
 
 package es.eucm.ead.editor.view.generic.table;
 
-import es.eucm.ead.editor.view.generic.*;
 import es.eucm.ead.editor.util.i18n.I18N;
 
 /**

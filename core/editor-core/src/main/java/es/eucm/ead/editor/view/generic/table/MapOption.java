@@ -35,16 +35,10 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * To performCommand this license header, choose License Headers in Project Properties.
- * To performCommand this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.eucm.ead.editor.view.generic.table;
 
 import es.eucm.ead.editor.control.Command;
 import es.eucm.ead.editor.control.commands.ChangeFieldCommand;
-import es.eucm.ead.editor.control.commands.CompositeCommand;
 import es.eucm.ead.editor.control.commands.MapCommand;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.view.generic.AbstractOption;
@@ -52,7 +46,6 @@ import es.eucm.ead.editor.view.generic.accessors.Accessor;
 import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 import es.eucm.ead.editor.view.generic.accessors.MapAccessor;
 import es.eucm.ead.editor.view.generic.table.TableSupport.AbstractRowTableModel;
-import es.eucm.ead.editor.view.generic.table.ColumnSpec;
 import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteButtonWidget;
 import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteIt;
 import es.eucm.ead.editor.view.generic.table.TableSupport.MoveButtonWidget;
@@ -115,8 +108,8 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 	}
 
 	public ColumnSpec<V, K>[] getValueColumns() {
-		return (ColumnSpec<V, K>[]) new ColumnSpec[] { new ColumnSpec(
-				"Value", contentClass, false, -1) };
+		return (ColumnSpec<V, K>[]) new ColumnSpec[] { new ColumnSpec("Value",
+				contentClass, false, -1) };
 	}
 
 	/**

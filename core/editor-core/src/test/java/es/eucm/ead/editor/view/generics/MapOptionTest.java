@@ -1,38 +1,40 @@
 /**
  * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
- * <e-UCM> research group.
+ *    <e-UCM> research group.
  *
- * Copyright 2005-2010 <e-UCM> research group.
+ *    Copyright 2005-2010 <e-UCM> research group.
  *
- * You can access a list of all the contributors to eAdventure at:
- * http://e-adventure.e-ucm.es/contributors
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
  *
- * <e-UCM> is a research group of the Department of Software Engineering and
- * Artificial Intelligence at the Complutense University of Madrid (School of
- * Computer Science).
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
  *
- * C Profesor Jose Garcia Santesmases sn, 28040 Madrid (Madrid), Spain.
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
  *
- * For more info please visit: <http://e-adventure.e-ucm.es> or
- * <http://www.e-ucm.es>
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
  *
  * ****************************************************************************
  *
- * This file is part of eAdventure, version 2.0
+ *  This file is part of eAdventure, version 2.0
  *
- * eAdventure is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option) any
- * later version.
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
  *
- * eAdventure is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with eAdventure. If not, see <http://www.gnu.org/licenses/>.
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package es.eucm.ead.editor.view.generics;
 
 import java.awt.BorderLayout;
@@ -47,8 +49,6 @@ import es.eucm.ead.editor.view.generic.PanelImpl;
 import es.eucm.ead.editor.view.generic.TextOption;
 import es.eucm.ead.editor.view.generic.table.ColumnSpec;
 import es.eucm.ead.editor.view.generic.table.MapOption;
-import es.eucm.ead.editor.view.generic.table.OptionColumn;
-import es.eucm.ead.editor.view.generic.table.TableSupport;
 import es.eucm.ead.editor.view.generic.table.TextColumn;
 import es.eucm.ead.model.elements.extra.EAdMap;
 
@@ -81,12 +81,10 @@ public class MapOptionTest extends AbstractOptionTest {
 
 			@Override
 			public ColumnSpec<StringPair, String>[] getKeyColumns() {
-				return (ColumnSpec<StringPair, String>[]) new ColumnSpec[] {
-						new TextColumn<StringPair, String>(
+				return (ColumnSpec<StringPair, String>[]) new ColumnSpec[] { new TextColumn<StringPair, String>(
 						"Key", null, true, true, 50) };
 			}
 
-			
 			@Override
 			public ColumnSpec<StringPair, String>[] getValueColumns() {
 				return (ColumnSpec<StringPair, String>[]) new ColumnSpec[] {

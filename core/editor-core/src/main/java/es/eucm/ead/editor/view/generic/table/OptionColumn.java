@@ -38,18 +38,13 @@
 package es.eucm.ead.editor.view.generic.table;
 
 import es.eucm.ead.editor.view.generic.accessors.Accessor;
-import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 import es.eucm.ead.editor.view.generic.table.TableSupport.Row;
 import java.awt.Component;
-import java.awt.Font;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.text.JTextComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,8 +57,7 @@ import org.slf4j.LoggerFactory;
  * @param <K> type of key used to index objects within their rows
  * @param <T> type of objects in cell
  */
-public abstract class OptionColumn<V, K, T> extends
-		ColumnSpec<V, K> {
+public abstract class OptionColumn<V, K, T> extends ColumnSpec<V, K> {
 
 	static private Logger logger = LoggerFactory.getLogger(OptionColumn.class);
 
@@ -74,11 +68,11 @@ public abstract class OptionColumn<V, K, T> extends
 		super(title, clazz, editable, width);
 	}
 
-    protected void initialize() {
+	protected void initialize() {
 		setEditor(createControl());
-		setRenderer(createControl());        
-    }
-    
+		setRenderer(createControl());
+	}
+
 	@Override
 	public Object getValue(Row<V, K> row, int columnIndex) {
 		lastAccessor = (Accessor<T>) getAccessor(row, columnIndex);
