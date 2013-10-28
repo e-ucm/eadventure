@@ -103,7 +103,7 @@ public class MapCommandTest {
 		}
 		m2 = new EAdMap<ArrayList<String>>();
 		for (int i = 0; i < objects.size(); i += 2) {
-			m2.put("key_2_"+i, objects.get(i + 1));
+			m2.put("key_2_" + i, objects.get(i + 1));
 		}
 		Identified root = new BasicElement("root");
 		DependencyNode<String> rootNode = em.addNode(null, "root", root, false);
@@ -157,8 +157,7 @@ public class MapCommandTest {
 
 		MapCommand<String> a;
 		for (int i = 0; i < 4; i++) {
-			a = new MapCommand.RemoveFromMap<String>(m1, "key" + i,
-					root);
+			a = new MapCommand.RemoveFromMap<String>(m1, "key" + i, root);
 			cm.performCommand(a);
 			assert (!m1.containsKey("key" + i));
 		}

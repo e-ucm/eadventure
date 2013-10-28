@@ -76,14 +76,14 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 		op.add(new ListOption<SceneElement>("Elements",
 				"Contained sceneElements", scene, "sceneElements",
 				SceneElement.class, target.getFirst()) {
-            
-            // FIXME: add more cols here
+
+			// FIXME: add more cols here
 
 		});
-		op.add(new MapOption<Object>("Vars", "Available vars", scene,
-				"vars", String.class, target.getFirst()) {
-                   
-            // FIXME: add cols here
+		op.add(new MapOption<Object>("Vars", "Available vars", scene, "vars",
+				String.class, target.getFirst()) {
+
+			// FIXME: add cols here
 		});
 
 		add(op.getComponent(controller.getCommandManager()),

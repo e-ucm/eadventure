@@ -49,7 +49,7 @@ import es.eucm.ead.model.elements.extra.EAdMap;
  * maps indexed by strings. Changes to key or value-objects should be achieved via the 
  * corresponding ChangeFieldCommands.
  * @param <V> type of the values stored in this map (keys are always strings)
- */ 
+ */
 public abstract class MapCommand<V> extends Command {
 
 	protected String commandName;
@@ -131,7 +131,8 @@ public abstract class MapCommand<V> extends Command {
 		private boolean wasEmpty = false;
 		private V oldValue = null;
 
-		public AddToMap(EAdMap<V> map, V e, String key, DependencyNode... changed) {
+		public AddToMap(EAdMap<V> map, V e, String key,
+				DependencyNode... changed) {
 			super(map, e, null, key, changed);
 			commandName = "AddToMap";
 		}
@@ -161,7 +162,8 @@ public abstract class MapCommand<V> extends Command {
 	 */
 	public static class RemoveFromMap<V> extends MapCommand<V> {
 
-		public RemoveFromMap(EAdMap<V> map, String key, DependencyNode... changed) {
+		public RemoveFromMap(EAdMap<V> map, String key,
+				DependencyNode... changed) {
 			super(map, map.get(key), key, null, changed);
 			commandName = "RemoveFromMap";
 		}

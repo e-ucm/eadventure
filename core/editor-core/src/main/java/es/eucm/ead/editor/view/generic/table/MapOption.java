@@ -87,14 +87,14 @@ public class MapOption<V> extends AbstractOption<EAdMap<V>> implements
 
 	public MapOption(String title, String toolTipText, Object object,
 			String fieldName, Class<?> contentClass, DependencyNode... changed) {
-		super(title, toolTipText, new IntrospectingAccessor<EAdMap<V>>(
-				object, fieldName), changed);
+		super(title, toolTipText, new IntrospectingAccessor<EAdMap<V>>(object,
+				fieldName), changed);
 		this.contentClass = contentClass;
-    }
+	}
 
 	public ColumnSpec<V, String>[] getKeyColumns() {
-		return (ColumnSpec<V, String>[]) new ColumnSpec[] { 
-            new ColumnSpec<V, String>("Key", String.class, false, -1) {
+		return (ColumnSpec<V, String>[]) new ColumnSpec[] { new ColumnSpec<V, String>(
+				"Key", String.class, false, -1) {
 			@Override
 			public Object getValue(Row<V, String> row, int columnIndex) {
 				return row.getKey();
@@ -103,10 +103,9 @@ public class MapOption<V> extends AbstractOption<EAdMap<V>> implements
 	}
 
 	public ColumnSpec<V, String>[] getValueColumns() {
-		return (ColumnSpec<V, String>[]) new ColumnSpec[] {
-            new ColumnSpec("Value",	contentClass, false, -1) 
-        };
-    }
+		return (ColumnSpec<V, String>[]) new ColumnSpec[] { new ColumnSpec(
+				"Value", contentClass, false, -1) };
+	}
 
 	/**
 	 * Model used to represent the map. Looks directly at oldValue; which must
@@ -120,13 +119,13 @@ public class MapOption<V> extends AbstractOption<EAdMap<V>> implements
 		public MapTableModel() {
 			super(MapOption.this);
 
-			ColumnSpec<V, String> upDown = new ColumnSpec<V, String>("", MoveIt.class,
-					true, 16);
+			ColumnSpec<V, String> upDown = new ColumnSpec<V, String>("",
+					MoveIt.class, true, 16);
 			upDown.setEditor(new MoveButtonWidget(MapOption.this));
 			upDown.setRenderer(new MoveButtonWidget(MapOption.this));
 
-			ColumnSpec<V, String> delete = new ColumnSpec<V, String>("", DeleteIt.class,
-					true, 20);
+			ColumnSpec<V, String> delete = new ColumnSpec<V, String>("",
+					DeleteIt.class, true, 20);
 			delete.setEditor(new DeleteButtonWidget(MapOption.this));
 			delete.setRenderer(new DeleteButtonWidget(MapOption.this));
 

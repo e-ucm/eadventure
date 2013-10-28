@@ -55,8 +55,9 @@ import static org.reflections.ReflectionUtils.withParameters;
 import static org.reflections.ReflectionUtils.withParametersCount;
 
 /**
- * This test ensures that all elements of the model has proper setters and getters for attributes
- * sets as param (necessary for correct functioning in GWT)
+ * This test ensures that all elements of the model have 
+ * proper setters and getters for attributes annotated as 'param'
+ * (this is needed for GWT compatibility.)
  */
 public class SetGetTest {
 
@@ -83,7 +84,6 @@ public class SetGetTest {
 							+ " in class " + c);
 				}
 			}
-
 		}
 	}
 }
