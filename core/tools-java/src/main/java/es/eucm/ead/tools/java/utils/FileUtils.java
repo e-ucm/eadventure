@@ -377,6 +377,7 @@ public class FileUtils {
 	 * @param dstName if not null, then src will be copied into dstName (and
 	 *                dstDir/src may exist without conflict). May be a file (if src
 	 *                is a file) or a folder (if src is a folder).
+	 * @throws java.io.IOException when problems occur
 	 */
 	public static void copyRecursive(File src, File dstDir, File dstName)
 			throws IOException {
@@ -393,6 +394,12 @@ public class FileUtils {
 		} else {
 			// copy a file
 			FileInputStream fis = new FileInputStream(src);
+			if (dstPath.isDirectory()) {
+				logger.warn("When copying '{}' to '{}': expected '{}'"
+						+ " to be a *file* in '{}', but it is a *directory*",
+						src, dstPath, dstPath, dstDir);
+				throw new IOException("Did not expect a directory here");
+			}
 			FileOutputStream fos = new FileOutputStream(dstPath);
 			copy(fis, fos);
 		}

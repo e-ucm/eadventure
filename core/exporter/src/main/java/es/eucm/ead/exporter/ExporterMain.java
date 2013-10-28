@@ -55,6 +55,7 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.sonatype.aether.impl.internal.Slf4jLogger;
 
 public class ExporterMain {
 
@@ -71,8 +72,16 @@ public class ExporterMain {
 	public static boolean checkFilesExist(CommandLine cmd, Options options,
 			String... extras) {
 		String[] args = cmd.getArgs();
-		if (args.length != 2 || !new File(args[1]).exists()) {
-			System.err.println("Expected source and destination");
+		if (args.length != 2) {
+			System.err
+					.println("Expected exactly 2 extra arguments (source and destination)\n"
+							+ " -- but have "
+							+ args.length
+							+ " extra arguments");
+			showHelp(options);
+			return false;
+		} else if (!new File(args[0]).exists()) {
+			System.err.println("Source '" + args[0] + "' not found.");
 			showHelp(options);
 			return false;
 		} else {
@@ -157,17 +166,14 @@ public class ExporterMain {
 		if (cmd.hasOption(quiet.getArgName())) {
 			verbosity = Quiet;
 		}
-
+        
 		// import
 
 		String source = extras[0];
 
 		// optional import step
 		if (cmd.hasOption(legacy.getOpt())) {
-			String[] values = cmd.getOptionValues(legacy.getOpt());
-			for (String s : values) {
-				System.err.println("-- " + s);
-			}
+			String[] values = cmd.getOptionValues(legacy.getOpt());			
 			String target = values[0];
 
 			AdventureConverter converter = new AdventureConverter();
@@ -199,6 +205,8 @@ public class ExporterMain {
 				File propsFile = new File(values[0]);
 				try {
 					props.load(new FileReader(propsFile));
+					props.setProperty(AndroidExporter.SDK_HOME, props
+							.getProperty(AndroidExporter.SDK_HOME, values[1]));
 				} catch (IOException ioe) {
 					System.err.println("Could not load properties from "
 							+ propsFile.getAbsolutePath());
