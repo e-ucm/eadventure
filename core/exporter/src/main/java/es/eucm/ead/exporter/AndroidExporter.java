@@ -138,6 +138,7 @@ public class AndroidExporter {
 				mavenArguments = new String[] {
 						"-Dresources=" + androidFolder.getAbsolutePath(),
 						"-DfailIfNoTests=false",
+                        "-Dandroid.extractDuplicates=true",
 						"-Dandroid.sdk.path="
 								+ properties.getProperty(SDK_HOME), "-X",
 						"clean", "compile", "install", "android:deploy",
@@ -146,6 +147,7 @@ public class AndroidExporter {
 				mavenArguments = new String[] {
 						"-Dresources=" + androidFolder.getAbsolutePath(),
 						"-DfailIfNoTests=false",
+                        "-Dandroid.extractDuplicates=true",
 						"-Dandroid.sdk.path="
 								+ properties.getProperty(SDK_HOME), "-X",
 						"clean", "compile", "install", };
