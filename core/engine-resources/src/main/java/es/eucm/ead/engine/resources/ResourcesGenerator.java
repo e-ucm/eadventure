@@ -27,39 +27,46 @@ public class ResourcesGenerator {
 		System.err.println("Writing R file to '" + f.getAbsolutePath() + "'");
 		BufferedWriter writer = null;
 		try {
-			f.createNewFile();
-			writer = new BufferedWriter(new FileWriter(f));
-			writer.write("package " + PACKAGE.replace('/', '.') + ";");
-			writer.newLine();
-			writer.newLine();
-			writer.write("public class R {");
-			writer.newLine();
-			writer.write("public static final String[]"
-					+ " RESOURCES = new String[]{");
-			writer.newLine();
-
-			ArrayList<File> resources = getResources(from);
-			for (int i = 0; i < resources.size(); i++) {
-				File file = resources.get(i);
-				String name = file.getAbsolutePath().replace('\\', '/');
-				//                                System.err.println("Mentioning " + name);
-				name = name.substring(name.indexOf(PACKAGE));
-				writer.write("  \"" + name + "\""
-						+ (i == resources.size() - 1 ? "" : ","));
-				writer.newLine();
+			boolean created = f.exists();
+			if (!created) {
+				created = f.createNewFile();
 			}
-			writer.write("};");
-			writer.newLine();
-			writer.write("}");
+
+			if (created) {
+				writer = new BufferedWriter(new FileWriter(f));
+				writer.write("package " + PACKAGE.replace('/', '.') + ";");
+				writer.newLine();
+				writer.newLine();
+				writer.write("public class R {");
+				writer.newLine();
+				writer.write("public static final String[]"
+						+ " RESOURCES = new String[]{");
+				writer.newLine();
+
+				ArrayList<File> resources = getResources(from);
+				for (int i = 0; i < resources.size(); i++) {
+					File file = resources.get(i);
+					String name = file.getAbsolutePath().replace('\\', '/');
+					name = name.substring(name.indexOf(PACKAGE));
+					writer.write("  \"" + name + "\""
+							+ (i == resources.size() - 1 ? "" : ","));
+					writer.newLine();
+				}
+				writer.write("};");
+				writer.newLine();
+				writer.write("}");
+			} else {
+				System.err.println("R-file couldn't be created.");
+			}
+
 		} catch (IOException e) {
 			System.err.println("Error creating R-file: " + e.getMessage());
-			e.printStackTrace();
 		} finally {
 			if (writer != null) {
 				try {
 					writer.close();
 				} catch (IOException e1) {
-					e1.printStackTrace();
+					System.err.println(e1.getMessage());
 				}
 			}
 
@@ -74,8 +81,6 @@ public class ResourcesGenerator {
 	}
 
 	public static void addFiles(File f, ArrayList<File> resources) {
-		//                System.err.println(" ... adding files '" + f.getAbsolutePath() + "'");
-
 		for (File file : f.listFiles()) {
 			if (file.isDirectory()) {
 				addFiles(file, resources);

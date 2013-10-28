@@ -89,7 +89,7 @@ public class EmptyCond extends Condition {
 		return false;
 	}
 
-	public void extractFields(List<ElementField<?>> fields) {
+	public void extractFields(List<ElementField> fields) {
 
 	}
 

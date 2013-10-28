@@ -60,7 +60,7 @@ public class DeactivateFlagConverter implements
 	@Override
 	public List<Effect> convert(DeactivateEffect oldObject) {
 		ArrayList<Effect> list = new ArrayList<Effect>();
-		ElementField<?> var = modelQuerier.getFlag(oldObject.getTargetId());
+		ElementField var = modelQuerier.getFlag(oldObject.getTargetId());
 		ChangeFieldEf changeVar = new ChangeFieldEf(var, EmptyCond.FALSE);
 		list.add(changeVar);
 		return list;

@@ -57,7 +57,7 @@ public abstract class Event extends BasicElement {
 	 * List of effects
 	 */
 	@Param
-	private es.eucm.ead.model.elements.extra.EAdMap<Enum<?>, EAdList<Effect>> effects;
+	private EAdMap<EAdList<Effect>> effects;
 
 	/**
 	 * Calculated attribute with all effects contained by the behavior. It must
@@ -67,7 +67,7 @@ public abstract class Event extends BasicElement {
 
 	public Event() {
 		super();
-		effects = new EAdMap<Enum<?>, EAdList<Effect>>();
+		effects = new EAdMap<EAdList<Effect>>();
 	}
 
 	/**
@@ -76,14 +76,14 @@ public abstract class Event extends BasicElement {
 	 * @return The list of effects
 	 */
 	public EAdList<Effect> getEffectsForEvent(Enum<?> event) {
-		return effects.get(event);
+		return effects.get(event.toString());
 	}
 
 	public void addEffect(Enum<?> event, Effect effect) {
-		EAdList<Effect> effects = this.effects.get(event);
+		EAdList<Effect> effects = this.effects.get(event.toString());
 		if (effects == null) {
 			effects = new EAdList<Effect>();
-			this.effects.put(event, effects);
+			this.effects.put(event.toString(), effects);
 		}
 		effects.add(effect);
 	}
@@ -94,7 +94,7 @@ public abstract class Event extends BasicElement {
 		}
 	}
 
-	public EAdMap<Enum<?>, EAdList<Effect>> getEffects() {
+	public EAdMap<EAdList<Effect>> getEffects() {
 		return effects;
 	}
 
@@ -114,7 +114,7 @@ public abstract class Event extends BasicElement {
 		return allEffects;
 	}
 
-	public void setEffects(EAdMap<Enum<?>, EAdList<Effect>> effects) {
+	public void setEffects(EAdMap<EAdList<Effect>> effects) {
 		this.effects = effects;
 	}
 

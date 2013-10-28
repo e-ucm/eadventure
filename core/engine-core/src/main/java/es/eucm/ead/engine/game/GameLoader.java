@@ -75,6 +75,7 @@ public class GameLoader {
 	private Map<String, Scene> scenes;
 
 	private String currentChapterId;
+	private EAdEngine engine;
 
 	@Inject
 	public GameLoader(AdventureReader reader, Game game,
@@ -94,16 +95,16 @@ public class GameLoader {
 
 	@SuppressWarnings( { "all" })
 	public void loadGame(EAdEngine engine) {
+		this.engine = engine;
 		currentManifest = reader.getManifest();
 		final AdventureGame adventure = currentManifest.getModel();
 		// Load plugins
 		eventFactory.put(adventure.getProperty(AdventureGame.EVENTS_BINDS,
-				(EAdMap<String, String>) null));
+				(EAdMap<String>) null));
 		effectFactory.put(adventure.getProperty(AdventureGame.EFFECTS_BINDS,
-				(EAdMap<String, String>) null));
+				(EAdMap<String>) null));
 		sceneElementFactory.put(adventure.getProperty(
-				AdventureGame.SCENES_ELEMENT_BINDS,
-				(EAdMap<String, String>) null));
+				AdventureGame.SCENES_ELEMENT_BINDS, (EAdMap<String>) null));
 
 		// FIXME detect language
 		stringHandler.setLanguage("");
@@ -170,5 +171,9 @@ public class GameLoader {
 
 	public Game getGame() {
 		return game;
+	}
+
+	public EAdEngine getEngine() {
+		return engine;
 	}
 }

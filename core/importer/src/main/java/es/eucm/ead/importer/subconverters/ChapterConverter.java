@@ -45,12 +45,12 @@ import es.eucm.ead.importer.subconverters.actors.AtrezzoConverter;
 import es.eucm.ead.importer.subconverters.actors.ElementConverter.DropEvent;
 import es.eucm.ead.importer.subconverters.actors.ItemConverter;
 import es.eucm.ead.importer.subconverters.actors.NPCConverter;
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.Chapter;
 import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
-import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.interfaces.features.WithBehavior;
 import es.eucm.ead.model.params.guievents.DragGEv;
 import es.eucm.ead.model.params.guievents.enums.DragGEvType;
@@ -180,15 +180,15 @@ public class ChapterConverter {
 
 		for (DropEvent e : npcConverter.getDropEvents()) {
 			WithBehavior w = (WithBehavior) elementsCache.get(e.target);
-			Variabled v = (Variabled) w;
-			v.setVarInitialValue(SceneElement.VAR_ENABLE, false);
+			BasicElement v = (BasicElement) w;
+			v.putProperty(SceneElement.VAR_ENABLE, false);
 			w.addBehavior(new DragGEv(e.owner, DragGEvType.DROP), e.effects);
 		}
 
 		for (DropEvent e : itemConverter.getDropEvents()) {
 			WithBehavior w = (WithBehavior) elementsCache.get(e.target);
-			Variabled v = (Variabled) w;
-			v.setVarInitialValue(SceneElement.VAR_ENABLE, false);
+			BasicElement v = (BasicElement) w;
+			v.putProperty(SceneElement.VAR_ENABLE, false);
 			w.addBehavior(new DragGEv(e.owner, DragGEvType.DROP), e.effects);
 		}
 

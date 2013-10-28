@@ -104,8 +104,10 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 		parent.removeActor(target);
 		target.setZ(0);
 		hud.addSceneElement(target);
-		mouseInitX = game.getGameState().getValue(SystemFields.MOUSE_SCENE_X);
-		mouseInitY = game.getGameState().getValue(SystemFields.MOUSE_SCENE_Y);
+		mouseInitX = game.getGameState().getValue(SystemFields.MOUSE_SCENE_X,
+				0.f);
+		mouseInitY = game.getGameState().getValue(SystemFields.MOUSE_SCENE_Y,
+				0.f);
 		diffX = x - mouseInitX;
 		diffY = y - mouseInitY;
 		target.handle(DragEvent.MOUSE_START_DRAG);
@@ -113,11 +115,11 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 
 	public void act(float delta) {
 		GameState gameState = this.game.getGameState();
-		target.setX(gameState.getValue(SystemFields.MOUSE_SCENE_X) + diffX);
-		target.setY(gameState.getValue(SystemFields.MOUSE_SCENE_Y) + diffY);
+		target.setX(gameState.getValue(SystemFields.MOUSE_SCENE_X, 0f) + diffX);
+		target.setY(gameState.getValue(SystemFields.MOUSE_SCENE_Y, 0f) + diffY);
 		SceneElementGO go = gui.getScene().getFirstGOIn(
-				gameState.getValue(SystemFields.MOUSE_SCENE_X),
-				gameState.getValue(SystemFields.MOUSE_SCENE_Y), false);
+				gameState.getValue(SystemFields.MOUSE_SCENE_X, 0f),
+				gameState.getValue(SystemFields.MOUSE_SCENE_Y, 0f), false);
 		if (go != currentGO) {
 			if (currentGO != null) {
 				// SceneElement id and definition id
@@ -157,11 +159,11 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 		} else {
 			// XXX Objects can get outside of the window
 			target.setX(x
-					+ game.getGameState().getValue(SystemFields.MOUSE_SCENE_X)
-					- mouseInitX);
+					+ game.getGameState().getValue(SystemFields.MOUSE_SCENE_X,
+							0f) - mouseInitX);
 			target.setY(y
-					+ game.getGameState().getValue(SystemFields.MOUSE_SCENE_Y)
-					- mouseInitY);
+					+ game.getGameState().getValue(SystemFields.MOUSE_SCENE_Y,
+							0f) - mouseInitY);
 		}
 		target.setZ(z);
 		parent.addSceneElement(target);

@@ -42,8 +42,6 @@ import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.RandomEf;
 
-import java.util.Map.Entry;
-
 public class RandomGO extends AbstractEffectGO<RandomEf> {
 
 	@Inject
@@ -55,19 +53,20 @@ public class RandomGO extends AbstractEffectGO<RandomEf> {
 		super.initialize();
 
 		float totalProbability = 0.0f;
-		for (Float f : effect.getEffects().values()) {
+		for (Float f : effect.getProbabilities()) {
 			totalProbability += f;
 		}
 
 		float random = (float) (Math.random() * totalProbability);
 		totalProbability = 0.0f;
-		for (Entry<Effect, Float> entry : effect.getEffects().entrySet()) {
-			if (totalProbability < random
-					&& random < totalProbability + entry.getValue()) {
-				game.addEffect(entry.getKey());
+		int i = 0;
+		for (Effect e : effect.getEffects()) {
+			Float f = effect.getProbabilities().get(i++);
+			if (totalProbability < random && random < totalProbability + f) {
+				game.addEffect(e);
 				return;
 			}
-			totalProbability += entry.getValue();
+			totalProbability += f;
 		}
 	}
 

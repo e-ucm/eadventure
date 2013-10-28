@@ -49,6 +49,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -72,6 +73,7 @@ public class SimpleDebugger extends Group {
 	private int historyPointer = -1;
 
 	public SimpleDebugger(Game game, GameLoader gameLoader) {
+		this.setTouchable(Touchable.disabled);
 		this.history = new Array<String>();
 		final CommandInterpreter commandInterpreter = new CommandInterpreter(
 				game, gameLoader);
@@ -126,8 +128,8 @@ public class SimpleDebugger extends Group {
 					String command = interpreter.getText();
 					if (history.size == 0 || !history.peek().equals(command)) {
 						history.add(command);
-						historyPointer = history.size;
 					}
+					historyPointer = history.size;
 					result.setText(commandInterpreter.interpret(command));
 					interpreter.setText("");
 					break;
@@ -182,6 +184,7 @@ public class SimpleDebugger extends Group {
 		} else {
 			interpreter.setText(history.get(historyPointer));
 		}
+		interpreter.setCursorPosition(interpreter.getText().length());
 	}
 
 	private void nextCommand() {

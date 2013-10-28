@@ -37,60 +37,80 @@
 
 package es.eucm.ead.engine.operators;
 
-import es.eucm.ead.engine.factories.mapproviders.OperatorsMapProvider;
 import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.operators.evaluators.EvaluatorFactory;
+import es.eucm.ead.model.elements.conditions.ANDCond;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.conditions.NOTCond;
+import es.eucm.ead.model.elements.conditions.ORCond;
+import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.operations.ConcatenateStringsOp;
+import es.eucm.ead.model.elements.operations.ConditionedOp;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.Operation;
-import es.eucm.ead.tools.AbstractFactory;
+import es.eucm.ead.model.elements.operations.StringOp;
+import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.tools.StringHandler;
-import es.eucm.ead.tools.reflection.ReflectionProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A factory with all {@link Operator} for all {@link es.eucm.ead.model.elements.operations.Operation}. The Game
  * State is the only class that should access to this factory. If you're using
  * it somewhere else, try to use
  */
-public class OperatorFactory extends AbstractFactory<Operator<?>> {
+public class OperatorFactory {
 
 	static private Logger logger = LoggerFactory
 			.getLogger(OperatorFactory.class);
 
-	public OperatorFactory(ReflectionProvider interfacesProvider,
-			GameState gameState, StringHandler sh) {
-		super(null, interfacesProvider);
-		setMap(new OperatorsMapProvider(this, gameState, new EvaluatorFactory(
-				reflectionProvider, this), interfacesProvider, sh));
+	private Map<Class<?>, Operator<?>> factoryMap;
+
+	public OperatorFactory(GameState gameState, StringHandler stringHandler) {
+		factoryMap = new HashMap<Class<?>, Operator<?>>();
+		EvaluatorFactory evaluatorFactory = new EvaluatorFactory(this);
+		FieldOperator fieldOperator = new FieldOperator(gameState);
+		// Conditions
+		factoryMap.put(ANDCond.class, evaluatorFactory);
+		factoryMap.put(EmptyCond.class, evaluatorFactory);
+		factoryMap.put(NOTCond.class, evaluatorFactory);
+		factoryMap.put(ORCond.class, evaluatorFactory);
+		factoryMap.put(OperationCond.class, evaluatorFactory);
+
+		factoryMap.put(MathOp.class, new MathOperator(gameState));
+		factoryMap.put(ValueOp.class, new ValueOperator());
+		factoryMap.put(ElementField.class, fieldOperator);
+		factoryMap.put(ElementField.class, fieldOperator);
+		factoryMap.put(ConditionedOp.class, new ConditionedOperator(
+				evaluatorFactory, this));
+		factoryMap.put(ConcatenateStringsOp.class,
+				new ConcatenateStringsOperator(gameState));
+		factoryMap.put(StringOp.class, new StringOperator(stringHandler,
+				gameState));
 	}
 
 	/**
-	 * <p>
-	 * Calculates the result of the given {@link es.eucm.ead.model.elements.operations.Operation} with the current
-	 * values in the {@link es.eucm.ead.engine.game.interfaces.ValueMap}
-	 * </p>
-	 * The value should be stored in the {@link es.eucm.ead.engine.game.interfaces.ValueMap} by the actual
-	 * {@link Operator}
+	 * <p/>
+	 * Calculates the result of the given {@link es.eucm.ead.model.elements.operations.Operation}
 	 *
 	 * @param <T>
-	 * @param eAdVar
-	 *            the class for the result
-	 * @param eAdOperation
-	 *            operation to be done
+	 * @param operation operation to be done
 	 * @return operation's result. If operation is {@code null}, a null is
 	 *         returned.
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Operation, S> S operate(Class<S> clazz, T operation) {
+	public <T extends Operation, S> S operate(T operation) {
 		if (operation == null) {
-			logger
-					.warn(
-							"Null operation attempted: null returned as class {} for operation {}",
-							new Object[] { clazz, operation });
+			logger.warn("Null operation attempted for operation.");
 			return null;
 		}
-		Operator<T> operator = (Operator<T>) get(operation.getClass());
-		return operator.operate(clazz, operation);
+		Operator<T> operator = (Operator<T>) factoryMap.get(operation
+				.getClass());
+		return operator.operate(operation);
 	}
 
 }

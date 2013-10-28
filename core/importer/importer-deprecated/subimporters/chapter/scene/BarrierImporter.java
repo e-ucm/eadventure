@@ -92,7 +92,7 @@ public class BarrierImporter implements
 					condition);
 			ConditionedEv event = new ConditionedEv();
 			event.setCondition(condition);
-			ElementField<Boolean> barrierOn = new ElementField<Boolean>(barrier,
+			ElementField barrierOn = new ElementField(barrier,
 					NodeTrajectory.VAR_BARRIER_ON);
 			event.addEffect(ConditionedEvType.CONDITIONS_MET,
 					new ChangeFieldEf(barrierOn, EmptyCond.TRUE));

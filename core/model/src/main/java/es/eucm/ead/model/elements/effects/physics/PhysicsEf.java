@@ -38,32 +38,23 @@
 package es.eucm.ead.model.elements.effects.physics;
 
 import es.eucm.ead.model.elements.effects.Effect;
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.effects.enums.PhShape;
-import es.eucm.ead.model.elements.effects.enums.PhType;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 
 @Element
 public class PhysicsEf extends Effect {
 
-	public static final EAdVarDef<PhType> VAR_PH_TYPE = new VarDef<PhType>(
-			"ph_type", PhType.class, PhType.STATIC);
+	public static final String VAR_PH_TYPE = "ph_type";
 
-	public static final EAdVarDef<PhShape> VAR_PH_SHAPE = new VarDef<PhShape>(
-			"ph_shape", PhShape.class, PhShape.RECTANGULAR);
+	public static final String VAR_PH_SHAPE = "ph_shape";
 
-	public static final EAdVarDef<Float> VAR_PH_FRICTION = new VarDef<Float>(
-			"ph_friction", Float.class, 0.3f);
+	public static final String VAR_PH_FRICTION = "ph_friction";
 
-	public static final EAdVarDef<Float> VAR_PH_RESTITUTION = new VarDef<Float>(
-			"ph_restitution", Float.class, 0.1f);
+	public static final String VAR_PH_RESTITUTION = "ph_restitution";
 
-	public static final EAdVarDef<Float> VAR_PH_DENSITY = new VarDef<Float>(
-			"ph_restitution", Float.class, 0.001f);
+	public static final String VAR_PH_DENSITY = "ph_restitution";
 
 	/**
 	 * Elements that are affect by the physics

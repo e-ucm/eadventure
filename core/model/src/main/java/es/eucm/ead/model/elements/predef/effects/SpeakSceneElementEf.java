@@ -41,7 +41,6 @@ import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
 import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.text.EAdString;
 
 public class SpeakSceneElementEf extends SpeakEf {
@@ -56,25 +55,14 @@ public class SpeakSceneElementEf extends SpeakEf {
 	}
 
 	public void setElement(BasicElement element) {
-		if (element instanceof SceneElement) {
-			setOrigin(element);
-			setStateField(new ElementField<String>(element,
-					SceneElement.VAR_STATE));
-		} else if (element instanceof SceneElementDef) {
-			ElementField<SceneElement> fieldElement = new ElementField<SceneElement>(
-					element, SceneElementDef.VAR_SCENE_ELEMENT);
-			setOrigin(fieldElement);
-			setStateField(new ElementField<String>(fieldElement,
-					SceneElement.VAR_STATE));
-		} else if (element != null) {
-			setOrigin(element);
-		}
+		setOrigin(element);
+		setStateField(new ElementField(element, SceneElement.VAR_STATE));
 	}
 
 	private void setOrigin(BasicElement element) {
-		ElementField<Float> centerX = new ElementField<Float>(element,
+		ElementField centerX = new ElementField(element,
 				SceneElement.VAR_CENTER_X);
-		ElementField<Float> centerY = new ElementField<Float>(element,
+		ElementField centerY = new ElementField(element,
 				SceneElement.VAR_CENTER_Y);
 
 		setPosition(centerX, centerY);

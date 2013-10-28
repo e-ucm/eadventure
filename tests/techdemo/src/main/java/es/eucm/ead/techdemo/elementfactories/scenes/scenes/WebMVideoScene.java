@@ -38,6 +38,7 @@
 package es.eucm.ead.techdemo.elementfactories.scenes.scenes;
 
 import es.eucm.ead.model.assets.multimedia.Video;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.elements.scenes.VideoScene;
 
 public class WebMVideoScene extends VideoScene {
@@ -46,7 +47,9 @@ public class WebMVideoScene extends VideoScene {
 		this.setId("WebMVideoScene");
 		Video video = new Video("http://www.youtube.com/watch?v=qfi-Bqp3YiI");
 		video.setStream(true);
-		getDefinition().addAsset(VideoScene.video, video);
+		SceneElementDef def = new SceneElementDef();
+		def.addAsset(VideoScene.video, video);
+		this.setDefinition(def);
 	}
 
 }

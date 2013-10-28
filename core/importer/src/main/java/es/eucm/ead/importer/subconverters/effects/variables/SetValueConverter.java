@@ -59,7 +59,7 @@ public class SetValueConverter implements EffectConverter<SetValueEffect> {
 	@Override
 	public List<Effect> convert(SetValueEffect oldObject) {
 		ArrayList<Effect> list = new ArrayList<Effect>();
-		ElementField<?> var = modelQuerier.getVariable(oldObject.getTargetId());
+		ElementField var = modelQuerier.getVariable(oldObject.getTargetId());
 		ChangeFieldEf effect = new ChangeFieldEf(var, new ValueOp(oldObject
 				.getValue()));
 		list.add(effect);

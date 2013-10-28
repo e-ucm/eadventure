@@ -195,7 +195,7 @@ public class SceneImporter implements EAdElementImporter<es.eucm.eadventure.comm
 			Position p = new Position(Position.Corner.BOTTOM_CENTER, oldScene
 					.getPositionX(), oldScene.getPositionY());
 			playerReference.setPosition(p);
-			playerReference.setInitialScale(oldScene.getPlayerScale());
+			playerReference.setScale(oldScene.getPlayerScale());
 
 			// Make it active element of the scene
 			MakeActiveElementEf effect = new MakeActiveElementEf(
@@ -247,7 +247,7 @@ public class SceneImporter implements EAdElementImporter<es.eucm.eadventure.comm
 
 			playerReference.setPosition(new Position(Corner.BOTTOM_CENTER,
 					nodeDef.getInitial().getX(), nodeDef.getInitial().getY()));
-			playerReference.setInitialScale(nodeDef.getInitial().getScale());
+			playerReference.setScale(nodeDef.getInitial().getScale());
 		}
 
 	}
@@ -354,7 +354,7 @@ public class SceneImporter implements EAdElementImporter<es.eucm.eadventure.comm
 				SceneElement foreground = new SceneElement(image);
 				foreground.setVarInitialValue(SceneElement.VAR_Z,
 						Integer.MAX_VALUE);
-				foreground.setInitialEnable(false);
+				foreground.setEnable(false);
 
 				ChangeFieldEf changeVisibility = new ChangeFieldEf(foreground
 						.getField(SceneElement.VAR_VISIBLE), c);

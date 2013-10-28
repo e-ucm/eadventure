@@ -188,7 +188,7 @@ public class GameObjectFactory<S extends BasicElement, T extends GameObject<?>> 
 	}
 
 	@SuppressWarnings("unchecked")
-	public void put(EAdMap<String, String> binds) {
+	public void put(EAdMap<String> binds) {
 		if (binds != null) {
 			for (Map.Entry<String, String> e : binds.entrySet()) {
 				Class c1 = reflectionProvider.getClassforName(e.getKey());

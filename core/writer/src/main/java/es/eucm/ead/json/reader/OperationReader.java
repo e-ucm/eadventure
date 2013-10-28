@@ -139,7 +139,7 @@ public class OperationReader {
 		return translateField(field);
 	}
 
-	public ElementField<?> translateField(String field) {
+	public ElementField translateField(String field) {
 		String[] fs = field.split("\\.");
 		if (fs.length != 2) {
 			logger.error("{} is not a valid field", field);

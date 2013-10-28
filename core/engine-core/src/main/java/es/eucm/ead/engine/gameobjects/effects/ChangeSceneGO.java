@@ -50,7 +50,6 @@ import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.Scene;
-import es.eucm.ead.model.params.variables.VarDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,8 +58,8 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	static private Logger logger = LoggerFactory.getLogger(ChangeSceneGO.class);
 
-	public static ElementField<Boolean> IN_TRANSITION = new ElementField<Boolean>(
-			null, new VarDef<Boolean>("in_transition", Boolean.class, false));
+	public static ElementField IN_TRANSITION = new ElementField(null,
+			"in_transition", false);
 	private final GameLoader gameLoader;
 
 	private GUI gui;

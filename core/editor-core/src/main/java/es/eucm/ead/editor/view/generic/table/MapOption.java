@@ -73,12 +73,10 @@ import org.slf4j.LoggerFactory;
  * similar to manipulating a list.
  *
  * @author mfreire
- * @param <K> key-type
- * @param <V> value-type (for underlying list)
+ * @param <V> value-type (for underlying map)
  */
-public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
-		TableLikeControl<V, K> {
-
+public class MapOption<V> extends AbstractOption<EAdMap<V>> implements
+		TableLikeControl<V, String> {
 	static private Logger logger = LoggerFactory.getLogger(MapOption.class);
 
 	private JPanel controlPanel;
@@ -89,61 +87,59 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 
 	public MapOption(String title, String toolTipText, Object object,
 			String fieldName, Class<?> contentClass, DependencyNode... changed) {
-		super(title, toolTipText, new IntrospectingAccessor<EAdMap<K, V>>(
+		super(title, toolTipText, new IntrospectingAccessor<EAdMap<V>>(
 				object, fieldName), changed);
 		this.contentClass = contentClass;
+    }
 
-	}
-
-	public ColumnSpec<V, K>[] getKeyColumns() {
-		return (ColumnSpec<V, K>[]) new ColumnSpec[] { new ColumnSpec<V, K>(
-				"Key", String.class, false, -1) {
-
+	public ColumnSpec<V, String>[] getKeyColumns() {
+		return (ColumnSpec<V, String>[]) new ColumnSpec[] { 
+            new ColumnSpec<V, String>("Key", String.class, false, -1) {
 			@Override
-			public Object getValue(Row<V, K> row, int columnIndex) {
-				return row.getKey().toString();
+			public Object getValue(Row<V, String> row, int columnIndex) {
+				return row.getKey();
 			}
-
 		} };
 	}
 
-	public ColumnSpec<V, K>[] getValueColumns() {
-		return (ColumnSpec<V, K>[]) new ColumnSpec[] { new ColumnSpec("Value",
-				contentClass, false, -1) };
-	}
+	public ColumnSpec<V, String>[] getValueColumns() {
+		return (ColumnSpec<V, String>[]) new ColumnSpec[] {
+            new ColumnSpec("Value",	contentClass, false, -1) 
+        };
+    }
 
 	/**
 	 * Model used to represent the map. Looks directly at oldValue; which must
 	 * always be updated.
 	 */
-	private class MapTableModel extends AbstractRowTableModel<V, K> {
+	private class MapTableModel extends AbstractRowTableModel<V, String> {
 
-		private final HashMap<K, Integer> keysToRows = new HashMap<K, Integer>();
+		private final HashMap<String, Integer> keysToRows = new HashMap<String, Integer>();
 
 		@SuppressWarnings("unchecked")
 		public MapTableModel() {
 			super(MapOption.this);
 
-			ColumnSpec<V, K> upDown = new ColumnSpec<V, K>("", MoveIt.class,
+			ColumnSpec<V, String> upDown = new ColumnSpec<V, String>("", MoveIt.class,
 					true, 16);
 			upDown.setEditor(new MoveButtonWidget(MapOption.this));
 			upDown.setRenderer(new MoveButtonWidget(MapOption.this));
 
-			ColumnSpec<V, K> delete = new ColumnSpec<V, K>("", DeleteIt.class,
+			ColumnSpec<V, String> delete = new ColumnSpec<V, String>("", DeleteIt.class,
 					true, 20);
 			delete.setEditor(new DeleteButtonWidget(MapOption.this));
 			delete.setRenderer(new DeleteButtonWidget(MapOption.this));
 
-			ColumnSpec<V, K>[] keys = (ColumnSpec<V, K>[]) getKeyColumns();
-			ColumnSpec<V, K>[] values = (ColumnSpec<V, K>[]) getValueColumns();
+			ColumnSpec<V, String>[] keys = (ColumnSpec<V, String>[]) getKeyColumns();
+			ColumnSpec<V, String>[] values = (ColumnSpec<V, String>[]) getValueColumns();
 			int totalColCount = keys.length + values.length + 1;
-			cols = (ColumnSpec<V, K>[]) new ColumnSpec[totalColCount];
+			cols = (ColumnSpec<V, String>[]) new ColumnSpec[totalColCount];
 			System.arraycopy(keys, 0, cols, 0, keys.length);
 			System.arraycopy(values, 0, cols, keys.length, values.length);
 			cols[cols.length - 1] = delete;
 			if (logger.isDebugEnabled()) {
 				int i = 0;
-				for (ColumnSpec<V, K> c : cols) {
+				for (ColumnSpec<V, String> c : cols) {
 					logger.debug(" -- at col {}: {}{}", i++, c.getClass()
 							.getSimpleName(), c.hashCode());
 				}
@@ -156,28 +152,28 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 		public void reindex() {
 			rows = new Row[oldValue.size()];
 			keysToRows.clear();
-			Iterator<Map.Entry<K, V>> it = oldValue.entrySet().iterator();
+			Iterator<Map.Entry<String, V>> it = oldValue.entrySet().iterator();
 			for (int i = 0; it.hasNext(); i++) {
-				rows[i] = new Row<V, K>(it.next());
+				rows[i] = new Row<V, String>(it.next());
 				keysToRows.put(rows[i].getKey(), i);
 			}
 		}
 
 		@Override
 		public void setValueAt(Object value, int rowIndex, int columnIndex) {
-			Row<V, K> r = rows[rowIndex];
+			Row<V, String> r = rows[rowIndex];
 			Accessor a = cols[columnIndex].getAccessor(r, columnIndex);
 
 			if (a.getSource() == r) {
 				// direct change
 				if (columnIndex == 0) {
 					// changing the key
-					if (oldValue.containsKey((K) value)) {
+					if (oldValue.containsKey((String) value)) {
 						// refuse to change value - would overwrite existing
 						logger.warn("Refusing to allow user to overwrite key");
 					} else {
-						performCommand(new MapCommand.ChangeKeyInMap<K, V>(
-								oldValue, r.getKey(), (K) value, changed));
+						performCommand(new MapCommand.ChangeKeyInMap<V>(
+								oldValue, r.getKey(), (String) value, changed));
 					}
 				} else {
 					// changing a map value
@@ -198,7 +194,7 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 		tableModel = new MapTableModel();
 		tableControl = new JXTable(tableModel);
 		for (int i = 0; i < tableModel.cols.length; i++) {
-			ColumnSpec<V, K> c = tableModel.cols[i];
+			ColumnSpec<V, String> c = tableModel.cols[i];
 			if (c.getRenderer() != null) {
 				tableControl.getColumn(i).setCellRenderer(c.getRenderer());
 			}
@@ -224,7 +220,7 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				V value = chooseElementToAdd();
-				K key = chooseKeyToAdd();
+				String key = chooseKeyToAdd();
 				if (value != null) {
 					add(value, key);
 				}
@@ -242,20 +238,20 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 	}
 
 	@Override
-	public EAdMap<K, V> getControlValue() {
+	public EAdMap<V> getControlValue() {
 		return accessor.read();
 	}
 
 	@Override
-	protected void setControlValue(EAdMap<K, V> newValue) {
+	protected void setControlValue(EAdMap<V> newValue) {
 		tableModel.fireTableDataChanged();
 	}
 
 	@Override
-	public void remove(K key) {
+	public void remove(String key) {
 		V o = oldValue.get(key);
 		logger.info("Removing {} (at {})", new Object[] { o, key });
-		Command c = new MapCommand.RemoveFromMap<K, V>(oldValue, key, changed);
+		Command c = new MapCommand.RemoveFromMap<V>(oldValue, key, changed);
 		performCommand(c);
 	}
 
@@ -270,15 +266,15 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 	 * Launches UI prompt to add a key to a list element
 	 */
 	@Override
-	public K chooseKeyToAdd() {
+	public String chooseKeyToAdd() {
 		logger.info("User wants to CHOOSE a KEY to ADD something! Madness!!");
 		return null;
 	}
 
 	@Override
-	public void add(V added, K key) {
+	public void add(V added, String key) {
 		logger.info("Adding {}", oldValue);
-		Command c = new MapCommand.AddToMap<K, V>(oldValue, added, key, changed);
+		Command c = new MapCommand.AddToMap<V>(oldValue, added, key, changed);
 		performCommand(c);
 	}
 
@@ -287,7 +283,7 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 	 * button-click.
 	 */
 	@Override
-	public void moveUp(K index) {
+	public void moveUp(String index) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -296,7 +292,7 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 	 * button-click.
 	 */
 	@Override
-	public void moveDown(K index) {
+	public void moveDown(String index) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -304,7 +300,7 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 	 * Returns the key for a given row
 	 */
 	@Override
-	public K keyForRow(int row) {
+	public String keyForRow(int row) {
 		return tableModel.keyForRow(row);
 	}
 
@@ -321,8 +317,8 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>> implements
 	 * @return
 	 */
 	@Override
-	protected boolean changeConsideredRelevant(EAdMap<K, V> oldValue,
-			EAdMap<K, V> newValue) {
+	protected boolean changeConsideredRelevant(EAdMap<V> oldValue,
+			EAdMap<V> newValue) {
 		return true;
 	}
 }

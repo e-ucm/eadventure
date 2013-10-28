@@ -44,6 +44,11 @@
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
 		</dependency>
+        <!-- TEST -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+        </dependency>
 
 	</dependencies>
 </project>

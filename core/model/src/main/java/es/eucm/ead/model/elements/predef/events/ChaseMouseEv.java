@@ -47,12 +47,10 @@ public class ChaseMouseEv extends SceneElementEv {
 
 	public ChaseMouseEv() {
 		super();
-		ChangeFieldEf chaseX = new ChangeFieldEf();
-		chaseX.setParentVar(SceneElement.VAR_X);
-		chaseX.setOperation(SystemFields.MOUSE_X);
-		ChangeFieldEf chaseY = new ChangeFieldEf();
-		chaseY.setParentVar(SceneElement.VAR_Y);
-		chaseY.setOperation(SystemFields.MOUSE_Y);
+		ChangeFieldEf chaseX = new ChangeFieldEf(null, SceneElement.VAR_X,
+				SystemFields.MOUSE_X);
+		ChangeFieldEf chaseY = new ChangeFieldEf(null, SceneElement.VAR_Y,
+				SystemFields.MOUSE_Y);
 
 		addEffect(SceneElementEvType.ALWAYS, chaseX);
 		addEffect(SceneElementEvType.ALWAYS, chaseY);

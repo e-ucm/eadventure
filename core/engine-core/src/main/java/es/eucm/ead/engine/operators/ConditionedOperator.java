@@ -53,11 +53,11 @@ public class ConditionedOperator implements Operator<ConditionedOp> {
 	}
 
 	@Override
-	public <S> S operate(Class<S> clazz, ConditionedOp operation) {
+	public <S> S operate(ConditionedOp operation) {
 		if (evaluatorFactory.evaluate(operation.getCondition())) {
-			return operatorFactory.operate(clazz, operation.getOpTrue());
+			return operatorFactory.operate(operation.getOpTrue());
 		} else
-			return operatorFactory.operate(clazz, operation.getOpFalse());
+			return operatorFactory.operate(operation.getOpFalse());
 	}
 
 }

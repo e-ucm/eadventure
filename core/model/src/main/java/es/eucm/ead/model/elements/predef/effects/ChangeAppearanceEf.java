@@ -39,26 +39,16 @@ package es.eucm.ead.model.elements.predef.effects;
 
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.interfaces.Element;
 
-@Element
 public class ChangeAppearanceEf extends ChangeFieldEf {
 
 	public ChangeAppearanceEf() {
-		super();
+
 	}
 
 	public ChangeAppearanceEf(BasicElement element, String bundleId) {
-		super();
-		if (element == null) {
-			this.setParentVar(SceneElement.VAR_BUNDLE_ID);
-		} else {
-			addField(new ElementField<String>(element,
-					SceneElement.VAR_BUNDLE_ID));
-		}
-		this.setOperation(new ValueOp(bundleId));
+		super(element, SceneElement.VAR_BUNDLE_ID, new ValueOp(bundleId));
 	}
 }

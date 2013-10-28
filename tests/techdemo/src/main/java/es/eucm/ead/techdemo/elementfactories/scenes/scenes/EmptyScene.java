@@ -39,7 +39,7 @@ package es.eucm.ead.techdemo.elementfactories.scenes.scenes;
 
 import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.ead.model.elements.scenes.Scene;
-import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.LinearGradientFill;
 import es.eucm.ead.model.params.paint.EAdFill;
@@ -58,8 +58,7 @@ public class EmptyScene extends Scene {
 		rectangle = new RectangleShape(800, 600);
 		rectangle.setPaint(new LinearGradientFill(new ColorFill(240, 240, 240),
 				ColorFill.WHITE, 800, 600));
-		getBackground().getDefinition().addAsset(SceneElementDef.appearance,
-				rectangle);
+		this.setBackground(new SceneElement(rectangle));
 		//		this.background.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 		//				new ChangeSceneEf(null, new MaskTransition(new Image(
 		//						"@drawable/man_stand_e_1.png"), 5000)));

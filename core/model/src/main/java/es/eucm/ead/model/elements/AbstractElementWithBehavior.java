@@ -65,7 +65,7 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 	 * All behaviors contained by this bundle, associated with its events
 	 */
 	@Param
-	protected EAdMap<EAdGUIEvent, EAdList<Effect>> behavior;
+	protected EAdMap<EAdList<Effect>> behavior;
 
 	/**
 	 * Calculated attribute with all effects contained by the behavior. It must
@@ -132,12 +132,12 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 	 */
 	public void addBehavior(EAdGUIEvent event, Effect effect) {
 		if (behavior == null) {
-			behavior = new EAdMap<EAdGUIEvent, EAdList<Effect>>();
+			behavior = new EAdMap<EAdList<Effect>>();
 		}
-		EAdList<Effect> list = behavior.get(event);
+		EAdList<Effect> list = behavior.get(event.toString());
 		if (list == null) {
 			list = new EAdList<Effect>();
-			behavior.put(event, list);
+			behavior.put(event.toString(), list);
 		}
 		list.add(effect);
 	}
@@ -151,7 +151,8 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 	 *         If not, returns {@code null}
 	 */
 	public EAdList<Effect> getEffects(EAdGUIEvent event) {
-		return behavior == null ? null : behavior.get(event);
+		return behavior == null || event == null ? null : behavior.get(event
+				.toString());
 	}
 
 	/**
@@ -165,15 +166,11 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 			addBehavior(event, effects.get(i));
 	}
 
-	public EAdMap<EAdGUIEvent, EAdList<Effect>> getBehavior() {
-		return behavior;
-	}
-
 	/**
-	 * Returns all the effects contained for this behavior. This list must NOT
-	 * be modified
 	 *
 	 * @return
+	 * Returns all the effects contained for this behavior. This list must NOT
+	 * be modified
 	 */
 	public EAdList<Effect> getAllEffects() {
 		if (allEffects == null) {
@@ -187,16 +184,12 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 		return allEffects;
 	}
 
-	public void setBehavior(EAdMap<EAdGUIEvent, EAdList<Effect>> behavior) {
+	public EAdMap<EAdList<Effect>> getBehavior() {
+		return behavior;
+	}
+
+	public void setBehavior(EAdMap<EAdList<Effect>> behavior) {
 		this.behavior = behavior;
 	}
 
-	/**
-	 * Returns if this behavior is empty
-	 *
-	 * @return
-	 */
-	public boolean isEmpty() {
-		return behavior.isEmpty();
-	}
 }

@@ -19,5 +19,14 @@
 			<artifactId>ead-model</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+        <!-- TEST -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+        </dependency>
 	</dependencies>
 </project>

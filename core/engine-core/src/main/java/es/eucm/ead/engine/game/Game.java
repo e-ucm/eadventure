@@ -55,12 +55,15 @@ import es.eucm.ead.model.elements.AdventureGame;
 import es.eucm.ead.model.elements.Chapter;
 import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.operations.ElementField;
-import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class Game {
@@ -272,9 +275,6 @@ public class Game {
 		hookNameDelete.clear();
 		hookDelete.clear();
 
-		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
-				getSkippedMilliseconds());
-
 		// Scene
 		if (!isPaused()) {
 			effectsHandler.act(delta);
@@ -285,10 +285,6 @@ public class Game {
 		}
 
 		doHook(HOOK_AFTER_UPDATE);
-		// Update game time
-		Long l = gameState.getValue(SystemFields.GAME_TIME);
-		l += getSkippedMilliseconds();
-		gameState.setValue(SystemFields.GAME_TIME, l);
 	}
 
 	public void addHook(String hookName, EngineHook hook) {

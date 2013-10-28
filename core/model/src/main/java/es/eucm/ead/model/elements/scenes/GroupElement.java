@@ -37,12 +37,10 @@
 
 package es.eucm.ead.model.elements.scenes;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 
 /**
  * Represents an scene element that is compound with other scene elements. This
@@ -58,15 +56,13 @@ public class GroupElement extends SceneElement {
 	 * A variable defining if this container must update its width to the
 	 * minimum width to contain all its components
 	 */
-	public static final EAdVarDef<Boolean> VAR_AUTO_SIZE_HORIZONTAL = new VarDef<Boolean>(
-			"autoSizeH", Boolean.class, Boolean.TRUE);
+	public static final String VAR_AUTO_SIZE_HORIZONTAL = "autoSizeH";
 
 	/**
 	 * A variable defining if this container must update its height to the
 	 * minimum height to contain all its components
 	 */
-	public static final EAdVarDef<Boolean> VAR_AUTO_SIZE_VERTICAL = new VarDef<Boolean>(
-			"autoSizeV", Boolean.class, Boolean.TRUE);
+	public static final String VAR_AUTO_SIZE_VERTICAL = "autoSizeV";
 
 	@Param
 	protected EAdList<SceneElement> sceneElements;
@@ -93,10 +89,11 @@ public class GroupElement extends SceneElement {
 	 *            the width
 	 */
 	public void setBounds(int width, int height) {
-		setVarInitialValue(VAR_AUTO_SIZE_HORIZONTAL, width <= 0);
-		setVarInitialValue(VAR_WIDTH, width);
-		setVarInitialValue(VAR_AUTO_SIZE_VERTICAL, height <= 0);
-		setVarInitialValue(VAR_HEIGHT, height);
+		// XXX This is not working
+		putProperty(VAR_AUTO_SIZE_HORIZONTAL, width <= 0);
+		//putProperty(VAR_WIDTH, width);
+		putProperty(VAR_AUTO_SIZE_VERTICAL, height <= 0);
+		//putProperty(VAR_HEIGHT, height);
 
 	}
 

@@ -37,29 +37,30 @@
 
 package es.eucm.ead.model.elements.effects.variables;
 
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.Effect;
-import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 
 /**
- * Effect for changing a field value
- * 
+ * Effect to change a field from an element during runtime
  */
 @Element
 public class ChangeFieldEf extends Effect {
 
 	/**
-	 * Fields to be changed
+	 * The owner of the field
 	 */
 	@Param
-	private es.eucm.ead.model.elements.extra.EAdList<ElementField<?>> fields;
+	private BasicElement element;
 
+	/**
+	 * Name of the variable to change
+	 */
 	@Param
-	private EAdVarDef<?> varDef;
+	private String varName;
 
 	/**
 	 * Operation to be done. The result of this operation should be assigned to
@@ -70,65 +71,40 @@ public class ChangeFieldEf extends Effect {
 
 	/**
 	 * Creates an empty effect
-	 * 
-	 * @param id
-	 *            Elements's id
 	 */
 	public ChangeFieldEf() {
-		this(null, null);
 	}
 
-	/**
-	 * Creates an effect with the required parameters
-	 * 
-	 * @param id
-	 *            Elements id
-	 * @param var
-	 *            The field to be changed
-	 * @param operation
-	 *            The operation to be performed to obtain the value of the field
-	 */
-	public ChangeFieldEf(ElementField<?> field, Operation operation) {
-		super();
-		this.fields = new EAdList<ElementField<?>>();
-		if (field != null)
-			fields.add(field);
+	public ChangeFieldEf(BasicElement element, String varName,
+			Operation operation) {
+		this.element = element;
+		this.varName = varName;
 		this.operation = operation;
 	}
 
 	/**
-	 * Adds a field to be updated with the operation result
-	 * 
-	 * @param var
-	 *            the variable
+	 * Effect to change the given field with the result of the given operation. If the field is {@code null} th
+	 *
+	 * @param field     the field
+	 * @param operation the operation
 	 */
-	public void addField(ElementField<?> var) {
-		fields.add(var);
+	public ChangeFieldEf(ElementField field, Operation operation) {
+		this.element = field.getElement();
+		this.varName = field.getVarName();
+		this.operation = operation;
 	}
 
 	/**
 	 * Sets the operation to be done by this effect. The result of this
 	 * operation should be assigned to the fields contained by the effect
-	 * 
-	 * @param operation
-	 *            the operation
+	 *
+	 * @param operation the operation
 	 */
 	public void setOperation(Operation operation) {
 		this.operation = operation;
 	}
 
 	/**
-	 * Returns a list of the fields to be updated with the operation result
-	 * 
-	 * @return a list of the fields to be updated with the operation result
-	 */
-	public EAdList<ElementField<?>> getFields() {
-		return fields;
-	}
-
-	/**
-	 * Returns the operation to be done by this effect
-	 * 
 	 * @return the operation to be done by this effect
 	 */
 	public Operation getOperation() {
@@ -136,33 +112,39 @@ public class ChangeFieldEf extends Effect {
 	}
 
 	/**
-	 * Sets the variable to change in the parent of the effect
-	 * 
-	 * @param varDef
-	 *            the variable definition
+	 * @return Returns the owner of the field. Could be null, meaning that the owner should be the element owning the effect
 	 */
-	public void setParentVar(EAdVarDef<?> varDef) {
-		this.varDef = varDef;
+	public BasicElement getElement() {
+		return element;
 	}
 
-	public EAdVarDef<?> getParentVar() {
-		return varDef;
+	/**
+	 * Sets the owner of the field. If null, the engine will interpret that the owner is the element that launched the effect
+	 *
+	 * @param element the owner of the field
+	 */
+	public void setElement(BasicElement element) {
+		this.element = element;
 	}
 
-	public void setFields(EAdList<ElementField<?>> fields) {
-		this.fields = fields;
+	/**
+	 *
+	 * @return the variable name to change
+	 */
+	public String getVarName() {
+		return varName;
 	}
 
-	public void setVarDef(EAdVarDef<?> varDef) {
-		this.varDef = varDef;
-	}
-
-	public EAdVarDef<?> getVarDef() {
-		return varDef;
+	/**
+	 *
+	 * @param varName the variable name to change
+	 */
+	public void setVarName(String varName) {
+		this.varName = varName;
 	}
 
 	public String toString() {
-		return fields + "=" + operation;
+		return element + "." + varName + "=" + operation;
 	}
 
 }

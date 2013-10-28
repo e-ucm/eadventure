@@ -38,15 +38,20 @@
 package es.eucm.ead.engine.debugger;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameLoader;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
+import es.eucm.ead.model.Commands;
 import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.effects.ChangeChapterEf;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.effects.ToggleSoundEf;
 import es.eucm.ead.reader.model.Manifest;
@@ -57,6 +62,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
 
+@Singleton
 public class CommandInterpreter {
 
 	private static final Logger logger = LoggerFactory
@@ -66,6 +72,7 @@ public class CommandInterpreter {
 
 	private GameLoader gameLoader;
 
+	@Inject
 	public CommandInterpreter(Game game, GameLoader gameLoader) {
 		this.game = game;
 		this.gameLoader = gameLoader;
@@ -77,7 +84,7 @@ public class CommandInterpreter {
 			command = command.trim();
 			if (command.equals("scene")) {
 				return game.getGUI().getScene().getElement().getId();
-			} else if (command.equals("chapter")) {
+			} else if (command.equals(Commands.CHAPTER)) {
 				return gameLoader.getCurrentChapterId();
 			} else if (command.startsWith("go")) {
 				String[] parts = command.split(" ");
@@ -123,13 +130,41 @@ public class CommandInterpreter {
 				result = "OK.";
 			} else if (command.startsWith("watching")) {
 				String[] parts = command.split(" ");
-				String[] field = parts[1].split("\\.");
-				result = game.getGameState().countWatchers(field[0], field[1])
+				result = game.getGameState().countWatchers(parts[1])
 						+ " watchers.";
+			} else if (command.startsWith("whois")) {
+				result = game.getGUI().getGameObjectUnderPointer() + "";
+			} else if (command.startsWith("is")) {
+				String[] parts = command.split(" ");
+				result = game.getGUI().getScene().findActor(parts[1]) == null ? "false"
+						: "true";
+			} else if (command.startsWith("move")) {
+				String[] parts = command.split(" ");
+				int x = Integer.parseInt(parts[1]);
+				int y = Integer.parseInt(parts[2]);
+				Gdx.input.setCursorPosition(x, Gdx.graphics.getHeight() - y);
+				result = "OK.";
+			} else if (command.startsWith("where")) {
+				result = "(" + Gdx.input.getX() + ", "
+						+ (Gdx.graphics.getHeight() - Gdx.input.getY()) + ")";
+			} else if (command.startsWith("click")) {
+				String[] parts = command.split(" ");
+				int x = Integer.parseInt(parts[1]);
+				int y = Integer.parseInt(parts[2]);
+				Gdx.input.setCursorPosition(x, Gdx.graphics.getHeight() - y);
+				gameLoader.getEngine().getStage().touchDown(x, y, 0,
+						Input.Buttons.LEFT);
+				result = "OK.";
+			} else if (command.startsWith("exit")) {
+				Gdx.app.exit();
+			} else if (command.startsWith(Commands.GO_CHAPTER)) {
+				String[] parts = command.split(" ");
+				game.addEffect(new ChangeChapterEf(parts[1]));
 			}
 		} catch (Exception e)
 
 		{
+			logger.error("{}", e);
 			result = "Wrong parameters";
 		}
 

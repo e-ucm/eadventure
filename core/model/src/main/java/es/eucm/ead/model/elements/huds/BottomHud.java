@@ -53,8 +53,8 @@ public class BottomHud extends GroupElement {
 		GhostElement disableClicks = new GhostElement();
 		disableClicks.setId(DISABLE_CLICKS);
 		disableClicks.setCatchAll(true);
-		disableClicks.setInitialZ(100);
-		disableClicks.setInitialVisible(false);
+		disableClicks.setZ(100);
+		disableClicks.setVisible(false);
 		this.addSceneElement(disableClicks);
 	}
 

@@ -40,9 +40,9 @@ package es.eucm.ead.engine.gameobjects.effects;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.factories.TrajectoryFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.effects.sceneelement.SceneElementEffectGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.trajectories.TrajectoryGO;
@@ -50,10 +50,8 @@ import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.ead.model.elements.enums.CommonStates;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.trajectories.Trajectory;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
+import es.eucm.ead.model.elements.trajectories.Trajectory;
 
 /**
  * Game object for {@link MoveSceneElementEf} effect
@@ -63,8 +61,7 @@ import es.eucm.ead.model.params.variables.VarDef;
 public class MoveSceneElementGO extends
 		SceneElementEffectGO<MoveSceneElementEf> {
 
-	public static final EAdVarDef<MoveSceneElementGO> VAR_ELEMENT_MOVING = new VarDef<MoveSceneElementGO>(
-			"element_moving", MoveSceneElementGO.class, null);
+	public static final String VAR_ELEMENT_MOVING = "element_moving";
 
 	private static final Trajectory DEFAULT_TRAJECTORY = new SimpleTrajectory();
 
@@ -99,13 +96,13 @@ public class MoveSceneElementGO extends
 		SceneElementGO movingElement = sceneElementFactory.get(sceneElement);
 
 		if (effect.getXtarget() != null && effect.getYtarget() != null) {
-			endX = gameState.operate(Float.class, effect.getXtarget());
-			endY = gameState.operate(Float.class, effect.getYtarget());
+			endX = gameState.operate(effect.getXtarget());
+			endY = gameState.operate(effect.getYtarget());
 		} else if (effect.getTargetSceneElement() != null) {
 			endX = gameState.getValue(effect.getTargetSceneElement(),
-					SceneElement.VAR_X);
+					SceneElement.VAR_X, 0f);
 			endY = gameState.getValue(effect.getTargetSceneElement(),
-					SceneElement.VAR_Y);
+					SceneElement.VAR_Y, 0f);
 			float width = movingElement.getWidth();
 			float height = movingElement.getHeight();
 			float dispX = movingElement.getDispX();
@@ -126,7 +123,7 @@ public class MoveSceneElementGO extends
 			if (effect.isUseTrajectory()) {
 
 				Trajectory sceneTrajectory = gameState.getValue(gui.getScene()
-						.getElement(), Scene.VAR_TRAJECTORY_DEFINITION);
+						.getElement(), Scene.VAR_TRAJECTORY_DEFINITION, null);
 				if (sceneTrajectory != null) {
 					d = sceneTrajectory;
 				}
@@ -138,13 +135,13 @@ public class MoveSceneElementGO extends
 
 		}
 		// Check if the element is controlled by other move scene effect
-		MoveSceneElementGO go = gameState.getValue(sceneElement,
-				VAR_ELEMENT_MOVING);
+		MoveSceneElementGO go = (MoveSceneElementGO) gameState.getValue(
+				sceneElement.getId(), VAR_ELEMENT_MOVING, null);
 		if (go != null) {
 			go.stop();
 		}
 		if (!cancelMovement) {
-			gameState.setValue(sceneElement, VAR_ELEMENT_MOVING, this);
+			gameState.setValue(sceneElement.getId(), VAR_ELEMENT_MOVING, this);
 		}
 
 	}
@@ -164,8 +161,8 @@ public class MoveSceneElementGO extends
 				|| !this.effect.isUseTrajectory()) {
 			super.finish();
 		}
-		game.getGameState().setValue(sceneElement, VAR_ELEMENT_MOVING,
-				(MoveSceneElementGO) null);
+		game.getGameState().setValue(sceneElement.getId(), VAR_ELEMENT_MOVING,
+				null);
 
 		if (trajectory != null) {
 			//			trajectoryFactory.remove(trajectory);
@@ -176,8 +173,8 @@ public class MoveSceneElementGO extends
 		super.stop();
 		game.getGameState().setValue(sceneElement, SceneElement.VAR_STATE,
 				CommonStates.DEFAULT.toString());
-		game.getGameState().setValue(sceneElement, VAR_ELEMENT_MOVING,
-				(MoveSceneElementGO) null);
+		game.getGameState().setValue(sceneElement.getId(), VAR_ELEMENT_MOVING,
+				null);
 		if (trajectory != null) {
 			//			trajectoryFactory.remove(trajectory);
 		}

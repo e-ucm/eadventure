@@ -53,12 +53,12 @@ import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.predef.effects.ChangeAppearanceEf;
 import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
-import es.eucm.ead.model.elements.scenes.*;
-import es.eucm.ead.model.interfaces.features.enums.Orientation;
+import es.eucm.ead.model.elements.scenes.GhostElement;
+import es.eucm.ead.model.elements.scenes.GroupElement;
+import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.VideoScene;
 import es.eucm.ead.model.params.guievents.MouseGEv;
-import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.model.params.util.Rectangle;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.reader.ObjectsFactory;
 
 import java.util.Collection;
@@ -204,31 +204,6 @@ public class SceneReader {
 		Boolean containsBounds = (Boolean) jsonSceneElement
 				.get("containsBounds");
 		e.setContainsBounds(containsBounds != null && containsBounds);
-
-		for (String key : jsonSceneElement.keySet()) {
-			EAdVarDef var = objectsFactory.getVarDef(key);
-			if (var != null) {
-				Object value = jsonSceneElement.get(key);
-				if (var.getType() == Boolean.class) {
-					e.setVarInitialValue(var, value);
-				} else if (var.getType() == Integer.class) {
-					e.setVarInitialValue(var, ((Number) value).intValue());
-				} else if (var.getType() == Float.class) {
-					e.setVarInitialValue(var, ((Number) value).floatValue());
-				} else if (var.getType() == EAdString.class) {
-					e.setVarInitialValue(var, new EAdString(value.toString()));
-				} else if (var.getType() == String.class) {
-					e.setVarInitialValue(var, value.toString());
-				} else if (var.getType() == Rectangle.class) {
-					e.setVarInitialValue(var, objectsFactory.getParam(value
-							.toString(), Rectangle.class));
-				} else if (var.getType() == Orientation.class) {
-					e.setVarInitialValue(var, Orientation.parse(value
-							.toString()));
-				}
-
-			}
-		}
 
 		// Bundles
 		Collection<StringMap<Object>> bundles = (Collection<StringMap<Object>>) jsonSceneElement

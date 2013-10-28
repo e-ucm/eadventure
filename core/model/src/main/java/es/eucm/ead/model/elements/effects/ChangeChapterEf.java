@@ -37,12 +37,21 @@
 
 package es.eucm.ead.model.elements.effects;
 
+import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 
+@Element
 public class ChangeChapterEf extends Effect {
 
 	@Param
 	private String chapterId;
+
+	public ChangeChapterEf() {
+	}
+
+	public ChangeChapterEf(String chapterId) {
+		this.chapterId = chapterId;
+	}
 
 	public String getChapterId() {
 		return chapterId;

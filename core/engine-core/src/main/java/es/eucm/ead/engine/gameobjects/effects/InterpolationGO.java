@@ -79,11 +79,11 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 		}
 
 		int i = 0;
-		for (ElementField<?> f : effect.getFields()) {
+		for (ElementField f : effect.getFields()) {
 			Operation op = effect.getInitialValues().get(i);
-			Number n1 = game.getGameState().operate(Number.class, op);
+			Number n1 = game.getGameState().operate(op);
 			Operation opR = effect.getEndValues().get(i);
-			Number n2 = game.getGameState().operate(Number.class, opR);
+			Number n2 = game.getGameState().operate(opR);
 			if (n1 != null && n2 != null) {
 				float startValue = n1.floatValue();
 				float endValue = n2.floatValue();

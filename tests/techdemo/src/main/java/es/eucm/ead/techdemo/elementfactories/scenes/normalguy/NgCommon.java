@@ -56,7 +56,7 @@ public class NgCommon {
 
 	private static SceneElementDef mainCharacter;
 
-	private static ElementField<SceneElement> mainCharacterSceneElement;
+	private static ElementField mainCharacterSceneElement;
 
 	private static ChangeFieldEf lookNorth;
 	private static ChangeFieldEf lookEast;
@@ -71,20 +71,12 @@ public class NgCommon {
 	}
 
 	private static void createEffects() {
-		lookNorth = new ChangeFieldEf();
-		lookNorth.addField(new ElementField<Orientation>(
-				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
-		lookNorth.setOperation(new ValueOp(Orientation.N));
-
-		lookEast = new ChangeFieldEf();
-		lookEast.addField(new ElementField<Orientation>(
-				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
-		lookEast.setOperation(new ValueOp(Orientation.E));
-
-		lookSouth = new ChangeFieldEf();
-		lookSouth.addField(new ElementField<Orientation>(
-				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
-		lookSouth.setOperation(new ValueOp(Orientation.S));
+		lookNorth = new ChangeFieldEf(mainCharacterSceneElement,
+				SceneElement.VAR_ORIENTATION, new ValueOp(Orientation.N));
+		lookEast = new ChangeFieldEf(mainCharacterSceneElement,
+				SceneElement.VAR_ORIENTATION, new ValueOp(Orientation.E));
+		lookSouth = new ChangeFieldEf(mainCharacterSceneElement,
+				SceneElement.VAR_ORIENTATION, new ValueOp(Orientation.S));
 	}
 
 	private static void createMainCharacter() {
@@ -182,8 +174,7 @@ public class NgCommon {
 
 		stateDrawables.addDrawable(CommonStates.TALKING + "", oriented);
 
-		mainCharacterSceneElement = new ElementField<SceneElement>(
-				mainCharacter, SceneElementDef.VAR_SCENE_ELEMENT);
+		//mainCharacterSceneElement = mainCharacter;
 
 	}
 

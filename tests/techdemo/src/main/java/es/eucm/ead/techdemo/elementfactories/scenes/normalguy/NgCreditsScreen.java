@@ -62,7 +62,7 @@ public class NgCreditsScreen extends EmptyScene {
 		SceneElement logo = new SceneElement(new Image("@drawable/ng_logo.png"));
 		logo.setPosition(Corner.CENTER, 400, 300);
 		getSceneElements().add(logo);
-		logo.setInitialScale(0.0f);
+		logo.setScale(0.0f);
 
 		// Animations
 		SceneElementEv e = new SceneElementEv();

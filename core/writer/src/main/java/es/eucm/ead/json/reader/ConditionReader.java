@@ -103,7 +103,7 @@ public class ConditionReader {
 
 	private Condition parseBooleanField(StringMap<Object> c) {
 		String field = (String) c.get("field");
-		return new OperationCond((ElementField<Boolean>) operationReader
+		return new OperationCond((ElementField) operationReader
 				.translateField(field));
 	}
 

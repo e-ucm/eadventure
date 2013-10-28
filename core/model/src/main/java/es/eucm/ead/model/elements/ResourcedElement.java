@@ -43,8 +43,7 @@ import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.elements.extra.EAdMap;
 
 /**
- * Abstract {@link EAdElement} implementation, with resources
- * and events
+ * Abstract {@link BasicElement} implementation, with resources
  */
 public abstract class ResourcedElement extends AbstractElementWithBehavior
 		implements Resourced {
@@ -54,11 +53,11 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 	 * Resources of the eAdElement
 	 */
 	@Param
-	private EAdMap<String, EAdMap<String, AssetDescriptor>> resources;
+	private EAdMap<EAdMap<AssetDescriptor>> resources;
 
 	public ResourcedElement() {
 		super();
-		resources = new EAdMap<String, EAdMap<String, AssetDescriptor>>();
+		resources = new EAdMap<EAdMap<AssetDescriptor>>();
 	}
 
 	@Override
@@ -68,9 +67,9 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 
 	@Override
 	public void addAsset(String bundleId, String id, AssetDescriptor a) {
-		EAdMap<String, AssetDescriptor> map = resources.get(bundleId);
+		EAdMap<AssetDescriptor> map = resources.get(bundleId);
 		if (map == null) {
-			map = new EAdMap<String, AssetDescriptor>();
+			map = new EAdMap<AssetDescriptor>();
 			resources.put(bundleId, map);
 		}
 		map.put(id, a);
@@ -82,7 +81,7 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 	 * @see es.eucm.eadventure.common.model.EAdElement#getResources()
 	 */
 	@Override
-	public EAdMap<String, EAdMap<String, AssetDescriptor>> getResources() {
+	public EAdMap<EAdMap<AssetDescriptor>> getResources() {
 		return resources;
 	}
 
@@ -99,15 +98,14 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 
 	@Override
 	public AssetDescriptor getAsset(String bundleId, String id) {
-		EAdMap<String, AssetDescriptor> map = resources.get(bundleId);
+		EAdMap<AssetDescriptor> map = resources.get(bundleId);
 		if (map != null) {
 			return map.get(id);
 		}
 		return null;
 	}
 
-	public void setResources(
-			EAdMap<String, EAdMap<String, AssetDescriptor>> resources) {
+	public void setResources(EAdMap<EAdMap<AssetDescriptor>> resources) {
 		this.resources = resources;
 	}
 

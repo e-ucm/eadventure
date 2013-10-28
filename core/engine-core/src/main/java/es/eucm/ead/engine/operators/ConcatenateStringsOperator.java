@@ -44,15 +44,15 @@ import es.eucm.ead.model.elements.operations.Operation;
 public class ConcatenateStringsOperator implements
 		Operator<ConcatenateStringsOp> {
 
-	private GameState valueMap;
+	private GameState gameState;
 
-	public ConcatenateStringsOperator(GameState valueMap) {
-		this.valueMap = valueMap;
+	public ConcatenateStringsOperator(GameState gameState) {
+		this.gameState = gameState;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, ConcatenateStringsOp operation) {
+	public <S> S operate(ConcatenateStringsOp operation) {
 		if (operation.getOperations().size() > 0) {
 			String result = "";
 			String preffix = operation.getPrefix() == null ? "" : operation
@@ -60,7 +60,7 @@ public class ConcatenateStringsOperator implements
 			String suffix = operation.getSufix() == null ? "" : operation
 					.getSufix();
 			for (Operation f : operation.getOperations()) {
-				result += preffix + valueMap.operate(Object.class, f) + suffix;
+				result += preffix + gameState.operate(f) + suffix;
 			}
 			return (S) result;
 		} else {

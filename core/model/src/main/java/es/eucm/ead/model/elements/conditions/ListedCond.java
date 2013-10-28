@@ -126,7 +126,7 @@ public abstract class ListedCond extends Condition {
 		this.operator = operator;
 	}
 
-	public void extractFields(List<ElementField<?>> fields) {
+	public void extractFields(List<ElementField> fields) {
 		for (Condition c : conditions) {
 			c.extractFields(fields);
 		}

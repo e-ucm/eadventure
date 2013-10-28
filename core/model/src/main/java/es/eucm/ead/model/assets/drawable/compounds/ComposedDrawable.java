@@ -78,4 +78,11 @@ public class ComposedDrawable extends AbstractAssetDescriptor implements
 		return positions;
 	}
 
+	public void setAssetList(EAdList<EAdBasicDrawable> assetList) {
+		this.assetList = assetList;
+	}
+
+	public void setPositions(EAdList<Position> positions) {
+		this.positions = positions;
+	}
 }

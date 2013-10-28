@@ -63,7 +63,7 @@ import java.util.Map;
 public class EAdElementFactoryImpl implements EAdElementFactory {
 
 	private Map<String, Map<String, EAdElement>> elements;
-	private Map<String, Map<String, ElementField<?>>> chapterVars;
+	private Map<String, Map<String, ElementField>> chapterVars;
 	private Map<String, Map<String, Condition>> chapterGlobalStates;
 	private List<SceneElementDef> draggableActors;
 	private Map<String, Image> defaultCursors;
@@ -90,7 +90,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		this.conditionImporter = conditionImporter;
 		draggableActors = new ArrayList<SceneElementDef>();
 		elements = new LinkedHashMap<String, Map<String, EAdElement>>();
-		chapterVars = new LinkedHashMap<String, Map<String, ElementField<?>>>();
+		chapterVars = new LinkedHashMap<String, Map<String, ElementField>>();
 		chapterGlobalStates = new LinkedHashMap<String, Map<String, Condition>>();
 		oldType = new LinkedHashMap<String, Object>();
 		defaultCursors = new LinkedHashMap<String, Image>();
@@ -180,21 +180,21 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		return model.getPlayerMode() == DescriptorData.MODE_PLAYER_1STPERSON;
 	}
 
-	public ElementField<?> getVarByOldId(String id, int type) {
-		Map<String, ElementField<?>> vars = chapterVars.get(currentChapter.getId());
+	public ElementField getVarByOldId(String id, int type) {
+		Map<String, ElementField> vars = chapterVars.get(currentChapter.getId());
 
 		if (vars == null) {
-			vars = new LinkedHashMap<String, ElementField<?>>();
+			vars = new LinkedHashMap<String, ElementField>();
 			chapterVars.put(currentChapter.getId(), vars);
 		}
 
-		ElementField<?> var = vars.get(id);
+		ElementField var = vars.get(id);
 		if (var == null) {
 
 			if (type == es.eucm.eadventure.common.data.chapter.conditions.Condition.FLAG_CONDITION) {
 				VarDef<Boolean> varDef = new VarDef<Boolean>(id, Boolean.class,
 						Boolean.FALSE);
-				var = new ElementField<Boolean>(currentChapter,
+				var = new ElementField(currentChapter,
 						(VarDef<Boolean>) varDef);
 				currentChapter.setVarInitialValue(varDef, varDef
 						.getInitialValue());
@@ -202,7 +202,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 			} else {
 				VarDef<Integer> varDef = new VarDef<Integer>(id, Integer.class,
 						0);
-				var = new ElementField<Integer>(currentChapter,
+				var = new ElementField(currentChapter,
 						(VarDef<Integer>) varDef);
 				currentChapter.setVarInitialValue(varDef, varDef
 						.getInitialValue());

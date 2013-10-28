@@ -73,7 +73,6 @@ public class InitScene extends EmptyScene {
 	private EAdFont font = BasicFont.REGULAR;
 
 	private Paint speakPaint = new Paint(fill, ColorFill.LIGHT_GRAY, 5);
-	private Scene[] scenes;
 
 	public InitScene() {
 		this.setId("InitScene");
@@ -95,7 +94,7 @@ public class InitScene extends EmptyScene {
 							DisplaceTransitionType.VERTICAL, true)));
 			this.getSceneElements().add(b);
 			SceneElement goBackButton = new SceneElement(goBack);
-			goBackButton.setInitialScale(0.5f);
+			goBackButton.setScale(0.5f);
 			goBackButton.setPosition(Corner.BOTTOM_LEFT, 10, 590);
 			s.getSceneElements().add(goBackButton);
 

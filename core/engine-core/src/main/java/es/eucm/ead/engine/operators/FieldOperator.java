@@ -38,22 +38,23 @@
 package es.eucm.ead.engine.operators;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.ValueMap;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.model.elements.operations.ElementField;
 
-public class FieldOperator implements Operator<ElementField<?>> {
+public class FieldOperator implements Operator<ElementField> {
 
-	private ValueMap valueMap;
+	private GameState valueMap;
 
 	@Inject
-	public FieldOperator(ValueMap valueMap) {
+	public FieldOperator(GameState valueMap) {
 		this.valueMap = valueMap;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, ElementField<?> operation) {
-		return (S) valueMap.getValue(operation);
+	public <S> S operate(ElementField operation) {
+		ElementField e = operation;
+		return (S) valueMap.getValue(e, operation.getDefaultValue());
 	}
 
 }

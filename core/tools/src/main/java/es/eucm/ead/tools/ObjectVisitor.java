@@ -83,7 +83,7 @@ public class ObjectVisitor {
 				visitImpl(value);
 			}
 		} else if (object instanceof EAdMap) {
-			EAdMap<?, ?> map = (EAdMap) object;
+			EAdMap<?> map = (EAdMap) object;
 			for (Map.Entry e : map.entrySet()) {
 				parents.push(e);
 				visitImpl(e.getKey());

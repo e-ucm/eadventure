@@ -41,14 +41,12 @@ import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
-import es.eucm.ead.model.elements.trajectories.Side;
 import es.eucm.ead.model.elements.transitions.FadeInTransition;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
@@ -76,13 +74,11 @@ public class NgCorridor extends EmptyScene {
 		// Puts main character into the scene
 		ng = new SceneElement(NgCommon.getMainCharacter());
 		ng.setPosition(Corner.BOTTOM_CENTER, 650, 495);
-		ng.setInitialScale(0.8f);
+		ng.setScale(0.8f);
 
 		// Star form node trajectory
-		ChangeFieldEf changeSide = new ChangeFieldEf();
-		changeSide.addField(new ElementField<Side>(ng,
-				NodeTrajectory.VAR_CURRENT_SIDE));
-		changeSide.setOperation(new ValueOp(null));
+		ChangeFieldEf changeSide = new ChangeFieldEf(ng,
+				NodeTrajectory.VAR_CURRENT_SIDE, new ValueOp(null));
 		createNodeTrajectory(changeSide);
 
 		restOfTheRoom();

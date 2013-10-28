@@ -37,10 +37,9 @@
 
 package es.eucm.ead.editor.view.scene.listener;
 
-import java.util.List;
-
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.params.variables.VarDef;
+
+import java.util.List;
 
 /**
  * General interface able to listen to changes in some scene viewer
@@ -58,7 +57,7 @@ public interface SceneListener {
 	 * @param value
 	 *            the value for the var
 	 */
-	<T> void updateInitialValue(VarDef<T> var, SceneElement element, T value);
+	<T> void updateInitialValue(String var, SceneElement element, T value);
 
 	/**
 	 * Notifies that the elements selected in the scene viewer have changed.

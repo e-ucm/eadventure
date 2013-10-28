@@ -55,20 +55,20 @@ public class StateDrawable extends AbstractAssetDescriptor implements
 		EAdStateDrawable {
 
 	@Param
-	private EAdMap<String, EAdDrawable> drawables;
+	private EAdMap<EAdDrawable> drawables;
 
 	/**
 	 * Constructs an empty bundle of drawables
 	 */
 	public StateDrawable() {
-		drawables = new EAdMap<String, EAdDrawable>();
+		drawables = new EAdMap<EAdDrawable>();
 	}
 
-	public EAdMap<String, EAdDrawable> getDrawables() {
+	public EAdMap<EAdDrawable> getDrawables() {
 		return drawables;
 	}
 
-	public void setDrawables(EAdMap<String, EAdDrawable> drawables) {
+	public void setDrawables(EAdMap<EAdDrawable> drawables) {
 		this.drawables = drawables;
 	}
 

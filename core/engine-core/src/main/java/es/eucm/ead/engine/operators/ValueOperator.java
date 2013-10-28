@@ -37,32 +37,18 @@
 
 package es.eucm.ead.engine.operators;
 
-import com.google.inject.Inject;
-
 import es.eucm.ead.model.elements.operations.ValueOp;
-import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 public class ValueOperator implements Operator<ValueOp> {
 
-	private ReflectionProvider reflectionProvider;
-
-	@Inject
-	public ValueOperator(ReflectionProvider reflectionProvider) {
-		this.reflectionProvider = reflectionProvider;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, ValueOp operation) {
-		if (operation.getValue() == null)
+	public <S> S operate(ValueOp operation) {
+		if (operation.getValue() == null) {
 			return null;
-
-		if (reflectionProvider.isAssignableFrom(clazz, operation.getValue()
-				.getClass())) {
-			return (S) operation.getValue();
 		}
-		return null;
 
+		return (S) operation.getValue();
 	}
 
 }

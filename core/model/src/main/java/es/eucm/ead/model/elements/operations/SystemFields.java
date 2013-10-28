@@ -37,83 +37,63 @@
 
 package es.eucm.ead.model.elements.operations;
 
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.params.variables.VarDef;
-
 public class SystemFields {
 
 	/**
 	 * X coordinate of the mouse in the window coordinate system
 	 */
-	public static final ElementField<Float> MOUSE_X = new ElementField<Float>(
-			null, new VarDef<Float>("mouse_x", Float.class, 0.f));
+	public static final ElementField MOUSE_X = new ElementField(null, "mouse_x");
 
 	/**
 	 * Y coordinate of the mouse in the window coordinate system
 	 */
-	public static final ElementField<Float> MOUSE_Y = new ElementField<Float>(
-			null, new VarDef<Float>("mouse_y", Float.class, 0.f));
+	public static final ElementField MOUSE_Y = new ElementField(null, "mouse_y");
 
 	/**
 	 * X coordinate of the mouse in the scene coordinate system
 	 */
-	public static final ElementField<Float> MOUSE_SCENE_X = new ElementField<Float>(
-			null, new VarDef<Float>("mouse_scene_x", Float.class, 0.f));
+	public static final ElementField MOUSE_SCENE_X = new ElementField(null,
+			"mouse_scene_x");
 
 	/**
 	 * Y coordinate of the mouse in the scene coordinate system
 	 */
-	public static final ElementField<Float> MOUSE_SCENE_Y = new ElementField<Float>(
-			null, new VarDef<Float>("mouse_scene_y", Float.class, 0.f));
+	public static final ElementField MOUSE_SCENE_Y = new ElementField(null,
+			"mouse_scene_y");
 
-	public static final ElementField<Integer> GAME_WIDTH = new ElementField<Integer>(
-			null, new VarDef<Integer>("width", Integer.class, 800));
+	public static final ElementField GAME_WIDTH = new ElementField(null,
+			"width");
 
-	public static final ElementField<Integer> GAME_HEIGHT = new ElementField<Integer>(
-			null, new VarDef<Integer>("height", Integer.class, 600));
+	public static final ElementField GAME_HEIGHT = new ElementField(null,
+			"height");
 
 	/**
 	 * Loading percentage (0 - 100 )
 	 */
-	public static final ElementField<Integer> LOADING = new ElementField<Integer>(
-			null, new VarDef<Integer>("loading", Integer.class, 0));
+	public static final ElementField LOADING = new ElementField(null, "loading");
 
 	/**
 	 * Variable containing the active element in the game
 	 */
-	public static final ElementField<SceneElement> ACTIVE_ELEMENT = new ElementField<SceneElement>(
-			null, new VarDef<SceneElement>("active_element",
-					SceneElement.class, null));
+	public static final ElementField ACTIVE_ELEMENT = new ElementField(null,
+			"active_element");
 
-	public static final ElementField<Integer> ELAPSED_TIME_PER_UPDATE = new ElementField<Integer>(
-			null, new VarDef<Integer>("elapsed_time_per_update", Integer.class,
-					0));
+	public static ElementField LANGUAGE = new ElementField(null, "language");
 
-	/**
-	 * Field holding the milliseconds since the game started
-	 */
-	public static final ElementField<Long> GAME_TIME = new ElementField<Long>(
-			null, new VarDef<Long>("game_time", Long.class, 0l));
-
-	public static ElementField<String> LANGUAGE = new ElementField<String>(
-			null, new VarDef<String>("language", String.class, ""));
-
-	public static ElementField<String> LANGUAGES = new ElementField<String>(
-			null, new VarDef<String>("languages", String.class, ""));
+	public static ElementField LANGUAGES = new ElementField(null, "languages");
 
 	// Debugging variables
-	public static ElementField<Integer> DEBUG_GAME_OBJECTS = new ElementField<Integer>(
-			null, new VarDef<Integer>("debug_game_objects", Integer.class, 0));
+	public static ElementField DEBUG_GAME_OBJECTS = new ElementField(null,
+			"debug_game_objects");
 
-	public static ElementField<Integer> DEBUG_ASSETS = new ElementField<Integer>(
-			null, new VarDef<Integer>("debug_assets", Integer.class, 0));
+	public static ElementField DEBUG_ASSETS = new ElementField(null,
+			"debug_assets");
 
-	public static ElementField<Long> DEBUG_HEAP_SIZE = new ElementField<Long>(
-			null, new VarDef<Long>("heap_size", Long.class, 0l));
+	public static ElementField DEBUG_HEAP_SIZE = new ElementField(null,
+			"heap_size");
 
-	public static ElementField<Long> DEBUG_NATIVE_SIZE = new ElementField<Long>(
-			null, new VarDef<Long>("native_size", Long.class, 0l));
+	public static ElementField DEBUG_NATIVE_SIZE = new ElementField(null,
+			"native_size");
 
-	public static ElementField<Boolean> SOUND_ON = new ElementField<Boolean>(
-			null, new VarDef<Boolean>("sound_on", Boolean.class, true));
+	public static ElementField SOUND_ON = new ElementField(null, "sound_on");
 }

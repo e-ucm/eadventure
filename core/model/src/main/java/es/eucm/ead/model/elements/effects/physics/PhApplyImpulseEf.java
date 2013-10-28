@@ -64,11 +64,11 @@ public class PhApplyImpulseEf extends AbstractSceneElementEffect {
 		this.setSceneElement(element);
 	}
 
-	public Operation getxForce() {
+	public Operation getXForce() {
 		return xForce;
 	}
 
-	public Operation getyForce() {
+	public Operation getYForce() {
 		return yForce;
 	}
 
@@ -85,4 +85,11 @@ public class PhApplyImpulseEf extends AbstractSceneElementEffect {
 		this.yForce = yForce;
 	}
 
+	public void setXForce(Operation xForce) {
+		this.xForce = xForce;
+	}
+
+	public void setYForce(Operation yForce) {
+		this.yForce = yForce;
+	}
 }

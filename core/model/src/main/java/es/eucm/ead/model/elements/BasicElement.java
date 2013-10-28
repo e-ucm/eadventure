@@ -43,6 +43,8 @@ import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Identified;
 
+import java.util.Map.Entry;
+
 /**
  * Implementation of a basic element. Most of the model elements
  * inherits from this basis class.
@@ -56,7 +58,7 @@ public class BasicElement implements Identified {
 	private String id;
 
 	@Param
-	private EAdMap<String, Object> properties;
+	private EAdMap<Object> properties;
 
 	/**
 	 * Creates a reference to an element
@@ -102,7 +104,7 @@ public class BasicElement implements Identified {
 	 */
 	public void putProperty(String propertyId, Object value) {
 		if (properties == null) {
-			properties = new EAdMap<String, Object>();
+			properties = new EAdMap<Object>();
 		}
 		properties.put(propertyId, value);
 	}
@@ -126,11 +128,17 @@ public class BasicElement implements Identified {
 
 	// Required for GWT
 
-	public EAdMap<String, Object> getProperties() {
+	public EAdMap<Object> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(EAdMap<String, Object> properties) {
+	public void setProperties(EAdMap<Object> properties) {
 		this.properties = properties;
+	}
+
+	public void addProperties(EAdMap<Object> properties) {
+		for (Entry<String, Object> e : properties.entrySet()) {
+			this.putProperty(e.getKey(), e.getValue());
+		}
 	}
 }

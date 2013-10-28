@@ -68,6 +68,10 @@ public class InventoryHud extends GroupElement {
 		setPosition(Corner.TOP_LEFT, width, height);
 	}
 
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
 	public int getHeight() {
 		return height;
 	}

@@ -43,12 +43,24 @@ import es.eucm.ead.model.assets.multimedia.Sound;
 import es.eucm.ead.model.assets.text.EAdFont;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.conditions.Condition;
-import es.eucm.ead.model.elements.effects.*;
+import es.eucm.ead.model.elements.effects.AddChildEf;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.EmptyEffect;
+import es.eucm.ead.model.elements.effects.InterpolationEf;
+import es.eucm.ead.model.elements.effects.PlayMusicEf;
+import es.eucm.ead.model.elements.effects.PlaySoundEf;
+import es.eucm.ead.model.elements.effects.QuitGameEf;
+import es.eucm.ead.model.elements.effects.RemoveEf;
+import es.eucm.ead.model.elements.effects.TogglePauseEf;
+import es.eucm.ead.model.elements.effects.ToggleSoundEf;
+import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.ead.model.elements.effects.text.QuestionEf;
 import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.operations.ValueOp;
@@ -437,7 +449,10 @@ public class EffectsReader {
 				.get("operation"));
 		Collection<String> fields = (Collection<String>) e.get("fields");
 		for (String f : fields) {
-			changeField.addField(operationReader.translateField(f));
+			// XXX only takes the last field in the list
+			ElementField field = operationReader.translateField(f);
+			changeField.setElement(field.getElement());
+			changeField.setVarName(field.getVarName());
 		}
 		changeField.setOperation(operation);
 

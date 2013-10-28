@@ -40,7 +40,6 @@ package es.eucm.ead.engine.gameobjects.effects;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.effects.timedevents.HighlightSceneElementEf;
-import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.interfaces.features.Identified;
 
@@ -66,7 +65,7 @@ public class HighlightSceneElementGO extends
 		highLightElement = game.getGameState().maybeDecodeField(
 				effect.getSceneElement());
 		oldScale = game.getGameState().getValue(highLightElement,
-				SceneElement.VAR_SCALE);
+				SceneElement.VAR_SCALE, 1f);
 		time = effect.getTime();
 		started = false;
 	}
@@ -78,8 +77,7 @@ public class HighlightSceneElementGO extends
 						SceneElement.VAR_SCALE, oldScale * 2);
 				started = true;
 			}
-			time -= game.getGameState().getValue(
-					SystemFields.ELAPSED_TIME_PER_UPDATE);
+			time -= delta;
 			if (time <= 0) {
 				game.getGameState().setValue(highLightElement,
 						SceneElement.VAR_SCALE, oldScale);

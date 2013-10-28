@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE animation SYSTEM "animation.dtd">
-<animation id="lauren_duelo_izq" slides="no" usetransitions="yes"><documentation>Walking left</documentation><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="100" type="image" uri="assets/animation/lauren_duelo_peque.gif" waitforclick="no"/><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="100" type="image" uri="assets/animation/lauren_duelo_peque_izq.gif" waitforclick="no"/><transition time="0" type="none"/></animation>

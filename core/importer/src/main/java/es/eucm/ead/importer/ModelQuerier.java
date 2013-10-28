@@ -57,7 +57,6 @@ import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.adventure.DescriptorData;
 import es.eucm.eadventure.common.data.chapter.conditions.GlobalState;
@@ -97,8 +96,8 @@ public class ModelQuerier {
 
 	private es.eucm.eadventure.common.data.chapter.Chapter oldChapter;
 
-	private Map<String, ElementField<Boolean>> flagFields;
-	private Map<String, ElementField<Integer>> variableFields;
+	private Map<String, ElementField> flagFields;
+	private Map<String, ElementField> variableFields;
 	private Map<String, Condition> globalStates;
 	private Map<String, EAdList<Effect>> macros;
 	private Map<String, Effect> conversations;
@@ -117,8 +116,8 @@ public class ModelQuerier {
 	@Inject
 	public ModelQuerier(EAdElementsCache elementsCache) {
 		this.elementsCache = elementsCache;
-		flagFields = new HashMap<String, ElementField<Boolean>>();
-		variableFields = new HashMap<String, ElementField<Integer>>();
+		flagFields = new HashMap<String, ElementField>();
+		variableFields = new HashMap<String, ElementField>();
 		globalStates = new HashMap<String, Condition>();
 		macros = new HashMap<String, EAdList<Effect>>();
 
@@ -322,21 +321,21 @@ public class ModelQuerier {
 		}
 	}
 
-	public ElementField<Boolean> getFlag(String id) {
-		ElementField<Boolean> field = flagFields.get(id);
+	public ElementField getFlag(String id) {
+		ElementField field = flagFields.get(id);
 		if (field == null) {
-			field = new ElementField<Boolean>(currentChapter,
-					new VarDef<Boolean>(id, Boolean.class, false));
+			field = new ElementField(currentChapter, id, false);
+			currentChapter.putProperty(id, false);
 			flagFields.put(id, field);
 		}
 		return field;
 	}
 
-	public ElementField<Integer> getVariable(String id) {
-		ElementField<Integer> field = variableFields.get(id);
+	public ElementField getVariable(String id) {
+		ElementField field = variableFields.get(id);
 		if (field == null) {
-			field = new ElementField<Integer>(currentChapter,
-					new VarDef<Integer>(id, Integer.class, 0));
+			field = new ElementField(currentChapter, id, 0);
+			currentChapter.putProperty(id, 0);
 			variableFields.put(id, field);
 		}
 		return field;
@@ -381,13 +380,10 @@ public class ModelQuerier {
 				&& npc.equals(Player.IDENTIFIER)) {
 			effect = new SpeakEf(text);
 		} else {
-			ElementField<SceneElement> fieldElement = elementsCache.getField(
-					element, SceneElementDef.VAR_SCENE_ELEMENT);
 			effect = new SpeakSceneElementEf(element, text);
-			effect.setX(elementsCache.getField(fieldElement,
+			effect.setX(elementsCache.getField(element,
 					SceneElement.VAR_CENTER_X));
-			effect.setY(elementsCache.getField(fieldElement,
-					SceneElement.VAR_TOP));
+			effect.setY(elementsCache.getField(element, SceneElement.VAR_TOP));
 		}
 
 		effect.setColor(npcTexts.get(npc), npcBubbles.get(npc));

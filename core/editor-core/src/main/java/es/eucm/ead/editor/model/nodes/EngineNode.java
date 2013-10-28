@@ -48,7 +48,6 @@ import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.params.EAdParam;
-import es.eucm.ead.model.params.variables.VarDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +59,7 @@ import java.util.Map;
 /**
  * An engine-model node. Used as a base for the dependency-tracking mechanism
  * for the editor model.
+ *
  * @author mfreire
  */
 public class EngineNode<T> extends DependencyNode<T> {
@@ -74,6 +74,7 @@ public class EngineNode<T> extends DependencyNode<T> {
 
 	/**
 	 * Generates a one-line description with as much information as possible.
+	 *
 	 * @param m model (required to resolve editor ids)
 	 * @return a human-readable description of this node
 	 */
@@ -106,6 +107,7 @@ public class EngineNode<T> extends DependencyNode<T> {
 
 	/**
 	 * Returns a descriptive string for a given object.
+	 *
 	 * @param o object to drive into.
 	 * @return
 	 */
@@ -126,20 +128,12 @@ public class EngineNode<T> extends DependencyNode<T> {
 		String id = "" + m.getEditorId(o);
 		String cname = o.getClass().getSimpleName();
 		if (o instanceof BasicElement) {
-			if (o instanceof VarDef) {
-				VarDef<?> v = ((VarDef) o);
-				sb.append(indent + v.getType().getSimpleName() + " "
-						+ v.getName() + " = " + v.getInitialValue() + "\n");
-				if (depth != maxDepth) {
-					appendDependencies(this, m, sb);
-				}
-			} else {
-				sb.append(indent + cname + " (" + id + ")" + "\n");
-				if (depth != maxDepth) {
-					appendDependencies(this, m, sb);
-				}
-				appendParams(m, o, sb, depth, maxDepth);
+			sb.append(indent + cname + " (" + id + ")" + "\n");
+			if (depth != maxDepth) {
+				appendDependencies(this, m, sb);
 			}
+			appendParams(m, o, sb, depth, maxDepth);
+
 		} else if (o instanceof EAdList) {
 			EAdList target = (EAdList) o;
 			sb.append(indent + cname + " (" + id + ")" + "\n");
@@ -158,7 +152,7 @@ public class EngineNode<T> extends DependencyNode<T> {
 				}
 			}
 		} else if (o instanceof EAdMap) {
-			EAdMap<?, ?> target = (EAdMap<?, ?>) o;
+			EAdMap<?> target = (EAdMap<?>) o;
 			sb.append(indent + cname + " (" + id + ")" + "\n");
 			int i = 0;
 			if (target.size() == 0) {
@@ -198,10 +192,11 @@ public class EngineNode<T> extends DependencyNode<T> {
 
 	/**
 	 * Iterates through params, providing a glimpse of their contents.
-	 * @param m model
-	 * @param o object from which to extract params, if any
-	 * @param sb output
-	 * @param depth current depth
+	 *
+	 * @param m        model
+	 * @param o        object from which to extract params, if any
+	 * @param sb       output
+	 * @param depth    current depth
 	 * @param maxDepth max depth to reach
 	 */
 	private void appendParams(EditorModel m, Object o, StringBuilder sb,

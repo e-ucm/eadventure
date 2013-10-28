@@ -73,5 +73,5 @@ public interface Resourced {
 	 * @return The resources associated with the element. Resources should never
 	 *         be null.
 	 */
-	EAdMap<String, EAdMap<String, AssetDescriptor>> getResources();
+	EAdMap<EAdMap<AssetDescriptor>> getResources();
 }

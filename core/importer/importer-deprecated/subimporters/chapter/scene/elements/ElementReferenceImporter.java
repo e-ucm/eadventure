@@ -89,8 +89,8 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 
 		newRef.setPosition(new Position(Position.Corner.BOTTOM_CENTER,
 				oldObject.getX(), oldObject.getY()));
-		newRef.setInitialScale(oldObject.getScale());
-		newRef.setInitialOrientation(Orientation.S);
+		newRef.setScale(oldObject.getScale());
+		newRef.setOrientation(Orientation.S);
 		newRef.setDefinition(actor);
 
 		if (factory.getCurrentOldChapterModel().getAtrezzo(

@@ -37,15 +37,15 @@
 
 package es.eucm.ead.model.elements.extra;
 
-import java.util.LinkedHashMap;
-
 import com.gwtent.reflection.client.Reflectable;
+
+import java.util.LinkedHashMap;
 
 /**
  * Interface for all maps in the eAdventure game model
  */
 @Reflectable(relationTypes = true)
-public class EAdMap<T, S> extends LinkedHashMap<T, S> {
+public class EAdMap<S> extends LinkedHashMap<String, S> {
 
 	/**
 	 * 
@@ -54,8 +54,8 @@ public class EAdMap<T, S> extends LinkedHashMap<T, S> {
 
 	public String toString() {
 		String s = "{";
-		for (java.util.Map.Entry<T, S> entry : this.entrySet()) {
-			T key = entry.getKey();
+		for (java.util.Map.Entry<String, S> entry : this.entrySet()) {
+			Object key = entry.getKey();
 			S value = entry.getValue();
 			if (key != null) {
 				s += key;

@@ -186,6 +186,21 @@
                 <module>core/engine-android</module>
             </modules>
         </profile>
+		<profile>
+			<id>desktop</id>
+			<modules>
+				<module>core/model</module>
+				<module>core/tools</module>
+				<module>core/tools-java</module>
+				<module>core/reader</module>
+				<module>core/engine-resources</module>
+				<module>core/engine-core</module>
+				<module>core/engine-desktop</module>
+				<module>extensions/legacy-plugins-model</module>
+				<module>extensions/legacy-plugins-engine-core</module>
+				<module>extensions/legacy-plugins-engine-desktop</module>
+			</modules>
+		</profile>
         <profile>
             <id>gwt</id>
             <properties>
@@ -204,7 +219,6 @@
                 <module>core/engine-html</module>
                 <module>extensions/legacy-plugins-model</module>
                 <module>extensions/legacy-plugins-engine-core</module>
-                <module>extensions/legacy-plugins-engine-desktop</module>
             </modules>
         </profile>
     </profiles>
@@ -299,6 +313,9 @@
                         <!-- ignore /etc and other non-project directories -->
                         <include>core/**</include>
                         <include>build-tools/**</include>
+						<include>tests/**</include>
+						<include>extensions/**</include>
+						<include>guitools/**</include>
                     </includes>
                 </configuration>
                 <executions>
@@ -846,6 +863,12 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>1.8.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>0.9.9-RC1</version>
                 <scope>test</scope>
             </dependency>
             <!-- <dependency> <groupId>org.mockito</groupId> <artifactId>mockito-all</artifactId>

@@ -39,12 +39,11 @@ package es.eucm.ead.importer.subconverters.effects;
 
 import es.eucm.ead.importer.EAdElementsCache;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.InterpolationEf;
 import es.eucm.ead.model.elements.effects.sceneelements.ChangeColorEf;
-import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.eadventure.common.data.chapter.effects.HighlightItemEffect;
 
 import java.util.ArrayList;
@@ -86,24 +85,22 @@ public class HighlightItemConverter implements
 		}
 
 		ChangeColorEf changeColor = new ChangeColorEf(red, green, blue);
-		ElementField<SceneElement> sceneElementField = new ElementField<SceneElement>(
-				elementsCache.get(e.getTargetId()),
-				SceneElementDef.VAR_SCENE_ELEMENT);
-		changeColor.setSceneElement(sceneElementField);
+		BasicElement basicElement = elementsCache.get(e.getTargetId());
+		changeColor.setSceneElement(basicElement);
 
 		// Effects after highlight effects doesn't wait
 		// until the effect ends, that's why change color if the first and
 		// last effect in the last, and subsequent effects will added to it
 		list.add(changeColor);
 		if (e.isHighlightAnimated()) {
-			InterpolationEf interpolation = new InterpolationEf(
-					sceneElementField, SceneElement.VAR_SCALE, 1.0f, 0.8f, 1000);
-			InterpolationEf interpolation2 = new InterpolationEf(
-					sceneElementField, SceneElement.VAR_SCALE, 0.8f, 1.0f, 1000);
-			InterpolationEf interpolation3 = new InterpolationEf(
-					sceneElementField, SceneElement.VAR_SCALE, 1.0f, 0.8f, 1000);
-			InterpolationEf interpolation4 = new InterpolationEf(
-					sceneElementField, SceneElement.VAR_SCALE, 0.8f, 1.0f, 1000);
+			InterpolationEf interpolation = new InterpolationEf(basicElement,
+					SceneElement.VAR_SCALE, 1.0f, 0.8f, 1000);
+			InterpolationEf interpolation2 = new InterpolationEf(basicElement,
+					SceneElement.VAR_SCALE, 0.8f, 1.0f, 1000);
+			InterpolationEf interpolation3 = new InterpolationEf(basicElement,
+					SceneElement.VAR_SCALE, 1.0f, 0.8f, 1000);
+			InterpolationEf interpolation4 = new InterpolationEf(basicElement,
+					SceneElement.VAR_SCALE, 0.8f, 1.0f, 1000);
 			changeColor.addSimultaneousEffect(interpolation);
 			interpolation.getNextEffects().add(interpolation2);
 			interpolation2.getNextEffects().add(interpolation3);

@@ -80,19 +80,7 @@ public class ConcatenateStringsOp extends Operation {
 		this.suffix = suffix;
 	}
 
-	public boolean equals(Object o) {
-		if (o == this) {
-			return true;
-		}
-
-		if (o instanceof ConcatenateStringsOp && super.equals(o)) {
-			ConcatenateStringsOp c = ((ConcatenateStringsOp) o);
-			return ((c.prefix == prefix || c.prefix != null
-					&& c.prefix.equals(prefix)))
-					&& ((c.suffix == suffix || c.suffix != null
-							&& c.suffix.equals(suffix)));
-		}
-		return false;
+	public String getSuffix() {
+		return suffix;
 	}
-
 }

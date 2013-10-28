@@ -44,7 +44,6 @@ import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.operations.ElementField;
-import es.eucm.ead.model.params.variables.VarDef;
 
 /**
  * Represents an effect that is launched only once
@@ -52,8 +51,7 @@ import es.eucm.ead.model.params.variables.VarDef;
  */
 public class OneShotEf extends ChangeFieldEf {
 
-	public static final VarDef<Boolean> LAUNCHED = new VarDef<Boolean>(
-			"OneShotEf.Launched", Boolean.class, false);
+	public static final String LAUNCHED = "launched";
 
 	/**
 	 * 
@@ -70,7 +68,7 @@ public class OneShotEf extends ChangeFieldEf {
 	 */
 	public OneShotEf(Effect effect, Effect noEffect) {
 		// Sets true launched variable
-		ElementField<Boolean> f = new ElementField<Boolean>(this, LAUNCHED);
+		ElementField f = new ElementField(this, LAUNCHED);
 		OperationCond cond = new OperationCond(f);
 
 		if (noEffect != null) {
@@ -80,7 +78,8 @@ public class OneShotEf extends ChangeFieldEf {
 			getNextEffects().add(triggerMacro);
 			getNextEffects().add(new ChangeFieldEf(f, EmptyCond.TRUE));
 		} else {
-			addField(f);
+			setElement(this);
+			setVarName(LAUNCHED);
 			setOperation(EmptyCond.TRUE);
 			// Sets as condition that launched variable is false
 			setCondition(new NOTCond(cond));

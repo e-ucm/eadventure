@@ -53,7 +53,7 @@ public class PositionScene extends EmptyScene {
 
 		NgCommon.init();
 		SceneElement e = new SceneElement(NgCommon.getMainCharacter());
-		e.setInitialScale(0.5f);
+		e.setScale(0.5f);
 		e.setPosition(new Position(Corner.CENTER, 400, 300));
 
 		this.getSceneElements().add(e);

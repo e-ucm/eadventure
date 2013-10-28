@@ -46,6 +46,7 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -632,6 +633,84 @@ public class FileUtils {
 				} catch (IOException ce) {
 					logger.error("Error closing reader", ce);
 				}
+			}
+		}
+	}
+
+	public static void unzip(File zip, File folder) {
+		byte[] data = new byte[BUFFER_SIZE];
+		ZipInputStream zipIn = null;
+		FileOutputStream os = null;
+		try {
+			zipIn = new ZipInputStream(new FileInputStream(zip));
+			ZipEntry entry;
+			while ((entry = zipIn.getNextEntry()) != null) {
+				File f = new File(folder, entry.getName());
+				f.getParentFile().mkdirs();
+				f.createNewFile();
+				os = new FileOutputStream(f);
+				int len;
+				while ((len = zipIn.read(data)) != -1) {
+					os.write(data, 0, len);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error unzipping: {}", e);
+		} finally {
+			if (zipIn != null) {
+				try {
+					zipIn.close();
+				} catch (IOException e) {
+					logger.error("{}", e);
+				}
+			}
+
+			if (os != null) {
+				try {
+					os.close();
+				} catch (IOException e) {
+					logger.error("{}", e);
+				}
+			}
+		}
+
+	}
+
+	public static void zip(File zip, File folder) {
+		ZipOutputStream zipOut = null;
+		try {
+			zipOut = new ZipOutputStream(new FileOutputStream(zip));
+			zipFolder(zipOut, folder, folder);
+			zipOut.finish();
+		} catch (Exception e) {
+			logger.error("Error unzipping: {}", e);
+		} finally {
+			if (zipOut != null) {
+				try {
+					zipOut.close();
+				} catch (IOException e) {
+					logger.error("{}", e);
+				}
+			}
+		}
+	}
+
+	public static void zipFolder(ZipOutputStream zipOut, File folder, File root)
+			throws IOException {
+		byte[] data = new byte[BUFFER_SIZE];
+		String prefix = root.getAbsolutePath();
+		for (File f : folder.listFiles()) {
+			if (f.isDirectory()) {
+				zipFolder(zipOut, f, root);
+			} else {
+				zipOut.putNextEntry(new ZipEntry(f.getAbsolutePath().substring(
+						prefix.length())));
+				FileInputStream in = new FileInputStream(f);
+				int len;
+				while ((len = in.read(data)) != -1) {
+					zipOut.write(data, 0, len);
+				}
+				in.close();
 			}
 		}
 	}

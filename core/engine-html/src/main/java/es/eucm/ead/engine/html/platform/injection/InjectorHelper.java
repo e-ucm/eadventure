@@ -44,7 +44,6 @@ import es.eucm.ead.engine.assets.drawables.shapes.GdxRectangleShape;
 import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.engine.assets.multimedia.RuntimeMusic;
 import es.eucm.ead.engine.assets.multimedia.RuntimeSound;
-import es.eucm.ead.engine.gameobjects.debuggers.FieldsDebuggerGO;
 import es.eucm.ead.engine.gameobjects.debuggers.GhostDebuggerGO;
 import es.eucm.ead.engine.gameobjects.debuggers.ProfilerDebuggerGO;
 import es.eucm.ead.engine.gameobjects.debuggers.TrajectoryDebuggerGO;
@@ -175,8 +174,6 @@ public class InjectorHelper implements Injector {
 			o = ginjector.getTrajectoryDebuggerGO();
 		else if (clazz == ScaleTransitionGO.class)
 			o = ginjector.getScaleTransitionGO();
-		else if (clazz == FieldsDebuggerGO.class)
-			o = ginjector.getFieldsDebuggerGO();
 		else if (clazz == VideoSceneGO.class)
 			o = ginjector.getVideoSceneGO();
 		else if (clazz == DisplaceTransitionGO.class)

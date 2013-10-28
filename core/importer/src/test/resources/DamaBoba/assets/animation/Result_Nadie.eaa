@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE animation SYSTEM "animation.dtd">
-<animation id="Result_Nadie" slides="yes" usetransitions="no"><documentation>Set of slides of the slidescene</documentation><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="40" type="image" uri="assets/animation/Result_Nadie.jpg" waitforclick="no"/><transition time="0" type="none"/></animation>

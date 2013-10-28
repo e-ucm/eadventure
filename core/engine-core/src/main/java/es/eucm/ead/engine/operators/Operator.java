@@ -42,7 +42,7 @@ import es.eucm.ead.model.elements.operations.Operation;
 /**
  * 
  * Takes an {@link es.eucm.ead.model.elements.operations.Operation} and calculates its result through
- * {@link Operator#operate(Class, es.eucm.ead.model.elements.operations.Operation)}
+ * {@link Operator#operate(es.eucm.ead.model.elements.operations.Operation)}
  * 
  * @param <T> lass of the operation
  */
@@ -52,15 +52,12 @@ public interface Operator<T extends Operation> {
 	 * <p>
 	 * Calculates the result of an {@link es.eucm.ead.model.elements.operations.Operation}
 	 * </p>
-	 * 
-	 * 
-	 * @param clazz
-	 *            the expected class for the result
+	 *
 	 * @param operation
 	 *            the operation to calculate
 	 * 
 	 * @return an object with the operation result
 	 */
-	<S> S operate(Class<S> clazz, T operation);
+	<S> S operate(T operation);
 
 }

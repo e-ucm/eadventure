@@ -57,7 +57,10 @@ public class VideoScene extends Scene {
 	}
 
 	public void setVideo(EAdVideo v) {
-		getDefinition().addAsset(VideoScene.video, v);
+		if (definition == null) {
+			definition = new SceneElementDef();
+		}
+		definition.addAsset(VideoScene.video, v);
 	}
 
 	/**
@@ -74,7 +77,7 @@ public class VideoScene extends Scene {
 	}
 
 	@Override
-	public Boolean getReturnable() {
+	public boolean getReturnable() {
 		return false;
 	}
 

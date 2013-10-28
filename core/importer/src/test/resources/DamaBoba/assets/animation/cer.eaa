@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE animation SYSTEM "animation.dtd">
-<animation id="cer" slides="no" usetransitions="yes"><documentation/><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="40" type="image" uri="" waitforclick="no"/><transition time="0" type="none"/></animation>

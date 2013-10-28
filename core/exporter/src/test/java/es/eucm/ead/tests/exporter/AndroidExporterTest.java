@@ -41,7 +41,6 @@ import es.eucm.ead.exporter.AndroidExporter;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Properties;
 
@@ -54,34 +53,26 @@ public class AndroidExporterTest {
 	public void testExport() {
 		AndroidExporter apkExporter = new AndroidExporter();
 		Properties properties = new Properties();
-		InputStream is;
-		boolean error = false;
-		try {
-			is = ClassLoader.getSystemResourceAsStream("test.properties");
-			properties.load(is);
-			error = properties.get(AndroidExporter.SDK_HOME) == null;
-		} catch (Exception e) {
-			System.err.println(e);
-			error = true;
-		} finally {
-			if (error) {
-				if (properties != null) {
-					System.err.println("Invalid properties file found");
-					for (String k : properties.stringPropertyNames()) {
-						System.err.println("\t'" + k + "' : '"
-								+ properties.getProperty(k) + "'");
-					}
-				} else {
-					System.err.println("No properties file found");
-				}
-
-				fail("You need to create a text file named 'test.properties' "
-						+ "with a line that reads '"
-						+ AndroidExporter.SDK_HOME
-						+ "'=path/to/android/sdk'"
-						+ "(See /src/test/resources/test.properties.template for a template)");
-			}
+		String androidSdk = System.getProperty("android.sdk.path");
+		boolean error = androidSdk == null;
+		if (error) {
+			fail("You need to add the android sdk path to your maven settings.xml: "
+					+ "<settings>\n"
+					+ "  <profiles>\n"
+					+ "    <profile>\n"
+					+ "      <id>inject-android-sdk</id>\n"
+					+ "      <properties>\n"
+					+ "        <android.sdk.path>/path/to/android/sdk</android.sdk.path>\n"
+					+ "      </properties>\n"
+					+ "    </profile>\n"
+					+ "  </profiles>\n"
+					+ "[...]\n"
+					+ "  <activeProfiles>\n"
+					+ "    <activeProfile>inject-android-sdk</activeProfile>\n"
+					+ "  </activeProfiles>\n" + "</settings>\n");
 		}
+
+		properties.put(AndroidExporter.SDK_HOME, androidSdk);
 		properties.setProperty(AndroidExporter.PACKAGE_NAME,
 				"es.eucm.ead.exporter.test.game");
 		properties.setProperty(AndroidExporter.TITLE, "Exporter Test Game");
@@ -96,7 +87,8 @@ public class AndroidExporterTest {
 
 		String result = baos.toString();
 		if (result.contains("BUILD FAILURE")) {
-			fail(result);
+			fail(result
+					+ "\n Maybe your Adroid SDK Home is set wrong in .m2/settings.xml");
 		} else {
 			assertTrue(result.contains("BUILD SUCCESS"));
 		}

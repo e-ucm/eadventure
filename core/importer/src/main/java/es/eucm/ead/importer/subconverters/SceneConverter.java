@@ -55,7 +55,11 @@ import es.eucm.ead.model.assets.multimedia.Music;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
-import es.eucm.ead.model.elements.effects.*;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.EmptyEffect;
+import es.eucm.ead.model.elements.effects.PlayMusicEf;
+import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.WatchFieldEv;
 import es.eucm.ead.model.elements.extra.EAdList;
@@ -168,7 +172,7 @@ public class SceneConverter {
 	public void addAppearance(Scene scene,
 			es.eucm.eadventure.common.data.chapter.scenes.Scene s) {
 		// Appearance tab
-		SceneElement background = (SceneElement) scene.getBackground();
+		SceneElement background = scene.getBackground();
 		// The foreground is only initialized if needed
 		SceneElement foreground = null;
 		// Resources blocks
@@ -188,8 +192,7 @@ public class SceneConverter {
 			background.setAppearance(utilsConverter.getResourceBundleId(i),
 					drawable);
 			if (i == 0) {
-				background.setInitialBundle(utilsConverter
-						.getResourceBundleId(i));
+				background.setBundle(utilsConverter.getResourceBundleId(i));
 			}
 			// Foreground [SC - Fg]
 			String foregroundPath = r
@@ -199,10 +202,9 @@ public class SceneConverter {
 						foregroundPath, backgroundPath);
 				if (foreground == null) {
 					foreground = new SceneElement();
-					foreground.setInitialEnable(false);
-					foreground.setInitialZ(FOREGROUND_Z);
-					foreground.setInitialBundle(utilsConverter
-							.getResourceBundleId(i));
+					foreground.setEnable(false);
+					foreground.setZ(FOREGROUND_Z);
+					foreground.setBundle(utilsConverter.getResourceBundleId(i));
 					scene.add(foreground);
 				}
 				foreground.setAppearance(utilsConverter.getResourceBundleId(i),
@@ -240,17 +242,17 @@ public class SceneConverter {
 					(SceneElementDef) elementsCache.get(Player.IDENTIFIER));
 			// [SC - Player Layer]
 			if (s.isAllowPlayerLayer() && s.getPlayerLayer() != -1) {
-				playerRef.setInitialZ(s.getPlayerLayer());
+				playerRef.setZ(s.getPlayerLayer());
 			} else {
-				playerRef.setInitialZ(PLAYER_Z);
+				playerRef.setZ(PLAYER_Z);
 			}
 
-			playerRef.setInitialScale(s.getPlayerScale());
+			playerRef.setScale(s.getPlayerScale());
 			playerRef.setPosition(Corner.BOTTOM_CENTER, s.getPositionX(), s
 					.getPositionY());
 			if (s.getTrajectory() != null) {
 				Trajectory t = s.getTrajectory();
-				playerRef.setInitialScale(t.getInitial().getScale());
+				playerRef.setScale(t.getInitial().getScale());
 				playerRef.setPosition(Corner.BOTTOM_CENTER, t.getInitial()
 						.getX(), t.getInitial().getY());
 			}
@@ -269,8 +271,8 @@ public class SceneConverter {
 			SceneElement sceneElement = new SceneElement(def);
 			sceneElement.setPosition(Corner.BOTTOM_CENTER, e.getX(), e.getY());
 			// [ER - Layer]
-			sceneElement.setInitialZ(e.getLayer());
-			sceneElement.setInitialScale(e.getScale());
+			sceneElement.setZ(e.getLayer());
+			sceneElement.setScale(e.getScale());
 			// XXX Influence area
 			scene.add(sceneElement);
 
@@ -283,8 +285,9 @@ public class SceneConverter {
 
 			// Add visibility condition
 			// [ER - Conditions]
-			utilsConverter.addWatchCondition(sceneElement, sceneElement
-					.getField(SceneElement.VAR_VISIBLE), e.getConditions());
+			utilsConverter.addWatchCondition(sceneElement, new ElementField(
+					sceneElement, SceneElement.VAR_VISIBLE, true), e
+					.getConditions());
 		}
 	}
 
@@ -330,7 +333,7 @@ public class SceneConverter {
 			}
 
 			// Set Z
-			exit.setInitialZ(EXIT_Z + i);
+			exit.setZ(EXIT_Z + i);
 
 			// Add appearance
 			ExitLook exitLook = e.getDefaultExitLook();
@@ -399,7 +402,7 @@ public class SceneConverter {
 				activeArea.setPosition(Corner.TOP_LEFT, a.getX(), a.getY());
 			}
 			// Set Z
-			activeArea.setInitialZ(ACTIVE_AREA_Z + i);
+			activeArea.setZ(ACTIVE_AREA_Z + i);
 			elementsCache.put(activeArea);
 			// Add visibility condition
 			// [AA - Conditions]
@@ -415,7 +418,7 @@ public class SceneConverter {
 	/**
 	 * Foregrounds are imported os objects over the scene. A bundle could have an empty foreground. Then, the foreground
 	 * should be invisible.
-	 *
+	 * <p/>
 	 * Also, music of the scene is converted (since it shares conditions with the foreground)
 	 *
 	 * @param scene
@@ -429,18 +432,21 @@ public class SceneConverter {
 		TriggerMacroEf triggerMacroVisible = new TriggerMacroEf();
 		TriggerMacroEf triggerMacroMusic = new TriggerMacroEf();
 		// Prepare visibility for foreground
-		ElementField<Boolean> foregroundVisible = (foreground != null ? foreground
-				.getField(SceneElement.VAR_VISIBLE)
-				: null);
-		ChangeFieldEf makeForegroundVisible = new ChangeFieldEf(
-				foregroundVisible, EmptyCond.TRUE);
-		ChangeFieldEf makeForegroundInvisible = new ChangeFieldEf(
-				foregroundVisible, EmptyCond.FALSE);
+		ChangeFieldEf makeForegroundVisible = null;
+		ChangeFieldEf makeForegroundInvisible = null;
+		if (foreground != null) {
+			ElementField foregroundVisible = (foreground
+					.getField(SceneElement.VAR_VISIBLE));
+			makeForegroundVisible = new ChangeFieldEf(foregroundVisible,
+					EmptyCond.TRUE);
+			makeForegroundInvisible = new ChangeFieldEf(foregroundVisible,
+					EmptyCond.FALSE);
+		}
 
 		for (Resources r : resources) {
 			Condition cond = conditionsConverter.convert(r.getConditions());
 			// Watch all the fields in the condition
-			for (ElementField<?> field : conditionsConverter
+			for (ElementField field : conditionsConverter
 					.getFieldsLastCondition()) {
 				watchField.watchField(field);
 			}

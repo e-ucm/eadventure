@@ -94,7 +94,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 
 	private EAdElementImporter<Conditions, Condition> conditionsImporter;
 
-	private static final ElementField<Boolean> SHOW_INVENTORY = new ElementField<Boolean>(
+	private static final ElementField SHOW_INVENTORY = new ElementField(
 			new BasicElement(InventoryHud.ID), SceneElement.VAR_VISIBLE);
 
 	@Inject
@@ -190,7 +190,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 					.getUri());
 			float scaleX = 800.0f / d.width;
 			float scaleY = 600.0f / d.height;
-			background.setInitialScale(scaleX, scaleY);
+			background.setScale(scaleX, scaleY);
 
 			scenes[i].setBackground(background);
 			scenes[i].setReturnable(false);

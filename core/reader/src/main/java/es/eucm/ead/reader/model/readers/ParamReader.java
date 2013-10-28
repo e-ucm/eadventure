@@ -43,7 +43,6 @@ import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.guievents.DragGEv;
 import es.eucm.ead.model.params.guievents.KeyGEv;
 import es.eucm.ead.model.params.guievents.MouseGEv;
-import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.ead.reader.ObjectsFactory;
 import es.eucm.ead.reader.model.ReaderVisitor;
 import es.eucm.ead.tools.xml.XMLNode;
@@ -61,10 +60,9 @@ public class ParamReader extends AbstractReader<Object> {
 	public Object read(XMLNode node) {
 		Class<?> clazz = getNodeClass(node);
 		String value = node.getNodeText();
-		if (clazz.isEnum() || clazz == VarDef.class || clazz == ColorFill.class
-				|| clazz == Paint.class || clazz == LinearGradientFill.class
-				|| clazz == MouseGEv.class || clazz == KeyGEv.class
-				|| clazz == DragGEv.class) {
+		if (clazz.isEnum() || clazz == ColorFill.class || clazz == Paint.class
+				|| clazz == LinearGradientFill.class || clazz == MouseGEv.class
+				|| clazz == KeyGEv.class || clazz == DragGEv.class) {
 			value = translateParam(value);
 		}
 		return objectsFactory.getParam(value, clazz);

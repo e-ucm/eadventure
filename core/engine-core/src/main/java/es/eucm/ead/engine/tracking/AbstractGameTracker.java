@@ -37,13 +37,14 @@
 
 package es.eucm.ead.engine.tracking;
 
+import com.badlogic.gdx.utils.Array;
 import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.GameState.FieldWatcher;
 import es.eucm.ead.model.elements.AdventureGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractGameTracker implements GameTracker,
-		GameState.FieldWatcher {
+public abstract class AbstractGameTracker implements GameTracker, FieldWatcher {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(AbstractGameTracker.class);
@@ -52,10 +53,13 @@ public abstract class AbstractGameTracker implements GameTracker,
 
 	protected AdventureGame model;
 
+	private Array<String> fields;
+
 	private boolean tracking;
 
 	public AbstractGameTracker(GameState gameState) {
 		this.gameState = gameState;
+		this.fields = new Array<String>();
 	}
 
 	@Override
@@ -89,28 +93,34 @@ public abstract class AbstractGameTracker implements GameTracker,
 	/**
 	 * A watched field has been update
 	 *
-	 * @param id     the object owner of the field
-	 * @param varName   the variable
-	 * @param value the new value for the variable in the object
-	 * @param <T>   the class of the value
+	 * @param elementId      the object owner of the field
+	 * @param varName the variable
+	 * @param value   the new value for the variable in the object
+	 * @param <T>     the class of the value
 	 */
-	public <T> void fieldUpdated(String id, String varName, T value) {
-		String field = (id != null ? id + "." : "") + varName;
-		varUpdate(field, value);
+	public <T> boolean setField(String elementId, String varName, T value) {
+		String field = (elementId != null ? elementId + "." : "") + varName;
+		if (fields.contains(field, false)) {
+			varUpdate(field, value);
+		}
+		return false;
 	}
 
 	/**
 	 * Watches a field
+	 *
 	 * @param fieldName the field name
 	 */
 	public void watchField(String fieldName) {
-		String[] parts = fieldName.split(".");
+		String[] parts = fieldName.split("\\.");
 		switch (parts.length) {
 		case 1:
-			gameState.addFieldWatcher(this, null, parts[0]);
+			gameState.addFieldWatcher(this, null);
+			fields.add("." + parts[0]);
 			break;
 		case 2:
-			gameState.addFieldWatcher(this, parts[0], parts[1]);
+			gameState.addFieldWatcher(parts[0], this);
+			fields.add(parts[0] + "." + parts[1]);
 			break;
 		default:
 			logger.warn("{} is not a valid field name. It won't be watched.",

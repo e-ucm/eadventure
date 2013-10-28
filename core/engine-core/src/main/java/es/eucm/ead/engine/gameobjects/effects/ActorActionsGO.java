@@ -51,6 +51,7 @@ import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.conditions.Condition;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.effects.ActorActionsEf;
 import es.eucm.ead.model.elements.effects.enums.ChangeActorActions;
 import es.eucm.ead.model.elements.extra.EAdList;
@@ -99,14 +100,17 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 			SceneElementDef ref = effect.getActionElement();
 			GameState gameState = this.game.getGameState();
 			if (ref != null) {
-				EAdList<SceneElementDef> list = gameState.getValue(ref,
-						ActorActionsEf.VAR_ACTIONS);
+				EAdList<SceneElementDef> list = ref.getProperty(
+						ActorActionsEf.VAR_ACTIONS, null);
 				if (list != null) {
-					float x = gameState.getValue(SystemFields.MOUSE_SCENE_X);
-					float y = gameState.getValue(SystemFields.MOUSE_SCENE_Y);
-					int gameWidth = gameState.getValue(SystemFields.GAME_WIDTH);
-					int gameHeight = gameState
-							.getValue(SystemFields.GAME_HEIGHT);
+					float x = gameState
+							.getValue(SystemFields.MOUSE_SCENE_X, 0f);
+					float y = gameState
+							.getValue(SystemFields.MOUSE_SCENE_Y, 0f);
+					int gameWidth = gameState.getValue(SystemFields.GAME_WIDTH,
+							800);
+					int gameHeight = gameState.getValue(
+							SystemFields.GAME_HEIGHT, 600);
 					float radius = gameHeight / 8;
 					float maxRadius = gameWidth - x < gameHeight - y ? gameWidth
 							- x
@@ -134,22 +138,23 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 					hud.getSceneElements().add(bg);
 					boolean hasEnableActions = false;
 					for (SceneElementDef a : list) {
-						Condition cond = (Condition) a.getVars().get(
-								ActorActionsEf.VAR_ACTION_COND);
+						Condition cond = a.getProperty(
+								ActorActionsEf.VAR_ACTION_COND, EmptyCond.TRUE);
 						if (gameState.evaluate(cond)) {
 							hasEnableActions = true;
 							SceneElement element = new SceneElement(a);
+							element.addProperties(a.getProperties());
 							element.setPosition(Corner.CENTER, x, y);
 							int targetX = (int) (Math.cos(accAngle) * radius);
 							int targetY = (int) (Math.sin(accAngle) * radius);
 
 							Tween.to(
-									new ElementField<Float>(element,
+									new ElementField(element,
 											SceneElement.VAR_X), 0, 500.0f)
 									.ease(Linear.INOUT).targetRelative(targetX)
 									.start(this.game.getTweenManager());
 							Tween.to(
-									new ElementField<Float>(element,
+									new ElementField(element,
 											SceneElement.VAR_Y), 0, 500.0f)
 									.ease(Linear.INOUT).targetRelative(targetY)
 									.start(this.game.getTweenManager());

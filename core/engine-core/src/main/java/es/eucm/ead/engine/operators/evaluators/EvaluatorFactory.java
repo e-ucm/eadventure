@@ -37,26 +37,36 @@
 
 package es.eucm.ead.engine.operators.evaluators;
 
-import es.eucm.ead.engine.factories.mapproviders.EvaluatorsMapProvider;
 import es.eucm.ead.engine.game.ValueMap;
 import es.eucm.ead.engine.operators.Operator;
 import es.eucm.ead.engine.operators.OperatorFactory;
+import es.eucm.ead.model.elements.conditions.ANDCond;
 import es.eucm.ead.model.elements.conditions.Condition;
-import es.eucm.ead.tools.AbstractFactory;
-import es.eucm.ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.conditions.NOTCond;
+import es.eucm.ead.model.elements.conditions.ORCond;
+import es.eucm.ead.model.elements.conditions.OperationCond;
 
-public class EvaluatorFactory extends AbstractFactory<Evaluator<?>> implements
-		Operator<Condition> {
+import java.util.HashMap;
+import java.util.Map;
 
-	public EvaluatorFactory(ReflectionProvider interfacesProvider,
-			OperatorFactory operatorFactory) {
-		super(null, interfacesProvider);
-		setMap(new EvaluatorsMapProvider(this, operatorFactory));
+public class EvaluatorFactory implements Operator<Condition> {
+
+	private Map<Class<?>, Evaluator<?>> factoryMap;
+
+	public EvaluatorFactory(OperatorFactory operatorFactory) {
+		factoryMap = new HashMap<Class<?>, Evaluator<?>>();
+		factoryMap.put(EmptyCond.class, new EmptyCondEvaluator());
+		factoryMap.put(OperationCond.class, new OperationCondEvaluator(
+				operatorFactory));
+		factoryMap.put(ANDCond.class, new ListedCondEvaluator(this));
+		factoryMap.put(ORCond.class, new ListedCondEvaluator(this));
+		factoryMap.put(NOTCond.class, new NOTCondEvaluator(this));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, Condition condition) {
+	public <S> S operate(Condition condition) {
 		return (S) Boolean.valueOf(evaluate(condition));
 	}
 
@@ -75,7 +85,8 @@ public class EvaluatorFactory extends AbstractFactory<Evaluator<?>> implements
 	public <T extends Condition> boolean evaluate(T condition) {
 		if (condition == null)
 			return true;
-		Evaluator<T> evaluator = (Evaluator<T>) get(condition.getClass());
+		Evaluator<T> evaluator = (Evaluator<T>) factoryMap.get(condition
+				.getClass());
 		return evaluator.evaluate(condition);
 	}
 

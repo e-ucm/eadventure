@@ -39,21 +39,16 @@ package es.eucm.ead.model.elements;
 
 import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Evented;
 import es.eucm.ead.model.interfaces.features.Resourced;
-import es.eucm.ead.model.interfaces.features.Variabled;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 
 /**
  * Model of the eAdventure chapter.
  */
 @Element
-public class Chapter extends ResourcedElement implements Resourced, Variabled,
-		Evented {
+public class Chapter extends ResourcedElement implements Resourced, Evented {
 
 	/**
 	 * Scenes of the game
@@ -61,9 +56,6 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 	private EAdList<Scene> scenes;
 
 	private Scene initialScene;
-
-	@Param
-	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	/**
 	 * Default constructor.
@@ -73,7 +65,6 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 		super();
 		scenes = new EAdList<Scene>();
 		events = new EAdList<Event>();
-		vars = new EAdMap<EAdVarDef<?>, Object>();
 	}
 
 	/**
@@ -107,16 +98,6 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 
 	}
 
-	@Override
-	public EAdMap<EAdVarDef<?>, Object> getVars() {
-		return vars;
-	}
-
-	@Override
-	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
-		vars.put(var, value);
-	}
-
 	public Scene getSceneById(String nextSceneId) {
 		if (nextSceneId == null) {
 			return null;
@@ -131,19 +112,6 @@ public class Chapter extends ResourcedElement implements Resourced, Variabled,
 
 	public void setScenes(EAdList<Scene> scenes) {
 		this.scenes = scenes;
-	}
-
-	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
-		this.vars = vars;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getVarInitialValue(EAdVarDef<T> var) {
-		if (vars.containsKey(var)) {
-			return (T) vars.get(var);
-		}
-		return var.getInitialValue();
 	}
 
 	public void addScene(Scene scene) {

@@ -37,13 +37,11 @@
 
 package es.eucm.ead.editor.view.scene.listener;
 
-import java.util.List;
-
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.params.variables.VarDef;
+import java.util.List;
 
 public class LoggerSceneListener implements SceneListener {
 
@@ -51,8 +49,7 @@ public class LoggerSceneListener implements SceneListener {
 			.getLogger(LoggerSceneListener.class);
 
 	@Override
-	public <T> void updateInitialValue(VarDef<T> var, SceneElement element,
-			T value) {
+	public <T> void updateInitialValue(String var, SceneElement element, T value) {
 		logger.debug("Varirable {} change its value to {} in element {}", var
 				.toString(), value.toString(), element.getId());
 

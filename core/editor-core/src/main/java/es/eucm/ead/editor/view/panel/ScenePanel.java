@@ -44,13 +44,9 @@ import es.eucm.ead.editor.view.generic.PanelImpl;
 import es.eucm.ead.editor.view.generic.TextOption;
 import es.eucm.ead.editor.view.generic.table.ListOption;
 import es.eucm.ead.editor.view.generic.table.MapOption;
-import es.eucm.ead.editor.view.generic.table.ColumnSpec;
-import es.eucm.ead.editor.view.generic.table.TextColumn;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 import java.awt.BorderLayout;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,27 +76,14 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 		op.add(new ListOption<SceneElement>("Elements",
 				"Contained sceneElements", scene, "sceneElements",
 				SceneElement.class, target.getFirst()) {
-			//
-			//			@Override
-			//			public ColumnSpec<SceneElement, Integer>[] getExtraColumns() {
-			//				return new ColumnSpec[] { new AccessorColumn("ID", "id",
-			//						String.class, -1) };
-			//
-			//			}
-		});
-		op.add(new MapOption<EAdVarDef, Object>("Vars", "Available varDefs",
-				scene, "vars", EAdVarDef.class, target.getFirst()) {
+            
+            // FIXME: add more cols here
 
-			@Override
-			public ColumnSpec[] getValueColumns() {
-				return new ColumnSpec[] {
-						new TextColumn<EAdVarDef, Object>("TextColumname",
-								"name", true, true, -1),
-						new TextColumn<EAdVarDef, Object>("Type", "type",
-								false, -1),
-						new TextColumn<EAdVarDef, Object>("Initial v.",
-								"initialValue", true, true, -1) };
-			}
+		});
+		op.add(new MapOption<Object>("Vars", "Available vars", scene,
+				"vars", String.class, target.getFirst()) {
+                   
+            // FIXME: add cols here
 		});
 
 		add(op.getComponent(controller.getCommandManager()),

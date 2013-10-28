@@ -68,7 +68,6 @@ import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Position.Corner;
-import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.ead.techdemo.elementfactories.EAdElementsFactory;
 import es.eucm.ead.techdemo.elementfactories.scenes.scenes.EmptyScene;
 
@@ -91,7 +90,7 @@ public class NgRoom2 extends EmptyScene {
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
 		ng.setPosition(Corner.BOTTOM_CENTER, 715, 515);
-		ng.setInitialScale(0.8f);
+		ng.setScale(0.8f);
 
 		// Character can talk in the scene
 		SpeakEf effect = new SpeakSceneElementEf(ng, new EAdString("n.56"));
@@ -148,8 +147,7 @@ public class NgRoom2 extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getInterpolationEffect(
-						new ElementField<Float>(topFan,
-								SceneElement.VAR_ROTATION), 0,
+						new ElementField(topFan, SceneElement.VAR_ROTATION), 0,
 						(float) (Math.PI * 2.0), 500,
 						InterpolationLoopType.RESTART, InterpolationType.LINEAR);
 
@@ -157,14 +155,10 @@ public class NgRoom2 extends EmptyScene {
 
 		int height = 427; // Top fan's vertical position
 
-		ElementField<Integer> mouseX = new ElementField<Integer>(null,
-				new VarDef<Integer>("integer", Integer.class, 0));
-		ElementField<Integer> mouseY = new ElementField<Integer>(null,
-				new VarDef<Integer>("integer", Integer.class, 0));
-		ElementField<Float> canyonX = new ElementField<Float>(topFan,
-				SceneElement.VAR_X);
-		ElementField<Float> canyonY = new ElementField<Float>(topFan,
-				SceneElement.VAR_Y);
+		ElementField mouseX = new ElementField(null, "integer");
+		ElementField mouseY = new ElementField(null, "integer");
+		ElementField canyonX = new ElementField(topFan, SceneElement.VAR_X);
+		ElementField canyonY = new ElementField(topFan, SceneElement.VAR_Y);
 
 		// Bullet generation
 		EAdShape circle = new CircleShape(30);
@@ -246,9 +240,9 @@ public class NgRoom2 extends EmptyScene {
 						spotX + i * 20 + desp, spotY + j * 20));
 				getSceneElements().add(e);
 				effect.addSceneElement(e);
-				e.setVarInitialValue(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
-				e.setVarInitialValue(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
-				e.setVarInitialValue(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
+				e.putProperty(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
+				e.putProperty(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
+				e.putProperty(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
 				// Ng moving to the selected ball
 				MoveSceneElementEf move = new MoveSceneElementEf();
 				move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,

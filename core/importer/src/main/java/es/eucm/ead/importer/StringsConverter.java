@@ -194,7 +194,7 @@ public class StringsConverter {
 		}
 
 		if (comparison.length == 2) {
-			ElementField<?> op1 = modelQuerier.getVariable(condition);
+			ElementField op1 = modelQuerier.getVariable(condition);
 			Integer number;
 			try {
 				number = new Integer(comparison[1]);

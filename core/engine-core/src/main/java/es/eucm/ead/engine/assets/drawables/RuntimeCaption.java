@@ -213,7 +213,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 			preferredWidth = Integer.MAX_VALUE;
 			break;
 		case EAdCaption.SCREEN_SIZE:
-			preferredWidth = gameState.getValue(SystemFields.GAME_WIDTH);
+			preferredWidth = gameState.getValue(SystemFields.GAME_WIDTH, 800);
 			break;
 		default:
 			preferredWidth = descriptor.getPreferredWidth();
@@ -262,7 +262,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		int preferredHeight;
 		switch (descriptor.getPreferredHeight()) {
 		case EAdCaption.SCREEN_SIZE:
-			preferredHeight = gameState.getValue(SystemFields.GAME_HEIGHT);
+			preferredHeight = gameState.getValue(SystemFields.GAME_HEIGHT, 600);
 			break;
 		case EAdCaption.AUTO_SIZE:
 			preferredHeight = Integer.MAX_VALUE;

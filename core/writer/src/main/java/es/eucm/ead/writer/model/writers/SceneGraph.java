@@ -48,12 +48,12 @@ public class SceneGraph {
 
 	static private Logger logger = LoggerFactory.getLogger(SceneGraph.class);
 
-	private EAdMap<String, EAdList<String>> graph;
+	private EAdMap<EAdList<String>> graph;
 
 	private String currentScene;
 
 	public SceneGraph() {
-		graph = new EAdMap<String, EAdList<String>>();
+		graph = new EAdMap<EAdList<String>>();
 	}
 
 	public void process(Object o) {
@@ -83,7 +83,7 @@ public class SceneGraph {
 		}
 	}
 
-	public EAdMap<String, EAdList<String>> getGraph() {
+	public EAdMap<EAdList<String>> getGraph() {
 		return graph;
 	}
 

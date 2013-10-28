@@ -73,8 +73,8 @@ public class MapCommandTest {
 	private static EditorModelImpl em;
 	private static CommandManager cm;
 	private static Controller controller;
-	private static EAdMap<String, String> m1;
-	private static EAdMap<ArrayList<String>, ArrayList<String>> m2;
+	private static EAdMap<String> m1;
+	private static EAdMap<ArrayList<String>> m2;
 	private static ArrayList<ArrayList<String>> objects;
 	private static DependencyNode root;
 
@@ -88,7 +88,7 @@ public class MapCommandTest {
 		em = (EditorModelImpl) controller.getModel();
 		cm = controller.getCommandManager();
 
-		m1 = new EAdMap<String, String>();
+		m1 = new EAdMap<String>();
 		for (int i = 0; i < 10; i++) {
 			m1.put("key" + i, "value" + i);
 		}
@@ -101,9 +101,9 @@ public class MapCommandTest {
 			}
 			objects.add(al);
 		}
-		m2 = new EAdMap<ArrayList<String>, ArrayList<String>>();
+		m2 = new EAdMap<ArrayList<String>>();
 		for (int i = 0; i < objects.size(); i += 2) {
-			m2.put(objects.get(i), objects.get(i + 1));
+			m2.put("key_2_"+i, objects.get(i + 1));
 		}
 		Identified root = new BasicElement("root");
 		DependencyNode<String> rootNode = em.addNode(null, "root", root, false);
@@ -123,19 +123,19 @@ public class MapCommandTest {
 	@Test
 	public void testPut() {
 		System.out.println("put");
-		MapCommand<String, String> a;
+		MapCommand<String> a;
 		assert (!cm.canUndo());
 		assert (!cm.canRedo());
 
 		String key = "key11";
 		String value1 = "value11";
-		a = new MapCommand.AddToMap<String, String>(m1, value1, key, root);
+		a = new MapCommand.AddToMap<String>(m1, value1, key, root);
 		cm.performCommand(a);
 		assert (m1.get(key).equals(value1));
 
 		System.out.println("put");
 		String value2 = "value12";
-		a = new MapCommand.AddToMap<String, String>(m1, value2, key, root);
+		a = new MapCommand.AddToMap<String>(m1, value2, key, root);
 		cm.performCommand(a);
 		assert (m1.get(key).equals(value2));
 
@@ -155,9 +155,9 @@ public class MapCommandTest {
 	public void testRemove() {
 		System.out.println("remove");
 
-		MapCommand<String, String> a;
+		MapCommand<String> a;
 		for (int i = 0; i < 4; i++) {
-			a = new MapCommand.RemoveFromMap<String, String>(m1, "key" + i,
+			a = new MapCommand.RemoveFromMap<String>(m1, "key" + i,
 					root);
 			cm.performCommand(a);
 			assert (!m1.containsKey("key" + i));

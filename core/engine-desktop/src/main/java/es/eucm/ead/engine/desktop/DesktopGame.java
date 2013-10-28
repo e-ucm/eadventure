@@ -58,7 +58,7 @@ import java.util.Map;
 
 public class DesktopGame {
 
-	private Injector injector;
+	protected Injector injector;
 
 	private GameLoader gameLoader;
 
@@ -66,14 +66,14 @@ public class DesktopGame {
 
 	private String path;
 
-	private boolean exitAtClose;
+	protected boolean exitAtClose;
 
-	private int windowWidth = 800;
+	protected int windowWidth = 800;
 
-	private int windowHeight = 600;
+	protected int windowHeight = 600;
 
-	private boolean fullscreen;
-	private boolean debug;
+	protected boolean fullscreen;
+	protected boolean debug;
 
 	/**
 	 * Creates a desktop game that ends when the user press the exit button
@@ -97,7 +97,7 @@ public class DesktopGame {
 		setPath(path);
 	}
 
-	private void initInjector() {
+	public void initInjector() {
 		if (injector == null) {
 			injector = Guice.createInjector(new DesktopModule(binds),
 					new JavaToolsModule());
@@ -175,5 +175,9 @@ public class DesktopGame {
 
 	public void setBind(Class<?> clazz, Class<?> bindTo) {
 		binds.put(clazz, bindTo);
+	}
+
+	public Injector getInjector() {
+		return injector;
 	}
 }

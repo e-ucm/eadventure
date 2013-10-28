@@ -39,10 +39,16 @@ package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.Operation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(ChangeFieldGO.class);
 
 	@Inject
 	public ChangeFieldGO(Game game) {
@@ -51,12 +57,19 @@ public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 
 	@Override
 	public void initialize() {
-		for (ElementField<?> v : effect.getFields()) {
-			game.getGameState().setValue(v, effect.getOperation());
-		}
-		if (effect.getParentVar() != null && parent != null) {
-			game.getGameState().setValue(parent, effect.getParentVar(),
-					effect.getOperation());
+		BasicElement owner = effect.getElement() == null ? this.parent : effect
+				.getElement();
+		String varName = effect.getVarName();
+		Operation operation = effect.getOperation();
+
+		if (owner != null && varName != null && operation != null) {
+			game.getGameState().setValue(owner, varName,
+					game.getGameState().operate(operation));
+		} else {
+			logger
+					.debug(
+							"No proper parameters for change field: owner={}, varname={}, operation={}",
+							owner, varName, operation);
 		}
 	}
 

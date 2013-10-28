@@ -79,7 +79,7 @@ public class NOTCond extends Condition {
 		return "NOT " + condition.toString();
 	}
 
-	public void extractFields(List<ElementField<?>> fields) {
+	public void extractFields(List<ElementField> fields) {
 		condition.extractFields(fields);
 	}
 

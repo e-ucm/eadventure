@@ -83,7 +83,7 @@ public class NgFinalRoom extends EmptyScene {
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
 		ng.setPosition(Corner.BOTTOM_CENTER, 629, 579);
-		ng.setInitialScale(0.8f);
+		ng.setScale(0.8f);
 
 		createTrajectory();
 
@@ -173,7 +173,7 @@ public class NgFinalRoom extends EmptyScene {
 
 		SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf effect = new InterpolationEf(new ElementField<Float>(
+		InterpolationEf effect = new InterpolationEf(new ElementField(
 				getBackground(), SceneElement.VAR_X), 0, -800, 100000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 

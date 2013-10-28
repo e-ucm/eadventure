@@ -13,7 +13,7 @@
 	<artifactId>playground</artifactId>
 	<packaging>jar</packaging>
 	<name>Playground</name>
-	<description>A project with all the other projects as dependecies, to make more complex tests, that can't be done anywhere else.</description>
+	<description>A project with all the other projects as dependencies, to make more complex tests, that can't be done anywhere else.</description>
 	<dependencies>
 		<!-- Desktop dependencies. Not used in GWT compilation -->
         <dependency>
@@ -21,6 +21,16 @@
             <artifactId>ead-engine-desktop</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>ead-engine-core</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>ead-model</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>ead-gui-exporter</artifactId>
@@ -36,6 +46,7 @@
             <artifactId>ead-legacy-plugins-engine-desktop</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+		<!-- TEST -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

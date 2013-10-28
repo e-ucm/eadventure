@@ -79,7 +79,7 @@ public class EffectsConverter {
 
 	private UtilsConverter utilsConverter;
 
-	private ElementField<Boolean> ghostEffectsVisible = new ElementField<Boolean>(
+	private ElementField ghostEffectsVisible = new ElementField(
 			new BasicElement(AdventureConverter.EFFECTS_GHOST_ID),
 			SceneElement.VAR_VISIBLE);
 	public ChangeFieldEf showGhostEffects = new ChangeFieldEf(

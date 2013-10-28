@@ -43,7 +43,6 @@ import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.trajectories.AbstractTrajectoryGO;
 import es.eucm.ead.model.elements.enums.CommonStates;
-import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.trajectories.PolygonTrajectory;
 import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.params.util.Position;
@@ -114,7 +113,7 @@ public class PolygonTrajectoryGO extends
 	@Override
 	public void act(float delta) {
 		movingElement = sceneElementFactory.get(sceneElement);
-		currentTime += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
+		currentTime += delta;
 		if (updateEnd) {
 			updateEnd = false;
 			endX = path.get(currentTarget);
@@ -148,8 +147,7 @@ public class PolygonTrajectoryGO extends
 		}
 
 		if (!isDone()) {
-			currentTime += gameState
-					.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
+			currentTime += delta;
 			float x = (currentTime / totalTime) * diffX;
 			float y = (currentTime / totalTime) * diffY;
 			movingElement.setX((int) (startX + x));

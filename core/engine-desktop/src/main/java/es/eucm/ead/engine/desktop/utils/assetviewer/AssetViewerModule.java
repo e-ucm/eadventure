@@ -162,9 +162,8 @@ public class AssetViewerModule extends AbstractModule {
 
 	public static class AssetVariableMap extends GameState {
 
-		public AssetVariableMap(StringHandler stringHandler,
-				ReflectionProvider reflectionProvider) {
-			super(stringHandler, reflectionProvider);
+		public AssetVariableMap(StringHandler stringHandler) {
+			super(stringHandler);
 		}
 
 		@Override

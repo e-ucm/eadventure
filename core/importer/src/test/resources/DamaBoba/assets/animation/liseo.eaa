@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE animation SYSTEM "animation.dtd">
-<animation id="liseo" slides="no" usetransitions="yes"><documentation>Looking up</documentation><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="40" type="image" uri="assets/animation/liseo_peque.gif" waitforclick="no"/><transition time="0" type="none"/></animation>

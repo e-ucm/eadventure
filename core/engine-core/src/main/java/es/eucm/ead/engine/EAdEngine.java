@@ -47,6 +47,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.canvas.GdxCanvas;
@@ -89,6 +90,10 @@ public class EAdEngine implements ApplicationListener {
 	private float gameHeight;
 	private boolean debug;
 
+	private float lastX, lastY;
+
+	private Array<ApplicationListener> applicationListeners;
+
 	@Inject
 	public EAdEngine(GameLoader gameLoader, GameState gameState, GUI gui) {
 		ShaderProgram.pedantic = false;
@@ -98,6 +103,11 @@ public class EAdEngine implements ApplicationListener {
 		this.gui = gui;
 		this.sceneMouseCoordinates = new Vector2();
 		this.gameWidth = gameHeight = -1;
+		this.applicationListeners = new Array<ApplicationListener>();
+	}
+
+	public void addApplicationListener(ApplicationListener applicationListener) {
+		applicationListeners.add(applicationListener);
 	}
 
 	public void setGameWidth(float gameWidth) {
@@ -139,6 +149,9 @@ public class EAdEngine implements ApplicationListener {
 
 		gameLoader.loadGame(this);
 		addDebug();
+		for (ApplicationListener a : applicationListeners) {
+			a.create();
+		}
 	}
 
 	public void addDebug() {
@@ -152,6 +165,9 @@ public class EAdEngine implements ApplicationListener {
 	public void dispose() {
 		game.dispose();
 		stage.dispose();
+		for (ApplicationListener a : applicationListeners) {
+			a.dispose();
+		}
 	}
 
 	@Override
@@ -159,15 +175,26 @@ public class EAdEngine implements ApplicationListener {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		game.act(game.getSkippedMilliseconds());
 		stage.act(game.getSkippedMilliseconds());
-		sceneMouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY());
-		stage.getRoot().parentToLocalCoordinates(sceneMouseCoordinates);
-		gameState.setValue(SystemFields.MOUSE_X, sceneMouseCoordinates.x);
-		gameState.setValue(SystemFields.MOUSE_Y, sceneMouseCoordinates.y);
-		gui.getScene().parentToLocalCoordinates(sceneMouseCoordinates);
-		gameState.setValue(SystemFields.MOUSE_SCENE_X, sceneMouseCoordinates.x);
-		gameState.setValue(SystemFields.MOUSE_SCENE_Y, sceneMouseCoordinates.y);
+		float x = Gdx.input.getX();
+		float y = Gdx.input.getY();
+		if (Math.abs(x - lastX) > 0.001f || Math.abs(y - lastY) > 0.001f) {
+			lastX = x;
+			lastY = y;
+			sceneMouseCoordinates.set(lastX, lastY);
+			stage.getRoot().parentToLocalCoordinates(sceneMouseCoordinates);
+			gameState.setValue(SystemFields.MOUSE_X, sceneMouseCoordinates.x);
+			gameState.setValue(SystemFields.MOUSE_Y, sceneMouseCoordinates.y);
+			gui.getScene().parentToLocalCoordinates(sceneMouseCoordinates);
+			gameState.setValue(SystemFields.MOUSE_SCENE_X,
+					sceneMouseCoordinates.x);
+			gameState.setValue(SystemFields.MOUSE_SCENE_Y,
+					sceneMouseCoordinates.y);
+		}
 		stage.draw();
 		game.doHook(Game.HOOK_AFTER_RENDER);
+		for (ApplicationListener a : applicationListeners) {
+			a.render();
+		}
 	}
 
 	@Override
@@ -177,6 +204,9 @@ public class EAdEngine implements ApplicationListener {
 			float scaleX = (float) width / gameWidth;
 			float scaleY = (float) height / gameHeight;
 			stage.getRoot().setScale(scaleX, scaleY);
+		}
+		for (ApplicationListener a : applicationListeners) {
+			a.resize(width, height);
 		}
 	}
 
@@ -196,10 +226,16 @@ public class EAdEngine implements ApplicationListener {
 
 	@Override
 	public void pause() {
+		for (ApplicationListener a : applicationListeners) {
+			a.pause();
+		}
 	}
 
 	@Override
 	public void resume() {
+		for (ApplicationListener a : applicationListeners) {
+			a.resume();
+		}
 	}
 
 	public void setDebug(boolean debug) {

@@ -78,8 +78,8 @@ public class ShapeScene extends EmptyScene {
 		SceneElement e = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(rectangleAsset1,
 						rectangleAsset2, x + 20, margin);
-		e.setVarInitialValue(SceneElement.VAR_SCALE, 0.5f);
-		e.setVarInitialValue(SceneElement.VAR_ROTATION, 10.0f);
+		e.putProperty(SceneElement.VAR_SCALE, 0.5f);
+		e.putProperty(SceneElement.VAR_ROTATION, 10.0f);
 		getSceneElements().add(e);
 		x += margin + size;
 
@@ -164,7 +164,7 @@ public class ShapeScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getInterpolationEffect(
-						new ElementField<Float>(rotatingRectangle,
+						new ElementField(rotatingRectangle,
 								SceneElement.VAR_ROTATION), 0, 360.0f, 2000,
 						InterpolationLoopType.RESTART, InterpolationType.LINEAR);
 		SceneElementEv event = EAdElementsFactory.getInstance()
@@ -182,7 +182,7 @@ public class ShapeScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getInterpolationEffect(
-						new ElementField<Float>(rotatingRectangle2,
+						new ElementField(rotatingRectangle2,
 								SceneElement.VAR_ROTATION), 0,
 						(float) (Math.PI * 2.0), 2000,
 						InterpolationLoopType.RESTART, InterpolationType.LINEAR);

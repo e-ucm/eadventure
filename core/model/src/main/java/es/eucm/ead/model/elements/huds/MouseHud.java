@@ -78,10 +78,10 @@ public class MouseHud extends Scene {
 		mouse.setAppearance(TALK_CURSOR, talkCursor);
 		mouse.setAppearance(EXIT_CURSOR, exitCursor);
 		mouse.setId(CURSOR_ID);
-		mouse.setInitialEnable(false);
-		//	mouse.setInitialVisible(false);
+		mouse.setEnable(false);
+		//	mouse.setVisible(false);
 		mouse.setPosition(Position.Corner.TOP_LEFT, 0, 0);
-		mouse.setVarInitialValue(SceneElement.VAR_Z, 10000);
+		mouse.putProperty(SceneElement.VAR_Z, 10000);
 		getSceneElements().add(mouse);
 	}
 

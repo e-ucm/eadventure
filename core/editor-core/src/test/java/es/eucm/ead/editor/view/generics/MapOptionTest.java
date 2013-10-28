@@ -138,7 +138,7 @@ public class MapOptionTest extends AbstractOptionTest {
 	public static class ExampleClass {
 
 		public String name = "initial name";
-		public EAdMap<String, StringPair> map = new EAdMap<String, StringPair>();
+		public EAdMap<StringPair> map = new EAdMap<StringPair>();
 
 		public ExampleClass() {
 			map.put("hola", new StringPair("buenos", "dias"));
@@ -154,11 +154,11 @@ public class MapOptionTest extends AbstractOptionTest {
 			this.name = name;
 		}
 
-		public EAdMap<String, StringPair> getMap() {
+		public EAdMap<StringPair> getMap() {
 			return map;
 		}
 
-		public void EAdMap(EAdMap<String, StringPair> map) {
+		public void EAdMap(EAdMap<StringPair> map) {
 			this.map = map;
 		}
 

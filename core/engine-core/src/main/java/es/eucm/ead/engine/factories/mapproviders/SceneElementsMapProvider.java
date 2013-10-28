@@ -37,36 +37,37 @@
 
 package es.eucm.ead.engine.factories.mapproviders;
 
-import es.eucm.ead.engine.gameobjects.debuggers.FieldsDebuggerGO;
 import es.eucm.ead.engine.gameobjects.debuggers.GhostDebuggerGO;
+import es.eucm.ead.engine.gameobjects.debuggers.ProfilerDebuggerGO;
 import es.eucm.ead.engine.gameobjects.debuggers.TrajectoryDebuggerGO;
+import es.eucm.ead.engine.gameobjects.sceneelements.GhostElementGO;
+import es.eucm.ead.engine.gameobjects.sceneelements.GroupElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
+import es.eucm.ead.engine.gameobjects.sceneelements.VideoSceneGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.huds.MouseHudGO;
+import es.eucm.ead.engine.gameobjects.sceneelements.transitions.DisplaceTransitionGO;
+import es.eucm.ead.engine.gameobjects.sceneelements.transitions.EmptyTransitionGO;
+import es.eucm.ead.engine.gameobjects.sceneelements.transitions.FadeInTransitionGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.MaskTransitionGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.ScaleTransitionGO;
-import es.eucm.ead.model.elements.debuggers.FieldsDebugger;
+import es.eucm.ead.engine.gameobjects.widgets.TextAreaGO;
 import es.eucm.ead.model.elements.debuggers.GhostDebugger;
 import es.eucm.ead.model.elements.debuggers.ProfilerDebugger;
 import es.eucm.ead.model.elements.debuggers.TrajectoryDebugger;
 import es.eucm.ead.model.elements.huds.MouseHud;
 import es.eucm.ead.model.elements.predef.LoadingScreen;
-import es.eucm.ead.model.elements.scenes.*;
+import es.eucm.ead.model.elements.scenes.GhostElement;
+import es.eucm.ead.model.elements.scenes.GroupElement;
 import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.VideoScene;
 import es.eucm.ead.model.elements.transitions.DisplaceTransition;
 import es.eucm.ead.model.elements.transitions.EmptyTransition;
 import es.eucm.ead.model.elements.transitions.FadeInTransition;
 import es.eucm.ead.model.elements.transitions.MaskTransition;
 import es.eucm.ead.model.elements.transitions.ScaleTransition;
 import es.eucm.ead.model.elements.widgets.TextArea;
-import es.eucm.ead.engine.gameobjects.debuggers.ProfilerDebuggerGO;
-import es.eucm.ead.engine.gameobjects.sceneelements.GhostElementGO;
-import es.eucm.ead.engine.gameobjects.sceneelements.GroupElementGO;
-import es.eucm.ead.engine.gameobjects.sceneelements.VideoSceneGO;
-import es.eucm.ead.engine.gameobjects.sceneelements.transitions.DisplaceTransitionGO;
-import es.eucm.ead.engine.gameobjects.sceneelements.transitions.EmptyTransitionGO;
-import es.eucm.ead.engine.gameobjects.sceneelements.transitions.FadeInTransitionGO;
-import es.eucm.ead.engine.gameobjects.widgets.TextAreaGO;
 
 public class SceneElementsMapProvider
 		extends
@@ -94,7 +95,6 @@ public class SceneElementsMapProvider
 		// Debuggers
 		factoryMap.put(TrajectoryDebugger.class, TrajectoryDebuggerGO.class);
 		factoryMap.put(GhostDebugger.class, GhostDebuggerGO.class);
-		factoryMap.put(FieldsDebugger.class, FieldsDebuggerGO.class);
 		factoryMap.put(ProfilerDebugger.class, ProfilerDebuggerGO.class);
 	}
 }

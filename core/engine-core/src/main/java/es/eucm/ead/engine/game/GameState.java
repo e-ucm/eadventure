@@ -40,17 +40,17 @@ package es.eucm.ead.engine.game;
 import aurelienribon.tweenengine.TweenAccessor;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import es.eucm.ead.engine.game.interfaces.TextProcessor;
+import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.operators.OperatorFactory;
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.interfaces.features.Identified;
-import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.tools.MathEvaluator;
+import es.eucm.ead.tools.MathEvaluator.OperationResolver;
 import es.eucm.ead.tools.StringHandler;
-import es.eucm.ead.tools.reflection.ReflectionProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,19 +58,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 @Singleton
-public class GameState extends ValueMap implements
-		MathEvaluator.OperationResolver, TweenAccessor<ElementField<?>> {
-
-	private static final char BEGIN_VAR_CHAR = '[';
-
-	private static final char END_VAR_CHAR = ']';
-
-	private static final char BEGIN_CONDITION_CHAR = '(';
-
-	private static final char END_CONDITION_CHAR = ')';
+public class GameState extends ValueMap implements OperationResolver,
+		TweenAccessor<ElementField> {
 
 	private static Logger logger = LoggerFactory.getLogger(GameState.class);
 
@@ -79,21 +70,23 @@ public class GameState extends ValueMap implements
 	 */
 	protected OperatorFactory operatorFactory;
 
+	private TextProcessor textProcessor;
+
 	/**
 	 * Map containing field watchers by element and variable
 	 */
-	private Map<String, Map<String, List<FieldWatcher>>> fieldWatchers;
+	private Map<String, List<FieldWatcher>> fieldWatchers;
+	private Map<String, FieldGetter> fieldGetters;
 
 	@Inject
-	public GameState(StringHandler stringHandler,
-			ReflectionProvider reflectionProvider) {
-		super(reflectionProvider, stringHandler);
-		this.operatorFactory = new OperatorFactory(reflectionProvider, this,
-				stringHandler);
+	public GameState(StringHandler stringHandler) {
+		super(stringHandler);
+		this.operatorFactory = new OperatorFactory(this, stringHandler);
+		this.textProcessor = new TextProcessor(operatorFactory, stringHandler);
 
 		// Field watcher
-		fieldWatchers = new HashMap<String, Map<String, List<FieldWatcher>>>();
-
+		fieldWatchers = new HashMap<String, List<FieldWatcher>>();
+		fieldGetters = new HashMap<String, FieldGetter>();
 	}
 
 	/**
@@ -108,234 +101,41 @@ public class GameState extends ValueMap implements
 		if (condition == null) {
 			return true;
 		}
-		return operatorFactory.operate(Boolean.class, condition);
+		return operatorFactory.operate(condition);
 	}
 
-	public <T extends Operation, S> S operate(Class<S> eAdVar, T eAdOperation) {
-		return operatorFactory.operate(eAdVar, eAdOperation);
+	public <T extends Operation, S> S operate(T operation) {
+		return operatorFactory.operate(operation);
 	}
 
-	/**
-	 * Sets the field to the result value of the operation
-	 *
-	 * @param field     the field
-	 * @param operation the operation
-	 */
-	public <S> void setValue(ElementField<S> field, Operation operation) {
-		setValue(field.getElement(), field.getVarDef(), operation);
-	}
-
-	/**
-	 * Sets the element's variable value to the given operation
-	 *
-	 * @param element   the element holding the variable. If the element is
-	 *                  {@code null}, it's considered that the variable belongs to the
-	 *                  system (it's a global field)
-	 * @param var       the variable definition
-	 * @param operation the operation whose result will be assigned to the variable
-	 */
-	public <S> void setValue(Identified element, EAdVarDef<S> var,
-			Operation operation) {
-		S result = operatorFactory.operate(var.getType(), operation);
-		setValue(element, var, result);
-	}
-
-	public void setValue(String elementId, String varName, Object value) {
-		super.setValue(elementId, varName, value);
-		notifyWatchers(elementId, varName, value);
-	}
-
-	public int getValues(ElementField<?> field, int type, float[] values) {
-		switch (type) {
-		default:
-			Object o = getValue(field);
-			if (o instanceof Number) {
-				values[0] = ((Number) o).floatValue();
-				return 1;
-			} else {
-				return 0;
-			}
-		}
-	}
-
-	@SuppressWarnings( { "unchecked", "rawtypes" })
-	public void setValues(ElementField field, int type, float[] values) {
-		switch (type) {
-		default:
-			if (field.getVarDef().getType() == Float.class) {
-				setValue(field, values[0]);
-			} else if (field.getVarDef().getType() == Integer.class) {
-				setValue(field, (int) values[0]);
-			}
-		}
-
-	}
-
-	// ---------------------------------//
-	// TEXT PROCESSING
-	// ---------------------------------//
-
-	/**
-	 * <p>
-	 * Substitutes the variables in a text for its values.
-	 * </p>
-	 * <p>
-	 * The text format for the correct substitution should be:
-	 * </p>
-	 * <ul>
-	 * <li><b>[op_index]:</b> The index of the operation whose result will be
-	 * used to substitute the reference {@code 0 <= op_index < fields.size()}
-	 * <li><b>{[condition]? true text : false text } </b> A conditional text,
-	 * depending of the operation whose index is {@code condition} value.</p>
-	 *
-	 * @param text the text to be processed by the value map
-	 * @return the processed text
-	 */
 	public String processTextVars(String text, EAdList<Operation> operations) {
-		text = processConditionalExpressions(text, operations);
-		return processVars(text, operations);
+		return textProcessor.processTextVars(text, operations);
 	}
 
-	private String processVars(String text, EAdList<Operation> operations) {
-		boolean done = false;
-		while (!done) {
-			int i = text.indexOf(BEGIN_VAR_CHAR);
-			if (i != -1) {
-				int separatorIndex = text.indexOf(END_VAR_CHAR, i + 1);
-				if (separatorIndex != -1) {
-					String varName = text.substring(i + 1, separatorIndex);
-					int index = 0;
-					try {
-						index = Integer.parseInt(varName);
-					} catch (NumberFormatException e) {
-						logger.warn("{} is not a valid var index", varName);
-					}
-					Object o = operatorFactory.operate(Object.class, operations
-							.get(index));
-
-					if (o == null) {
-						o = "";
-					}
-
-					String value = o instanceof EAdString ? stringHandler
-							.getString((EAdString) o) : o.toString();
-					text = text.substring(0, i) + value
-							+ text.substring(separatorIndex + 1);
-
-				}
-			} else {
-				done = true;
-			}
-		}
-		return text;
-	}
-
-	private String processConditionalExpressions(String text,
-			EAdList<Operation> fields) {
-		String newText = "";
-		if (text != null) {
-			int i = 0;
-			boolean finished = false;
-			while (!finished && i < text.length()) {
-				int beginCondition = text.indexOf(BEGIN_CONDITION_CHAR, i);
-				int endCondition = text.indexOf(END_CONDITION_CHAR,
-						beginCondition);
-				if (beginCondition != -1 && endCondition != -1
-						&& endCondition > beginCondition) {
-					String condition = text.substring(beginCondition + 1,
-							endCondition);
-					String result = evaluateExpression(condition, fields);
-					newText += text.substring(i, beginCondition) + result;
-					i = endCondition + 1;
-				} else {
-					newText += text.substring(i);
-					finished = true;
-				}
-			}
-		}
-		return newText;
-	}
-
-	/**
-	 * Evaluates conditional expressions (#boolean_var? value_1 : value_2 )
-	 *
-	 * @param expression the expression to evaluate
-	 * @param operations a list of operations. In the expression, [i] will be substituted by the result of operations[i]
-	 * @return the expression evaluated
-	 */
-	private String evaluateExpression(String expression,
-			EAdList<Operation> operations) {
-
-		if (expression.contains("?") && expression.contains(":")) {
-			int questionMark = expression.indexOf('?');
-			int points = expression.indexOf(':');
-			String condition = expression.substring(0, questionMark);
-			String trueValue = expression.substring(questionMark + 1, points);
-			String falseValue = expression.substring(points + 1, expression
-					.length());
-
-			int beginVar = condition.indexOf(BEGIN_VAR_CHAR);
-			int endVar = condition.indexOf(END_VAR_CHAR);
-			if (beginVar != -1 && endVar != -1 && endVar > beginVar) {
-
-				int indexCondition;
-				String varName = "";
-				try {
-					varName = expression.substring(beginVar + 1, endVar);
-					indexCondition = Integer.parseInt(varName);
-				} catch (NumberFormatException e) {
-					logger.warn(varName + " is not a valid index in "
-							+ expression);
-					return BEGIN_CONDITION_CHAR + expression
-							+ END_CONDITION_CHAR;
-				}
-
-				Object o = operatorFactory.operate(Object.class, operations
-						.get(indexCondition));
-
-				if (o != null && o instanceof Boolean) {
-					Boolean b = (Boolean) o;
-					if (b)
-						return trueValue;
-					else
-						return falseValue;
-				} else if (o != null && o instanceof Number) {
-					Number n = (Number) o;
-					if (n.floatValue() != 0)
-						return trueValue;
-					else
-						return falseValue;
-				}
-				return falseValue;
-			}
-		}
-
-		return BEGIN_CONDITION_CHAR + expression + END_CONDITION_CHAR;
-	}
-
-	@SuppressWarnings( { "all" })
-	private <T> void notifyWatchers(String elementId, String varName, T value) {
-		Map<String, List<FieldWatcher>> map = fieldWatchers.get(elementId);
-		if (map != null) {
-			List<FieldWatcher> list = map.get(varName);
-			if (list != null) {
-				for (FieldWatcher fw : list) {
-					fw.fieldUpdated(elementId, varName, value);
-				}
-			}
+	@Override
+	public void setValue(String element, String varName, Object value) {
+		if (!notifyWatchers(element, varName, value)) {
+			super.setValue(element, varName, value);
 		}
 	}
 
-	/**
-	 * Adds a field watcher that is notified every time the given field is
-	 * updated
-	 *
-	 * @param fieldWatcher the field watcher
-	 * @param field        the field to watch
-	 */
-	public void addFieldWatcher(FieldWatcher fieldWatcher, ElementField<?> field) {
-		addFieldWatcher(fieldWatcher, field.getElement() == null ? null : field
-				.getElement().getId(), field.getVarDef().getName());
+	@Override
+	public <S> S getValue(String element, String varName, S defaultValue) {
+		S value = fieldGetters.containsKey(element) ? fieldGetters.get(element)
+				.getField(element, varName, defaultValue) : null;
+		return value == null ? super.getValue(element, varName, defaultValue)
+				: value;
+	}
+
+	private <T> boolean notifyWatchers(String elementId, String varName, T value) {
+		List<FieldWatcher> list = fieldWatchers.get(elementId);
+		boolean handled = false;
+		if (list != null) {
+			for (FieldWatcher fw : list) {
+				handled |= fw.setField(elementId, varName, value);
+			}
+		}
+		return handled;
 	}
 
 	/**
@@ -343,19 +143,12 @@ public class GameState extends ValueMap implements
 	 * updated
 	 *
 	 * @param elementId the element's id
-	 * @param varName   the variable name
 	 */
-	public void addFieldWatcher(FieldWatcher fieldWatcher, String elementId,
-			String varName) {
-		Map<String, List<FieldWatcher>> map = fieldWatchers.get(elementId);
-		if (map == null) {
-			map = new HashMap<String, List<FieldWatcher>>();
-			fieldWatchers.put(elementId, map);
-		}
-		List<FieldWatcher> list = map.get(varName);
+	public void addFieldWatcher(String elementId, FieldWatcher fieldWatcher) {
+		List<FieldWatcher> list = fieldWatchers.get(elementId);
 		if (list == null) {
 			list = new ArrayList<FieldWatcher>();
-			map.put(varName, list);
+			fieldWatchers.put(elementId, list);
 		}
 		list.add(fieldWatcher);
 	}
@@ -366,12 +159,13 @@ public class GameState extends ValueMap implements
 	 * @param fieldWatcher the field watcher to remove
 	 */
 	public void removeFieldWatcher(FieldWatcher fieldWatcher) {
-		for (Entry<String, Map<String, List<FieldWatcher>>> e : fieldWatchers
-				.entrySet()) {
-			for (List<FieldWatcher> l : e.getValue().values()) {
-				l.remove(fieldWatcher);
-			}
+		for (List<FieldWatcher> l : fieldWatchers.values()) {
+			l.remove(fieldWatcher);
 		}
+	}
+
+	public void setFieldGetter(String elementId, FieldGetter fieldGetter) {
+		this.fieldGetters.put(elementId, fieldGetter);
 	}
 
 	/**
@@ -380,23 +174,39 @@ public class GameState extends ValueMap implements
 	public void reset() {
 		fieldWatchers.clear();
 		valuesMap.clear();
-		updateList.clear();
 	}
 
-	public int countWatchers(String element, String varName) {
-		Map<String, List<FieldWatcher>> watchers = fieldWatchers.get(element);
-		if (watchers != null) {
-			List<FieldWatcher> list = watchers.get(varName);
-			return list == null ? 0 : list.size();
-		}
-		return 0;
+	public int countWatchers(String element) {
+		List<FieldWatcher> list = fieldWatchers.get(element);
+		return list == null ? 0 : list.size();
+	}
+
+	public void addFieldWatcher(FieldWatcher fieldWatcher, BasicElement element) {
+		Identified i = maybeDecodeField(element);
+		addFieldWatcher(i == null ? null : i.getId(), fieldWatcher);
+	}
+
+	public void removeGetter(SceneElementGO sceneElementGO) {
+		fieldGetters.remove(sceneElementGO.getElement() + "");
 	}
 
 	public interface FieldWatcher {
-		/**
-		 * Call whenever the field is updated
-		 */
-		<T> void fieldUpdated(String elementId, String varName, T value);
 
+		/**
+		 * Call whenever the field is updated.
+		 * If true is returned, then the update has been handled by the watcher and it is not
+		 * necessary store the value in the value map. If false is returned, the value is stored
+		 * in the value map for subsequent queries
+		 */
+		<T> boolean setField(String elementId, String varName, T value);
+
+	}
+
+	public interface FieldGetter {
+		/**
+		 * Called when something is asking for the value of the field. If null is returned, the value
+		 * returned is the one stored for the variable in the value map
+		 */
+		<T> T getField(String elementId, String varName, T defaultvalue);
 	}
 }

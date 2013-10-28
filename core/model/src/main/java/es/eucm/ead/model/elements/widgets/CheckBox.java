@@ -54,35 +54,30 @@ import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.util.Position;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 
 public class CheckBox extends GroupElement {
 
 	public static final String CHECKED_BUNDLE = "checked_bundle";
 
-	public static final EAdVarDef<Boolean> CHECKED = new VarDef<Boolean>(
-			"checkbox_checked", Boolean.class, false);
+	public static final String CHECKED = "checkbox_checked";
 
-	public static final EAdVarDef<Integer> CHECKED_INT = new VarDef<Integer>(
-			"checkbox_checked_int", Integer.class, 0);
+	public static final String CHECKED_INT = "checkbox_checked_int";
 
 	public CheckBox() {
 
 	}
 
 	public CheckBox(boolean checked, String stringId, EAdFont font) {
-		setVarInitialValue(CHECKED, checked);
-		setVarInitialValue(CHECKED_INT, checked ? 1 : 0);
-		setVarInitialValue(SceneElement.VAR_BUNDLE_ID,
-				(checked ? CHECKED_BUNDLE : SceneElementDef.INITIAL_BUNDLE));
+		putProperty(CHECKED, checked);
+		putProperty(CHECKED_INT, checked ? 1 : 0);
+		putProperty(SceneElement.VAR_BUNDLE_ID, (checked ? CHECKED_BUNDLE
+				: SceneElementDef.INITIAL_BUNDLE));
 		setAppearance(new Image("@drawable/checkboxoff.png"));
 		setAppearance(CHECKED_BUNDLE, new Image("@drawable/checkboxon.png"));
 
 		ConditionedEv event = new ConditionedEv();
-		ElementField<Boolean> checkedField = new ElementField<Boolean>(this,
-				CHECKED);
-		ElementField<String> bundleField = new ElementField<String>(this,
+		ElementField checkedField = new ElementField(this, CHECKED);
+		ElementField bundleField = new ElementField(this,
 				SceneElement.VAR_BUNDLE_ID);
 
 		Condition c = new OperationCond(checkedField);
@@ -92,8 +87,7 @@ public class CheckBox extends GroupElement {
 		event.addEffect(ConditionedEvType.CONDITIONS_UNMET, new ChangeFieldEf(
 				bundleField, new ValueOp(SceneElementDef.INITIAL_BUNDLE)));
 
-		ElementField<Integer> checkedFieldInt = new ElementField<Integer>(this,
-				CHECKED_INT);
+		ElementField checkedFieldInt = new ElementField(this, CHECKED_INT);
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, new ChangeFieldEf(
 				checkedFieldInt, new ValueOp(1)));
 		event.addEffect(ConditionedEvType.CONDITIONS_UNMET, new ChangeFieldEf(
