@@ -46,8 +46,9 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import es.eucm.ead.editor.EditorGuiceModule;
 import es.eucm.ead.editor.control.CommandManager;
+import es.eucm.ead.editor.control.CommandManagerImpl;
 import es.eucm.ead.editor.control.Controller;
-import es.eucm.ead.editor.control.ControllerImpl;
+import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.editor.model.EditorModelImpl;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.util.Log4jConfig;
@@ -56,10 +57,15 @@ import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import java.util.ArrayList;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
 
 /**
  *
@@ -72,22 +78,29 @@ public class MapCommandTest {
 
 	private static EditorModelImpl em;
 	private static CommandManager cm;
-	private static Controller controller;
-	private static EAdMap<String> m1;
+    
+   	@Mock
+	private Controller controller;
+
+    private static EAdMap<String> m1;
 	private static EAdMap<ArrayList<String>> m2;
 	private static ArrayList<ArrayList<String>> objects;
-	private static DependencyNode root;
 
-	@BeforeClass
+    private static DependencyNode<String> root;
+	
+    @BeforeClass
 	public static void setUpClass() {
-		Injector injector = Guice.createInjector(new DesktopModule(),
-				new EditorGuiceModule(), new JavaToolsModule());
+        Injector injector = Guice.createInjector(new DesktopModule(),
+            new EditorGuiceModule(), new JavaToolsModule());
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug);
-		controller = injector.getInstance(ControllerImpl.class);
-		controller.initialize();
-		em = (EditorModelImpl) controller.getModel();
-		cm = controller.getCommandManager();
 
+		// init reflection
+		ReflectionClassLoader.init(injector
+				.getInstance(ReflectionClassLoader.class));
+
+		em = (EditorModelImpl)injector.getInstance(EditorModel.class);
+        cm = (CommandManagerImpl)injector.getInstance(CommandManager.class);
+    
 		m1 = new EAdMap<String>();
 		for (int i = 0; i < 10; i++) {
 			m1.put("key" + i, "value" + i);
@@ -105,10 +118,19 @@ public class MapCommandTest {
 		for (int i = 0; i < objects.size(); i += 2) {
 			m2.put("key_2_" + i, objects.get(i + 1));
 		}
-		Identified root = new BasicElement("root");
-		DependencyNode<String> rootNode = em.addNode(null, "root", root, false);
-
+		Identified rootThing = new BasicElement("root");
+		root = em.addNode(null, "root", rootThing, false);
 	}
+    
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+		when(controller.getModel()).thenReturn(em);
+        assert(controller.getModel() == em);
+		when(controller.getCommandManager()).thenReturn(cm);        
+        assert(controller.getCommandManager() == cm);
+        cm.setController(controller);
+    }
 
 	@After
 	public void tearDown() {
