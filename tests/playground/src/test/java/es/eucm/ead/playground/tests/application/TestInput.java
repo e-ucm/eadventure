@@ -39,6 +39,7 @@ package es.eucm.ead.playground.tests.application;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Pixmap;
 
 public class TestInput implements Input {
 
@@ -222,5 +223,9 @@ public class TestInput implements Input {
 	public void setCursorPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	@Override
+	public void setCursorImage(Pixmap pixmap, int xHotspot, int yHotspot) {
 	}
 }
