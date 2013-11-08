@@ -49,7 +49,83 @@ public interface Commands {
 	public static final String GO_CHAPTER = "goc";
 
 	/**
+	 * Goes to a scene
+	 */
+	public static final String GO_SCENE = "go";
+
+	/**
 	 * Returns the id of the current chapter
 	 */
 	public static final String CHAPTER = "chapter";
+
+	/**
+	 * Returns the id of the current scene
+	 */
+	public static final String SCENE = "scene";
+
+	/**
+	 * Returns a field
+	 */
+	public static final String GET = "get";
+
+	/**
+	 * Go to a scene *
+	 */
+	public static final String GO = "go";
+
+	/**
+	 * List something (elements, variables...)
+	 */
+	public static final String LIST = "list";
+
+	/**
+	 * Load a file with valid commands *
+	 */
+	public static final String LOAD = "load";
+
+	/**
+	 * Sets a variable ( set id.var value )
+	 */
+	public static final String SET = "set";
+
+	/**
+	 * Ping an element in the scene (it's highlighted)
+	 */
+	public static final String PING = "ping";
+
+	/**
+	 * Toggle sound *
+	 */
+	public static final String SOUND = "sound";
+
+	/**
+	 * Returns how many watchers are watching an element
+	 */
+	public static final String WATCHING = "watching";
+
+	/**
+	 * Returns the id of the element below the cursor
+	 */
+	public static final String WHOIS = "whois";
+
+	/**
+	 * Moves the mouse (move x y), x and y are in window coordinates
+	 */
+	public static final String MOVE = "move";
+
+	/**
+	 * Returns the mouse position in window's coordinates
+	 */
+	public static final String WHERE = "where";
+
+	/**
+	 * Produces a click (click x y), x and y are in window coordinates
+	 */
+	public static final String CLICK = "click";
+
+	/**
+	 * Exits the game
+	 */
+	public static final String EXIT = "exit";
+
 }

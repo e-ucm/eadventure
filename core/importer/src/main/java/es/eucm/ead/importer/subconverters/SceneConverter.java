@@ -39,6 +39,7 @@ package es.eucm.ead.importer.subconverters;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import es.eucm.ead.importer.utils.ConverterTester;
 import es.eucm.ead.importer.EAdElementsCache;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.StringsConverter;
@@ -125,6 +126,8 @@ public class SceneConverter {
 
 	private ElementConverter elementConverter;
 
+	private ConverterTester converterTester;
+
 	@Inject
 	public SceneConverter(ResourcesConverter resourceConverter,
 			EAdElementsCache elementsCache,
@@ -134,7 +137,7 @@ public class SceneConverter {
 			ConditionsConverter conditionsConverter,
 			StringsConverter stringsConverter, ModelQuerier modelQuerier,
 			TrajectoryConverter trajectoryConverter,
-			NPCConverter elementConverter) {
+			NPCConverter elementConverter, ConverterTester converterTester) {
 		this.resourceConverter = resourceConverter;
 		this.elementsCache = elementsCache;
 		this.transitionConverter = transitionConverter;
@@ -146,6 +149,7 @@ public class SceneConverter {
 		this.modelQuerier = modelQuerier;
 		this.trajectoryConverter = trajectoryConverter;
 		this.elementConverter = elementConverter;
+		this.converterTester = converterTester;
 	}
 
 	public Scene convert(es.eucm.eadventure.common.data.chapter.scenes.Scene s) {
@@ -153,6 +157,7 @@ public class SceneConverter {
 		SceneElement background = new SceneElement();
 		Scene scene = new Scene(background);
 		scene.setId(s.getId());
+		background.setId(s.getId() + "$bg");
 
 		addAppearance(scene, s);
 		// XXX Information
@@ -269,6 +274,10 @@ public class SceneConverter {
 			SceneElementDef def = (SceneElementDef) elementsCache.get(e
 					.getTargetId());
 			SceneElement sceneElement = new SceneElement(def);
+			String sceneElementId = e.getTargetId() + "$ref"
+					+ elementsCache.newReference(e.getTargetId());
+			converterTester.checkBundles(e, sceneElementId);
+			sceneElement.setId(sceneElementId);
 			sceneElement.setPosition(Corner.BOTTOM_CENTER, e.getX(), e.getY());
 			// [ER - Layer]
 			sceneElement.setZ(e.getLayer());

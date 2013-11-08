@@ -65,6 +65,7 @@ import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
+import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
 import org.slf4j.Logger;
@@ -112,6 +113,7 @@ public class ModelQuerier {
 
 	private ArrayList<GlobalState> globalStatesToLoad;
 	private boolean firstPersonGame;
+	private String chapterId;
 
 	@Inject
 	public ModelQuerier(EAdElementsCache elementsCache) {
@@ -405,6 +407,10 @@ public class ModelQuerier {
 		return conversation;
 	}
 
+	public es.eucm.eadventure.common.data.chapter.Chapter getOldChapter() {
+		return oldChapter;
+	}
+
 	public void clear() {
 		conversations.clear();
 		elementsCache.clear();
@@ -418,5 +424,33 @@ public class ModelQuerier {
 
 	public boolean isFirstPersonGame() {
 		return this.getAventureData().getPlayerMode() != AdventureData.MODE_PLAYER_3RDPERSON;
+	}
+
+	public Element getElementById(String targetId) {
+		Element e;
+		if (Player.IDENTIFIER.equals(targetId)) {
+			e = oldChapter.getPlayer();
+		} else {
+			e = oldChapter.getAtrezzo(targetId);
+			if (e == null) {
+				e = oldChapter.getCharacter(targetId);
+			}
+			if (e == null) {
+				e = oldChapter.getItem(targetId);
+			}
+		}
+		return e;
+	}
+
+	public Chapter getCurrentChapter() {
+		return currentChapter;
+	}
+
+	public void setChapterId(String chapterId) {
+		this.chapterId = chapterId;
+	}
+
+	public String getChapterId() {
+		return chapterId;
 	}
 }

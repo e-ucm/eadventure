@@ -39,12 +39,14 @@ package es.eucm.ead.importer.subconverters;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import es.eucm.ead.importer.utils.ConverterTester;
 import es.eucm.ead.importer.EAdElementsCache;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.subconverters.actors.AtrezzoConverter;
 import es.eucm.ead.importer.subconverters.actors.ElementConverter.DropEvent;
 import es.eucm.ead.importer.subconverters.actors.ItemConverter;
 import es.eucm.ead.importer.subconverters.actors.NPCConverter;
+import es.eucm.ead.model.Commands;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.Chapter;
 import es.eucm.ead.model.elements.events.Event;
@@ -86,6 +88,8 @@ public class ChapterConverter {
 
 	private TimerConverter timerConverter;
 
+	private ConverterTester converterTest;
+
 	@Inject
 	public ChapterConverter(SceneConverter sceneConverter,
 			CutsceneConverter cutsceneConverter,
@@ -93,7 +97,7 @@ public class ChapterConverter {
 			ModelQuerier modelQuerier, ItemConverter itemConverter,
 			NPCConverter npcConverter,
 			ConversationsConverter conversationsConverter,
-			TimerConverter timerConverter) {
+			TimerConverter timerConverter, ConverterTester converterTest) {
 		this.sceneConverter = sceneConverter;
 		this.cutsceneConverter = cutsceneConverter;
 		this.elementsCache = elementsCache;
@@ -102,6 +106,7 @@ public class ChapterConverter {
 		this.itemConverter = itemConverter;
 		this.npcConverter = npcConverter;
 		this.timerConverter = timerConverter;
+		this.converterTest = converterTest;
 		modelQuerier.setConversationsConverter(conversationsConverter);
 	}
 
@@ -156,7 +161,11 @@ public class ChapterConverter {
 		// Import scenes
 		for (es.eucm.eadventure.common.data.chapter.scenes.Scene s : c
 				.getScenes()) {
+			String sceneId = s.getId();
+			converterTest.command(Commands.GO_SCENE + " " + sceneId);
+			converterTest.check(Commands.SCENE, sceneId);
 			Scene scene = sceneConverter.convert(s);
+
 			chapter.addScene(scene);
 			if (c.getInitialGeneralScene() == s) {
 				chapter.setInitialScene(scene);

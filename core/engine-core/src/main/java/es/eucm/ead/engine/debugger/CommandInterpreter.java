@@ -84,13 +84,17 @@ public class CommandInterpreter {
 			command = command.trim();
 			if (command.equals("scene")) {
 				return game.getGUI().getScene().getElement().getId();
+
+			} else if (command.startsWith(Commands.GO_CHAPTER)) {
+				String[] parts = command.split(" ");
+				game.addEffect(new ChangeChapterEf(parts[1]));
 			} else if (command.equals(Commands.CHAPTER)) {
 				return gameLoader.getCurrentChapterId();
-			} else if (command.startsWith("go")) {
+			} else if (command.startsWith(Commands.GO)) {
 				String[] parts = command.split(" ");
 				game.addEffect(new ChangeSceneEf(new BasicElement(parts[1])));
 				result = "OK.";
-			} else if (command.startsWith("list")) {
+			} else if (command.startsWith(Commands.LIST)) {
 				String[] parts = command.split(" ");
 				if (parts[1].equals("scenes")) {
 					Manifest m = gameLoader.loadManifest();
@@ -107,47 +111,47 @@ public class CommandInterpreter {
 							.getElementVars(parts[2]);
 					result = vars == null ? "[]" : vars.toString();
 				}
-			} else if (command.startsWith("load")) {
+			} else if (command.startsWith(Commands.LOAD)) {
 				String[] parts = command.split(" ");
 				result = runCommands(parts[1]);
-			} else if (command.startsWith("set")) {
+			} else if (command.startsWith(Commands.SET)) {
 				String[] parts = command.split(" ");
 				String[] field = parts[1].split("\\.");
 				Object value = parseValue(parts[2]);
 				game.getGameState().setValue(field[0], field[1], value);
 				result = "OK.";
-			} else if (command.startsWith("get")) {
+			} else if (command.startsWith(Commands.GET)) {
 				String[] parts = command.split(" ");
 				String[] field = parts[1].split("\\.");
 				result = game.getGameState().getValue(field[0], field[1], null)
 						+ "";
-			} else if (command.startsWith("ping")) {
+			} else if (command.startsWith(Commands.PING)) {
 				String[] parts = command.split(" ");
 				ping(parts[1]);
 				result = "OK.";
-			} else if (command.startsWith("sound")) {
+			} else if (command.startsWith(Commands.SOUND)) {
 				game.addEffect(new ToggleSoundEf());
 				result = "OK.";
-			} else if (command.startsWith("watching")) {
+			} else if (command.startsWith(Commands.WATCHING)) {
 				String[] parts = command.split(" ");
 				result = game.getGameState().countWatchers(parts[1])
 						+ " watchers.";
-			} else if (command.startsWith("whois")) {
+			} else if (command.startsWith(Commands.WHOIS)) {
 				result = game.getGUI().getGameObjectUnderPointer() + "";
 			} else if (command.startsWith("is")) {
 				String[] parts = command.split(" ");
 				result = game.getGUI().getScene().findActor(parts[1]) == null ? "false"
 						: "true";
-			} else if (command.startsWith("move")) {
+			} else if (command.startsWith(Commands.MOVE)) {
 				String[] parts = command.split(" ");
 				int x = Integer.parseInt(parts[1]);
 				int y = Integer.parseInt(parts[2]);
 				Gdx.input.setCursorPosition(x, Gdx.graphics.getHeight() - y);
 				result = "OK.";
-			} else if (command.startsWith("where")) {
+			} else if (command.startsWith(Commands.WHERE)) {
 				result = "(" + Gdx.input.getX() + ", "
 						+ (Gdx.graphics.getHeight() - Gdx.input.getY()) + ")";
-			} else if (command.startsWith("click")) {
+			} else if (command.startsWith(Commands.CLICK)) {
 				String[] parts = command.split(" ");
 				int x = Integer.parseInt(parts[1]);
 				int y = Integer.parseInt(parts[2]);
@@ -155,11 +159,8 @@ public class CommandInterpreter {
 				gameLoader.getEngine().getStage().touchDown(x, y, 0,
 						Input.Buttons.LEFT);
 				result = "OK.";
-			} else if (command.startsWith("exit")) {
+			} else if (command.startsWith(Commands.EXIT)) {
 				Gdx.app.exit();
-			} else if (command.startsWith(Commands.GO_CHAPTER)) {
-				String[] parts = command.split(" ");
-				game.addEffect(new ChangeChapterEf(parts[1]));
 			}
 		} catch (Exception e)
 

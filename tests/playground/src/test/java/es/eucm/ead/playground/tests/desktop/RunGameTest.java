@@ -45,10 +45,15 @@ import es.eucm.ead.engine.debugger.CommandInterpreter;
 import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.playground.tests.application.TestGame;
 import es.eucm.ead.tools.java.JavaTextFileReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static junit.framework.Assert.assertEquals;
 
 public class RunGameTest {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(RunGameTest.class);
 
 	private JavaTextFileReader reader;
 
@@ -108,10 +113,12 @@ public class RunGameTest {
 			if (currentTest != null) {
 				currentTest.time -= Gdx.graphics.getDeltaTime() * 1000;
 				if (currentTest.time <= 0) {
+					logger.info(currentTest.command);
+					String result = interpreter.interpret(currentTest.command);
+					logger.info("Result: " + result);
 					if (currentTest.result != null) {
-						assertEquals(
-								interpreter.interpret(currentTest.command),
-								currentTest.result);
+						logger.info("Expected: " + currentTest.result);
+						assertEquals(result, currentTest.result);
 					}
 					currentTest = null;
 					if (tests.size == 0) {

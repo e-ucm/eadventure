@@ -38,15 +38,6 @@
 package es.eucm.ead.exporter;
 
 import es.eucm.ead.importer.AdventureConverter;
-import static es.eucm.ead.exporter.ExporterMain.Verbosity.Normal;
-import static es.eucm.ead.exporter.ExporterMain.Verbosity.Quiet;
-import static es.eucm.ead.exporter.ExporterMain.Verbosity.Verbose;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.Properties;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -55,7 +46,17 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
-import org.sonatype.aether.impl.internal.Slf4jLogger;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.Properties;
+
+import static es.eucm.ead.exporter.ExporterMain.Verbosity.Normal;
+import static es.eucm.ead.exporter.ExporterMain.Verbosity.Quiet;
+import static es.eucm.ead.exporter.ExporterMain.Verbosity.Verbose;
 
 public class ExporterMain {
 
@@ -166,14 +167,14 @@ public class ExporterMain {
 		if (cmd.hasOption(quiet.getArgName())) {
 			verbosity = Quiet;
 		}
-        
+
 		// import
 
 		String source = extras[0];
 
 		// optional import step
 		if (cmd.hasOption(legacy.getOpt())) {
-			String[] values = cmd.getOptionValues(legacy.getOpt());			
+			String[] values = cmd.getOptionValues(legacy.getOpt());
 			String target = values[0];
 
 			AdventureConverter converter = new AdventureConverter();

@@ -35,10 +35,15 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.importer;
+package es.eucm.ead.importer.utils;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import es.eucm.ead.importer.ModelQuerier;
+import es.eucm.ead.model.Commands;
 import es.eucm.ead.tools.TextFileWriter;
+import es.eucm.eadventure.common.data.chapter.ElementReference;
+import es.eucm.eadventure.common.data.chapter.elements.Element;
 
 import java.util.ArrayList;
 
@@ -47,8 +52,15 @@ public class ConverterTester {
 
 	private ArrayList<String> instructions;
 
-	public ConverterTester() {
+	private VarsMap varsMap;
+
+	private ModelQuerier modelQuerier;
+
+	@Inject
+	public ConverterTester(ModelQuerier modelQuerier) {
 		this.instructions = new ArrayList<String>();
+		this.varsMap = new VarsMap();
+		this.modelQuerier = modelQuerier;
 	}
 
 	public void check(String command, String result) {
@@ -73,5 +85,22 @@ public class ConverterTester {
 			text += s + System.lineSeparator();
 		}
 		writer.write(text, file);
+	}
+
+	public void checkBundles(ElementReference ref, String refId) {
+		Element e = modelQuerier.getElementById(ref.getTargetId());
+		if (e.getResources().size() == 1) {
+			check(Commands.GET + " " + refId + ".bundleId", "bundle0");
+		} else {
+			/*Conditions[] conditions = new Conditions[e.getResources().size()];
+			int i = 0;
+			for (Resources r : e.getResources()) {
+				conditions[i] = r.getConditions();
+				varsMap.makeTrue(i, conditions);
+				varsMap.writeState(modelQuerier.getChapterId(), this);
+				check(Commands.GET + " " + refId + ".bundleId", "bundle" + i);
+				i++;
+			}*/
+		}
 	}
 }

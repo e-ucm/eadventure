@@ -54,11 +54,14 @@ public class EAdElementsCache {
 
 	private Map<String, BasicElement> elements;
 
+	private Map<String, Integer> references;
+
 	private Map<String, Map<String, ElementField>> fields;
 
 	public EAdElementsCache() {
 		elements = new HashMap<String, BasicElement>();
 		fields = new HashMap<String, Map<String, ElementField>>();
+		references = new HashMap<String, Integer>();
 	}
 
 	public void put(BasicElement element) {
@@ -71,6 +74,17 @@ public class EAdElementsCache {
 			logger.warn("No element for id {}", id);
 		}
 		return element;
+	}
+
+	public Integer newReference(String id) {
+		Integer ref = references.get(id);
+		if (ref == null) {
+			ref = 0;
+		} else {
+			ref++;
+		}
+		references.put(id, ref);
+		return ref;
 	}
 
 	public <T> ElementField getField(String elementId, String var) {

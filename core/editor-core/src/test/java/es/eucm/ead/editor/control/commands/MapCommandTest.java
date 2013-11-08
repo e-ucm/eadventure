@@ -78,29 +78,29 @@ public class MapCommandTest {
 
 	private static EditorModelImpl em;
 	private static CommandManager cm;
-    
-   	@Mock
+
+	@Mock
 	private Controller controller;
 
-    private static EAdMap<String> m1;
+	private static EAdMap<String> m1;
 	private static EAdMap<ArrayList<String>> m2;
 	private static ArrayList<ArrayList<String>> objects;
 
-    private static DependencyNode<String> root;
-	
-    @BeforeClass
+	private static DependencyNode<String> root;
+
+	@BeforeClass
 	public static void setUpClass() {
-        Injector injector = Guice.createInjector(new DesktopModule(),
-            new EditorGuiceModule(), new JavaToolsModule());
+		Injector injector = Guice.createInjector(new DesktopModule(),
+				new EditorGuiceModule(), new JavaToolsModule());
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug);
 
 		// init reflection
 		ReflectionClassLoader.init(injector
 				.getInstance(ReflectionClassLoader.class));
 
-		em = (EditorModelImpl)injector.getInstance(EditorModel.class);
-        cm = (CommandManagerImpl)injector.getInstance(CommandManager.class);
-    
+		em = (EditorModelImpl) injector.getInstance(EditorModel.class);
+		cm = (CommandManagerImpl) injector.getInstance(CommandManager.class);
+
 		m1 = new EAdMap<String>();
 		for (int i = 0; i < 10; i++) {
 			m1.put("key" + i, "value" + i);
@@ -121,16 +121,16 @@ public class MapCommandTest {
 		Identified rootThing = new BasicElement("root");
 		root = em.addNode(null, "root", rootThing, false);
 	}
-    
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
+
+	@Before
+	public void setUp() {
+		MockitoAnnotations.initMocks(this);
 		when(controller.getModel()).thenReturn(em);
-        assert(controller.getModel() == em);
-		when(controller.getCommandManager()).thenReturn(cm);        
-        assert(controller.getCommandManager() == cm);
-        cm.setController(controller);
-    }
+		assert (controller.getModel() == em);
+		when(controller.getCommandManager()).thenReturn(cm);
+		assert (controller.getCommandManager() == cm);
+		cm.setController(controller);
+	}
 
 	@After
 	public void tearDown() {
