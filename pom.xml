@@ -239,7 +239,7 @@
         <launcher.maxHeapSize>512</launcher.maxHeapSize>
         <launcher.numericalVersion>2.0.1.0</launcher.numericalVersion>
         <!-- libGDX version -->
-        <gdx.version>0.9.9-SNAPSHOT</gdx.version>
+        <gdx.version>0.9.9</gdx.version>
     </properties>
     <!-- ====================================================================== -->
     <!-- B U I L D -->
