@@ -103,9 +103,9 @@ public class ExporterMain {
 
 		Options options = new Options();
 
-		Option help = new Option("help", "print this message");
-		Option quiet = new Option("quiet", "be extra quiet");
-		Option verbose = new Option("verbose", "be extra verbose");
+		Option help = new Option("h", "help", false, "print this message");
+		Option quiet = new Option("q", "quiet", false, "be extra quiet");
+		Option verbose = new Option("v", "verbose", false, "be extra verbose");
 
 		Option legacy = OptionBuilder.withArgName("target> <s> <t").hasArgs(3)
 				.withDescription(
@@ -161,10 +161,10 @@ public class ExporterMain {
 			showHelp(options);
 			return;
 		}
-		if (cmd.hasOption(verbose.getArgName())) {
+		if (cmd.hasOption(verbose.getOpt())) {
 			verbosity = Verbose;
 		}
-		if (cmd.hasOption(quiet.getArgName())) {
+		if (cmd.hasOption(quiet.getOpt())) {
 			verbosity = Quiet;
 		}
 
@@ -217,10 +217,10 @@ public class ExporterMain {
 						&& values[2].equalsIgnoreCase("true"));
 			}
 		} else if (cmd.hasOption(war.getOpt())) {
-			if (checkFilesExist(cmd, options, extras[2], source)) {
+			if (checkFilesExist(cmd, options, extras[0])) {
 				WarExporter e = new WarExporter();
-				e.setWarPath(args[2]);
-				e.export(source, args[1]);
+				e.setWarPath(cmd.getOptionValue(war.getOpt()));
+				e.export(source, extras[1]);
 			}
 		} else {
 			showHelp(options);

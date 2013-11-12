@@ -41,7 +41,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import es.eucm.ead.importer.resources.ResourcesConverter;
 import es.eucm.ead.importer.subconverters.ChapterConverter;
-import es.eucm.ead.importer.utils.ConverterTester;
+import es.eucm.ead.importer.testers.ConverterTester;
 import es.eucm.ead.legacyplugins.model.BubbleNameEv;
 import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.legacyplugins.model.TimerEv;

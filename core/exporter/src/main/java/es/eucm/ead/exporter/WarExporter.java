@@ -91,7 +91,7 @@ public class WarExporter {
 			output.mkdirs();
 		}
 		File gameWar = new File(output, name + ".war");
-
+		logger.debug("Initiating war export to {}", gameWar.getAbsolutePath());
 		ZipOutputStream os = null;
 		try {
 			os = new ZipOutputStream(new FileOutputStream(gameWar));
@@ -101,6 +101,7 @@ public class WarExporter {
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 					os));
 			for (String a : assets) {
+				logger.debug("Asset added {}", a);
 				writer.write(a);
 				writer.write("\n");
 			}
@@ -117,11 +118,12 @@ public class WarExporter {
 				}
 			}
 		}
+		logger.debug("War exported successfully");
 
 	}
 
 	private void copyWar(ZipOutputStream gameWar) {
-
+		logger.debug("Copying war");
 		try {
 			File f = new File(warPath);
 			ZipFile is = new ZipFile(f);
