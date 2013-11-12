@@ -128,7 +128,15 @@ public class GameState extends ValueMap implements OperationResolver,
 	}
 
 	private <T> boolean notifyWatchers(String elementId, String varName, T value) {
-		List<FieldWatcher> list = fieldWatchers.get(elementId);
+		boolean handled = notifyWatchersImpl(fieldWatchers.get(elementId),
+				elementId, varName, value);
+		handled |= notifyWatchersImpl(fieldWatchers.get(elementId + "."
+				+ varName), elementId, varName, value);
+		return handled;
+	}
+
+	private <T> boolean notifyWatchersImpl(List<FieldWatcher> list,
+			String elementId, String varName, T value) {
 		boolean handled = false;
 		if (list != null) {
 			for (FieldWatcher fw : list) {
@@ -139,18 +147,29 @@ public class GameState extends ValueMap implements OperationResolver,
 	}
 
 	/**
-	 * Adds a field watcher that is notified every time the given field is
+	 * Adds a field watcher that is notified every time the given field in the given element is
 	 * updated
 	 *
 	 * @param elementId the element's id
 	 */
-	public void addFieldWatcher(String elementId, FieldWatcher fieldWatcher) {
-		List<FieldWatcher> list = fieldWatchers.get(elementId);
+	public void addFieldWatcher(String elementId, String field,
+			FieldWatcher fieldWatcher) {
+		String key = elementId + (field == null ? "" : "." + field);
+		List<FieldWatcher> list = fieldWatchers.get(key);
 		if (list == null) {
 			list = new ArrayList<FieldWatcher>();
-			fieldWatchers.put(elementId, list);
+			fieldWatchers.put(key, list);
 		}
 		list.add(fieldWatcher);
+	}
+
+	/**
+	 * Adds a field watcher that is notified every time the element with the given id has any of its fields updated
+	 * @param elementId the element's id
+	 * @param fieldWatcher the field watcher
+	 */
+	public void addFieldWatcher(String elementId, FieldWatcher fieldWatcher) {
+		addFieldWatcher(elementId, null, fieldWatcher);
 	}
 
 	/**
@@ -182,8 +201,13 @@ public class GameState extends ValueMap implements OperationResolver,
 	}
 
 	public void addFieldWatcher(FieldWatcher fieldWatcher, BasicElement element) {
+		addFieldWatcher(fieldWatcher, element, null);
+	}
+
+	public void addFieldWatcher(FieldWatcher fieldWatcher,
+			BasicElement element, String field) {
 		Identified i = maybeDecodeField(element);
-		addFieldWatcher(i == null ? null : i.getId(), fieldWatcher);
+		addFieldWatcher(i == null ? null : i.getId(), field, fieldWatcher);
 	}
 
 	public void removeGetter(SceneElementGO sceneElementGO) {

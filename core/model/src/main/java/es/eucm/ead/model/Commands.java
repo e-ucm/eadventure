@@ -128,4 +128,14 @@ public interface Commands {
 	 */
 	public static final String EXIT = "exit";
 
+	/**
+	 * It does nothing. It can be used to pass one update before executing other command
+	 */
+	public static final String PASS = "pass";
+
+	/**
+	 * Logs a message
+	 */
+	public static final String LOG = "log";
+
 }

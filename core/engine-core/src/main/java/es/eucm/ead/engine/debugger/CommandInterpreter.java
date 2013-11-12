@@ -82,14 +82,15 @@ public class CommandInterpreter {
 		String result = "Invalid command.";
 		try {
 			command = command.trim();
-			if (command.equals("scene")) {
-				return game.getGUI().getScene().getElement().getId();
-
+			if (command.equals(Commands.PASS)) {
+				result = "OK.";
+			} else if (command.equals("scene")) {
+				result = game.getGUI().getScene().getElement().getId();
 			} else if (command.startsWith(Commands.GO_CHAPTER)) {
 				String[] parts = command.split(" ");
 				game.addEffect(new ChangeChapterEf(parts[1]));
 			} else if (command.equals(Commands.CHAPTER)) {
-				return gameLoader.getCurrentChapterId();
+				result = gameLoader.getCurrentChapterId();
 			} else if (command.startsWith(Commands.GO)) {
 				String[] parts = command.split(" ");
 				game.addEffect(new ChangeSceneEf(new BasicElement(parts[1])));
@@ -161,6 +162,10 @@ public class CommandInterpreter {
 				result = "OK.";
 			} else if (command.startsWith(Commands.EXIT)) {
 				Gdx.app.exit();
+			} else if (command.startsWith(Commands.LOG)) {
+				logger.debug(command.substring(Math
+						.max(0, command.indexOf(' '))));
+				result = "OK.";
 			}
 		} catch (Exception e)
 

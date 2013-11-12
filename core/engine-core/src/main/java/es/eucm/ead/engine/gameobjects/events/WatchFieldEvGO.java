@@ -59,7 +59,8 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 		super.setElement(ev);
 		fieldUpdated = true;
 		for (ElementField f : ev.getFields()) {
-			game.getGameState().addFieldWatcher(this, f.getElement());
+			game.getGameState().addFieldWatcher(this, f.getElement(),
+					f.getVarName());
 		}
 	}
 
@@ -79,12 +80,7 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 
 	@Override
 	public <T> boolean setField(String elementId, String varName, T value) {
-		for (ElementField f : this.element.getFields()) {
-			if (varName.equals(f.getVarName())) {
-				fieldUpdated = true;
-				return false;
-			}
-		}
+		fieldUpdated = true;
 		return false;
 	}
 }

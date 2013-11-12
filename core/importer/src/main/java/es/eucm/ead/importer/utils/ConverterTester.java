@@ -43,12 +43,19 @@ import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.model.Commands;
 import es.eucm.ead.tools.TextFileWriter;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
+import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
+import es.eucm.eadventure.common.data.chapter.resources.Resources;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
 @Singleton
 public class ConverterTester {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(ConverterTester.class);
 
 	private ArrayList<String> instructions;
 
@@ -92,15 +99,26 @@ public class ConverterTester {
 		if (e.getResources().size() == 1) {
 			check(Commands.GET + " " + refId + ".bundleId", "bundle0");
 		} else {
-			/*Conditions[] conditions = new Conditions[e.getResources().size()];
+			Conditions[] conditions = new Conditions[e.getResources().size()];
 			int i = 0;
 			for (Resources r : e.getResources()) {
 				conditions[i] = r.getConditions();
-				varsMap.makeTrue(i, conditions);
-				varsMap.writeState(modelQuerier.getChapterId(), this);
-				check(Commands.GET + " " + refId + ".bundleId", "bundle" + i);
+				command(Commands.LOG + " making true conditions for '" + refId
+						+ "' bundle " + i);
+				boolean contradiction = varsMap.makeTrue(i, conditions);
+				if (contradiction) {
+					logger
+							.warn(
+									"Contradiction: It was impossible to set the conditions to activate the bundle {} in {}",
+									i, refId);
+				} else {
+					varsMap.writeState(modelQuerier.getChapterId(), this);
+					command(Commands.PASS);
+					check(Commands.GET + " " + refId + ".bundleId", "bundle"
+							+ i);
+				}
 				i++;
-			}*/
+			}
 		}
 	}
 }

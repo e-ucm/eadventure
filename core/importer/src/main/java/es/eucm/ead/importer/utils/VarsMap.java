@@ -38,6 +38,7 @@
 package es.eucm.ead.importer.utils;
 
 import es.eucm.ead.model.Commands;
+import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -62,11 +63,13 @@ public class VarsMap {
 
 	private Map<String, Boolean> flags;
 
-	private Map<String, List<Condition>> trueConditions;
-
 	private Map<String, Integer> vars;
 
 	private List<Condition> conditions;
+
+	private Map<String, FlagResult> flagResults;
+
+	private Map<String, VarResult> varResults;
 
 	private boolean[] combinations;
 
@@ -77,7 +80,8 @@ public class VarsMap {
 		vars = new HashMap<String, Integer>();
 		conditions = new ArrayList<Condition>();
 		oldConditionsEvaluator = new OldConditionsEvaluator(this);
-		trueConditions = new HashMap<String, List<Condition>>();
+		flagResults = new HashMap<String, FlagResult>();
+		varResults = new HashMap<String, VarResult>();
 	}
 
 	public void setChapter(Chapter chapter) {
@@ -112,12 +116,19 @@ public class VarsMap {
 		flags.clear();
 		vars.clear();
 		conditions.clear();
-		trueConditions.clear();
+		flagResults.clear();
+		varResults.clear();
 	}
 
 	// Conditions manipulation
 
-	public void makeTrue(int index, Conditions... conditions) {
+	/**
+	 * Sets the vars and flags to make true conditions[index] and false the rest of conditions in the array
+	 *
+	 * @param index
+	 * @param conditions
+	 */
+	public boolean makeTrue(int index, Conditions... conditions) {
 		clear();
 		for (int i = 0; i <= index; i++) {
 			analyze(conditions[i]);
@@ -125,11 +136,11 @@ public class VarsMap {
 		combinations = new boolean[this.conditions.size()];
 		boolean indexTrue = false;
 		boolean restFalse;
-		boolean nextCombination;
-		do {
+		boolean nextCombination = true;
+		while (nextCombination && !indexTrue) {
 			if (updateConditions()) {
 				restFalse = true;
-				for (int i = 0; i < index - 1 && restFalse; i++) {
+				for (int i = 0; i < index && restFalse; i++) {
 					restFalse = !oldConditionsEvaluator
 							.allConditionsOk(conditions[i]);
 				}
@@ -139,10 +150,11 @@ public class VarsMap {
 							.allConditionsOk(conditions[index]);
 				}
 			}
-
-			nextCombination = nextCombination();
-
-		} while (!indexTrue && nextCombination);
+			if (!indexTrue) {
+				nextCombination = nextCombination();
+			}
+		}
+		return !nextCombination;
 	}
 
 	private void analyze(Conditions conditions) {
@@ -198,44 +210,44 @@ public class VarsMap {
 			}
 			return makeTrue(c1);
 		} catch (CloneNotSupportedException e) {
-			logger.error("{}", e);
+			logger.error("Error cloning:", e);
 		}
 		return true;
 	}
 
+	/**
+	 * Returns if there was contradiction
+	 *
+	 * @param c the condition
+	 * @return
+	 */
 	private boolean makeTrue(Condition c) {
 		if (c.getType() == Condition.FLAG_CONDITION) {
-			setFlag(c.getId(), c.getState() == FlagCondition.FLAG_ACTIVE);
+			FlagResult flagResult = flagResults.get(c.getId());
+			if (flagResult == null) {
+				flagResults.put(c.getId(), flagResult = new FlagResult());
+			}
+			return flagResult.update(c.getState() == FlagCondition.FLAG_ACTIVE);
 		} else if (c.getType() == Condition.VAR_CONDITION) {
+			VarResult varResult = varResults.get(c.getId());
+			if (varResult == null) {
+				varResults.put(c.getId(), varResult = new VarResult());
+			}
 			int value = ((VarCondition) c).getValue();
 			switch (c.getState()) {
 			case VarCondition.VAR_EQUALS:
-			case VarCondition.VAR_LESS_EQUALS_THAN:
-			case VarCondition.VAR_GREATER_EQUALS_THAN:
-				setVariable(c.getId(), value);
-				break;
-			case VarCondition.VAR_NOT_EQUALS:
 			case VarCondition.VAR_LESS_THAN:
-				setVariable(c.getId(), value + 1);
-				break;
+			case VarCondition.VAR_NOT_EQUALS:
 			case VarCondition.VAR_GREATER_THAN:
-				setVariable(c.getId(), value - 1);
-				break;
+				return varResult.update(c.getState(), value);
+			case VarCondition.VAR_GREATER_EQUALS_THAN:
+				return varResult.update(VarCondition.VAR_GREATER_THAN,
+						value - 1);
+			case VarCondition.VAR_LESS_EQUALS_THAN:
+				return varResult.update(VarCondition.VAR_LESS_THAN, value + 1);
 			}
 		}
-		// Check that conditions for the id are still true
-		boolean contradicition = false;
-		List<Condition> l = this.trueConditions.get(c.getId());
-		if (l == null) {
-			l = new ArrayList<Condition>();
-			trueConditions.put(c.getId(), l);
-		}
-		for (int i = 0; i < l.size() && !contradicition; i++) {
-			contradicition = !oldConditionsEvaluator
-					.evaluateCondition(l.get(i));
-		}
-		l.add(c);
-		return contradicition;
+		return true;
 	}
 
 	/**
@@ -259,10 +271,21 @@ public class VarsMap {
 	 */
 	private boolean updateConditions() {
 		boolean contradiction = false;
+		flagResults.clear();
+		varResults.clear();
 		for (int i = 0; i < conditions.size() && !contradiction; i++) {
 			contradiction = make(conditions.get(i), combinations[i]);
 		}
-		return contradiction;
+		if (!contradiction) {
+			for (Entry<String, FlagResult> e : flagResults.entrySet()) {
+				setFlag(e.getKey(), e.getValue().value);
+			}
+			for (Entry<String, VarResult> e : varResults.entrySet()) {
+				setVariable(e.getKey(), e.getValue().value);
+			}
+		}
+		return !contradiction;
+
 	}
 
 	private void addOne(int index) {
@@ -280,7 +303,15 @@ public class VarsMap {
 		for (Condition c1 : this.conditions) {
 			if (c1.getId().equals(c.getId()) && c.getType() == c1.getType()
 					&& c.getState().equals(c1.getState())) {
-				return true;
+				if (c instanceof VarCondition && c1 instanceof VarCondition) {
+					if (((VarCondition) c1).getValue().equals(
+							((VarCondition) c).getValue())) {
+						return true;
+					}
+				} else if (c instanceof FlagCondition
+						&& c1 instanceof FlagCondition) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -300,4 +331,125 @@ public class VarsMap {
 					+ e.getKey() + " " + e.getValue());
 		}
 	}
+
+	private class FlagResult {
+
+		public Boolean value;
+
+		public boolean update(boolean newValue) {
+			if (value == null) {
+				value = newValue;
+				return false;
+			} else {
+				return value == newValue;
+			}
+		}
+
+		public String toString() {
+			return value + "";
+		}
+	}
+
+	private class VarResult {
+
+		public Integer greaterThan;
+
+		public Integer lessThan;
+
+		public Integer equal;
+
+		public Integer value;
+
+		public EAdList<Integer> notEqual;
+
+		public VarResult() {
+			notEqual = new EAdList<Integer>();
+		}
+
+		public String toString() {
+			return value + ":" + (greaterThan != null ? ">" + greaterThan : "")
+					+ (lessThan != null ? "<" + lessThan : "")
+					+ (equal != null ? "==" + equal : "")
+					+ (notEqual.size() > 0 ? notEqual : "");
+		}
+
+		public boolean update(int type, int newValue) {
+			boolean contradiction = false;
+			switch (type) {
+			case VarCondition.VAR_LESS_THAN:
+				if (lessThan == null) {
+					lessThan = newValue;
+				} else {
+					lessThan = Math.min(newValue, lessThan);
+				}
+				break;
+			case VarCondition.VAR_GREATER_THAN:
+				if (greaterThan == null) {
+					greaterThan = newValue;
+				} else {
+					greaterThan = Math.max(newValue, greaterThan);
+				}
+				break;
+			case VarCondition.VAR_EQUALS:
+				if (equal == null) {
+					equal = newValue;
+				} else {
+					contradiction = equal != newValue;
+				}
+				break;
+			case VarCondition.VAR_NOT_EQUALS:
+				if (!notEqual.contains(newValue)) {
+					notEqual.add(newValue);
+				}
+				break;
+			}
+			contradiction |= checkContradiction();
+			if (!contradiction) {
+				this.value = result();
+			}
+			return contradiction || value == null;
+		}
+
+		public boolean checkContradiction() {
+			boolean contradiction = lessThan != null && greaterThan != null
+					&& lessThan <= greaterThan + 1;
+			contradiction |= equal != null
+					&& ((lessThan != null && equal > lessThan)
+							|| (greaterThan != null && equal < greaterThan) || notEqual
+							.contains(equal));
+			return contradiction;
+		}
+
+		public Integer result() {
+			if (equal != null) {
+				return equal;
+			} else if (lessThan != null) {
+				int start = lessThan - 1;
+				while ((greaterThan != null && start <= greaterThan)
+						|| notEqual.contains(start)) {
+					start--;
+				}
+				if (greaterThan == null || start > greaterThan) {
+					return start;
+				} else {
+					return null;
+				}
+			} else if (greaterThan != null) {
+				int start = greaterThan + 1;
+				while (notEqual.contains(start)) {
+					start++;
+				}
+				return start;
+			} else if (notEqual.size() > 0) {
+				int i = 0;
+				while (notEqual.contains(i)) {
+					i++;
+				}
+				return i;
+			} else {
+				return null;
+			}
+		}
+	}
+
 }

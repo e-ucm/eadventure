@@ -324,9 +324,11 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 				: element.getDefinition().getProperty(
 						SceneElement.VAR_BUNDLE_ID,
 						ResourcedElement.INITIAL_BUNDLE);
-		/*if ( definitionBundle != null ){
-			gameState.addFieldWatcher(this, element.getDefinition());
-		}*/
+		// Bundle changes usually happen in the definition, so the element needs to listen for it
+		if (definitionBundle != null) {
+			gameState.addFieldWatcher(this, element.getDefinition(),
+					SceneElement.VAR_BUNDLE_ID);
+		}
 		currentBundle = element.getProperty(SceneElement.VAR_BUNDLE_ID,
 				definitionBundle == null ? ResourcedElement.INITIAL_BUNDLE
 						: definitionBundle);
