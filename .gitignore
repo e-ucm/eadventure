@@ -17,9 +17,8 @@ test/resources/result*
 /local/
 
 # generated resources
-/core/editor-core/src/main/java/es/eucm/ead/editor/R.java
-/core/engine-resources/src/main/java/es/eucm/ead/engine/resources/R.java
-/core/editor-core/**/Messages.java
+R.java
+Messages.java
 
 # location of ADK (see same-location test.properties.template)
 /core/exporter/src/test/resources/test.properties
