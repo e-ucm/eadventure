@@ -224,17 +224,17 @@
 	</build>
 
 
-	<profiles>
-		<profile>
-			<!-- does not actually compile GWT; only validates it -->
-			<id>no-gwt</id>
-			<properties>
-				<gwt.validateOnly>true</gwt.validateOnly>
-			</properties>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-		</profile>
-	</profiles>
+    <profiles>
+        <profile>
+            <!-- does not actually compile GWT; only validates it -->
+            <id>no-gwt</id>
+            <properties>
+                <gwt.validateOnly>true</gwt.validateOnly>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 
 </project>

@@ -37,11 +37,11 @@
 
 package es.eucm.ead.editor.util.i18n;
 
+import es.eucm.gleaner.network.CharSet;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -51,9 +51,9 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-//TODO This class should be called for any project that has
-//     resources upon building
 /**
  * Automatically creates and updates R.java (for resources) and Messages.java
  * (for internationalized strings) files used for internationalization (I18N).
@@ -68,15 +68,19 @@ import java.util.TreeSet;
  */
 public class ResourceCreator {
 
-	private static String eol = System.getProperty("line.separator");
+    private static final Logger log 
+            = Logger.getLogger(ResourceCreator.class.getName());
+    
+	private static final String eol = System.getProperty("line.separator");
 
 	/**
 	 * Generate the R.java file with the 'R' class for the given project and
 	 * package
 	 *
 	 * @param args
-	 *            projecteURL: the location of the project for which the R file
-	 *            must be generated packageName: the name of the main package in
+	 * project URL: the location of the project for which the R file
+	 *            must be generated 
+     * packageName: the name of the main package in
 	 *            the project
 	 */
 	public static void main(String[] args) throws IOException {
@@ -84,9 +88,7 @@ public class ResourceCreator {
 		String regenName = ResourceCreator.class.getCanonicalName();
 		if (args.length < 3 || args.length > 4
 				|| (args.length > 0 && args[0].equals("-h"))) {
-			System.err
-					.println("Syntax: java -cp <classpath> "
-							+ regenName
+			log.log(Level.SEVERE,"Syntax: java -cp <classpath> {0}"
 							+ " <project-location> <package-name> <license-file> [<source-location>]\n"
 							+ "Where \n"
 							+ "   classpath - "
@@ -98,7 +100,7 @@ public class ResourceCreator {
 							+ "   package-name - "
 							+ "name of the package where R.java / Messages.java files should be generated\n"
 							+ "   source-location - "
-							+ "location for resulting R.java / Messages.java files; if absent, stdout is used\n");
+							+ "location for resulting R.java / Messages.java files; if absent, stdout is used\n", regenName);
 			System.exit(-1);
 		}
 
@@ -106,7 +108,7 @@ public class ResourceCreator {
 		String packageName = args[1]; // ead.editor
 		String licenseFileName = args[2]; // etc/LICENSE.txt
 		PrintStream out = (args.length == 3) ? System.out : new PrintStream(
-				args[3]);
+				args[3], CharSet.UTF8);
 
 		String importName = ResourceCreator.class.getCanonicalName().replace(
 				ResourceCreator.class.getSimpleName(), "I18N");
@@ -123,7 +125,7 @@ public class ResourceCreator {
 		String parameterString = sb.toString();
 
 		// write single R file
-		System.err.println("\tProcessing resources (from " + resources + ")");
+		log.log(Level.INFO, "\tProcessing resources (from {0})", resources);
 		printLicense(licenseFileName, out);
 		out.println(resourceFileContents(packageName, importName, regenName,
 				parameterString, resources));
@@ -133,7 +135,7 @@ public class ResourceCreator {
 
 		// find each Messages.properties file, and generate a mirror
 		// Messages.java file
-		System.err.println("\tProcessing messages...");
+		log.info("\tProcessing messages...");
 		for (File propsFile : new FileFinder(resources, "Messages.properties")) {
 			String p = propsFile.getPath();
 			File outputFile = new File(p.replace(
@@ -145,9 +147,9 @@ public class ResourceCreator {
 					p.indexOf(startOfPackage) + startOfPackage.length() + 1,
 					p.indexOf(propsFile.getName()) - 1).replace(File.separator,
 					".");
-			System.err
-					.println("\t" + truePackage + " (from " + propsFile + ")");
-			out = (args.length == 3) ? System.out : new PrintStream(outputFile);
+			log.log(Level.INFO, "\t{0} (from {1})", new Object[]{truePackage, propsFile});
+			out = (args.length == 3) ? 
+                    System.out : new PrintStream(outputFile, CharSet.UTF8);
 
 			// write this Messages file
 			printLicense(licenseFileName, out);
@@ -160,7 +162,7 @@ public class ResourceCreator {
 	}
 
 	private static class FileFinder implements Iterable<File> {
-		private ArrayList<File> found = new ArrayList<File>();
+		private final ArrayList<File> found = new ArrayList<File>();
 
 		public FileFinder(File dir, String name) {
 			find(dir, name);
@@ -243,14 +245,16 @@ public class ResourceCreator {
 			out.println(" */");
 			out.println();
 		} catch (IOException e) {
-			System.err.println("Error adding license from '"
-					+ f.getAbsolutePath() + "'");
-			e.printStackTrace();
+			log.log(Level.SEVERE, "Error adding license from '{0}'", 
+                    f.getAbsolutePath());
+			log.log(Level.SEVERE, "Exception is", e);
 		} finally {
 			try {
-				br.close();
+				if (br != null) {
+                    br.close();
+                }
 			} catch (IOException e) {
-				e.printStackTrace();
+                log.log(Level.SEVERE, "Close exception is", e);
 			}
 		}
 	}
@@ -320,17 +324,13 @@ public class ResourceCreator {
 			resource = resource.replaceAll(".*[/][/]", "");
 
 			if (!resource.matches("^[a-zA-Z0-9_/]+[.][a-zA-Z0-9_]+$")) {
-				System.err
-						.println("Sorry, '"
-								+ resource
-								+ "' has an invalid name. \n"
-								+ "\tPlease avoid spaces and any non-alphanumeric characters, such as '-+' or ':'; '_' is ok, though");
+				log.log(Level.WARNING,"Sorry, '{0}'' has an invalid name. \n"
+					+ "\tPlease avoid spaces and any non-alphanumeric characters, "
+                    + "such as ''-+'' or '':''; ''_'' is ok, though", resource);
 			} else if (resource.matches(".*[_][_].*")) {
-				System.err
-						.println("Sorry, '"
-								+ resource
-								+ "' has an invalid name. \n"
-								+ "\tPlease avoid two '__' in a row; we use it for '/'-substitution...");
+				log.log(Level.WARNING,"Sorry, '{0}' has an invalid name. \n"
+					+ "\tPlease avoid two ''__'' in a row; "
+                    + "we use it for '/'-substitution", resource);
 			} else {
 				resource = resource.replaceAll("/", "__").replace(".", "_");
 				if (!res.contains(resource)) {
@@ -372,12 +372,12 @@ public class ResourceCreator {
 
 		Properties properties = new Properties();
 		try {
-			properties.load(new FileReader(location));
-		} catch (Exception e) {
-			System.err.println("Sorry, '" + location
-					+ "' is not a valid properties file: \n" + "\t"
-					+ e.getMessage() + "\n");
-			e.printStackTrace();
+			properties.load(new InputStreamReader(
+                    new FileInputStream(location), CharSet.UTF8));
+		} catch (IOException e) {
+			log.log(Level.SEVERE, "Sorry, '{0}' is not a valid properties file:"
+                    + "\n\t{1}\n", new Object[]{location, e.getMessage()});
+			log.log(Level.SEVERE, "Exception is ", e);
 			return "ERROR GENERATING FROM " + location;
 		}
 
