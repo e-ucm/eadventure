@@ -37,7 +37,6 @@
 
 package es.eucm.ead.editor.util.i18n;
 
-import es.eucm.gleaner.network.CharSet;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
@@ -68,10 +67,12 @@ import java.util.logging.Logger;
  */
 public class ResourceCreator {
 
-    private static final Logger log 
-            = Logger.getLogger(ResourceCreator.class.getName());
-    
+	private static final Logger log = Logger.getLogger(ResourceCreator.class
+			.getName());
+
 	private static final String eol = System.getProperty("line.separator");
+
+	private static final String utf8 = "UTF-8";
 
 	/**
 	 * Generate the R.java file with the 'R' class for the given project and
@@ -80,27 +81,30 @@ public class ResourceCreator {
 	 * @param args
 	 * project URL: the location of the project for which the R file
 	 *            must be generated 
-     * packageName: the name of the main package in
+	 * packageName: the name of the main package in
 	 *            the project
 	 */
 	public static void main(String[] args) throws IOException {
-
 		String regenName = ResourceCreator.class.getCanonicalName();
 		if (args.length < 3 || args.length > 4
 				|| (args.length > 0 && args[0].equals("-h"))) {
-			log.log(Level.SEVERE,"Syntax: java -cp <classpath> {0}"
-							+ " <project-location> <package-name> <license-file> [<source-location>]\n"
-							+ "Where \n"
-							+ "   classpath - "
-							+ "the classpath you are using now\n"
-							+ "   project-location - "
-							+ "location of the project whose resources you want to index\n"
-							+ "   license-file - "
-							+ "name of the file with the license you want to pre-pend\n"
-							+ "   package-name - "
-							+ "name of the package where R.java / Messages.java files should be generated\n"
-							+ "   source-location - "
-							+ "location for resulting R.java / Messages.java files; if absent, stdout is used\n", regenName);
+			log
+					.log(
+							Level.SEVERE,
+							"Syntax: java -cp <classpath> {0}"
+									+ " <project-location> <package-name> <license-file> [<source-location>]\n"
+									+ "Where \n"
+									+ "   classpath - "
+									+ "the classpath you are using now\n"
+									+ "   project-location - "
+									+ "location of the project whose resources you want to index\n"
+									+ "   license-file - "
+									+ "name of the file with the license you want to pre-pend\n"
+									+ "   package-name - "
+									+ "name of the package where R.java / Messages.java files should be generated\n"
+									+ "   source-location - "
+									+ "location for resulting R.java / Messages.java files; if absent, stdout is used\n",
+							regenName);
 			System.exit(-1);
 		}
 
@@ -108,7 +112,7 @@ public class ResourceCreator {
 		String packageName = args[1]; // ead.editor
 		String licenseFileName = args[2]; // etc/LICENSE.txt
 		PrintStream out = (args.length == 3) ? System.out : new PrintStream(
-				args[3], CharSet.UTF8);
+				args[3], utf8);
 
 		String importName = ResourceCreator.class.getCanonicalName().replace(
 				ResourceCreator.class.getSimpleName(), "I18N");
@@ -125,7 +129,7 @@ public class ResourceCreator {
 		String parameterString = sb.toString();
 
 		// write single R file
-		log.log(Level.INFO, "\tProcessing resources (from {0})", resources);
+		log.log(Level.FINE, "\tProcessing resources (from {0})", resources);
 		printLicense(licenseFileName, out);
 		out.println(resourceFileContents(packageName, importName, regenName,
 				parameterString, resources));
@@ -135,7 +139,7 @@ public class ResourceCreator {
 
 		// find each Messages.properties file, and generate a mirror
 		// Messages.java file
-		log.info("\tProcessing messages...");
+		log.fine("\tProcessing messages...");
 		for (File propsFile : new FileFinder(resources, "Messages.properties")) {
 			String p = propsFile.getPath();
 			File outputFile = new File(p.replace(
@@ -147,9 +151,10 @@ public class ResourceCreator {
 					p.indexOf(startOfPackage) + startOfPackage.length() + 1,
 					p.indexOf(propsFile.getName()) - 1).replace(File.separator,
 					".");
-			log.log(Level.INFO, "\t{0} (from {1})", new Object[]{truePackage, propsFile});
-			out = (args.length == 3) ? 
-                    System.out : new PrintStream(outputFile, CharSet.UTF8);
+			log.log(Level.FINE, "\t{0} (from {1})", new Object[] { truePackage,
+					propsFile });
+			out = (args.length == 3) ? System.out : new PrintStream(outputFile,
+					utf8);
 
 			// write this Messages file
 			printLicense(licenseFileName, out);
@@ -194,11 +199,10 @@ public class ResourceCreator {
 				+ " * Resource index for this package (statically compiled)."
 				+ eol + " *" + eol
 				+ " * This is an AUTOMATICALLY-GENERATED file - " + eol
-				+ " * Run class " + regenName + " with parameters: " + eol
-				+ " *   " + parameterString + eol
-				+ " * to re-create or update this class" + eol + " */" + eol
-				+ "@edu.umd.cs.findbugs.annotations.SuppressFBWarnings" + eol
-				+ "public class R {" + eol + eol
+				+ " * Run class " + regenName + " with suitable parameters"
+				+ eol + " * to re-create or update this class" + eol + " */"
+				+ eol + "@edu.umd.cs.findbugs.annotations.SuppressFBWarnings"
+				+ eol + "public class R {" + eol + eol
 				+ createResourceContents(resources, "Drawable") + "}" + eol;
 	}
 
@@ -220,11 +224,10 @@ public class ResourceCreator {
 				+ " * Message index for this class (bound at run-time according to user preferences)"
 				+ eol + " *" + eol
 				+ " * This is an AUTOMATICALLY-GENERATED file - " + eol
-				+ " * Run class " + regenName + " with parameters: " + eol
-				+ " *   " + parameterString + eol
-				+ " * to re-create or update this class" + eol + " */" + eol
-				+ "@edu.umd.cs.findbugs.annotations.SuppressFBWarnings" + eol
-				+ "public class Messages {" + eol + eol
+				+ " * Run class " + regenName + " with suitable parameters"
+				+ eol + " * to re-create or update this class" + eol + " */"
+				+ eol + "@edu.umd.cs.findbugs.annotations.SuppressFBWarnings"
+				+ eol + "public class Messages {" + eol + eol
 				+ createMessageContents(resource) + "}" + eol;
 	}
 
@@ -245,16 +248,16 @@ public class ResourceCreator {
 			out.println(" */");
 			out.println();
 		} catch (IOException e) {
-			log.log(Level.SEVERE, "Error adding license from '{0}'", 
-                    f.getAbsolutePath());
+			log.log(Level.SEVERE, "Error adding license from '{0}'", f
+					.getAbsolutePath());
 			log.log(Level.SEVERE, "Exception is", e);
 		} finally {
 			try {
 				if (br != null) {
-                    br.close();
-                }
+					br.close();
+				}
 			} catch (IOException e) {
-                log.log(Level.SEVERE, "Close exception is", e);
+				log.log(Level.SEVERE, "Close exception is", e);
 			}
 		}
 	}
@@ -277,12 +280,20 @@ public class ResourceCreator {
 	/**
 	 * Write resource-list into R class. Notice that "qualifiers" (-something
 	 * extensions in the leading directories) are ignored, to allow for
-	 * internationalization. Examples: drawable/EditorIcon16x16_bw.png becomes
-	 * EditorIcon16x16_bw_png drawable/SplashScreenLogo.png becomes
-	 * SplashScreenLogo.png drawable-es_ES/SplashScreenLogo.png becomes
-	 * es_ES/SplashScreenLogo_png drawable/conditions/vars.png becomes
-	 * conditions__vars_png drawable-es_ES/SplashScreenLogo.png becomes
+	 * internationalization. Examples: 
+	 * <ul>
+	 * <li>drawable/EditorIcon16x16_bw.png becomes
+	 * EditorIcon16x16_bw_png </li>
+	 * <li>drawable/SplashScreenLogo.png becomes
+	 * SplashScreenLogo.png </li>
+	 * <li>drawable-es_ES/SplashScreenLogo.png becomes
+	 * es_ES/SplashScreenLogo_png </li>
+	 * <li>drawable/conditions/vars.png becomes
+	 * conditions__vars_png </li>
+	 * <li>drawable-es_ES/SplashScreenLogo.png becomes
 	 * es_ES/conditions__vars_png
+	 * </li>
+	 * </ul>
 	 *
 	 * @param location
 	 *            the location of the resources
@@ -324,13 +335,17 @@ public class ResourceCreator {
 			resource = resource.replaceAll(".*[/][/]", "");
 
 			if (!resource.matches("^[a-zA-Z0-9_/]+[.][a-zA-Z0-9_]+$")) {
-				log.log(Level.WARNING,"Sorry, '{0}'' has an invalid name. \n"
-					+ "\tPlease avoid spaces and any non-alphanumeric characters, "
-                    + "such as ''-+'' or '':''; ''_'' is ok, though", resource);
+				log
+						.log(
+								Level.WARNING,
+								"Sorry, '{0}'' has an invalid name. \n"
+										+ "\tPlease avoid spaces and any non-alphanumeric characters, "
+										+ "such as ''-+'' or '':''; ''_'' is ok, though",
+								resource);
 			} else if (resource.matches(".*[_][_].*")) {
-				log.log(Level.WARNING,"Sorry, '{0}' has an invalid name. \n"
-					+ "\tPlease avoid two ''__'' in a row; "
-                    + "we use it for '/'-substitution", resource);
+				log.log(Level.WARNING, "Sorry, '{0}' has an invalid name. \n"
+						+ "\tPlease avoid two ''__'' in a row; "
+						+ "we use it for '/'-substitution", resource);
 			} else {
 				resource = resource.replaceAll("/", "__").replace(".", "_");
 				if (!res.contains(resource)) {
@@ -373,10 +388,12 @@ public class ResourceCreator {
 		Properties properties = new Properties();
 		try {
 			properties.load(new InputStreamReader(
-                    new FileInputStream(location), CharSet.UTF8));
+					new FileInputStream(location), utf8));
 		} catch (IOException e) {
-			log.log(Level.SEVERE, "Sorry, '{0}' is not a valid properties file:"
-                    + "\n\t{1}\n", new Object[]{location, e.getMessage()});
+			log.log(Level.SEVERE,
+					"Sorry, '{0}' is not a valid properties file:"
+							+ "\n\t{1}\n", new Object[] { location,
+							e.getMessage() });
 			log.log(Level.SEVERE, "Exception is ", e);
 			return "ERROR GENERATING FROM " + location;
 		}

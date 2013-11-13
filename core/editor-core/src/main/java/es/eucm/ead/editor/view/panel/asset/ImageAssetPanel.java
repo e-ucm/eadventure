@@ -434,7 +434,6 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 			@Override
 			public void run() {
 				try {
-					Thread.yield();
 					Thread.sleep(100);
 					SwingUtilities.doInEDT(new Runnable() {
 						@Override

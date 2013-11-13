@@ -357,16 +357,14 @@ public class FileDrop {
 						// BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
 						DataFlavor[] flavors = tr.getTransferDataFlavors();
 						boolean handled = false;
-						for (int zz = 0; zz < flavors.length; zz++) {
-							if (flavors[zz].isRepresentationClassReader()) {
+						for (DataFlavor f : flavors) {
+							if (f.isRepresentationClassReader()) {
 								// Say we'll take it.
 								//evt.acceptDrop ( DnDConstants.ACTION_COPY_OR_MOVE );
 								evt.acceptDrop(DnDConstants.ACTION_COPY);
 								log(out, "FileDrop: reader accepted.");
 
-								Reader reader = flavors[zz]
-										.getReaderForText(tr);
-
+								Reader reader = f.getReaderForText(tr);
 								BufferedReader br = new BufferedReader(reader);
 
 								if (listener != null) {
@@ -520,15 +518,9 @@ public class FileDrop {
 		}
 
 		if (recursive && (c instanceof Container)) {
-			// Get the container
-			Container cont = (Container) c;
-
-			// Get it's components
-			Component[] comps = cont.getComponents();
-
-			// Set it's components as listeners also
-			for (int i = 0; i < comps.length; i++) {
-				makeDropTarget(out, comps[i], recursive);
+			// Set contained components as listeners also
+			for (Component comp : ((Container) c).getComponents()) {
+				makeDropTarget(out, comp, recursive);
 			}
 		} // end if: recursively set components as listener
 	} // end dropListener

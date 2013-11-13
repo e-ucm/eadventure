@@ -90,7 +90,7 @@ public class TextColumn<V, K> extends OptionColumn<V, K, String> {
 	}
 
 	@Override
-	public OptionColumn.OptionCellControl createControl() {
+	public OptionColumn<V, K, String>.OptionCellControl createControl() {
 		return new OptionCellControl() {
 			@Override
 			public JComponent createEditControl() {

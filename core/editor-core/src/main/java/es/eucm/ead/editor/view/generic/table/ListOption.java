@@ -89,6 +89,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 		this.contentClass = contentClass;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ColumnSpec<T, Integer>[] getExtraColumns() {
 		return (ColumnSpec<T, Integer>[]) new ColumnSpec[] { new ColumnSpec<T, Integer>(
 				"Value", contentClass, false, -1) };
@@ -122,6 +123,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 		}
 
 		@Override
+		@SuppressWarnings("unchecked")
 		public void reindex() {
 			rows = new Row[oldValue.size()];
 			for (int i = 0; i < oldValue.size(); i++) {
@@ -130,6 +132,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 		}
 
 		@Override
+		@SuppressWarnings("unchecked")
 		public void setValueAt(Object value, int rowIndex, int columnIndex) {
 			Row<T, Integer> r = rows[rowIndex];
 			Accessor a = cols[columnIndex].getAccessor(r, columnIndex);

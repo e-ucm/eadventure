@@ -189,6 +189,7 @@ public class ModelVisitorDriver {
 	private class EngineNodeDriver implements VisitorDriver<EngineNode> {
 
 		@Override
+		@SuppressWarnings("unchecked")
 		public void drive(EngineNode target, Object source, String sourceName) {
 			Object o = target.getContent();
 			driverFor(o).drive(o, target, "content");

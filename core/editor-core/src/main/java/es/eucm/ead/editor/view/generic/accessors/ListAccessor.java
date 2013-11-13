@@ -121,6 +121,7 @@ public class ListAccessor<V> implements Accessor<V> {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;

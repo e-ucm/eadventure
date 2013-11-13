@@ -47,6 +47,7 @@ import es.eucm.ead.editor.util.Log4jConfig;
 
 public class DropdownOptionTest extends AbstractOptionTest {
 
+	@SuppressWarnings("unchecked")
 	public DropdownOptionTest() {
 		model = new ExampleClass();
 		init();

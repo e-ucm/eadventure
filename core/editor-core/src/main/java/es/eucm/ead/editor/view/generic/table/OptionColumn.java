@@ -74,6 +74,7 @@ public abstract class OptionColumn<V, K, T> extends ColumnSpec<V, K> {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Object getValue(Row<V, K> row, int columnIndex) {
 		lastAccessor = (Accessor<T>) getAccessor(row, columnIndex);
 		return lastAccessor.read();
