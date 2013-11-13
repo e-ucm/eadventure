@@ -83,8 +83,15 @@ public abstract class EqualsHashCodeTest<T> {
 			assertTrue(objects[i].equals(objects[i + 1]));
 			for (int j = 0; j < objects.length; j++) {
 				if (j != i && j != i + 1) {
-					assertTrue(!objects[i].equals(objects[j]));
-					assertTrue(!objects[j].equals(objects[i]));
+					assertTrue(
+							"expected " + objects[i] + " "
+									+ objects[i].getClass() + " and "
+									+ objects[j] + " " + objects[i].getClass()
+									+ " to be different!", !objects[i]
+									.equals(objects[j]));
+					assertTrue("expected " + objects[j] + " and " + objects[i]
+							+ " to be different!", !objects[j]
+							.equals(objects[i]));
 				}
 			}
 		}

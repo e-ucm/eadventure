@@ -65,12 +65,14 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 
 	/**
 	 * Set the element ID. The ID must be unique.
+	 * @param id
 	 */
 	@Override
 	public void setId(String id) {
 		this.id = id;
 	}
 
+	@Override
 	public String toString() {
 		return BasicElement.classToString(this.getClass())
 				+ (id != null ? id : "");

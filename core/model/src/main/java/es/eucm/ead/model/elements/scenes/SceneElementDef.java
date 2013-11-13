@@ -41,13 +41,10 @@ import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.elements.ResourcedElement;
 import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.features.ResourcedEvented;
-import es.eucm.ead.model.interfaces.features.WithBehavior;
 import es.eucm.ead.model.params.text.EAdString;
 
 @Element
-public class SceneElementDef extends ResourcedElement implements
-		ResourcedEvented, WithBehavior {
+public class SceneElementDef extends ResourcedElement {
 
 	public static final String VAR_DOC_NAME = "doc_name";
 

@@ -79,14 +79,8 @@ public class NOTCond extends Condition {
 		return "NOT " + condition.toString();
 	}
 
+	@Override
 	public void extractFields(List<ElementField> fields) {
 		condition.extractFields(fields);
-	}
-
-	public boolean equals(Object o) {
-		if (o instanceof NOTCond) {
-			return (this.condition.equals(((NOTCond) o).condition));
-		}
-		return false;
 	}
 }

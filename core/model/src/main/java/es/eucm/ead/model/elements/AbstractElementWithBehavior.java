@@ -177,8 +177,10 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 			allEffects = new EAdList<Effect>();
 		}
 		allEffects.clear();
-		for (EAdList<Effect> l : behavior.values()) {
-			allEffects.addAll(l);
+		if (behavior != null) {
+			for (EAdList<Effect> l : behavior.values()) {
+				allEffects.addAll(l);
+			}
 		}
 
 		return allEffects;

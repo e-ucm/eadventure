@@ -37,6 +37,7 @@
 
 package es.eucm.ead.model.assets.drawable.basics.shapes;
 
+import es.eucm.ead.model.assets.drawable.basics.EAdShape;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.paint.EAdPaint;
@@ -86,7 +87,7 @@ public class RectangleShape extends AbstractShape {
 	}
 
 	@Override
-	public Object clone() {
+	public EAdShape copyShape() {
 		return new RectangleShape(width, height);
 	}
 
@@ -111,6 +112,7 @@ public class RectangleShape extends AbstractShape {
 		return false;
 	}
 
+	@Override
 	public String toString() {
 		return width + ":" + height + ":" + super.getPaint();
 	}

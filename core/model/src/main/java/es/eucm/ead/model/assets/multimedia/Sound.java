@@ -72,24 +72,4 @@ public class Sound extends AbstractAssetDescriptor implements EAdSound {
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
-
-	@Override
-	public int hashCode() {
-		int hash = 7 * super.hashCode();
-		hash = 37 * hash + (this.uri != null ? this.uri.hashCode() : 0);
-		return hash;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!super.equals(obj)) {
-			return false;
-		}
-		final Sound other = (Sound) obj;
-		if (this.uri != other.uri
-				&& (this.uri == null || !this.uri.equals(other.uri))) {
-			return false;
-		}
-		return true;
-	}
 }

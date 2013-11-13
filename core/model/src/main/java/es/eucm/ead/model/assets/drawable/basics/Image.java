@@ -87,15 +87,11 @@ public class Image extends AbstractAssetDescriptor implements EAdBasicDrawable,
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!super.equals(obj)) {
+		if (!(obj instanceof Image)) {
 			return false;
 		}
 		final Image other = (Image) obj;
-		if (this.uri != other.uri
-				&& (this.uri == null || !this.uri.equals(other.uri))) {
-			return false;
-		}
-		return true;
+		return (this.uri == null && other.uri == null)
+				|| (this.uri != null && this.uri.equals(other.uri));
 	}
-
 }

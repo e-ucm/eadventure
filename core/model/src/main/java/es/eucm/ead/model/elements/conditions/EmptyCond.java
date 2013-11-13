@@ -46,9 +46,9 @@ import java.util.List;
 @Element
 public class EmptyCond extends Condition {
 
-	public static EmptyCond TRUE = new EmptyCond(true);
+	public static final EmptyCond TRUE = new EmptyCond(true);
 
-	public static EmptyCond FALSE = new EmptyCond(false);
+	public static final EmptyCond FALSE = new EmptyCond(false);
 
 	@Param
 	private boolean value;
@@ -82,15 +82,7 @@ public class EmptyCond extends Condition {
 		return value + "";
 	}
 
-	public boolean equals(Object o) {
-		if (o instanceof EmptyCond) {
-			return this.value == ((EmptyCond) o).value;
-		}
-		return false;
-	}
-
 	public void extractFields(List<ElementField> fields) {
-
+		// empty implementation
 	}
-
 }

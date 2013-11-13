@@ -78,22 +78,25 @@ public class SystemFields {
 	public static final ElementField ACTIVE_ELEMENT = new ElementField(null,
 			"active_element");
 
-	public static ElementField LANGUAGE = new ElementField(null, "language");
+	public static final ElementField LANGUAGE = new ElementField(null,
+			"language");
 
-	public static ElementField LANGUAGES = new ElementField(null, "languages");
+	public static final ElementField LANGUAGES = new ElementField(null,
+			"languages");
 
 	// Debugging variables
-	public static ElementField DEBUG_GAME_OBJECTS = new ElementField(null,
-			"debug_game_objects");
+	public static final ElementField DEBUG_GAME_OBJECTS = new ElementField(
+			null, "debug_game_objects");
 
-	public static ElementField DEBUG_ASSETS = new ElementField(null,
+	public static final ElementField DEBUG_ASSETS = new ElementField(null,
 			"debug_assets");
 
-	public static ElementField DEBUG_HEAP_SIZE = new ElementField(null,
+	public static final ElementField DEBUG_HEAP_SIZE = new ElementField(null,
 			"heap_size");
 
-	public static ElementField DEBUG_NATIVE_SIZE = new ElementField(null,
+	public static final ElementField DEBUG_NATIVE_SIZE = new ElementField(null,
 			"native_size");
 
-	public static ElementField SOUND_ON = new ElementField(null, "sound_on");
+	public static final ElementField SOUND_ON = new ElementField(null,
+			"sound_on");
 }

@@ -136,8 +136,11 @@ public class Paint extends AbstractParam implements EAdPaint {
 
 	@Override
 	public boolean parse(String data) {
-		boolean error = data == null;
-		if (!error) {
+		boolean error = false;
+
+		if (data == null) {
+			error = true;
+		} else {
 			String temp[] = data.split(SEPARATOR);
 			if (temp.length == 3) {
 
@@ -169,7 +172,6 @@ public class Paint extends AbstractParam implements EAdPaint {
 				} catch (NumberFormatException e) {
 					error = true;
 				}
-
 			} else {
 				error = true;
 			}
@@ -199,4 +201,25 @@ public class Paint extends AbstractParam implements EAdPaint {
 		return width;
 	}
 
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 97 * hash + (this.fill != null ? this.fill.hashCode() : 0);
+		hash = 97 * hash + (this.border != null ? this.border.hashCode() : 0);
+		hash = 97 * hash + this.width;
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Paint o = (Paint) obj;
+		return fill.equals(o.getFill()) && border.equals(o.getBorder())
+				&& width == o.getWidth();
+	}
 }

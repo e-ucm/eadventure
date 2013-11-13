@@ -41,14 +41,12 @@ import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.features.Evented;
-import es.eucm.ead.model.interfaces.features.Resourced;
 
 /**
  * Model of the eAdventure chapter.
  */
 @Element
-public class Chapter extends ResourcedElement implements Resourced, Evented {
+public class Chapter extends ResourcedElement {
 
 	/**
 	 * Scenes of the game
@@ -95,7 +93,6 @@ public class Chapter extends ResourcedElement implements Resourced, Evented {
 		if (!getScenes().contains(scene)) {
 			getScenes().add(scene);
 		}
-
 	}
 
 	public Scene getSceneById(String nextSceneId) {
@@ -120,5 +117,4 @@ public class Chapter extends ResourcedElement implements Resourced, Evented {
 		}
 		scenes.add(scene);
 	}
-
 }

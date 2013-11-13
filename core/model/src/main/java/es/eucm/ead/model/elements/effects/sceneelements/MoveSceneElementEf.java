@@ -168,8 +168,8 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	}
 
 	public void setTargetCoordiantes(int x, int y) {
-		setTargetCoordiantes(new ValueOp(new Integer(x)), new ValueOp(
-				new Integer(y)));
+		setTargetCoordiantes(new ValueOp(Integer.valueOf(x)), new ValueOp(
+				Integer.valueOf(y)));
 	}
 
 	public float getSpeedFactor() {

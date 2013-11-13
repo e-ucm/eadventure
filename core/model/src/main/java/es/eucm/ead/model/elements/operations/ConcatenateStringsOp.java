@@ -42,7 +42,7 @@ import es.eucm.ead.model.interfaces.Param;
 
 /**
  * Concatenates all the fields of this operation, and append and/or prepend a
- * preffix and/or a suffix to each of them.
+ * prefix and/or a suffix to each of them.
  * 
  */
 @Element

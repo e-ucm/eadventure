@@ -82,7 +82,7 @@ public class Matrix extends AbstractParam {
 		matrix = getIdentity();
 	}
 
-	public Matrix(float m[]) {
+	public Matrix(final float m[]) {
 		this.matrix = m;
 	}
 
@@ -151,7 +151,7 @@ public class Matrix extends AbstractParam {
 
 	public static float[] multiply(float[] m1, float[] m2) {
 		float m[] = new float[DIMENSION * DIMENSION];
-		int row = 0, column = 0;
+		int row, column;
 
 		for (int i = 0; i < DIMENSION * DIMENSION; i++) {
 			row = i % DIMENSION;
@@ -210,6 +210,9 @@ public class Matrix extends AbstractParam {
 			inverse[5] = 0;
 			inverse[8] = 1;
 			float det = matrix[0] * matrix[4] - matrix[3] * matrix[1];
+
+			// transformations are assumed to be reversible...
+			assert (det != 0);
 			inverse[0] = matrix[4] / det;
 			inverse[1] = -matrix[1] / det;
 			inverse[3] = -matrix[3] / det;
@@ -222,11 +225,12 @@ public class Matrix extends AbstractParam {
 
 	@Override
 	public String toString() {
-		String s = "";
-		for (int i = 0; i < 8; i++)
-			s += matrix[i] + ";";
-		s += matrix[8];
-		return s;
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 9; i++) {
+			sb.append(";");
+		}
+		sb.setLength(sb.length() - 1);
+		return sb.toString();
 	}
 
 	public boolean isValidated() {
@@ -237,7 +241,7 @@ public class Matrix extends AbstractParam {
 		this.validated = validated;
 	}
 
-	public void setValues(float[] values) {
+	public void setValues(final float[] values) {
 		this.matrix = values;
 		invalidateMatrixes();
 	}

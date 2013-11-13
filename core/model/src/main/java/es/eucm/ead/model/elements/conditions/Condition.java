@@ -48,10 +48,6 @@ public abstract class Condition extends Operation {
 		super();
 	}
 
-	public boolean equals(Object o) {
-		return this == o;
-	}
-
 	/**
 	 * Adds all the fields contained by this condition to the given list
 	 *

@@ -123,27 +123,4 @@ public class Frame extends BasicElement {
 	public void setDrawable(EAdBasicDrawable drawable) {
 		this.drawable = drawable;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final Frame other = (Frame) obj;
-		if (this.drawable != null && !this.drawable.equals(other.getDrawable())) {
-			return false;
-		}
-		if (this.time != other.time) {
-			return false;
-		}
-		if (this.drawable != other.drawable
-				&& (this.drawable == null || !this.drawable
-						.equals(other.drawable))) {
-			return false;
-		}
-		return true;
-	}
 }

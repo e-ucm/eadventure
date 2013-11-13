@@ -322,8 +322,10 @@ public class Position extends AbstractParam {
 	}
 
 	public boolean parse(String data) {
-		boolean error = data == null;
-		if (!error) {
+		boolean error = false;
+		if (data == null) {
+			error = true;
+		} else {
 			String temp[] = data.split(SEPARATOR);
 			if (temp.length == 4) {
 				try {

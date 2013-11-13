@@ -90,14 +90,11 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!super.equals(obj)) {
+		if (!(obj instanceof BasicFont)) {
 			return false;
 		}
 		final BasicFont other = (BasicFont) obj;
-		if (this.uri != other.uri
-				&& (this.uri == null || !this.uri.equals(other.uri))) {
-			return false;
-		}
-		return true;
+		return (this.uri == null && other.uri == null)
+				|| (this.uri != null && this.uri.equals(other.uri));
 	}
 }

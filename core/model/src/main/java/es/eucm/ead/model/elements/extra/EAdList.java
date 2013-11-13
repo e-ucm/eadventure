@@ -53,17 +53,14 @@ public class EAdList<P> extends ArrayList<P> {
 	private static final long serialVersionUID = 1047298649363665837L;
 
 	public String toString() {
-		String s = "[";
+		StringBuilder sb = new StringBuilder("[");
 		for (P o : this) {
-			if (o != null) {
-				s += o;
-			}
-			if (iterator().hasNext()) {
-				s += ",";
-			}
+			sb.append(o).append(",");
 		}
-		s += "]";
-		return s;
+		if (!isEmpty()) {
+			sb.setLength(sb.length() - 1);
+		}
+		return sb.append("]").toString();
 	}
 
 }
