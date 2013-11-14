@@ -43,9 +43,9 @@ import es.eucm.ead.model.elements.scenes.GroupElement;
 
 public class BottomHud extends GroupElement {
 
-	public static String ID = "#engine.hud.bottomhud";
+	public static final String ID = "#engine.hud.bottomhud";
 
-	public static String DISABLE_CLICKS = "#engine_disable_clicks";
+	public static final String DISABLE_CLICKS = "#engine_disable_clicks";
 
 	public BottomHud() {
 		super((EAdDrawable) null);

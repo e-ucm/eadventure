@@ -85,7 +85,7 @@ public class ImageAssetPanelTester extends AbstractPanelTester {
 	}
 
 	@Override
-	AbstractElementPanel createPanel() {
+	AbstractElementPanel<ImageAssetNode> createPanel() {
 		return new ImageAssetPanel() {
 
 			@Override

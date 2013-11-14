@@ -58,10 +58,7 @@ public class ValueOp extends Operation {
 	/**
 	 * Creates an assign operation
 	 * 
-	 * @param id
-	 *            the id
-	 * @param value
-	 *            the value to be assigned
+	 * @param value the value to be assigned
 	 */
 	public ValueOp(Object value) {
 		super();
@@ -77,19 +74,12 @@ public class ValueOp extends Operation {
 		return value;
 	}
 
+	@Override
 	public String toString() {
 		return value + "";
 	}
 
 	public void setValue(Object value) {
 		this.value = value;
-	}
-
-	public boolean equals(Object o) {
-		if (o instanceof ValueOp) {
-			return (this.value == ((ValueOp) o).value || (this.value != null && this.value
-					.equals(((ValueOp) o).value)));
-		}
-		return false;
 	}
 }

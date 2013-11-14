@@ -89,6 +89,7 @@ public class MapCommandTest {
 	private static DependencyNode<String> root;
 
 	@BeforeClass
+	@SuppressWarnings("unchecked")
 	public static void setUpClass() {
 		Injector injector = Guice.createInjector(new DesktopModule(),
 				new EditorGuiceModule(), new JavaToolsModule());

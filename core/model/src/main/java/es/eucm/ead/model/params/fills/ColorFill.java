@@ -46,87 +46,87 @@ import es.eucm.ead.model.params.paint.EAdFill;
  * </p>
  *
  */
-public class ColorFill extends AbstractParam implements EAdFill {
+public final class ColorFill extends AbstractParam implements EAdFill {
 
 	/**
 	 * White EAdColor
 	 */
-	public static ColorFill WHITE = new ColorFill(255, 255, 255);
+	public static final ColorFill WHITE = new ColorFill(255, 255, 255);
 
 	/**
 	 * Black EAdColor
 	 */
-	public static ColorFill BLACK = new ColorFill(0, 0, 0);
+	public static final ColorFill BLACK = new ColorFill(0, 0, 0);
 
 	/**
 	 * Transparent EAdColor
 	 */
-	public static ColorFill TRANSPARENT = new ColorFill(0, 0, 0, 0);
+	public static final ColorFill TRANSPARENT = new ColorFill(0, 0, 0, 0);
 
 	/**
 	 * Red EAdColor
 	 */
-	public static ColorFill RED = new ColorFill(255, 0, 0);
+	public static final ColorFill RED = new ColorFill(255, 0, 0);
 
 	/**
 	 * Blue EAdColor
 	 */
-	public static ColorFill BLUE = new ColorFill(0, 0, 255);
+	public static final ColorFill BLUE = new ColorFill(0, 0, 255);
 
 	/**
 	 * Green EAdColor
 	 */
-	public static ColorFill GREEN = new ColorFill(0, 255, 0);
+	public static final ColorFill GREEN = new ColorFill(0, 255, 0);
 
 	/**
 	 * Cyan EAdColor
 	 */
-	public static ColorFill CYAN = new ColorFill(0, 255, 255);
+	public static final ColorFill CYAN = new ColorFill(0, 255, 255);
 
 	/**
 	 * Yellow EAdColor
 	 */
-	public static ColorFill YELLOW = new ColorFill(255, 255, 0);
+	public static final ColorFill YELLOW = new ColorFill(255, 255, 0);
 
 	/**
 	 * Orange EAdColor
 	 */
-	public static ColorFill ORANGE = new ColorFill(255, 125, 0);
+	public static final ColorFill ORANGE = new ColorFill(255, 125, 0);
 
 	/**
 	 * Magenta EAdColor
 	 */
-	public static ColorFill MAGENTA = new ColorFill(255, 0, 255);
+	public static final ColorFill MAGENTA = new ColorFill(255, 0, 255);
 
 	/**
 	 * Gray EAdColor
 	 */
-	public static ColorFill GRAY = new ColorFill(125, 125, 125);
+	public static final ColorFill GRAY = new ColorFill(125, 125, 125);
 
 	/**
 	 * Dark gray EAdColor
 	 */
-	public static ColorFill DARK_GRAY = new ColorFill(62, 62, 62);
+	public static final ColorFill DARK_GRAY = new ColorFill(62, 62, 62);
 
 	/**
 	 * Light gray EAdColor
 	 */
-	public static ColorFill LIGHT_GRAY = new ColorFill(200, 200, 200);
+	public static final ColorFill LIGHT_GRAY = new ColorFill(200, 200, 200);
 
 	/**
 	 * Brown EAdColor
 	 */
-	public static ColorFill BROWN = new ColorFill(200, 50, 0);
+	public static final ColorFill BROWN = new ColorFill(200, 50, 0);
 
 	/**
 	 * Dark brown EAdColor
 	 */
-	public static ColorFill DARK_BROWN = new ColorFill(100, 50, 0);
+	public static final ColorFill DARK_BROWN = new ColorFill(100, 50, 0);
 
 	/**
 	 * Light brown EAdColor
 	 */
-	public static ColorFill LIGHT_BROWN = new ColorFill(150, 75, 0);
+	public static final ColorFill LIGHT_BROWN = new ColorFill(150, 75, 0);
 
 	/**
 	 * The red value of the color
@@ -192,9 +192,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 	 * Parse the value of a color from a string in the hexadecimal form
 	 * {@code 0xRRGGBBAA}.
 	 *
-	 * @param string
-	 *            The string with the color value
-	 *
+	 * @param data String with the color value
 	 */
 	public ColorFill(String data) {
 		parse(data);
@@ -207,6 +205,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 	 * @param red
 	 * @param green
 	 * @param blue
+	 * @param alpha
 	 */
 	public void setRGBA(int red, int green, int blue, int alpha) {
 		setRed(red);
@@ -373,11 +372,8 @@ public class ColorFill extends AbstractParam implements EAdFill {
 			return false;
 		}
 		ColorFill paint = (ColorFill) object;
-		if (paint.alpha == alpha && paint.blue == blue && paint.green == green
-				&& paint.red == red) {
-			return true;
-		}
-		return false;
+		return paint.alpha == alpha && paint.blue == blue
+				&& paint.green == green && paint.red == red;
 	}
 
 	@Override

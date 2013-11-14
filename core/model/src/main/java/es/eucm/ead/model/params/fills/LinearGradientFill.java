@@ -160,8 +160,11 @@ public class LinearGradientFill extends AbstractParam implements EAdFill {
 
 	@Override
 	public boolean parse(String data) {
-		boolean error = data == null;
-		if (!error) {
+		boolean error = false;
+
+		if (data == null) {
+			error = true;
+		} else {
 			String temp[] = data.split(SEPARATOR);
 			if (temp.length == 6) {
 				int i = 0;
@@ -189,6 +192,30 @@ public class LinearGradientFill extends AbstractParam implements EAdFill {
 			y1 = BLACK.y1;
 		}
 		return !error;
+	}
 
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 13 * hash + Float.floatToIntBits(this.x0);
+		hash = 13 * hash + Float.floatToIntBits(this.y0);
+		hash = 13 * hash + Float.floatToIntBits(this.x1);
+		hash = 13 * hash + Float.floatToIntBits(this.y1);
+		hash = 13 * hash + (this.color1 != null ? this.color1.hashCode() : 0);
+		hash = 13 * hash + (this.color2 != null ? this.color2.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final LinearGradientFill o = (LinearGradientFill) obj;
+		return (x0 == o.x0) && (y0 == o.y0) && (x1 == o.x1) && (y1 == o.y1)
+				&& color1.equals(o.color1) && color2.equals(o.color2);
 	}
 }

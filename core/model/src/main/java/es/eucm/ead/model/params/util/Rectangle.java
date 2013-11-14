@@ -114,8 +114,8 @@ public class Rectangle extends AbstractParam {
 	}
 
 	public boolean contains(int x, int y) {
-		return (this.x <= x & x <= this.x + width && this.y <= y
-				& y <= this.y + height);
+		return (this.x <= x) && (x <= this.x + width) && (this.y <= y)
+				&& (y <= this.y + height);
 	}
 
 	private static Rectangle volatileEAdRectangle = new Rectangle(0, 0, 0, 0);
@@ -166,9 +166,11 @@ public class Rectangle extends AbstractParam {
 
 	@Override
 	public boolean parse(String data) {
-		boolean error = data == null;
+		boolean error = false;
 
-		if (!error) {
+		if (data == null) {
+			error = true;
+		} else {
 			String[] temp = data.split(SEPARATOR);
 			if (temp.length == 4) {
 				int i = 0;

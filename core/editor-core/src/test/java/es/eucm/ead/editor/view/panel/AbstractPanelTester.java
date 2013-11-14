@@ -96,6 +96,7 @@ public abstract class AbstractPanelTester extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void init() {
 
 		createFrame();

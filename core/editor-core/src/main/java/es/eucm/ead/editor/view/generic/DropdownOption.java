@@ -54,7 +54,7 @@ import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 public class DropdownOption<T> extends AbstractOption<T> {
 
 	protected JComboBox combo;
-	protected ComboBoxModel model;
+	protected ComboBoxModel<Item<T>> model;
 	protected Item<T>[] items;
 	protected HashMap<T, Item<T>> itemLookup = new HashMap<T, Item<T>>();
 
@@ -102,7 +102,7 @@ public class DropdownOption<T> extends AbstractOption<T> {
 		super(title, toolTipText, new IntrospectingAccessor<T>(object,
 				fieldName), node);
 		initializeItems(choices, null, null);
-		this.model = new DefaultComboBoxModel(items);
+		this.model = new DefaultComboBoxModel<Item<T>>(items);
 	}
 
 	/**
@@ -119,10 +119,11 @@ public class DropdownOption<T> extends AbstractOption<T> {
 		super(title, toolTipText, new IntrospectingAccessor<T>(object,
 				fieldName), node);
 		initializeItems(choices, names, null);
-		this.model = new DefaultComboBoxModel(items);
+		this.model = new DefaultComboBoxModel<Item<T>>(items);
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public T getControlValue() {
 		if (combo.getSelectedItem() == null) {
 			return null;
@@ -136,6 +137,7 @@ public class DropdownOption<T> extends AbstractOption<T> {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public JComponent createControl() {
 		combo = new JComboBox(model);
 		model.setSelectedItem(accessor.read());

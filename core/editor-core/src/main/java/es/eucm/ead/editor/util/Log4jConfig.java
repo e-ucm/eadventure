@@ -71,9 +71,9 @@ public class Log4jConfig {
 		try {
 			found = (null != Log4jConfig.class.getClassLoader().loadClass(
 					"org.apache.log4j.Logger"));
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			// loading of a sample log4j class failed: no log4j for you
+			System.err.println("[WARNING] Log4j not available: " + e);
 		}
 		isLog4jPresent = found;
 	}

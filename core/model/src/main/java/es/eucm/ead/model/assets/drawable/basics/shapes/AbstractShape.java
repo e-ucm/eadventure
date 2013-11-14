@@ -67,15 +67,14 @@ public abstract class AbstractShape extends AbstractAssetDescriptor implements
 	}
 
 	@Override
-	public abstract Object clone();
-
-	@Override
 	public boolean equals(Object o) {
-		if (!super.equals(o)) {
+		if (!(o instanceof AbstractShape)) {
 			return false;
 		}
+
 		EAdPaint oPaint = ((AbstractShape) o).getPaint();
-		return (oPaint == null && paint == null) || oPaint.equals(paint);
+		return (oPaint == null && paint == null)
+				|| (oPaint != null && oPaint.equals(paint));
 
 	}
 

@@ -193,7 +193,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEf> {
 		}
 
 		bd.position.set(x, y);
-		bd.angle = valueMap.getValue(e, SceneElement.VAR_ROTATION, 0);
+		bd.angle = valueMap.getValue(e, SceneElement.VAR_ROTATION, 0f);
 
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = s;

@@ -92,6 +92,7 @@ public class MapOption<V> extends AbstractOption<EAdMap<V>> implements
 		this.contentClass = contentClass;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ColumnSpec<V, String>[] getKeyColumns() {
 		return (ColumnSpec<V, String>[]) new ColumnSpec[] { new ColumnSpec<V, String>(
 				"Key", String.class, false, -1) {
@@ -102,6 +103,7 @@ public class MapOption<V> extends AbstractOption<EAdMap<V>> implements
 		} };
 	}
 
+	@SuppressWarnings("unchecked")
 	public ColumnSpec<V, String>[] getValueColumns() {
 		return (ColumnSpec<V, String>[]) new ColumnSpec[] { new ColumnSpec(
 				"Value", contentClass, false, -1) };
@@ -148,6 +150,7 @@ public class MapOption<V> extends AbstractOption<EAdMap<V>> implements
 		}
 
 		@Override
+		@SuppressWarnings("unchecked")
 		public void reindex() {
 			rows = new Row[oldValue.size()];
 			keysToRows.clear();
@@ -159,6 +162,7 @@ public class MapOption<V> extends AbstractOption<EAdMap<V>> implements
 		}
 
 		@Override
+		@SuppressWarnings("unchecked")
 		public void setValueAt(Object value, int rowIndex, int columnIndex) {
 			Row<V, String> r = rows[rowIndex];
 			Accessor a = cols[columnIndex].getAccessor(r, columnIndex);

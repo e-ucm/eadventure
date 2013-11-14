@@ -64,6 +64,7 @@ import static org.reflections.ReflectionUtils.withParametersCount;
 public class SetGetTest {
 
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testSetGest() {
 		Reflections reflections = new Reflections("es.eucm.ead.model");
 		for (Class<?> c : reflections.getSubTypesOf(Identified.class)) {

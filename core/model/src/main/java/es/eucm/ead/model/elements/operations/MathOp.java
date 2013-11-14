@@ -39,6 +39,7 @@ package es.eucm.ead.model.elements.operations;
 
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
+import java.util.Arrays;
 
 /**
  * <p>
@@ -71,20 +72,14 @@ public class MathOp extends Operation {
 	/**
 	 * Creates a literal expression with the given expression
 	 *
-	 * @param parent
-	 * @param id
 	 * @param expression
-	 * @param floatVar3
-	 * @param floatVar2
 	 * @param fields
 	 */
 	public MathOp(String expression, ElementField... fields) {
 		super();
 		this.expression = expression;
 		if (fields != null) {
-			for (ElementField f : fields) {
-				operations.add(f);
-			}
+			operations.addAll(Arrays.asList(fields));
 		}
 	}
 
@@ -136,14 +131,5 @@ public class MathOp extends Operation {
 			i++;
 		}
 		return s;
-	}
-
-	public boolean equals(Object o) {
-		if (o instanceof MathOp) {
-			return (this.expression == ((MathOp) o).expression || this.expression != null
-					&& this.expression.equals(((MathOp) o).expression))
-					&& super.equals(o);
-		}
-		return false;
 	}
 }

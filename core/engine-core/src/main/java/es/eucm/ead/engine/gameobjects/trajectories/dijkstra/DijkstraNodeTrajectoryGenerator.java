@@ -566,10 +566,10 @@ public class DijkstraNodeTrajectoryGenerator {
 			for (Node node : nodeTrajectoryDefinition.getNodes()) {
 				int d = (int) Math.sqrt(Math.pow(node.getX()
 						- valueMap.getValue(movingElement, SceneElement.VAR_X,
-								0), 2)
+								0f), 2)
 						+ Math.pow(node.getY()
 								- valueMap.getValue(movingElement,
-										SceneElement.VAR_Y, 0), 2));
+										SceneElement.VAR_Y, 0f), 2));
 				if (d < distance) {
 					for (Side side2 : nodeTrajectoryDefinition.getSides())
 						if (side2.getIdEnd().getId().equals(node.getId())

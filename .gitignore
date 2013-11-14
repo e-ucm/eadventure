@@ -17,7 +17,8 @@ test/resources/result*
 /local/
 
 # generated resources
-**/R.java
+R.java
+Messages.java
 
 # location of ADK (see same-location test.properties.template)
 /core/exporter/src/test/resources/test.properties

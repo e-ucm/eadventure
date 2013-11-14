@@ -46,7 +46,7 @@ import es.eucm.ead.model.elements.extra.EAdList;
 public interface Evented {
 	/**
 	 * Returns a list of events associated with this element. It could return null, if not event has been added yet
-	 * To add events, use
+	 * To add events, use addEvent
 	 *
 	 * @return The list of events associated with this element
 	 */

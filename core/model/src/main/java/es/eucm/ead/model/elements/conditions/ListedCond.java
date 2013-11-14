@@ -66,12 +66,14 @@ public abstract class ListedCond extends Condition {
 		this(operator, (Condition) null);
 	}
 
-	public ListedCond(ConditionOperator operator, Condition... condition) {
+	public ListedCond(ConditionOperator operator, Condition... conditions) {
 		super();
-		conditions = new EAdList<Condition>();
-		for (int i = 0; i < condition.length; i++)
-			if (condition[i] != null)
-				conditions.add(condition[i]);
+		this.conditions = new EAdList<Condition>();
+		for (Condition c : conditions) {
+			if (c != null) {
+				this.conditions.add(c);
+			}
+		}
 		this.operator = operator;
 	}
 
@@ -107,15 +109,17 @@ public abstract class ListedCond extends Condition {
 
 	@Override
 	public String toString() {
-		String value = "(";
-		if (conditions.size() > 0) {
-			value += conditions.get(0);
+		if (conditions.isEmpty()) {
+			return "Empty list";
+		} else {
+			StringBuilder value = new StringBuilder("(");
+			value.append(conditions.get(0));
 			for (int i = 1; i < conditions.size(); i++) {
-				value += " " + operator + " " + conditions.get(i);
+				value.append(" ").append(operator).append(" ").append(
+						conditions.get(i));
 			}
-			return value + ")";
+			return value.append(")").toString();
 		}
-		return "Empty list";
 	}
 
 	public void setConditions(EAdList<Condition> conditions) {
@@ -131,28 +135,4 @@ public abstract class ListedCond extends Condition {
 			c.extractFields(fields);
 		}
 	}
-
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o instanceof ListedCond) {
-			ListedCond listed = (ListedCond) o;
-			if (listed.operator == this.operator
-					&& listed.conditions.size() == this.conditions.size()) {
-				for (int i = 0; i < conditions.size(); i++) {
-					Condition c1 = conditions.get(i);
-					Condition c2 = listed.conditions.get(i);
-					if (!this.conditions.contains(c2)
-							|| !(listed.conditions.contains(c1))) {
-						return false;
-					}
-
-				}
-				return true;
-			}
-		}
-		return false;
-	}
-
 }

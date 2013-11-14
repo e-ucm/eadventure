@@ -53,24 +53,13 @@ public class EAdMap<S> extends LinkedHashMap<String, S> {
 	private static final long serialVersionUID = -5238161921791743523L;
 
 	public String toString() {
-		String s = "{";
-		for (java.util.Map.Entry<String, S> entry : this.entrySet()) {
-			Object key = entry.getKey();
-			S value = entry.getValue();
-			if (key != null) {
-				s += key;
-			}
-
-			s += ":";
-
-			if (value != null) {
-				s += value;
-			}
-			s += ",";
+		StringBuilder sb = new StringBuilder("[");
+		for (java.util.Map.Entry<String, S> e : this.entrySet()) {
+			sb.append(e.getKey()).append(":").append(e.getValue()).append(",");
 		}
-		// Remove last comma
-		s = s.substring(0, s.length() - 1) + "}";
-		return s;
+		if (!isEmpty()) {
+			sb.setLength(sb.length() - 1);
+		}
+		return sb.append("]").toString();
 	}
-
 }

@@ -51,6 +51,8 @@ public interface Identified {
 
 	/**
 	 * Set the element ID. The ID must be unique.
+	 *
+	 * @param id to set
 	 */
 	void setId(String id);
 }

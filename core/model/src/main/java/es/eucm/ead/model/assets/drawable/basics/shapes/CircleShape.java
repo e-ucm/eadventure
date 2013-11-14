@@ -37,6 +37,7 @@
 
 package es.eucm.ead.model.assets.drawable.basics.shapes;
 
+import es.eucm.ead.model.assets.drawable.basics.EAdShape;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.paint.EAdPaint;
@@ -68,22 +69,7 @@ public class CircleShape extends AbstractShape {
 	}
 
 	@Override
-	public Object clone() {
+	public EAdShape copyShape() {
 		return new CircleShape(radius, getPaint());
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 5;
-		hash = 67 * hash + this.radius;
-		return hash;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!super.equals(obj)) {
-			return false;
-		}
-		return true;
 	}
 }

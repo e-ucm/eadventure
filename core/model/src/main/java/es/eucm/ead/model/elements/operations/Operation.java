@@ -65,26 +65,4 @@ public abstract class Operation extends BasicElement {
 	public void addOperation(Operation operation) {
 		this.operations.add(operation);
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o instanceof Operation) {
-			Operation ao = (Operation) o;
-			if (ao.operations.size() == this.operations.size()) {
-				for (int i = 0; i < ao.operations.size(); i++) {
-					Operation op1 = ao.operations.get(i);
-					Operation op2 = this.operations.get(i);
-					if (!op1.equals(op2)) {
-						return false;
-					}
-				}
-				return super.equals(o);
-			}
-		}
-		return false;
-	}
-
 }

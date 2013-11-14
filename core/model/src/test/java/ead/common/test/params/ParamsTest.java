@@ -53,11 +53,11 @@ public abstract class ParamsTest<T extends EAdParam> extends
 
 	@Test
 	public void testToStringDataParse() {
-		for (int i = 0; i < objects.length; i++) {
-			String data = objects[i].toStringData();
+		for (EAdParam o : objects) {
+			String data = o.toStringData();
 			T c = buildParam(data);
-			assertTrue(c.equals(objects[i]));
-			assertTrue(objects[i].equals(c));
+			assertTrue(c.equals(o));
+			assertTrue(o.equals(c));
 		}
 	}
 

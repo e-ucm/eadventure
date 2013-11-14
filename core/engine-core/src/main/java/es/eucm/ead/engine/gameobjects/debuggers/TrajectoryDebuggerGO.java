@@ -336,7 +336,7 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 		for (SceneElement e : trajectory.getBarriers()) {
 			SceneElementDef def = e.getDefinition();
 			EAdShape s = (EAdShape) def.getAsset(SceneElementDef.appearance);
-			EAdShape barrier = (EAdShape) s.clone();
+			EAdShape barrier = s.copyShape();
 			barrier.setPaint(ColorFill.YELLOW);
 			barriers.add(barrier);
 			SceneElementGO go = (SceneElementGO) sceneElementFactory.get(e);

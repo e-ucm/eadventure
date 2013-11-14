@@ -54,6 +54,7 @@ import es.eucm.ead.model.elements.extra.EAdMap;
 
 public class MapOptionTest extends AbstractOptionTest {
 
+	@SuppressWarnings("unchecked")
 	public MapOptionTest() {
 		model = new ExampleClass();
 		init();

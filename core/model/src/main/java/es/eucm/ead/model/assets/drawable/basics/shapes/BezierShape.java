@@ -37,6 +37,7 @@
 
 package es.eucm.ead.model.assets.drawable.basics.shapes;
 
+import es.eucm.ead.model.assets.drawable.basics.EAdShape;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.params.fills.Paint;
@@ -142,8 +143,12 @@ public class BezierShape extends AbstractShape {
 		quadTo(new Position(x1, y1), new Position(x2, y2));
 	}
 
+	public void setPoints(EAdList<Integer> points) {
+		this.points = points;
+	}
+
 	@Override
-	public Object clone() {
+	public EAdShape copyShape() {
 		BezierShape s = new BezierShape();
 		s.closed = closed;
 		for (Integer p : points) {
@@ -151,28 +156,5 @@ public class BezierShape extends AbstractShape {
 		}
 		s.setPaint(getPaint());
 		return s;
-	}
-
-	public void setPoints(EAdList<Integer> points) {
-		this.points = points;
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 59 * hash + super.hashCode();
-		hash = 59 * hash + (this.closed ? 1 : 0);
-		hash = 59 * hash
-				+ (this.points != null ? this.points.toString().hashCode() : 0);
-		return hash;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!super.equals(obj)) {
-			return false;
-		}
-		final BezierShape other = (BezierShape) obj;
-		return other.toString().equals(toString());
 	}
 }

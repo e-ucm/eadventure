@@ -129,6 +129,7 @@ public class MapAccessor<K, V> implements Accessor<V> {
 				&& (this.key == null || !this.key.equals(other.key))) {
 			return false;
 		}
+		@SuppressWarnings("unchecked")
 		final Accessor<Map<K, V>> md = (Accessor<Map<K, V>>) other.mapDescriptor;
 		if (mapDescriptor != md
 				&& (mapDescriptor == null || !mapDescriptor.equals(md))) {
