@@ -46,8 +46,12 @@ import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.transitions.Transition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class TransitionGO<T extends Transition> extends SceneGO {
+
+	protected Logger logger = LoggerFactory.getLogger(TransitionGO.class);
 
 	protected T transition;
 

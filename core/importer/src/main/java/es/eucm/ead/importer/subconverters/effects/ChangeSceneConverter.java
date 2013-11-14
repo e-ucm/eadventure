@@ -37,10 +37,10 @@
 
 package es.eucm.ead.importer.subconverters.effects;
 
+import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.subconverters.CutsceneConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.conditions.NOTCond;
 import es.eucm.ead.model.elements.conditions.OperationCond;
@@ -59,10 +59,13 @@ import java.util.List;
 @SuppressWarnings("rawtypes")
 public class ChangeSceneConverter implements EffectConverter {
 
+	private final ModelQuerier modelQuerier;
 	private EffectsConverter effectsConverter;
 
-	public ChangeSceneConverter(EffectsConverter effectsConverter) {
+	public ChangeSceneConverter(EffectsConverter effectsConverter,
+			ModelQuerier modelQuerier) {
 		this.effectsConverter = effectsConverter;
+		this.modelQuerier = modelQuerier;
 	}
 
 	@Override
@@ -81,18 +84,25 @@ public class ChangeSceneConverter implements EffectConverter {
 			// When a cutscene is triggered, all the effects after it must wait
 			// to be launched until the cutscene ends. We make sure that
 			// IN_CUTSCENE is set to true before launching any other effect
-			ElementField field = new ElementField(nextScene,
-					CutsceneConverter.IN_CUTSCENE, false);
-			changeScene.getSimultaneousEffects().add(
-					new ChangeFieldEf(field, EmptyCond.TRUE));
-			Condition cond = new NOTCond(new OperationCond(field));
-			WaitUntilEf waitUntil = new WaitUntilEf(cond);
+			ElementField field = new ElementField(modelQuerier
+					.getCurrentChapter(), CutsceneConverter.IN_CUTSCENE
+					+ ef.getTargetId(), false);
+			changeScene.addSimultaneousEffect(new ChangeFieldEf(field,
+					EmptyCond.TRUE));
+
+			WaitUntilEf waitUntil = new WaitUntilEf(new NOTCond(
+					new OperationCond(field)));
+			// To avoid be deleted after changing the scene
 			waitUntil.setPersistent(true);
-			changeScene.getNextEffects().add(waitUntil);
-			changeScene.getNextEffects().add(effectsConverter.hideGhostEffects);
+
+			changeScene.addNextEffect(waitUntil);
+
+			// To allow clicks in cutscenes
+			changeScene.addNextEffect(effectsConverter.hideGhostEffects);
+			waitUntil.addNextEffect(effectsConverter.showGhostEffects);
+
 			list.add(changeScene);
 			list.add(waitUntil);
-			waitUntil.getNextEffects().add(effectsConverter.showGhostEffects);
 		} else if (e instanceof TriggerLastSceneEffect) {
 			list.add(new ChangeSceneEf());
 		}

@@ -43,11 +43,12 @@ import es.eucm.ead.importer.AdventureConverter;
 public class ImporterEngine {
 
 	//public static String TEST = "/home/bender/juegos/firstAidGame";
-	public static String TEST = "/home/eva/eadventure/juegos/PrimerosAuxiliosGame";
+	public static String TEST = "/home/eva/repositories/eadventure-legacy/Projects/FirstAid/";
 
 	public static void main(String args[]) {
 		AdventureConverter converter = new AdventureConverter();
 		converter.setEnableTranslations(false);
+		converter.setTest(false);
 		String convertedFolder = converter.convert(TEST, TEST + "/ead2");
 
 		DesktopGame game = new DesktopGame();

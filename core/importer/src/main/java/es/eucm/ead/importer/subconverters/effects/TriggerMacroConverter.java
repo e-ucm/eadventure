@@ -37,13 +37,13 @@
 
 package es.eucm.ead.importer.subconverters.effects;
 
+import es.eucm.ead.importer.EAdElementsCache;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.conditions.NOTCond;
 import es.eucm.ead.model.elements.conditions.OperationCond;
 import es.eucm.ead.model.elements.effects.Effect;
-import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.effects.WaitUntilEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.extra.EAdList;
@@ -57,50 +57,34 @@ public class TriggerMacroConverter implements
 		EffectConverter<MacroReferenceEffect> {
 
 	public static final String IN_MACRO = "in_macro";
+	private final EAdElementsCache elementsCache;
 
 	private ModelQuerier modelQuerier;
 
-	public TriggerMacroConverter(ModelQuerier modelQuerier) {
+	public TriggerMacroConverter(ModelQuerier modelQuerier,
+			EAdElementsCache elementsCache) {
 		this.modelQuerier = modelQuerier;
+		this.elementsCache = elementsCache;
 	}
 
 	public List<Effect> convert(MacroReferenceEffect e) {
 		ArrayList<Effect> list = new ArrayList<Effect>();
 
-		TriggerMacroEf effect = new TriggerMacroEf();
+		ElementField field = new ElementField(modelQuerier.getCurrentChapter(),
+				IN_MACRO + e.getTargetId(), false);
+		WaitUntilEf waitMacro = new WaitUntilEf(new NOTCond(new OperationCond(
+				field)));
+
+		int ref = elementsCache.newReference(e.getTargetId());
+		waitMacro.setId(e.getTargetId() + "$" + ref);
+
+		waitMacro
+				.addSimultaneousEffect(new ChangeFieldEf(field, EmptyCond.TRUE));
+
 		EAdList<Effect> macro = modelQuerier.getMacro(e.getTargetId());
-		effect.putEffects(EmptyCond.TRUE, macro);
-		list.add(effect);
-		// Add IN_MACRO field to hold next effects until the macro ends
-		ElementField field = new ElementField(effect, IN_MACRO, false);
-		ChangeFieldEf macroIn = new ChangeFieldEf(field, EmptyCond.TRUE);
-		effect.addSimultaneousEffect(macroIn);
+		waitMacro.addSimultaneousEffect(macro.get(0));
 
-		ChangeFieldEf macroOut = new ChangeFieldEf(field, EmptyCond.FALSE);
-
-		// Avoid processing empty macros
-		if (macro.isEmpty()) {
-			return list;
-		}
-
-		// Look for the last effect in the queue, and add the macro-out.
-		Effect lastEffect = macro.get(macro.size() - 1);
-		boolean done = false;
-		while (!done) {
-			if (lastEffect.getNextEffects().size() == 0) {
-				done = true;
-			} else {
-				lastEffect = lastEffect.getNextEffects().get(0);
-			}
-		}
-		lastEffect.addNextEffect(macroOut);
-
-		// Waits until the macro ends
-		WaitUntilEf wait = new WaitUntilEf(
-				new NOTCond(new OperationCond(field)));
-		effect.addSimultaneousEffect(wait);
-
-		list.add(wait);
+		list.add(waitMacro);
 		return list;
 	}
 }

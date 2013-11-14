@@ -41,7 +41,10 @@ import com.badlogic.gdx.ApplicationListener;
 import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.engine.desktop.platform.DesktopGUI;
+import es.eucm.ead.engine.factories.EffectFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.playground.tests.application.gameobjects.TestSpeakGO;
 import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
@@ -59,6 +62,9 @@ public class TestGame extends DesktopGame {
 		final EAdEngine engine = (EAdEngine) injector
 				.getInstance(ApplicationListener.class);
 		engine.setDebug(debug);
+		EffectFactory effectFactory = this.injector
+				.getInstance(EffectFactory.class);
+		effectFactory.put(SpeakEf.class, TestSpeakGO.class);
 
 		TestApplication test = new TestApplication(engine, width, height);
 		test.run();

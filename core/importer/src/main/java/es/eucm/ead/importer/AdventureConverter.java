@@ -72,7 +72,7 @@ import java.util.Random;
 
 public class AdventureConverter {
 
-	public static final String EFFECTS_GHOST_ID = "#engine.import.effects_ghost";
+	public static final String EFFECTS_GHOST_ID = "i$effects_ghost";
 
 	static private Logger logger = LoggerFactory
 			.getLogger(AdventureConverter.class);
@@ -123,10 +123,12 @@ public class AdventureConverter {
 
 	public void setTest(boolean test) {
 		this.test = test;
+		tester.setTesting(test);
 	}
 
 	/**
 	 * Converts the adventure in file to the new format, and stores the converted game in destinationFolder. If destinationFolder is null, a temp file is created
+	 *
 	 * @param file
 	 * @param destinationFolder
 	 * @return the destination folder path
@@ -201,13 +203,16 @@ public class AdventureConverter {
 		int i = 0;
 		for (es.eucm.eadventure.common.data.chapter.Chapter c : adventureData
 				.getChapters()) {
-			String id = "$chapter" + i++;
+			logger.debug("Importing chapter{}", i);
+			modelQuerier.setCurrentChapterIndex(i);
+			String id = modelQuerier.generateChapterId(i);
 			modelQuerier.setChapterId(id);
 			tester.command(Commands.GO_CHAPTER + " " + id);
 			tester.check(Commands.CHAPTER, id);
 			Chapter chapter = chapterConverter.convert(c);
 			chapter.setId(id);
 			model.addChapter(chapter);
+			i++;
 		}
 
 		String path = destinationFolder

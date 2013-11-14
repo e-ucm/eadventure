@@ -64,9 +64,7 @@ public class WaitEf extends Effect {
 
 	/**
 	 * Constructs a blocking and opaque wait effect with time = 0
-	 * 
-	 * @param parent
-	 *            Element's parent
+	 *
 	 */
 	public WaitEf() {
 		this(0);
@@ -74,9 +72,7 @@ public class WaitEf extends Effect {
 
 	/**
 	 * Constructs a blocking and opaque wait effect with the given time
-	 * 
-	 * @param parent
-	 *            Element's parent
+	 *
 	 * @param time
 	 *            the time for this effect
 	 */
@@ -117,6 +113,11 @@ public class WaitEf extends Effect {
 
 	public void setBlockInput(boolean blockInput) {
 		this.blockInput = blockInput;
+	}
+
+	public String toString() {
+		return "wait " + (waitUntilClick ? "click" : time) + ";blockInput:"
+				+ blockInput;
 	}
 
 }

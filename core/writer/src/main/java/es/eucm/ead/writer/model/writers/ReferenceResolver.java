@@ -92,8 +92,11 @@ public class ReferenceResolver {
 			for (Map.Entry<String, XMLNode> ee : e.getValue().entrySet()) {
 				XMLNode o = objects.get(ee.getKey());
 				if (o == null) {
-					logger.warn("Reference {} unresolved", ee.getKey());
+					logger.warn("Reference {} unresolved i context {}", ee
+							.getKey(), e.getKey());
 				} else {
+					logger.debug("Reference {} resolved in context {}", ee
+							.getKey(), e.getKey());
 					XMLNode n = ee.getValue();
 					n.setText(o.getNodeText());
 					for (Map.Entry<String, String> en : o.getAttributes()

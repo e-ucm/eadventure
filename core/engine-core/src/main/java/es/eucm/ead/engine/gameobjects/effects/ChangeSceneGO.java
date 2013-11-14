@@ -93,36 +93,46 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	@Override
 	public void initialize() {
 		super.initialize();
-		game.getGameState().setValue(IN_TRANSITION, true);
-		finished = false;
-		String nextSceneId = effect.getNextSceneId();
-		Scene nextScene;
-
-		// if null, return to previous scene
-		if (nextSceneId == null) {
-			nextScene = gui.getPreviousScene();
+		boolean inTransition = game.getGameState().getValue(IN_TRANSITION,
+				false);
+		if (inTransition) {
+			logger
+					.warn(
+							"Scene is already changing. Change scene effect {} is discarded",
+							this.getElement());
 		} else {
-			nextScene = gameLoader.loadScene(nextSceneId);
+			game.getGameState().setValue(IN_TRANSITION, true);
+			finished = false;
+			String nextSceneId = effect.getNextSceneId();
+			Scene nextScene;
+
+			// if null, return to previous scene
+			if (nextSceneId == null) {
+				nextScene = gui.getPreviousScene();
+			} else {
+				nextScene = gameLoader.loadScene(nextSceneId);
+			}
+
+			// If next scene is different from current one
+			if (nextScene != gui.getScene().getElement()) {
+				previousScene = gui.getScene();
+				transition = (TransitionGO<?>) sceneElementFactory.get(effect
+						.getTransition());
+
+				logger.debug("Transition {} -> {}", new Object[] {
+						previousScene, nextScene });
+				gameTracker.phaseEnd(previousScene.getName());
+				gameTracker.phaseStart(nextScene.getId());
+
+				sceneLoader.loadScene(nextScene, this);
+				gui.setScene(transition);
+			} else {
+				finished = true;
+				game.getGameState().setValue(IN_TRANSITION, false);
+			}
+			// We remove any remaining non-persistent effect in the scene
+			game.clearEffects(false);
 		}
-
-		// If next scene is different from current one
-		if (nextScene != gui.getScene().getElement()) {
-			previousScene = gui.getScene();
-			transition = (TransitionGO<?>) sceneElementFactory.get(effect
-					.getTransition());
-
-			logger.debug("Transition {} -> {}", new Object[] { previousScene,
-					nextScene });
-			gameTracker.phaseEnd(previousScene.getName());
-			gameTracker.phaseStart(nextScene.getId());
-
-			sceneLoader.loadScene(nextScene, this);
-			gui.setScene(transition);
-		} else {
-			finished = true;
-		}
-		// We remove any remaining non-persistent effect in the scene
-		game.clearEffects(false);
 	}
 
 	@Override
@@ -149,12 +159,12 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	@Override
 	public void transitionEnded() {
+		finished = true;
 		game.getGameState().setValue(IN_TRANSITION, false);
 		gui.setScene(nextScene);
 		nextScene.setPosition(0, 0);
 		nextScene.setAlpha(1);
 		nextScene.setZ(0);
-		finished = true;
 		transition.removeActor(nextScene);
 		transition.removeActor(previousScene);
 		previousScene.free();

@@ -42,6 +42,9 @@ import es.eucm.ead.model.elements.huds.MouseHud;
 
 public class ChangeCursorEf extends ChangeAppearanceEf {
 
+	public ChangeCursorEf() {
+	}
+
 	public ChangeCursorEf(String bundle) {
 		super(new BasicElement(MouseHud.CURSOR_ID), bundle);
 	}

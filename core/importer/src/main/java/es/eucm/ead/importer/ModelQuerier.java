@@ -42,12 +42,15 @@ import com.google.inject.Singleton;
 import es.eucm.ead.importer.subconverters.ConversationsConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
+import es.eucm.ead.importer.subconverters.effects.TriggerMacroConverter;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.Chapter;
 import es.eucm.ead.model.elements.conditions.Condition;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.EmptyEffect;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
@@ -94,6 +97,11 @@ public class ModelQuerier {
 	private AdventureData adventureData;
 
 	private Chapter currentChapter;
+
+	/**
+	 * Index of the chapter being imported
+	 */
+	private int currentChapterIndex;
 
 	private es.eucm.eadventure.common.data.chapter.Chapter oldChapter;
 
@@ -288,7 +296,13 @@ public class ModelQuerier {
 				iterations = 0;
 				EAdList<Effect> macro = getMacro(m.getId());
 				List<Effect> effect = effectsConverter.convert(m);
+				// Adds a final effect that sets that the macro is over
 				if (effect.size() > 0) {
+					ChangeFieldEf finalEffect = new ChangeFieldEf(
+							currentChapter, TriggerMacroConverter.IN_MACRO
+									+ m.getId(), EmptyCond.FALSE);
+					effect.get(effect.size() - 1).addNextEffect(finalEffect);
+					effect.add(finalEffect);
 					macro.add(effect.get(0));
 				}
 			}
@@ -369,7 +383,7 @@ public class ModelQuerier {
 
 	/**
 	 * Creates an speak effect for the given npc id and the given text
-	 * 
+	 *
 	 * @param npc
 	 * @param text
 	 * @return
@@ -394,7 +408,7 @@ public class ModelQuerier {
 
 	/**
 	 * Returns the conversation for the given id
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -442,6 +456,10 @@ public class ModelQuerier {
 		return e;
 	}
 
+	public String generateChapterId(int index) {
+		return "$chapter" + index;
+	}
+
 	public Chapter getCurrentChapter() {
 		return currentChapter;
 	}
@@ -452,5 +470,13 @@ public class ModelQuerier {
 
 	public String getChapterId() {
 		return chapterId;
+	}
+
+	public int getCurrentChapterIndex() {
+		return currentChapterIndex;
+	}
+
+	public void setCurrentChapterIndex(int currentChapterIndex) {
+		this.currentChapterIndex = currentChapterIndex;
 	}
 }

@@ -85,11 +85,14 @@ public class RunGameTest {
 
 		private Array<CommandTest> tests;
 
+		private Array<String> commandsExecuted;
+
 		private CommandTest currentTest;
 
 		public Tester(CommandInterpreter interpreter) {
 			this.interpreter = interpreter;
 			tests = new Array<CommandTest>();
+			commandsExecuted = new Array<String>();
 		}
 
 		@Override
@@ -104,21 +107,35 @@ public class RunGameTest {
 		public void render() {
 			if (currentTest == null) {
 				if (tests.size > 0) {
-					currentTest = tests.removeIndex(0);
+					if (!interpreter.isWaiting()) {
+						currentTest = tests.removeIndex(0);
+						if (currentTest.time > 0) {
+							logger.warn("Waiting {} milliseconds",
+									currentTest.time);
+						}
+					}
 				} else {
 					Gdx.app.exit();
 				}
+
 			}
 
 			if (currentTest != null) {
 				currentTest.time -= Gdx.graphics.getDeltaTime() * 1000;
 				if (currentTest.time <= 0) {
 					logger.info(currentTest.command);
+					commandsExecuted.add(currentTest.command);
 					String result = interpreter.interpret(currentTest.command);
 					logger.info("Result: " + result);
 					if (currentTest.result != null) {
 						logger.info("Expected: " + currentTest.result);
-						assertEquals(result, currentTest.result);
+						if (!result.equals(currentTest.result)) {
+							// Output of all the commands
+							for (String c : commandsExecuted) {
+								System.out.println(c);
+							}
+						}
+						assertEquals(currentTest.result, result);
 					}
 					currentTest = null;
 					if (tests.size == 0) {

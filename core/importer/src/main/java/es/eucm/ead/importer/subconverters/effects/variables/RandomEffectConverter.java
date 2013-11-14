@@ -39,6 +39,7 @@ package es.eucm.ead.importer.subconverters.effects.variables;
 
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
 import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.EmptyEffect;
 import es.eucm.ead.model.elements.effects.RandomEf;
 import es.eucm.eadventure.common.data.chapter.effects.RandomEffect;
 
@@ -57,15 +58,21 @@ public class RandomEffectConverter implements
 	@Override
 	public List<Effect> convert(RandomEffect e) {
 		ArrayList<Effect> list = new ArrayList<Effect>();
-		RandomEf effect = new RandomEf();
+		RandomEf random = new RandomEf();
 		List<Effect> positiveEffect = effectsConverter.convert(e
 				.getPositiveEffect());
-		effect.addEffect(positiveEffect.get(0), e.getProbability());
+		random.addEffect(positiveEffect.get(0), e.getProbability());
 
 		List<Effect> negativeEffect = effectsConverter.convert(e
 				.getNegativeEffect());
-		effect.addEffect(negativeEffect.get(0), 100.0f - e.getProbability());
-		list.add(effect);
+		random.addEffect(negativeEffect.get(0), 100.0f - e.getProbability());
+
+		// We need an unified effect for either of the possibilities
+		EmptyEffect empty = new EmptyEffect();
+		negativeEffect.get(negativeEffect.size() - 1).addNextEffect(empty);
+		positiveEffect.get(positiveEffect.size() - 1).addNextEffect(empty);
+		list.add(random);
+		list.add(empty);
 		return list;
 	}
 }

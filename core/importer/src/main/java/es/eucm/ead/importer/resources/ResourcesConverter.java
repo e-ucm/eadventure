@@ -17,9 +17,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -39,6 +47,8 @@ public class ResourcesConverter {
 
 	private Map<String, String> urisCorrespondences;
 
+	private Map<String, Dimension> imageDimensions;
+
 	/**
 	 * A map matching old uris with the new assets
 	 */
@@ -49,6 +59,7 @@ public class ResourcesConverter {
 		this.oldReader = oldReader;
 		urisCorrespondences = new LinkedHashMap<String, String>();
 		assets = new LinkedHashMap<String, AssetDescriptor>();
+		imageDimensions = new HashMap<String, Dimension>();
 	}
 
 	public void setPath(String destinationPath) {
@@ -83,6 +94,7 @@ public class ResourcesConverter {
 
 	/**
 	 * Returns the sound associated to the soundPath in the old model
+	 *
 	 * @param soundPath
 	 * @return
 	 */
@@ -159,6 +171,7 @@ public class ResourcesConverter {
 	 * @return
 	 */
 	public boolean copyFile(String oldPath, String newPath) {
+		logger.debug("-------- Copying from {} to {}", oldPath, newPath);
 
 		File toResourceFile = new File(destinationPath, newPath);
 		InputStream in = null;
@@ -196,6 +209,7 @@ public class ResourcesConverter {
 				}
 			}
 		}
+		logger.debug("-------- Done.");
 		return success;
 
 	}
@@ -207,8 +221,7 @@ public class ResourcesConverter {
 	/**
 	 * Returns a frames animation for the given file
 	 *
-	 * @param assetPath
-	 *            it should end in *.eaa, *_01.png, *_01.jpg...
+	 * @param assetPath it should end in *.eaa, *_01.png, *_01.jpg...
 	 * @return
 	 */
 	public EAdDrawable getFramesAnimation(String assetPath) {
@@ -300,8 +313,7 @@ public class ResourcesConverter {
 	 * Imports an animation in the form _01.png, _02.png, or _01.jpg, _02.jpg,
 	 * etc.
 	 *
-	 * @param assetPath
-	 *            the root asset path
+	 * @param assetPath the root asset path
 	 * @return the asset
 	 */
 	private AssetDescriptor importImagesAnimation(String assetPath) {
@@ -331,18 +343,42 @@ public class ResourcesConverter {
 	}
 
 	public Dimension getSize(String path) {
-		try {
-			BufferedImage img = ImageIO.read(oldReader.getInputStream(path));
-			Dimension d = new Dimension(img.getWidth(), img.getHeight());
-			img.flush();
-			return d;
-		} catch (Exception e) {
-			return new Dimension(1, 1);
+		logger.debug("-------- Size of {}", path);
+		Dimension d = imageDimensions.get(path);
+		if (d == null) {
+			try {
+
+				ImageInputStream in = ImageIO.createImageInputStream(oldReader
+						.getInputStream(path));
+				try {
+					final Iterator<ImageReader> readers = ImageIO
+							.getImageReaders(in);
+					if (readers.hasNext()) {
+						ImageReader reader = readers.next();
+						try {
+							reader.setInput(in);
+							d = new Dimension(reader.getWidth(0), reader
+									.getHeight(0));
+						} finally {
+							reader.dispose();
+						}
+					}
+				} finally {
+					if (in != null)
+						in.close();
+				}
+				logger.debug("-------- {}", d);
+			} catch (Exception e) {
+				logger.error("{}", e);
+				d = new Dimension(1, 1);
+			}
 		}
+		return d;
 	}
 
 	/**
 	 * Returns an image from the old model
+	 *
 	 * @param oldUri the uri for the image in the old model
 	 * @return the image loaded. You should flush the image when it's no longer needed
 	 */
@@ -357,6 +393,7 @@ public class ResourcesConverter {
 
 	/**
 	 * Returns the project folder
+	 *
 	 * @return
 	 */
 	public String getProjectFolder() {

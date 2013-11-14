@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.importer.utils;
+package es.eucm.ead.importer.testers;
 
 import es.eucm.ead.model.Commands;
 import es.eucm.ead.model.elements.extra.EAdList;
@@ -157,6 +157,24 @@ public class VarsMap {
 		return !nextCombination;
 	}
 
+	/** Sets the vars map to satisfy the condition **/
+	public boolean make(Conditions c, boolean satisfaction) {
+		clear();
+		analyze(c);
+		combinations = new boolean[this.conditions.size()];
+		boolean nextCombination = true;
+		boolean done = false;
+		while (nextCombination && !done) {
+			if (updateConditions()) {
+				done = oldConditionsEvaluator.allConditionsOk(c) == satisfaction;
+			}
+			if (!done) {
+				nextCombination = nextCombination();
+			}
+		}
+		return !nextCombination;
+	}
+
 	private void analyze(Conditions conditions) {
 		for (List<Condition> l : conditions.getConditionsList()) {
 			for (Condition c : l) {
@@ -262,7 +280,6 @@ public class VarsMap {
 			return false;
 		}
 		addOne(0);
-		updateConditions();
 		return true;
 	}
 

@@ -53,6 +53,9 @@ public class OneShotEf extends ChangeFieldEf {
 
 	public static final String LAUNCHED = "launched";
 
+	public OneShotEf() {
+	}
+
 	/**
 	 * 
 	 * @param effect the effect to launch only once
@@ -75,8 +78,8 @@ public class OneShotEf extends ChangeFieldEf {
 			TriggerMacroEf triggerMacro = new TriggerMacroEf();
 			triggerMacro.putEffect(new NOTCond(cond), effect);
 			triggerMacro.putEffect(cond, noEffect);
-			getNextEffects().add(triggerMacro);
-			getNextEffects().add(new ChangeFieldEf(f, EmptyCond.TRUE));
+			addNextEffect(triggerMacro);
+			addNextEffect(new ChangeFieldEf(f, EmptyCond.TRUE));
 		} else {
 			setElement(this);
 			setVarName(LAUNCHED);
@@ -85,7 +88,7 @@ public class OneShotEf extends ChangeFieldEf {
 			setCondition(new NOTCond(cond));
 
 			// Adds as a next effect the one shot effect
-			getNextEffects().add(effect);
+			addNextEffect(effect);
 		}
 	}
 

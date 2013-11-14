@@ -138,7 +138,7 @@ public class NgFinalRoom extends EmptyScene {
 		// Define next scene
 		ChangeSceneEf corridorScene = new ChangeSceneEf();
 		corridorScene.setNextScene(corridor);
-		move.getNextEffects().add(corridorScene);
+		move.addNextEffect(corridorScene);
 	}
 
 	public void setPost() {
@@ -148,7 +148,7 @@ public class NgFinalRoom extends EmptyScene {
 
 		ChangeSceneEf creditsScene = new ChangeSceneEf(NgSceneCreator
 				.getCredits(), new FadeInTransition(1000));
-		move.getNextEffects().add(creditsScene);
+		move.addNextEffect(creditsScene);
 
 	}
 

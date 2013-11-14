@@ -64,4 +64,8 @@ public class WaitUntilEf extends Effect {
 		this.waitCondition = waitCondition;
 	}
 
+	public String toString() {
+		return "Wait until " + waitCondition;
+	}
+
 }

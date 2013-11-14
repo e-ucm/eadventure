@@ -35,14 +35,18 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.importer.utils;
+package es.eucm.ead.importer.testers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.model.Commands;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.tools.TextFileWriter;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
+import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
@@ -50,6 +54,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class ConverterTester {
@@ -63,11 +68,15 @@ public class ConverterTester {
 
 	private ModelQuerier modelQuerier;
 
+	private ExitTester exitTester;
+	private boolean testing;
+
 	@Inject
 	public ConverterTester(ModelQuerier modelQuerier) {
 		this.instructions = new ArrayList<String>();
 		this.varsMap = new VarsMap();
 		this.modelQuerier = modelQuerier;
+		this.exitTester = new ExitTester(this);
 	}
 
 	public void check(String command, String result) {
@@ -82,8 +91,18 @@ public class ConverterTester {
 		check(time, command, "");
 	}
 
+	public void command(String command, String... params) {
+		String c = command;
+		for (String p : params) {
+			c += " " + p;
+		}
+		command(c);
+	}
+
 	public void check(int time, String command, String result) {
-		instructions.add(time + ";" + command + ";" + result);
+		if (testing) {
+			instructions.add(time + ";" + command + ";" + result);
+		}
 	}
 
 	public void write(String file, TextFileWriter writer) {
@@ -95,30 +114,51 @@ public class ConverterTester {
 	}
 
 	public void checkBundles(ElementReference ref, String refId) {
-		Element e = modelQuerier.getElementById(ref.getTargetId());
-		if (e.getResources().size() == 1) {
-			check(Commands.GET + " " + refId + ".bundleId", "bundle0");
-		} else {
-			Conditions[] conditions = new Conditions[e.getResources().size()];
-			int i = 0;
-			for (Resources r : e.getResources()) {
-				conditions[i] = r.getConditions();
-				command(Commands.LOG + " making true conditions for '" + refId
-						+ "' bundle " + i);
-				boolean contradiction = varsMap.makeTrue(i, conditions);
-				if (contradiction) {
-					logger
-							.warn(
-									"Contradiction: It was impossible to set the conditions to activate the bundle {} in {}",
-									i, refId);
-				} else {
-					varsMap.writeState(modelQuerier.getChapterId(), this);
-					command(Commands.PASS);
-					check(Commands.GET + " " + refId + ".bundleId", "bundle"
-							+ i);
+		if (testing) {
+			Element e = modelQuerier.getElementById(ref.getTargetId());
+			if (e.getResources().size() == 1) {
+				check(Commands.GET + " " + refId + ".bundleId", "bundle0");
+			} else {
+				Conditions[] conditions = new Conditions[e.getResources()
+						.size()];
+				int i = 0;
+				for (Resources r : e.getResources()) {
+					conditions[i] = r.getConditions();
+					command(Commands.LOG + " making true conditions for '"
+							+ refId + "' bundle " + i);
+					boolean contradiction = varsMap.makeTrue(i, conditions);
+					if (contradiction) {
+						logger
+								.warn(
+										"Contradiction: It was impossible to set the conditions to activate the bundle {} in {}",
+										i, refId);
+					} else {
+						varsMap.writeState(modelQuerier.getChapterId(), this);
+						command(Commands.PASS);
+						check(Commands.GET + " " + refId + ".bundleId",
+								"bundle" + i);
+					}
+					i++;
 				}
-				i++;
 			}
 		}
+	}
+
+	public void checkExit(String currentScene, Exit e, SceneElement exit,
+			List<Effect> effects, ChangeSceneEf nextScene,
+			List<Effect> postEffects, List<Effect> notEffects) {
+		if (testing) {
+			exitTester.test(currentScene, e, exit, effects, nextScene,
+					postEffects, notEffects);
+		}
+	}
+
+	public void setCondition(Conditions conditions, boolean satisfy) {
+		varsMap.make(conditions, satisfy);
+		varsMap.writeState(modelQuerier.getChapterId(), this);
+	}
+
+	public void setTesting(boolean testing) {
+		this.testing = testing;
 	}
 }

@@ -49,7 +49,6 @@ import es.eucm.ead.model.interfaces.Param;
  * possible scene. Next scene can be defined with an element (an EAdField, an
  * Scene) or with the scene id
  * </p>
- * 
  */
 @Element
 public class ChangeSceneEf extends Effect {
@@ -62,7 +61,6 @@ public class ChangeSceneEf extends Effect {
 
 	/**
 	 * Construct a new EAdChangeScene effect
-	 * 
 	 */
 	public ChangeSceneEf() {
 		this(null, EmptyTransition.instance());
@@ -70,11 +68,9 @@ public class ChangeSceneEf extends Effect {
 
 	/**
 	 * Construct a new EAdChangeScene effect
-	 * 
-	 * @param id
-	 *            The id of the effect
-	 * @param nextScene
-	 *            The next scene where to go, can be null to go back to previous
+	 *
+	 * @param nextScene  The next scene where to go, can be null to go back to previous
+	 * @param transition the transition
 	 */
 	public ChangeSceneEf(BasicElement nextScene, Transition transition) {
 		super();
@@ -95,10 +91,9 @@ public class ChangeSceneEf extends Effect {
 	}
 
 	/**
-	 * @param nextScene
-	 *            the nextScene to set. It should be an Scene or a field with
-	 *            Scene type. If it is neither, then the effect returns to
-	 *            the previous scene
+	 * @param nextScene the nextScene to set. It should be an Scene or a field with
+	 *                  Scene type. If it is neither, then the effect returns to
+	 *                  the previous scene
 	 */
 	public void setNextScene(BasicElement nextScene) {
 		this.nextSceneId = nextScene == null ? null : nextScene.getId();

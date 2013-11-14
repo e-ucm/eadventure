@@ -39,6 +39,7 @@ package es.eucm.ead.importer.subconverters;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.UtilsConverter;
 import es.eucm.ead.importer.resources.ResourcesConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
@@ -46,13 +47,12 @@ import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.multimedia.Video;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.effects.ChangeChapterEf;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.QuitGameEf;
 import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.events.SceneElementEv;
-import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
@@ -78,6 +78,7 @@ public class CutsceneConverter {
 			.getLogger(CutsceneConverter.class);
 
 	public static final String IN_CUTSCENE = "in_cutscene";
+	private final ModelQuerier modelQuerier;
 
 	private ResourcesConverter resourceConverter;
 
@@ -90,11 +91,13 @@ public class CutsceneConverter {
 	@Inject
 	public CutsceneConverter(ResourcesConverter resourceConverter,
 			TransitionConverter transitionConverter,
-			UtilsConverter utilsConverter, EffectsConverter effectsConverter) {
+			UtilsConverter utilsConverter, EffectsConverter effectsConverter,
+			ModelQuerier modelQuerier) {
 		this.resourceConverter = resourceConverter;
 		this.transitionConverter = transitionConverter;
 		this.utilsConverter = utilsConverter;
 		this.effectsConverter = effectsConverter;
+		this.modelQuerier = modelQuerier;
 	}
 
 	public List<Scene> convert(Cutscene scene) {
@@ -136,25 +139,20 @@ public class CutsceneConverter {
 					Effect nextEffect;
 
 					if (cs.getNext() == Slidescene.ENDCHAPTER) {
-						// XXX Games with more than one chapter will fail
-						nextEffect = new QuitGameEf();
+						// [SS - NextScene]
+						nextEffect = generateEndChapter(cs);
 					} else {
 						// Link to next slide
-						ChangeSceneEf nextSlide = new ChangeSceneEf();
+						ChangeSceneEf nextSlide;
 						// If it's last frame, we link with the next scene, ad
 						// we add the next effects
 						if (i == anim.getFrames().size() - 1) {
 							// [SS - NextScene]
-							nextSlide.setNextScene(getNextScene(cs));
-							List<Effect> effects = effectsConverter.convert(cs
-									.getEffects());
-							if (effects.size() > 0) {
-								nextSlide.addNextEffect(effects.get(0));
-							}
-						}
-						// Else, we link with the next slide
-						else {
-							nextSlide.setNextScene(new BasicElement(cs.getId()
+							nextSlide = generateNextScene(cs);
+						} else {
+							// Else, we link with the next slide
+							nextSlide = new ChangeSceneEf(new BasicElement(cs
+									.getId()
 									+ (i + 1)));
 						}
 
@@ -183,6 +181,7 @@ public class CutsceneConverter {
 						scene.getBackground().addBehavior(
 								MouseGEv.MOUSE_LEFT_PRESSED, nextEffect);
 					} else {
+						// Wait the time given by the frame
 						WaitEf wait = new WaitEf((int) f.getTime());
 						wait.addNextEffect(nextEffect);
 						scene.addAddedEffect(wait);
@@ -210,23 +209,6 @@ public class CutsceneConverter {
 					.getBackground(), SceneElement.VAR_BUNDLE_ID);
 		}
 
-		// We add an event that sets the IN_CUTSCENE field for the use of others
-		// (trigger cutscene effect, for example)
-		Scene firstScene = cutscene.get(0);
-		Scene lastScene = cutscene.get(cutscene.size() - 1);
-		ElementField inCutscene = new ElementField(firstScene, IN_CUTSCENE,
-				false);
-		// Event for the first scene
-		SceneElementEv event1 = new SceneElementEv();
-		event1.addEffect(SceneElementEvType.ADDED, new ChangeFieldEf(
-				inCutscene, EmptyCond.TRUE));
-		firstScene.addEvent(event1);
-		// Event for the last scene
-		SceneElementEv event2 = new SceneElementEv();
-		event2.addEffect(SceneElementEvType.REMOVED, new ChangeFieldEf(
-				inCutscene, EmptyCond.FALSE));
-		lastScene.addEvent(event2);
-
 		return cutscene;
 	}
 
@@ -241,8 +223,13 @@ public class CutsceneConverter {
 		videoScene.setVideo(video);
 
 		// [VI - NextScene]
-		BasicElement nextScene = getNextScene(cs);
-		videoScene.addFinalEffect(new ChangeSceneEf(nextScene));
+		Effect finalEffect;
+		if (cs.getType() == Cutscene.ENDCHAPTER) {
+			finalEffect = generateEndChapter(cs);
+		} else {
+			finalEffect = generateNextScene(cs);
+		}
+		videoScene.addFinalEffect(finalEffect);
 
 		ArrayList<Scene> scenes = new ArrayList<Scene>();
 		scenes.add(videoScene);
@@ -256,13 +243,45 @@ public class CutsceneConverter {
 		case Slidescene.GOBACK:
 			nextScene = null;
 			break;
-		case Slidescene.ENDCHAPTER:
-			// XXX
-			break;
 		// [CS - NewScene]
 		case Slidescene.NEWSCENE:
 			nextScene = new BasicElement(cs.getTargetId());
 			break;
+		}
+		return nextScene;
+	}
+
+	public Effect generateEndChapter(Cutscene cs) {
+		Effect nextEffect;
+		//[CS - ChapterEnds]
+		int index = modelQuerier.getCurrentChapterIndex();
+		int totalChapter = modelQuerier.getAventureData().getChapters().size();
+		// Last chapter, quit the game
+		if (index == totalChapter - 1) {
+			nextEffect = new QuitGameEf();
+		} else {
+			// Go to next chapter
+			nextEffect = new ChangeChapterEf(modelQuerier
+					.generateChapterId(index + 1));
+		}
+		return nextEffect;
+	}
+
+	public ChangeSceneEf generateNextScene(Cutscene cs) {
+		// [CS - PrevScene] [CS - NewScene]
+		ChangeSceneEf nextScene = new ChangeSceneEf();
+		nextScene.setNextScene(getNextScene(cs));
+		List<Effect> effects = effectsConverter.convert(cs.getEffects());
+
+		ElementField inCutscene = new ElementField(modelQuerier
+				.getCurrentChapter(), IN_CUTSCENE + cs.getId(), false);
+		ChangeFieldEf finalEffect = new ChangeFieldEf(inCutscene,
+				EmptyCond.FALSE);
+		if (effects.size() > 0) {
+			nextScene.addNextEffect(effects.get(0));
+			effects.get(effects.size() - 1).addNextEffect(finalEffect);
+		} else {
+			nextScene.addNextEffect(finalEffect);
 		}
 		return nextScene;
 	}

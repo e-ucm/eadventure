@@ -39,10 +39,19 @@ package es.eucm.ead.importer.subconverters.effects;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.importer.*;
+import es.eucm.ead.importer.AdventureConverter;
+import es.eucm.ead.importer.EAdElementsCache;
+import es.eucm.ead.importer.ModelQuerier;
+import es.eucm.ead.importer.StringsConverter;
+import es.eucm.ead.importer.UtilsConverter;
 import es.eucm.ead.importer.resources.ResourcesConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
-import es.eucm.ead.importer.subconverters.effects.variables.*;
+import es.eucm.ead.importer.subconverters.effects.variables.ActivateFlagConverter;
+import es.eucm.ead.importer.subconverters.effects.variables.DeactivateFlagConverter;
+import es.eucm.ead.importer.subconverters.effects.variables.DecrementVarConverter;
+import es.eucm.ead.importer.subconverters.effects.variables.IncrementVarConverter;
+import es.eucm.ead.importer.subconverters.effects.variables.RandomEffectConverter;
+import es.eucm.ead.importer.subconverters.effects.variables.SetValueConverter;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
@@ -58,7 +67,11 @@ import es.eucm.eadventure.common.data.chapter.effects.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class EffectsConverter {
@@ -105,9 +118,9 @@ public class EffectsConverter {
 	private void setConverters() {
 		converters = new HashMap<Class<?>, EffectConverter<?>>();
 		converters.put(MacroReferenceEffect.class, new TriggerMacroConverter(
-				modelQuerier));
+				modelQuerier, elementsCache));
 		ChangeSceneConverter changeSceneConverter = new ChangeSceneConverter(
-				this);
+				this, modelQuerier);
 		converters.put(TriggerSceneEffect.class, changeSceneConverter);
 		converters.put(TriggerCutsceneEffect.class, changeSceneConverter);
 		converters.put(TriggerLastSceneEffect.class, changeSceneConverter);
@@ -167,6 +180,15 @@ public class EffectsConverter {
 			logger.warn("No effect converter for {}", e.getClass());
 		} else {
 			List<Effect> effects = converter.convert(e);
+			for (Effect effect : effects) {
+				if (effect.getId() == null) {
+					effect.setId("ef#"
+							+ BasicElement.classToString(effect.getClass())
+							+ "$"
+							+ elementsCache.newReference(BasicElement
+									.classToString(effect.getClass())));
+				}
+			}
 			if (e.getConditions() != null) {
 				Condition cond = conditionConverter.convert(e.getConditions());
 				effects.get(0).setCondition(cond);
@@ -190,7 +212,7 @@ public class EffectsConverter {
 	 * the other, so most of cases you'll only need to use the first element of
 	 * the list (For example, to add it to scene element with an addBehavior
 	 * method)
-	 *
+	 * <p/>
 	 * You'll also use the last effect of the list when you need to add more
 	 * affects AFTER all the effects on the list has been executed
 	 *
@@ -206,7 +228,7 @@ public class EffectsConverter {
 				effects.addAll(nextEffects);
 				if (effect != null) {
 					Effect nextEffect = simplifyEffects(nextEffects).get(0);
-					effect.getNextEffects().add(nextEffect);
+					effect.addNextEffect(nextEffect);
 				}
 				effect = nextEffects.get(nextEffects.size() - 1);
 			}

@@ -352,8 +352,8 @@ public class NgRoom1 extends EmptyScene {
 		WaitEf wait = new WaitEf();
 		wait.setTime(50);
 
-		up.getNextEffects().add(wait);
-		wait.getNextEffects().add(down);
+		up.addNextEffect(wait);
+		wait.addNextEffect(down);
 		up.setCondition(isNotDark);
 
 		blinkEvent.addEffect(TimedEvType.END_TIME, up);

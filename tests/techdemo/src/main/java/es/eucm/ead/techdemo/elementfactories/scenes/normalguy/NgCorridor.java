@@ -227,7 +227,7 @@ public class NgCorridor extends EmptyScene {
 		// Changing the scene: play the video
 		ChangeSceneEf toWindowScene = new ChangeSceneEf();
 		toWindowScene.setNextScene(windowScene);
-		move.getNextEffects().add(toWindowScene);
+		move.addNextEffect(toWindowScene);
 
 		this.getSceneElements().add(window);
 
@@ -268,7 +268,7 @@ public class NgCorridor extends EmptyScene {
 		// Changing the scene
 		ChangeSceneEf goToRoom = new ChangeSceneEf(room, new FadeInTransition(
 				1000));
-		move.getNextEffects().add(goToRoom);
+		move.addNextEffect(goToRoom);
 
 	}
 
@@ -277,11 +277,11 @@ public class NgCorridor extends EmptyScene {
 		MoveSceneElementEf move = moveNg(565, 360);
 		doorClosed.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 
-		move.getNextEffects().add(NgCommon.getLookEastEffect());
+		move.addNextEffect(NgCommon.getLookEastEffect());
 
 		SpeakSceneElementEf speak = new SpeakSceneElementEf(ng, new EAdString(
 				"ng.1"));
-		move.getNextEffects().add(speak);
+		move.addNextEffect(speak);
 	}
 
 	public SceneElement getNg() {

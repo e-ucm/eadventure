@@ -38,6 +38,7 @@
 package es.eucm.ead.engine.game.interfaces;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.utils.Array;
 import es.eucm.ead.engine.factories.EffectFactory;
 import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
@@ -70,6 +71,11 @@ public class EffectsHandler {
 	private List<EffectGO<?>> effects;
 
 	/**
+	 * List with effects listeners
+	 */
+	private Array<EffectsListener> listeners;
+
+	/**
 	 * Auxiliary variable, to avoid new every loop
 	 */
 	private ArrayList<EffectGO<?>> finishedEffects;
@@ -77,8 +83,14 @@ public class EffectsHandler {
 	public EffectsHandler(GameState gameState, EffectFactory effectFactory) {
 		this.effectFactory = effectFactory;
 		this.gameState = gameState;
+		this.listeners = new Array<EffectsListener>();
 		effects = new ArrayList<EffectGO<?>>();
 		finishedEffects = new ArrayList<EffectGO<?>>();
+		listeners = new Array<EffectsListener>();
+	}
+
+	public void addEffectListener(EffectsListener l) {
+		listeners.add(l);
 	}
 
 	/**
@@ -102,6 +114,9 @@ public class EffectsHandler {
 		if (e != null) {
 			if (gameState.evaluate(e.getCondition())) {
 				logger.debug("{} launched", e);
+				for (EffectsListener l : listeners) {
+					l.effectLaunched(e, action, parent);
+				}
 				EffectGO<?> effectGO = effectFactory.get(e);
 				if (effectGO == null) {
 					logger.warn("No game object for effect {}", e.getClass());
@@ -175,5 +190,9 @@ public class EffectsHandler {
 			effectFactory.remove(e);
 
 		}
+	}
+
+	public interface EffectsListener {
+		void effectLaunched(Effect e, Event action, SceneElement parent);
 	}
 }

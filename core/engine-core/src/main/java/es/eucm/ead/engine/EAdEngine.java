@@ -173,8 +173,8 @@ public class EAdEngine implements ApplicationListener {
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		game.act(game.getSkippedMilliseconds());
 		stage.act(game.getSkippedMilliseconds());
+		game.act(game.getSkippedMilliseconds());
 		float x = Gdx.input.getX();
 		float y = Gdx.input.getY();
 		if (Math.abs(x - lastX) > 0.001f || Math.abs(y - lastY) > 0.001f) {

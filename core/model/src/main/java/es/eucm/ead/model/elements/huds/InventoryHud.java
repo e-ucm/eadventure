@@ -52,6 +52,9 @@ public class InventoryHud extends GroupElement {
 	@Param
 	private int height;
 
+	public InventoryHud() {
+	}
+
 	/***
 	 * 
 	 * @param top Top coordinate when the hud is hidden 

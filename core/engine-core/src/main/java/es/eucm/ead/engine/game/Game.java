@@ -319,6 +319,10 @@ public class Game {
 		}
 	}
 
+	public EffectsHandler getEffectsHandler() {
+		return effectsHandler;
+	}
+
 	/**
 	 * Returns a list with all game objects linked to the current effects.
 	 *
@@ -356,7 +360,6 @@ public class Game {
 	 */
 	public EffectGO<?> addEffect(Effect e, Event action, SceneElement parent) {
 		return effectsHandler.addEffect(e, action, parent);
-
 	}
 
 }

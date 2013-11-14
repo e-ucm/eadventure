@@ -39,6 +39,10 @@ package es.eucm.ead.model.assets.drawable.basics.shapes;
 
 public class LineShape extends BezierShape {
 
+	public LineShape() {
+
+	}
+
 	public LineShape(int x1, int y1, int x2, int y2, int width) {
 		int vy = x2 - x1;
 		int vx = y2 - y1;

@@ -78,6 +78,7 @@ public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 	public void transition(SceneGO previousScene, SceneGO nextScene,
 			TransitionListener l) {
 		super.transition(previousScene, nextScene, l);
+		logger.debug("Fade in transition during {}", transition.getTime());
 		currentTime = 0;
 		sceneAlpha = 0;
 		nextScene.setAlpha(0);

@@ -102,9 +102,9 @@ public class HighlightItemConverter implements
 			InterpolationEf interpolation4 = new InterpolationEf(basicElement,
 					SceneElement.VAR_SCALE, 0.8f, 1.0f, 1000);
 			changeColor.addSimultaneousEffect(interpolation);
-			interpolation.getNextEffects().add(interpolation2);
-			interpolation2.getNextEffects().add(interpolation3);
-			interpolation3.getNextEffects().add(interpolation4);
+			interpolation.addNextEffect(interpolation2);
+			interpolation2.addNextEffect(interpolation3);
+			interpolation3.addNextEffect(interpolation4);
 		}
 
 		return list;

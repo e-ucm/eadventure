@@ -39,7 +39,6 @@ package es.eucm.ead.importer.subconverters;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.importer.utils.ConverterTester;
 import es.eucm.ead.importer.EAdElementsCache;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.StringsConverter;
@@ -49,6 +48,7 @@ import es.eucm.ead.importer.subconverters.actors.ElementConverter;
 import es.eucm.ead.importer.subconverters.actors.NPCConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
+import es.eucm.ead.importer.testers.ConverterTester;
 import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.basics.shapes.AbstractShape;
@@ -84,12 +84,17 @@ import es.eucm.eadventure.common.data.chapter.Trajectory;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.List;
 
 @Singleton
 public class SceneConverter {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(SceneConverter.class);
 
 	private static final int EXIT_Z = 20000;
 
@@ -159,14 +164,19 @@ public class SceneConverter {
 		scene.setId(s.getId());
 		background.setId(s.getId() + "$bg");
 
+		logger.debug("Importing background...");
 		addAppearance(scene, s);
 		// XXX Information
+		logger.debug("Importing references...");
 		addReferences(scene, s);
+		logger.debug("Importing active zones...");
 		addActiveZones(scene, s);
+		logger.debug("Importing exits...");
 		addExits(scene, s);
 
 		// Add trajectory
 		if (modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON) {
+			logger.debug("Importing trajectory...");
 			scene.setTrajectoryDefinition(trajectoryConverter.convert(s
 					.getTrajectory()));
 		}
@@ -183,6 +193,7 @@ public class SceneConverter {
 		// Resources blocks
 		int i = 0;
 		for (Resources r : s.getResources()) {
+			logger.debug("---- Adding resources {}", i);
 			// Background [SC - Bg]
 			String backgroundPath = r
 					.getAssetPath(es.eucm.eadventure.common.data.chapter.scenes.Scene.RESOURCE_TYPE_BACKGROUND);
@@ -224,6 +235,7 @@ public class SceneConverter {
 			i++;
 		}
 
+		logger.debug("---- Adding resources conditions");
 		// Add conditioned resources
 		utilsConverter.addResourcesConditions(s.getResources(), scene
 				.getBackground(), SceneElement.VAR_BUNDLE_ID);
@@ -274,7 +286,7 @@ public class SceneConverter {
 			SceneElementDef def = (SceneElementDef) elementsCache.get(e
 					.getTargetId());
 			SceneElement sceneElement = new SceneElement(def);
-			String sceneElementId = e.getTargetId() + "$ref"
+			String sceneElementId = e.getTargetId() + "$"
 					+ elementsCache.newReference(e.getTargetId());
 			converterTester.checkBundles(e, sceneElementId);
 			sceneElement.setId(sceneElementId);
@@ -307,6 +319,7 @@ public class SceneConverter {
 			AbstractShape shape = rectangleConverter.convert(e, EXIT_FILL);
 
 			GhostElement exit = new GhostElement(shape);
+			exit.setId(s.getId() + "$ex" + i);
 			if (e.isRectangular()) {
 				exit.setPosition(Corner.TOP_LEFT, e.getX(), e.getY());
 			}
@@ -319,6 +332,8 @@ public class SceneConverter {
 			// Next scene
 			// [EXIT - Next]
 			ChangeSceneEf nextScene = new ChangeSceneEf();
+			nextScene.setId(exit.getId() + "$cs");
+			nextScene.setNextEffectsAlways(true);
 			nextScene.setNextScene(new BasicElement(e.getNextSceneId()));
 			// [EXIT - Transition]
 			nextScene.setTransition(transitionConverter.getTransitionExit(e
@@ -329,16 +344,17 @@ public class SceneConverter {
 			List<Effect> effects = effectConverter.convert(e.getEffects());
 			if (effects.size() > 0) {
 				effectWhenClick = effects.get(0);
-				effects.get(effects.size() - 1).getNextEffects().add(nextScene);
+				effects.get(effects.size() - 1).addNextEffect(nextScene);
 			} else {
 				effectWhenClick = nextScene;
 			}
 
 			// Add next effects
 			// [EXIT - PostEffects]
-			effects = effectConverter.convert(e.getPostEffects());
-			if (effects.size() > 0) {
-				nextScene.getNextEffects().add(effects.get(0));
+			List<Effect> postEffects = effectConverter.convert(e
+					.getPostEffects());
+			if (postEffects.size() > 0) {
+				nextScene.addNextEffect(postEffects.get(0));
 			}
 
 			// Set Z
@@ -358,6 +374,7 @@ public class SceneConverter {
 			// Add the exit to the scene
 			scene.add(exit);
 
+			List<Effect> notEffects = null;
 			// [EXIT - NotEffects]
 			// If it has not-effects
 			if (e.isHasNotEffects()) {
@@ -366,9 +383,9 @@ public class SceneConverter {
 				triggerMacro.putEffect(cond, effectWhenClick);
 				// Add INACTIVE effects
 				EAdList<Effect> macro = new EAdList<Effect>();
-				effects = effectConverter.convert(e.getNotEffects());
-				if (effects.size() > 0) {
-					macro.add(effects.get(0));
+				notEffects = effectConverter.convert(e.getNotEffects());
+				if (notEffects.size() > 0) {
+					macro.add(notEffects.get(0));
 				}
 				// The macro only executes if the first condition fails
 				triggerMacro.putEffects(EmptyCond.TRUE, macro);
@@ -386,7 +403,9 @@ public class SceneConverter {
 				utilsConverter.addWatchCondition(exit, exit
 						.getField(SceneElement.VAR_VISIBLE), e.getConditions());
 			}
-
+			// Add tests
+			converterTester.checkExit(s.getId(), e, exit, effects, nextScene,
+					postEffects, notEffects);
 			i++;
 		}
 

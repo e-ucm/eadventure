@@ -42,11 +42,13 @@ import es.eucm.ead.model.interfaces.features.Identified;
 import org.junit.Test;
 import org.reflections.Reflections;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Set;
 
 import static junit.framework.Assert.fail;
+import static org.reflections.ReflectionUtils.getConstructors;
 import static org.reflections.ReflectionUtils.getFields;
 import static org.reflections.ReflectionUtils.getMethods;
 import static org.reflections.ReflectionUtils.withAnnotation;
@@ -55,7 +57,7 @@ import static org.reflections.ReflectionUtils.withParameters;
 import static org.reflections.ReflectionUtils.withParametersCount;
 
 /**
- * This test ensures that all elements of the model have 
+ * This test ensures that all elements of the model have
  * proper setters and getters for attributes annotated as 'param'
  * (this is needed for GWT compatibility.)
  */
@@ -82,6 +84,12 @@ public class SetGetTest {
 				if (s.size() != 1) {
 					fail("No set method for field " + f.getName()
 							+ " in class " + c);
+				}
+			}
+			if (!c.isInterface()) {
+				Set<Constructor> s = getConstructors(c, withParametersCount(0));
+				if (s.size() != 1) {
+					fail("No empty constructor in class " + c);
 				}
 			}
 		}
