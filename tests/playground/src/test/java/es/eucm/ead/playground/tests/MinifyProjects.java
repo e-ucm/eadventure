@@ -95,6 +95,7 @@ public class MinifyProjects {
 				if (child.getName().endsWith(".avi")
 						|| child.getName().endsWith(".mp3")
 						|| child.getName().endsWith(".wav")
+						|| child.getName().endsWith(".mpg")
 						|| child.getName().endsWith(".html")) {
 					try {
 						FileUtils.copy(PLACEHOLDER, child);

@@ -42,11 +42,11 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.TypeLiteral;
 import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.desktop.platform.DesktopGUI;
 import es.eucm.ead.engine.desktop.platform.DesktopModule;
-import es.eucm.ead.engine.game.GameLoader;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
@@ -60,9 +60,7 @@ public class DesktopGame {
 
 	protected Injector injector;
 
-	private GameLoader gameLoader;
-
-	private Map<Class<?>, Class<?>> binds;
+	private Map<TypeLiteral<?>, Class<?>> binds;
 
 	private String path;
 
@@ -80,7 +78,7 @@ public class DesktopGame {
 	 */
 	public DesktopGame() {
 		this(true);
-		binds = new HashMap<Class<?>, Class<?>>();
+		binds = new HashMap<TypeLiteral<?>, Class<?>>();
 	}
 
 	/**
@@ -101,7 +99,6 @@ public class DesktopGame {
 		if (injector == null) {
 			injector = Guice.createInjector(new DesktopModule(binds),
 					new JavaToolsModule());
-			gameLoader = injector.getInstance(GameLoader.class);
 			// If we have the resources in a path
 			if (path != null) {
 				AssetHandler assetHandler = injector
@@ -173,8 +170,12 @@ public class DesktopGame {
 		this.fullscreen = fullscreen;
 	}
 
-	public void setBind(Class<?> clazz, Class<?> bindTo) {
-		binds.put(clazz, bindTo);
+	public <T> void setBind(Class<T> clazz, Class<?> bindTo) {
+		binds.put(TypeLiteral.get(clazz), bindTo);
+	}
+
+	public void setBind(TypeLiteral<?> type, Class<?> bindTo) {
+		binds.put(type, bindTo);
 	}
 
 	public Injector getInjector() {

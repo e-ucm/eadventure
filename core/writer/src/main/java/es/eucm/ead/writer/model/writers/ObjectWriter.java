@@ -113,7 +113,7 @@ public class ObjectWriter implements Writer<Identified> {
 		if (o != null && o != object) {
 			if (o.getClass() != BasicElement.class
 					&& object.getClass() != BasicElement.class) {
-				logger.warn("Duplicated id {}", object.getId());
+				logger.error("Duplicated id {}", object.getId());
 			}
 		} else {
 			// We don't add references to the pointers list

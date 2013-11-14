@@ -125,6 +125,9 @@ public class RunGameTest {
 				if (currentTest.time <= 0) {
 					logger.info(currentTest.command);
 					commandsExecuted.add(currentTest.command);
+					if (currentTest.command.equals("get Telefono$1.bundleId")) {
+						System.out.println();
+					}
 					String result = interpreter.interpret(currentTest.command);
 					logger.info("Result: " + result);
 					if (currentTest.result != null) {

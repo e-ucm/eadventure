@@ -38,12 +38,16 @@
 package es.eucm.ead.playground.tests.application;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.google.inject.TypeLiteral;
 import es.eucm.ead.engine.EAdEngine;
+import es.eucm.ead.engine.assets.SpecialAssetRenderer;
 import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.engine.desktop.platform.DesktopGUI;
 import es.eucm.ead.engine.factories.EffectFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.playground.tests.application.assets.TestVideoRenderer;
 import es.eucm.ead.playground.tests.application.gameobjects.TestSpeakGO;
 import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
@@ -51,6 +55,12 @@ import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import javax.swing.*;
 
 public class TestGame extends DesktopGame {
+
+	public TestGame() {
+		this.setBind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
+		}, TestVideoRenderer.class);
+	}
+
 	public JFrame start() {
 		initInjector();
 		// Init class loader

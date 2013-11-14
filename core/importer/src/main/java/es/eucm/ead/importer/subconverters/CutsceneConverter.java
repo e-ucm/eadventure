@@ -59,7 +59,6 @@ import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.VideoScene;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.eadventure.common.data.animation.Animation;
-import es.eucm.eadventure.common.data.animation.Frame;
 import es.eucm.eadventure.common.data.animation.Transition;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Cutscene;
@@ -87,6 +86,13 @@ public class CutsceneConverter {
 	private UtilsConverter utilsConverter;
 
 	private EffectsConverter effectsConverter;
+
+	// Aux vars
+	private Animation animation;
+	private ArrayList<String> uris;
+
+	private static final String[] EXTENSIONS = new String[] { "png", "jpg",
+			"jpeg", "gif", "bmp" };
 
 	@Inject
 	public CutsceneConverter(ResourcesConverter resourceConverter,
@@ -126,70 +132,65 @@ public class CutsceneConverter {
 		for (Resources r : cs.getResources()) {
 			// We import every slide as an independent scene
 			String slidesPath = r.getAssetPath(Slidescene.RESOURCE_TYPE_SLIDES);
-			if (slidesPath.endsWith(".eaa")) {
-				// [SS - Slides]
-				Animation anim = resourceConverter.getAnimation(slidesPath);
-				int i = 0;
-				for (Frame f : anim.getFrames()) {
-					EAdDrawable background = utilsConverter.getBackground(f
-							.getUri(), true);
+			// [SS - Slides]
+			prepareFrames(slidesPath);
+			for (int i = 0; i < frames(); i++) {
+				EAdDrawable background = utilsConverter.getBackground(uri(i),
+						true);
 
-					// XXX Sound
-					Scene scene = new Scene(new SceneElement(background));
-					Effect nextEffect;
+				// XXX Sound
+				Scene scene = new Scene(new SceneElement(background));
+				Effect nextEffect;
 
-					if (cs.getNext() == Slidescene.ENDCHAPTER) {
+				if (cs.getNext() == Slidescene.ENDCHAPTER) {
+					// [SS - NextScene]
+					nextEffect = generateEndChapter();
+				} else {
+					// Link to next slide
+					ChangeSceneEf nextSlide;
+					// If it's last frame, we link with the next scene, ad
+					// we add the next effects
+					if (i == frames() - 1) {
 						// [SS - NextScene]
-						nextEffect = generateEndChapter(cs);
+						nextSlide = generateNextScene(cs);
 					} else {
-						// Link to next slide
-						ChangeSceneEf nextSlide;
-						// If it's last frame, we link with the next scene, ad
-						// we add the next effects
-						if (i == anim.getFrames().size() - 1) {
-							// [SS - NextScene]
-							nextSlide = generateNextScene(cs);
-						} else {
-							// Else, we link with the next slide
-							nextSlide = new ChangeSceneEf(new BasicElement(cs
-									.getId()
-									+ (i + 1)));
-						}
+						// Else, we link with the next slide
+						nextSlide = new ChangeSceneEf(new BasicElement(cs
+								.getId()
+								+ (i + 1)));
+					}
 
-						// Add transition, if any
-						// For the last scene, we add the next transition
-						// [SS - Transition]
-						if (i == anim.getFrames().size() - 1) {
+					// Add transition, if any
+					// For the last scene, we add the next transition
+					// [SS - Transition]
+					if (i == frames() - 1) {
+						nextSlide.setTransition(transitionConverter
+								.getTransitionNextScene(cs.getTransitionType(),
+										cs.getTransitionTime()));
+					} else {
+						// If the animation has transitions, we add it
+						if (isUseTransitions()) {
+							Transition t = getTransition(i);
 							nextSlide.setTransition(transitionConverter
-									.getTransitionNextScene(cs
-											.getTransitionType(), cs
-											.getTransitionTime()));
-						} else {
-							// If the animation has transitions, we add it
-							if (anim.isUseTransitions()) {
-								Transition t = anim.getTransitions().get(i);
-								nextSlide.setTransition(transitionConverter
-										.getTransition(t.getType(), (int) t
-												.getTime()));
-							}
+									.getTransition(t.getType(), (int) t
+											.getTime()));
 						}
-						nextEffect = nextSlide;
 					}
-
-					if (f.isWaitforclick()) {
-						// Change to next slide when click
-						scene.getBackground().addBehavior(
-								MouseGEv.MOUSE_LEFT_PRESSED, nextEffect);
-					} else {
-						// Wait the time given by the frame
-						WaitEf wait = new WaitEf((int) f.getTime());
-						wait.addNextEffect(nextEffect);
-						scene.addAddedEffect(wait);
-					}
-					i++;
-					scene.setReturnable(false);
-					cutscene.add(scene);
+					nextEffect = nextSlide;
 				}
+
+				if (isWaitforclick(i)) {
+					// Change to next slide when click
+					scene.getBackground().addBehavior(
+							MouseGEv.MOUSE_LEFT_PRESSED, nextEffect);
+				} else {
+					// Wait the time given by the frame
+					WaitEf wait = new WaitEf(time(i));
+					wait.addNextEffect(nextEffect);
+					scene.addAddedEffect(wait);
+				}
+				scene.setReturnable(false);
+				cutscene.add(scene);
 			}
 			// Slides
 
@@ -225,7 +226,7 @@ public class CutsceneConverter {
 		// [VI - NextScene]
 		Effect finalEffect;
 		if (cs.getType() == Cutscene.ENDCHAPTER) {
-			finalEffect = generateEndChapter(cs);
+			finalEffect = generateEndChapter();
 		} else {
 			finalEffect = generateNextScene(cs);
 		}
@@ -251,9 +252,9 @@ public class CutsceneConverter {
 		return nextScene;
 	}
 
-	public Effect generateEndChapter(Cutscene cs) {
+	public Effect generateEndChapter() {
 		Effect nextEffect;
-		//[CS - ChapterEnds]
+		// [CS - ChapterEnds]
 		int index = modelQuerier.getCurrentChapterIndex();
 		int totalChapter = modelQuerier.getAventureData().getChapters().size();
 		// Last chapter, quit the game
@@ -286,4 +287,61 @@ public class CutsceneConverter {
 		return nextScene;
 	}
 
+	void prepareFrames(String slidesPath) {
+		animation = null;
+		if (slidesPath.endsWith(".eaa")) {
+			animation = resourceConverter.getAnimation(slidesPath);
+		} else {
+			int frames = 0;
+			uris = new ArrayList<String>();
+			boolean done = false;
+			while (!done) {
+				String name = slidesPath + "_0" + (frames + 1);
+				done = true;
+				for (String ext : EXTENSIONS) {
+					String uri = name + "." + ext;
+					if (resourceConverter.fileExists(uri)) {
+						done = false;
+						uris.add(uri);
+						break;
+					}
+					uri = name + "." + ext.toUpperCase();
+					if (resourceConverter.fileExists(uri)) {
+						done = false;
+						uris.add(uri);
+						break;
+					}
+				}
+				frames++;
+			}
+
+		}
+	}
+
+	private int frames() {
+		return animation == null ? uris.size() : animation.getFrames().size();
+	}
+
+	private String uri(int i) {
+		return animation == null ? uris.get(i) : animation.getFrames().get(i)
+				.getUri();
+	}
+
+	private boolean isWaitforclick(int i) {
+		return animation == null
+				|| animation.getFrames().get(i).isWaitforclick();
+	}
+
+	private int time(int i) {
+		return (int) (animation == null ? 0 : animation.getFrames().get(i)
+				.getTime());
+	}
+
+	private boolean isUseTransitions() {
+		return animation != null && animation.isUseTransitions();
+	}
+
+	private Transition getTransition(int i) {
+		return animation.getTransitions().get(i);
+	}
 }

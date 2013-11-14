@@ -118,7 +118,7 @@ public class TimerGO extends AbstractEventGO<TimerEv> {
 				}
 			}
 
-			if (stopped) {
+			if (stopped && display != null) {
 				display.setVisible(element.isShowWhenStopped());
 			} else if (element.isDisplay()) {
 				int ms = element.isCountdown() ? remainingTime : element

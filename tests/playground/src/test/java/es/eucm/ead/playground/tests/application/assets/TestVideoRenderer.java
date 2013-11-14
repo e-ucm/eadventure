@@ -35,47 +35,36 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.model.elements.transitions;
+package es.eucm.ead.playground.tests.application.assets;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.engine.assets.SpecialAssetRenderer;
+import es.eucm.ead.model.assets.multimedia.Video;
 
-/**
- * Basic empty transition
- *
- */
-@Element
-public class EmptyTransition extends Transition {
+import java.awt.*;
 
-	private static EmptyTransition transition;
+public class TestVideoRenderer implements
+		SpecialAssetRenderer<Video, Component> {
 
-	@Param
-	private int time;
+	private Component c = new Component() {
 
-	public EmptyTransition() {
-		this(0);
-	}
+	};
 
-	public EmptyTransition(int time) {
-		this.time = time;
-		setReturnable(false);
+	@Override
+	public Component getComponent(Video asset) {
+		return c;
 	}
 
 	@Override
-	public int getTime() {
-		return time;
+	public boolean isFinished() {
+		return true;
 	}
 
-	public void setTime(int time) {
-		this.time = time;
+	@Override
+	public boolean start() {
+		return true;
 	}
 
-	public static EmptyTransition instance() {
-		if (transition == null) {
-			transition = new EmptyTransition(0);
-			transition.setId("pref$empty_transition");
-		}
-		return transition;
+	@Override
+	public void reset() {
 	}
-
 }

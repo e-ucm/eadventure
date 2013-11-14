@@ -54,13 +54,13 @@ import java.util.Map.Entry;
 
 public class DesktopModule extends AbstractModule {
 
-	private Map<Class<?>, Class<?>> binds;
+	private Map<TypeLiteral<?>, Class<?>> binds;
 
 	public DesktopModule() {
-		this(new HashMap<Class<?>, Class<?>>());
+		this(new HashMap<TypeLiteral<?>, Class<?>>());
 	}
 
-	public DesktopModule(Map<Class<?>, Class<?>> binds) {
+	public DesktopModule(Map<TypeLiteral<?>, Class<?>> binds) {
 		this.binds = binds;
 	}
 
@@ -70,21 +70,27 @@ public class DesktopModule extends AbstractModule {
 		BasicModuleMap map = new BasicModuleMap();
 		map.setBind(AssetHandler.class, DesktopAssetHandler.class);
 		map.setBind(GUI.class, DesktopGUI.class);
-		if (binds != null) {
-			for (Entry<Class<?>, Class<?>> e : binds.entrySet()) {
-				map.setBind(e.getKey(), e.getValue());
+
+		for (Entry<Class<?>, Class<?>> e : map.getBinds().entrySet()) {
+			TypeLiteral typeLiteral = TypeLiteral.get(e.getKey());
+			if (!binds.containsKey(typeLiteral)) {
+				binds.put(typeLiteral, e.getValue());
 			}
 		}
-		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
-			Class c1 = entry.getKey();
-			Class c2 = entry.getValue();
-			bind(c1).to(c2).in(Singleton.class);
+
+		TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>> t = new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
+		};
+		if (!binds.containsKey(t)) {
+			binds.put(t, VLC2VideoRenderer.class);
+			// bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
+			// }).to(JavaVideoRenderer.class);
+		}
+		for (Entry<TypeLiteral<?>, Class<?>> entry : binds.entrySet()) {
+			TypeLiteral type = entry.getKey();
+			Class c = entry.getValue();
+			bind(type).to(c).in(Singleton.class);
 		}
 
-		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
-		}).to(VLC2VideoRenderer.class);
-		//bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
-		//}).to(JavaVideoRenderer.class);
 	}
 
 }

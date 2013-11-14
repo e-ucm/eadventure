@@ -97,7 +97,7 @@ public class TimerConverter {
 		expiredEffects.add(effectsConverter.convert(t.getEffects()).get(0));
 		timer.setExpiredEffects(expiredEffects);
 		// [TI - StopEffects]
-		if (t.isUsesEndCondition()) {
+		if (t.isUsesEndCondition() && !t.getPostEffects().isEmpty()) {
 			EAdList<Effect> stoppedEffects = new EAdList<Effect>();
 			stoppedEffects.add(effectsConverter.convert(t.getPostEffects())
 					.get(0));

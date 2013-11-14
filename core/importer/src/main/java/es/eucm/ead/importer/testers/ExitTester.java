@@ -37,36 +37,43 @@
 
 package es.eucm.ead.importer.testers;
 
+import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.model.Commands;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
-import es.eucm.ead.model.elements.effects.CommandEf;
 import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.Exit;
-import org.poly2tri.Poly2Tri;
-import org.poly2tri.geometry.polygon.Polygon;
-import org.poly2tri.geometry.polygon.PolygonPoint;
-import org.poly2tri.triangulation.point.TPoint;
+import es.eucm.eadventure.common.data.chapter.scenes.Cutscene;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ExitTester {
 
 	private ConverterTester tester;
 
-	public ExitTester(ConverterTester tester) {
+	private ModelQuerier modelQuerier;
+
+	public ExitTester(ConverterTester tester, ModelQuerier modelQuerier) {
 		this.tester = tester;
+		this.modelQuerier = modelQuerier;
 	}
 
 	public void test(String currentScene, Exit e, SceneElement exit,
 			List<Effect> effects, ChangeSceneEf nextScene,
 			List<Effect> postEffects, List<Effect> notEffects) {
+		// Only test if next scene is different from current one and next scene
+		// is not a cutscene (for now)
+		if (currentScene.equals(e.getNextSceneId())
+				|| isCutscene(e.getNextSceneId())) {
+			return;
+		}
 		// TEST NEXT SCENE
 		tester.command(Commands.LOG, "Update current scene");
 		tester.command(Commands.GO_SCENE, currentScene);
 		tester.check(Commands.SCENE, currentScene);
 		// Click in the scene
+		/* NOT FULLY WORKING RIGHT NOW
 		int x;
 		int y;
 		if (e.isRectangular()) {
@@ -120,8 +127,18 @@ public class ExitTester {
 			tester.check(Commands.EFFECTS, "[]");
 			notEffects.get(notEffects.size() - 1).addNextEffect(
 					new CommandEf(Commands.NOTIFY));
-		}
+		}*/
 
+	}
+
+	private boolean isCutscene(String nextSceneId) {
+		Chapter adventureData = modelQuerier.getOldChapter();
+		for (Cutscene cs : adventureData.getCutscenes()) {
+			if (cs.getId().equals(nextSceneId)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void waitEffects(List<Effect> effects) {

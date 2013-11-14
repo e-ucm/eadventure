@@ -76,7 +76,7 @@ public class ConverterTester {
 		this.instructions = new ArrayList<String>();
 		this.varsMap = new VarsMap();
 		this.modelQuerier = modelQuerier;
-		this.exitTester = new ExitTester(this);
+		this.exitTester = new ExitTester(this, modelQuerier);
 	}
 
 	public void check(String command, String result) {
@@ -116,6 +116,9 @@ public class ConverterTester {
 	public void checkBundles(ElementReference ref, String refId) {
 		if (testing) {
 			Element e = modelQuerier.getElementById(ref.getTargetId());
+			varsMap.make(ref.getConditions(), true);
+			varsMap.writeState(modelQuerier.getChapterId(), this);
+			check(Commands.GET + " " + refId + ".visible", "true");
 			if (e.getResources().size() == 1) {
 				check(Commands.GET + " " + refId + ".bundleId", "bundle0");
 			} else {

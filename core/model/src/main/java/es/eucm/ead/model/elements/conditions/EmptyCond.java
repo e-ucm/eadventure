@@ -50,6 +50,11 @@ public class EmptyCond extends Condition {
 
 	public static final EmptyCond FALSE = new EmptyCond(false);
 
+	static {
+		TRUE.setId("pref$true_cond");
+		FALSE.setId("pref$false_cond");
+	}
+
 	@Param
 	private boolean value;
 

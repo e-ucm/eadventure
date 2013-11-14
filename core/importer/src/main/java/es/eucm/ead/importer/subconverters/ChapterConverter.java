@@ -39,13 +39,13 @@ package es.eucm.ead.importer.subconverters;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.importer.testers.ConverterTester;
 import es.eucm.ead.importer.EAdElementsCache;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.subconverters.actors.AtrezzoConverter;
 import es.eucm.ead.importer.subconverters.actors.ElementConverter.DropEvent;
 import es.eucm.ead.importer.subconverters.actors.ItemConverter;
 import es.eucm.ead.importer.subconverters.actors.NPCConverter;
+import es.eucm.ead.importer.testers.ConverterTester;
 import es.eucm.ead.model.Commands;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.Chapter;
@@ -192,8 +192,9 @@ public class ChapterConverter {
 				if (cutscene.isEmpty()) {
 					logger
 							.error("Cannot import chapter: empty cutscene as first entry");
+				} else {
+					chapter.setInitialScene(cutscene.get(0));
 				}
-				chapter.setInitialScene(cutscene.get(0));
 			}
 		}
 

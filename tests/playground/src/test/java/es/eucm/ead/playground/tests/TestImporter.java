@@ -62,7 +62,8 @@ public class TestImporter {
 
 	private final String ROOT = "src/test/resources/";
 
-	private final String[] GAMES = new String[] { "FirstAidGame" };
+	private final String[] GAMES = new String[] { "ProtocoloIncendios",
+			"FirstAidGame" };
 
 	private final File TEMP = new File("temp/");
 	private final File TEMP2 = new File("temp2/");
@@ -73,8 +74,8 @@ public class TestImporter {
 
 	@Test
 	public void testImports() {
-		RunGameTest runGame = new RunGameTest();
 		for (String g : GAMES) {
+			RunGameTest runGame = new RunGameTest();
 			TEMP.mkdirs();
 			TEMP2.mkdirs();
 			FileUtils.unzip(new File(ROOT + g + ".ead"), TEMP2);
