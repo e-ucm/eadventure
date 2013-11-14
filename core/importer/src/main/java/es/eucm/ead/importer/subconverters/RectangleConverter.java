@@ -37,21 +37,20 @@
 
 package es.eucm.ead.importer.subconverters;
 
-import java.awt.Point;
-
 import com.google.inject.Singleton;
-
 import es.eucm.ead.model.assets.drawable.basics.shapes.AbstractShape;
 import es.eucm.ead.model.assets.drawable.basics.shapes.BezierShape;
 import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.eadventure.common.data.chapter.Rectangle;
 
+import java.awt.*;
+
 @Singleton
 public class RectangleConverter {
 
 	public AbstractShape convert(Rectangle r, EAdPaint fill) {
-		AbstractShape shape = null;
+		AbstractShape shape;
 		if (r.isRectangular()) {
 			shape = new RectangleShape(r.getWidth(), r.getHeight(), fill);
 		} else {

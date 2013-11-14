@@ -52,6 +52,7 @@ import es.eucm.ead.importer.testers.ConverterTester;
 import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.basics.shapes.AbstractShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.BezierShape;
 import es.eucm.ead.model.assets.multimedia.Music;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.conditions.Condition;
@@ -322,6 +323,11 @@ public class SceneConverter {
 			exit.setId(s.getId() + "$ex" + i);
 			if (e.isRectangular()) {
 				exit.setPosition(Corner.TOP_LEFT, e.getX(), e.getY());
+			} else {
+				// Wrap bezier shape
+				BezierShape bezier = (BezierShape) shape;
+				Integer[] offset = bezier.removeOffset();
+				exit.setPosition(Corner.TOP_LEFT, offset[0], offset[1]);
 			}
 
 			// [EXIT - CondInactive] [EXIT - Conditions]
@@ -428,6 +434,11 @@ public class SceneConverter {
 			activeArea.setId(a.getId());
 			if (a.isRectangular()) {
 				activeArea.setPosition(Corner.TOP_LEFT, a.getX(), a.getY());
+			} else {
+				// Wrap bezier shape
+				BezierShape bezier = (BezierShape) shape;
+				Integer[] offset = bezier.removeOffset();
+				activeArea.setPosition(Corner.TOP_LEFT, offset[0], offset[1]);
 			}
 			// Set Z
 			activeArea.setZ(ACTIVE_AREA_Z + i);

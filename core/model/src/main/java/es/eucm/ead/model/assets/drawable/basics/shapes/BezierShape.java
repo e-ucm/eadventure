@@ -38,8 +38,8 @@
 package es.eucm.ead.model.assets.drawable.basics.shapes;
 
 import es.eucm.ead.model.assets.drawable.basics.EAdShape;
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.util.Position;
@@ -70,7 +70,7 @@ public class BezierShape extends AbstractShape {
 
 	/**
 	 * Resets the shape and sets the initial point to x and y
-	 *
+	 * 
 	 * @param x
 	 *            x coordinate
 	 * @param y
@@ -156,5 +156,49 @@ public class BezierShape extends AbstractShape {
 		}
 		s.setPaint(getPaint());
 		return s;
+	}
+
+	/**
+	 * Translates the shape to match its top left corner with (0, 0)
+	 * 
+	 * @return the translation made in X and Y axis
+	 */
+	public Integer[] removeOffset() {
+		int i = 0;
+		int minX = points.get(i++);
+		int minY = points.get(i++);
+		while (i < getPoints().size()) {
+			int points = getPoints().get(i++);
+			boolean x = true;
+			for (int j = 0; j < points * 2; j++) {
+				int value = getPoints().get(i++);
+				if (x) {
+					minX = Math.min(value, minX);
+				} else {
+					minY = Math.min(value, minY);
+				}
+				x = !x;
+			}
+		}
+		EAdList<Integer> newPoints = new EAdList<Integer>();
+		i = 0;
+		newPoints.add(points.get(i++) - minX);
+		newPoints.add(points.get(i++) - minY);
+		while (i < getPoints().size()) {
+			int points = getPoints().get(i++);
+			newPoints.add(points);
+			boolean x = true;
+			for (int j = 0; j < points * 2; j++) {
+				int value = getPoints().get(i++);
+				if (x) {
+					newPoints.add(value - minX);
+				} else {
+					newPoints.add(value - minY);
+				}
+				x = !x;
+			}
+		}
+		this.setPoints(newPoints);
+		return new Integer[] { minX, minY };
 	}
 }
