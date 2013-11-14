@@ -42,7 +42,6 @@ import com.google.inject.Singleton;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.multimedia.RuntimeMusic;
 import es.eucm.ead.engine.assets.multimedia.RuntimeSound;
-import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.model.assets.multimedia.EAdSound;
 import es.eucm.ead.model.assets.multimedia.Music;
 import es.eucm.ead.model.elements.operations.SystemFields;
@@ -101,6 +100,10 @@ public class SoundManager {
 	 */
 	public void playBackgroundMusic(Music sound, boolean loop, float volume) {
 		if (backgroundMusic != null) {
+			if (backgroundMusic.getAssetDescriptor() == sound) {
+				backgroundMusic.setVolume(volume);
+				return;
+			}
 			backgroundMusic.stop();
 			backgroundMusic = null;
 		}
