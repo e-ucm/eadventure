@@ -138,4 +138,28 @@ public interface Commands {
 	 */
 	public static final String LOG = "log";
 
+	/**
+	 * Waits for a list of effects to be launched
+	 */
+	public static final String WAIT_EFFECTS = "waiteffects";
+
+	/**
+	 * Returns a list with the effects that have not been launched
+	 */
+	public static final String EFFECTS = "effects";
+
+	/**
+	 * Clears the waiting effects list
+	 */
+	public static final String CLEAR_EFFECTS = "cleareffects";
+
+	/**
+	 * Waits and ignores commands until receives a notify
+	 */
+	public static final String WAIT = "wait";
+
+	/**
+	 * Unlocks any possible waiting
+	 */
+	public static final String NOTIFY = "notify";
 }

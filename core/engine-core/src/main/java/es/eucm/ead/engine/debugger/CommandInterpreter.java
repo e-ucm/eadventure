@@ -41,19 +41,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameLoader;
+import es.eucm.ead.engine.game.interfaces.EffectsHandler.EffectsListener;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.Commands;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.ChangeChapterEf;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.ToggleSoundEf;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.reader.model.Manifest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +70,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @Singleton
-public class CommandInterpreter {
+public class CommandInterpreter implements EffectsListener {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(CommandInterpreter.class);
@@ -72,17 +79,41 @@ public class CommandInterpreter {
 
 	private GameLoader gameLoader;
 
+	private Array<String> effects;
+
+	private int waiting = 0;
+
+	private Vector2 aux = new Vector2();
+
 	@Inject
 	public CommandInterpreter(Game game, GameLoader gameLoader) {
 		this.game = game;
+		game.getEffectsHandler().addEffectListener(this);
 		this.gameLoader = gameLoader;
+		this.effects = new Array<String>();
+	}
+
+	public boolean isWaiting() {
+		return waiting > 0;
+	}
+
+	public void effectLaunched(Effect e, Event action, SceneElement parent) {
+		if (effects.size > 0 && effects.get(0).equals(e.getId())) {
+			effects.removeIndex(0);
+		}
 	}
 
 	public String interpret(String command) {
 		String result = "Invalid command.";
 		try {
 			command = command.trim();
-			if (command.equals(Commands.PASS)) {
+			if (command.equals(Commands.NOTIFY)) {
+				waiting--;
+				result = "Notified.";
+			} else if (command.equals(Commands.WAIT)) {
+				waiting++;
+				result = "Waiting.";
+			} else if (command.equals(Commands.PASS)) {
 				result = "OK.";
 			} else if (command.equals("scene")) {
 				result = game.getGUI().getScene().getElement().getId();
@@ -157,15 +188,30 @@ public class CommandInterpreter {
 				int x = Integer.parseInt(parts[1]);
 				int y = Integer.parseInt(parts[2]);
 				Gdx.input.setCursorPosition(x, Gdx.graphics.getHeight() - y);
+				Stage s = gameLoader.getEngine().getStage();
+				aux.set(x, y);
+				aux = s.screenToStageCoordinates(aux);
+				Actor a = s.hit(aux.x, aux.y, true);
 				gameLoader.getEngine().getStage().touchDown(x, y, 0,
 						Input.Buttons.LEFT);
-				result = "OK.";
+				result = a == null ? "" : a.getName();
 			} else if (command.startsWith(Commands.EXIT)) {
 				Gdx.app.exit();
 			} else if (command.startsWith(Commands.LOG)) {
 				logger.debug(command.substring(Math
 						.max(0, command.indexOf(' '))));
 				result = "OK.";
+			} else if (command.startsWith(Commands.WAIT_EFFECTS)) {
+				String[] parts = command.split(" ");
+				for (int i = 1; i < parts.length; i++) {
+					effects.add(parts[i]);
+				}
+				result = effects.size + " effects waiting";
+			} else if (command.startsWith(Commands.CLEAR_EFFECTS)) {
+				result = effects.size + " effects cleared.";
+				effects.clear();
+			} else if (command.startsWith(Commands.EFFECTS)) {
+				result = effects.toString();
 			}
 		} catch (Exception e)
 
@@ -235,7 +281,10 @@ public class CommandInterpreter {
 				reader = new BufferedReader(fh.reader());
 				String line;
 				while ((line = reader.readLine()) != null) {
-					result = interpret(line);
+					// Ignore comments
+					if (!line.startsWith("#")) {
+						result = interpret(line);
+					}
 				}
 			} catch (Exception e) {
 				logger.error("Error reading text file {}", file, e);
