@@ -95,7 +95,7 @@ public class EffectsHandler {
 
 	/**
 	 * Returns a list with all game objects linked to the current effects.
-	 *
+	 * 
 	 * @return a list with all game objects linked to the current effects.
 	 */
 	public List<EffectGO<?>> getEffects() {
@@ -104,19 +104,22 @@ public class EffectsHandler {
 
 	/**
 	 * Adds a new effect to the effects' tail
-	 *
-	 * @param e      the new effect
-	 * @param action the action that launched the effect
-	 * @param parent scene element who launched the effect
+	 * 
+	 * @param e
+	 *            the new effect
+	 * @param action
+	 *            the action that launched the effect
+	 * @param parent
+	 *            scene element who launched the effect
 	 * @return the effect game object create from the effect element
 	 */
 	public EffectGO<?> addEffect(Effect e, Event action, SceneElement parent) {
 		if (e != null) {
+			for (EffectsListener l : listeners) {
+				l.effectLaunched(e, action, parent);
+			}
 			if (gameState.evaluate(e.getCondition())) {
 				logger.debug("{} launched", e);
-				for (EffectsListener l : listeners) {
-					l.effectLaunched(e, action, parent);
-				}
 				EffectGO<?> effectGO = effectFactory.get(e);
 				if (effectGO == null) {
 					logger.warn("No game object for effect {}", e.getClass());
@@ -145,8 +148,9 @@ public class EffectsHandler {
 
 	/**
 	 * Clears all the current effects
-	 *
-	 * @param persistent sets if persistent effects should also be deleted
+	 * 
+	 * @param persistent
+	 *            sets if persistent effects should also be deleted
 	 */
 	public void clearEffects(boolean persistent) {
 		for (EffectGO<?> effect : this.getEffects()) {

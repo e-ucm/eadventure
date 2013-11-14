@@ -147,6 +147,7 @@ public class UtilsConverter {
 		watchField.addEffect(new ChangeFieldEf(new ElementField(sceneElement,
 				varState), new ElementField(sceneElement.getDefinition(),
 				varState)));
+		watchField.setId(sceneElement.getId() + "$watchbundle");
 		sceneElement.addEvent(watchField);
 	}
 

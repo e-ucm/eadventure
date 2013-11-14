@@ -85,6 +85,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -260,17 +261,22 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 		setVars();
 		setExtraVars();
-		gameState.addFieldWatcher(element.getId(), this);
-		gameState.setFieldGetter(element.getId(), this);
 
 		SceneElementDef definition = this.element.getDefinition();
 		if (definition != null) {
 			// Definition events
 			initEvents(definition.getEvents());
-			if (definition.getId() != null) {
-				gameState.setFieldGetter(definition.getId(), this);
+			// If definition is not initialized
+			if (definition.getProperties() != null
+					&& !gameState.contains(definition.getId())) {
+				for (Entry<String, Object> p : definition.getProperties()
+						.entrySet()) {
+					gameState.setValue(definition, p.getKey(), p.getValue());
+				}
 			}
 		}
+		gameState.addFieldWatcher(element.getId(), this);
+		gameState.setFieldGetter(element.getId(), this);
 	}
 
 	private void resetVars() {
@@ -324,7 +330,8 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 				: element.getDefinition().getProperty(
 						SceneElement.VAR_BUNDLE_ID,
 						ResourcedElement.INITIAL_BUNDLE);
-		// Bundle changes usually happen in the definition, so the element needs to listen for it
+		// Bundle changes usually happen in the definition, so the element needs
+		// to listen for it
 		if (definitionBundle != null) {
 			gameState.addFieldWatcher(this, element.getDefinition(),
 					SceneElement.VAR_BUNDLE_ID);
@@ -399,8 +406,9 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	/**
 	 * Adds an scene element as a child of this element
-	 *
-	 * @param element the element to add
+	 * 
+	 * @param element
+	 *            the element to add
 	 * @return the game object created for the element
 	 */
 	public SceneElementGO addSceneElement(SceneElement element) {
@@ -411,8 +419,9 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	/**
 	 * Sets position for this element
-	 *
-	 * @param position the new position
+	 * 
+	 * @param position
+	 *            the new position
 	 */
 	public void setPosition(Position position) {
 		setX(position.getX());
@@ -428,8 +437,9 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	/**
 	 * Sets x position for this element
-	 *
-	 * @param x the x coordinate
+	 * 
+	 * @param x
+	 *            the x coordinate
 	 */
 	public void setX(float x) {
 		updateRelatives = true;
@@ -475,8 +485,9 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	/**
 	 * Sets y position for this element
-	 *
-	 * @param y the y coordinate
+	 * 
+	 * @param y
+	 *            the y coordinate
 	 */
 	public void setY(float y) {
 		updateRelatives = true;
@@ -502,7 +513,7 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	/**
 	 * Returns displacement proportion in x coordination
-	 *
+	 * 
 	 * @return Returns displacement proportion in x coordination
 	 */
 	public float getDispY() {
@@ -518,8 +529,9 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	/**
 	 * Sets the z order for this element
-	 *
-	 * @param z the z order
+	 * 
+	 * @param z
+	 *            the z order
 	 */
 	public void setZ(int z) {
 		if (this.z != z) {
@@ -532,15 +544,17 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	/**
 	 * Sets scale for this element
-	 *
-	 * @param scale the scale
+	 * 
+	 * @param scale
+	 *            the scale
 	 */
 	public void setScale(float scale) {
 		this.setScale(scale, scale);
 	}
 
 	/**
-	 * @param alpha Sets the alpha for this element
+	 * @param alpha
+	 *            Sets the alpha for this element
 	 */
 	public void setAlpha(float alpha) {
 		if (alpha != this.getColor().a) {
@@ -555,9 +569,11 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	/**
 	 * Sets an input processor for this element. This processor will process the
 	 * actions before the default process
-	 *
-	 * @param processor          the processor
-	 * @param transmitToChildren if event must be transmitted to children
+	 * 
+	 * @param processor
+	 *            the processor
+	 * @param transmitToChildren
+	 *            if event must be transmitted to children
 	 */
 	public void setInputProcessor(EventListener processor,
 			boolean transmitToChildren) {
@@ -580,7 +596,8 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	}
 
 	/**
-	 * @param state Sets the state for this element
+	 * @param state
+	 *            Sets the state for this element
 	 */
 	public void setState(String state) {
 		this.state = state;
@@ -599,8 +616,9 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	/**
 	 * Returns the field for this variable of this element
-	 *
-	 * @param var the var definition
+	 * 
+	 * @param var
+	 *            the var definition
 	 */
 	@SuppressWarnings("unchecked")
 	public <S> ElementField getField(String var) {
@@ -647,8 +665,9 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 	/**
 	 * Sets a comparator to automatically reorder the scene elements (modifies
 	 * drawing order)
-	 *
-	 * @param comparator the comparator
+	 * 
+	 * @param comparator
+	 *            the comparator
 	 */
 	public void setComparator(Comparator<SceneElementGO> comparator) {
 		this.comparator = comparator;
@@ -656,9 +675,11 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 
 	/**
 	 * Launches a list of effects
-	 *
-	 * @param list   the list
-	 * @param action the action that launched the effects
+	 * 
+	 * @param list
+	 *            the list
+	 * @param action
+	 *            the action that launched the effects
 	 */
 	private void addEffects(EAdList<Effect> list,
 			com.badlogic.gdx.scenes.scene2d.Event action) {
@@ -1240,7 +1261,9 @@ public class SceneElementGO extends Group implements GameObject<SceneElement>,
 		} else if (varName.equals(SceneElement.VAR_BUNDLE_ID)) {
 			this.currentBundle = (String) value;
 			updateBundle();
-			return true;
+			// This value is shared across definition instance, so we wanted
+			// stored in the value map
+			return false;
 		} else if (varName.equals(SceneElement.VAR_ORIENTATION)) {
 			this.setOrientation((Orientation) value);
 			return true;

@@ -44,11 +44,16 @@ import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.events.WatchFieldEv;
 import es.eucm.ead.model.elements.events.enums.WatchFieldEvType;
 import es.eucm.ead.model.elements.operations.ElementField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 		FieldWatcher {
 
 	private boolean fieldUpdated;
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(WatchFieldEvGO.class);
 
 	@Inject
 	public WatchFieldEvGO(Game game) {
@@ -80,6 +85,8 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 
 	@Override
 	public <T> boolean setField(String elementId, String varName, T value) {
+		logger.debug("{} notified by {}.{}:={}", this.element.getId(),
+				elementId, varName, value);
 		fieldUpdated = true;
 		return false;
 	}

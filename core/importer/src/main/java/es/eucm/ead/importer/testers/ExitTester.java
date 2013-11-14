@@ -40,12 +40,18 @@ package es.eucm.ead.importer.testers;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.model.Commands;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.CommandEf;
 import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.scenes.Cutscene;
+import org.poly2tri.Poly2Tri;
+import org.poly2tri.geometry.polygon.Polygon;
+import org.poly2tri.geometry.polygon.PolygonPoint;
+import org.poly2tri.triangulation.point.TPoint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExitTester {
@@ -73,7 +79,6 @@ public class ExitTester {
 		tester.command(Commands.GO_SCENE, currentScene);
 		tester.check(Commands.SCENE, currentScene);
 		// Click in the scene
-		/* NOT FULLY WORKING RIGHT NOW
 		int x;
 		int y;
 		if (e.isRectangular()) {
@@ -111,9 +116,9 @@ public class ExitTester {
 				nextScene.addSimultaneousEffect(new CommandEf(Commands.NOTIFY));
 			}
 			tester.check(Commands.CLICK + " " + x + " " + y, exit.getId());
-			tester.check(transitionTime, Commands.SCENE, e.getNextSceneId());
 			tester.command(Commands.WAIT);
 			tester.check(Commands.EFFECTS, "[]");
+			tester.check(transitionTime, Commands.SCENE, e.getNextSceneId());
 		}
 
 		// Test no effect
@@ -127,7 +132,7 @@ public class ExitTester {
 			tester.check(Commands.EFFECTS, "[]");
 			notEffects.get(notEffects.size() - 1).addNextEffect(
 					new CommandEf(Commands.NOTIFY));
-		}*/
+		}
 
 	}
 

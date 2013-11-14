@@ -84,9 +84,11 @@ public class ValueMap implements TweenAccessor<ElementField> {
 
 	/**
 	 * Sets the field to given value
-	 *
-	 * @param field the field
-	 * @param value the value to the field
+	 * 
+	 * @param field
+	 *            the field
+	 * @param value
+	 *            the value to the field
 	 */
 	public <S> void setValue(ElementField field, S value) {
 		setValue(
@@ -95,11 +97,15 @@ public class ValueMap implements TweenAccessor<ElementField> {
 	}
 
 	/**
-	 * Returns the value for a variable in the given element
-	 * Be cautious using this method because it could ignore initial values for variables
-	 * @param elementId the element identifier
-	 * @param varName the variable name
-	 * @param defaultValue the default value, in case it's not set
+	 * Returns the value for a variable in the given element Be cautious using
+	 * this method because it could ignore initial values for variables
+	 * 
+	 * @param elementId
+	 *            the element identifier
+	 * @param varName
+	 *            the variable name
+	 * @param defaultValue
+	 *            the default value, in case it's not set
 	 * @return the value
 	 */
 	@SuppressWarnings("unchecked")
@@ -122,10 +128,12 @@ public class ValueMap implements TweenAccessor<ElementField> {
 
 	/**
 	 * Returns the value of the field
-	 *
-	 *
-	 * @param field the field to be consulted
-	 * @param defaultValue the default value
+	 * 
+	 * 
+	 * @param field
+	 *            the field to be consulted
+	 * @param defaultValue
+	 *            the default value
 	 * @return the value of the field
 	 */
 	public <S> S getValue(ElementField field, S defaultValue) {
@@ -136,8 +144,9 @@ public class ValueMap implements TweenAccessor<ElementField> {
 	/**
 	 * Returns the variables associated to an element, whose values are
 	 * different from the defaults
-	 *
-	 * @param element the element. If the element is null, it returns system vars
+	 * 
+	 * @param element
+	 *            the element. If the element is null, it returns system vars
 	 * @return a map with the variables
 	 */
 	public Map<String, Object> getElementVars(Identified element) {
@@ -151,9 +160,11 @@ public class ValueMap implements TweenAccessor<ElementField> {
 	/**
 	 * Returns the final element associated to the given element. It could be
 	 * the element itself, but if the element is a field (with type
-	 * {@link es.eucm.ead.model.elements.BasicElement}), the element pointed by the field will be returned,
-	 *
-	 * @param element the element
+	 * {@link es.eucm.ead.model.elements.BasicElement}), the element pointed by
+	 * the field will be returned,
+	 * 
+	 * @param element
+	 *            the element
 	 * @return the final element pointed by the element
 	 */
 	public Identified maybeDecodeField(Identified element) {
@@ -168,8 +179,9 @@ public class ValueMap implements TweenAccessor<ElementField> {
 
 	/**
 	 * Removes all fields associated to the given element
-	 *
-	 * @param element the element
+	 * 
+	 * @param element
+	 *            the element
 	 */
 	public void remove(Identified element) {
 		valuesMap.remove(maybeDecodeField(element).getId());
@@ -188,4 +200,14 @@ public class ValueMap implements TweenAccessor<ElementField> {
 		setValue(elementField, floats[0]);
 	}
 
+	/**
+	 * Returns if the value map contains an entry for the given id
+	 * 
+	 * @param id
+	 *            element id
+	 * @return
+	 */
+	public boolean contains(String id) {
+		return this.valuesMap.containsKey(id);
+	}
 }

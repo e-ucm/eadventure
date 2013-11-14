@@ -144,7 +144,8 @@ public class ChangeFieldEf extends Effect {
 	}
 
 	public String toString() {
-		return element + "." + varName + "=" + operation;
+		return (element == null ? "" : element.getId()) + "." + varName + "="
+				+ operation;
 	}
 
 }

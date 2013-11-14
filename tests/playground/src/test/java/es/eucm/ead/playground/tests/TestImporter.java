@@ -62,8 +62,8 @@ public class TestImporter {
 
 	private final String ROOT = "src/test/resources/";
 
-	private final String[] GAMES = new String[] { "ProtocoloIncendios",
-			"FirstAidGame" };
+	private final String[] GAMES = new String[] { "FirstAidGame",
+			"ProtocoloIncendios" };
 
 	private final File TEMP = new File("temp/");
 	private final File TEMP2 = new File("temp2/");
