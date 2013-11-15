@@ -37,38 +37,52 @@
 
 package es.eucm.ead.engine.canvas;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
+import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.util.Matrix;
 import es.eucm.ead.model.params.util.Rectangle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Stack;
 
-/**
- * <p>
- * Parametric canvas, which must be implemented for the different graphic
- * contexts (e.g. Graphics2D in Java)
- * </p>
- * 
- */
+/** <p>
+ * Parametric canvas, which must be implemented for the different graphic contexts (e.g. Graphics2D in Java)
+ * </p> */
 public class GdxCanvas extends SpriteBatch {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(GdxCanvas.class);
+	private final ShaderProgram fontShader;
+	private final ShaderProgram defaultShader;
 
 	private Stack<Matrix4> matrixes;
 
 	public GdxCanvas() {
 		matrixes = new Stack<Matrix4>();
+		fontShader = new ShaderProgram(Gdx.files
+				.internal(AssetHandlerImpl.ENGINE_RESOURCES_PATH
+						+ "shaders/default.vert"), Gdx.files
+				.internal(AssetHandlerImpl.ENGINE_RESOURCES_PATH
+						+ "shaders/font.frag"));
+		if (!fontShader.isCompiled()) {
+			logger.error("Font shader compilation failed: {}", fontShader
+					.getLog());
+		}
+		defaultShader = createDefaultShader();
 	}
 
-	/**
-	 * Creates a {@link Matrix4} compatible with Gdx
-	 *
+	/** Creates a {@link Matrix4} compatible with Gdx
+	 * 
 	 * @param m matrix
 	 * @param dst destination matrix
-	 * @return the compatible matrix
-	 */
+	 * @return the compatible matrix */
 	public Matrix4 convertMatrix(Matrix m, Matrix4 dst) {
 		float[] val = dst.getValues();
 
@@ -97,6 +111,7 @@ public class GdxCanvas extends SpriteBatch {
 			EAdPaint paint) {
 		y -= font.getBitmapFont().getAscent();
 		x += font.getBitmapFont().getSpaceWidth() / 2;
+		this.setShader(fontShader);
 		// Border
 		if (paint.getBorder() instanceof ColorFill) {
 			ColorFill c = (ColorFill) paint.getBorder();
@@ -117,6 +132,7 @@ public class GdxCanvas extends SpriteBatch {
 					this.getColor().a * c.getAlpha() / 255.0f);
 			font.getBitmapFont().draw(this, text, x, y);
 		}
+		this.setShader(defaultShader);
 	}
 
 	public void save() {
@@ -140,12 +156,9 @@ public class GdxCanvas extends SpriteBatch {
 		setTransformMatrix(getTransformMatrix().rotate(0, 0, 1, angle));
 	}
 
-	/**
-	 * Set the clipping rectangle on the canvas. The clip is used to limit the
-	 * section of the canvas that needs to be draw.
+	/** Set the clipping rectangle on the canvas. The clip is used to limit the section of the canvas that needs to be draw.
 	 * 
-	 * @param rectangle
-	 */
+	 * @param rectangle */
 	// TODO clip with shapes to
 	public void setClip(Rectangle rectangle) {
 

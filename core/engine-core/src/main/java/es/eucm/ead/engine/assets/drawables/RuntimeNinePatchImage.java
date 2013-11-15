@@ -37,16 +37,15 @@
 
 package es.eucm.ead.engine.assets.drawables;
 
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.assets.AbstractRuntimeAsset;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.canvas.GdxCanvas;
 import es.eucm.ead.model.assets.drawable.basics.NinePatchImage;
+
+import java.util.List;
 
 public class RuntimeNinePatchImage extends AbstractRuntimeAsset<NinePatchImage>
 		implements RuntimeDrawable<NinePatchImage> {
@@ -67,8 +66,8 @@ public class RuntimeNinePatchImage extends AbstractRuntimeAsset<NinePatchImage>
 				.getImage());
 		Texture t = image.getTextureHandle();
 
-		this.width = t.getWidth();
-		this.height = t.getHeight();
+		this.width = descriptor.getWidth();
+		this.height = descriptor.getHeight();
 		ninePatch = new NinePatch(t, descriptor.getLeft(), descriptor
 				.getRight(), descriptor.getTop(), descriptor.getBottom());
 		return true;

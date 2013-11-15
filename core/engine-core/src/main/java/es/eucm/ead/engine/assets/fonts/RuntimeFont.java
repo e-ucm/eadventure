@@ -38,20 +38,21 @@
 package es.eucm.ead.engine.assets.fonts;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.inject.Inject;
+
 import es.eucm.ead.engine.assets.AbstractRuntimeAsset;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.model.assets.text.EAdFont;
 
-/**
- * Represents a runtime font. Unlike {@link EAdFont}, which only contains static
- * information about the font, this class contains information that would be
- * required during the game execution, such as font measurements.
+/** Represents a runtime font. Unlike {@link EAdFont}, which only contains static information about the font, this class contains
+ * information that would be required during the game execution, such as font measurements.
  * 
- * {@link RuntimeFont} is born from an {@link EAdFont}
- */
+ * {@link RuntimeFont} is born from an {@link EAdFont} */
 public class RuntimeFont extends AbstractRuntimeAsset<EAdFont> {
 
 	private BitmapFont bitmapFont;
@@ -82,27 +83,26 @@ public class RuntimeFont extends AbstractRuntimeAsset<EAdFont> {
 			fontData = fileName + ".fnt";
 			fontPng = fileName + ".png";
 		}
-		bitmapFont = new BitmapFont(ah.getFileHandle(fontData), ah
-				.getFileHandle(fontPng), true);
+
+		Texture texture = new Texture(ah.getFileHandle(fontPng), true);
+		texture.setFilter(TextureFilter.MipMapLinearNearest,
+				TextureFilter.Linear);
+		bitmapFont = new BitmapFont(ah.getFileHandle(fontData),
+				new TextureRegion(texture), true);
 		return true;
 	}
 
-	/**
-	 * Returns the string width with the given font in the current context
+	/** Returns the string width with the given font in the current context
 	 * 
-	 * @param string
-	 *            String to be measured
-	 * @return the string width with the given font in the current context
-	 */
+	 * @param string String to be measured
+	 * @return the string width with the given font in the current context */
 	public int stringWidth(String string) {
 		return Math.round(bitmapFont.getBounds(string).width);
 	}
 
-	/**
-	 * Returns one line's height with the given font
-	 *
-	 * @return one line's height with the given font
-	 */
+	/** Returns one line's height with the given font
+	 * 
+	 * @return one line's height with the given font */
 	public int lineHeight() {
 		return Math.round(bitmapFont.getLineHeight());
 	}

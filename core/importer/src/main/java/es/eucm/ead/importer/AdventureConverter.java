@@ -177,7 +177,7 @@ public class AdventureConverter {
 		BubbleNameEv event = new BubbleNameEv();
 		event.setBubble(new NinePatchImage("@drawable/bubblename.png", 15, 15,
 				15, 15));
-		event.setFont(new BasicFont("@binary/fonts/ubuntu-16-bold"));
+		event.setFont(new BasicFont("@binary/fonts/arial-16"));
 		event.setTextPaint(ColorFill.WHITE);
 		model.addEvent(event);
 

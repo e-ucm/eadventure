@@ -41,6 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
+
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
 import es.eucm.ead.engine.factories.SceneElementFactory;
@@ -50,6 +51,7 @@ import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
 import es.eucm.ead.model.assets.drawable.basics.EAdShape;
 import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.NinePatchImage;
 import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
 import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.ead.model.assets.drawable.basics.shapes.BalloonShape;
@@ -61,6 +63,7 @@ import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.scenes.GhostElement;
 import es.eucm.ead.model.elements.scenes.GroupElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Position.Corner;
@@ -131,7 +134,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		alpha = 0.0f;
 		gone = false;
 		effectsHud = gui.getHUD(GUI.EFFECTS_HUD_ID);
-		bubbleDialog = sceneElementFactory.get(this.getVisualRepresentation());
+		bubbleDialog = sceneElementFactory.get(this.getVisualRepresentation2());
 		bubbleDialog.setInputProcessor(this, true);
 		effectsHud.addSceneElement(bubbleDialog);
 		hasTime = effect.getTime() > 0;
@@ -142,20 +145,58 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	}
 
 	protected GroupElement getVisualRepresentation2() {
-		//		int horizontalMargin = width / MARGIN_PROPORTION;
-		//		int verticalMargin = height / MARGIN_PROPORTION;
-		//		int left = horizontalMargin;
-		//		int right = width - horizontalMargin;
-		//		int top = verticalMargin;
-		//		int bottom = height / HEIGHT_PROPORTION + top;
-		//
-		//		NinePatchImage balloonBg = new NinePatchImage(new Image(
-		//				"@drawable/balloon_in.png"), 20, 20, 20, 20);
-		//		NinePatchImage balloongFg = new NinePatchImage(new Image(
-		//				"@drawable/balloon_in.png"), 20, 20, 20, 20);
-		//		balloonBg.setWidth(right - left);
-		//		balloonBg.setHeight(bottom - top);
-		return null;
+		int width = game.getGameState().getValue(SystemFields.GAME_WIDTH, 800);
+		int height = game.getGameState()
+				.getValue(SystemFields.GAME_HEIGHT, 600);
+		int horizontalMargin = width / MARGIN_PROPORTION;
+		int verticalMargin = height / MARGIN_PROPORTION;
+		int left = horizontalMargin;
+		int right = width - horizontalMargin;
+		int top = verticalMargin;
+		int bottom = height / HEIGHT_PROPORTION + top;
+
+		GroupElement repr = new GroupElement();
+		// To catch all clicks
+		repr.addSceneElement(new GhostElement(true));
+
+		// Add bubble
+		NinePatchImage image = new NinePatchImage(
+				"@drawable/speak_balloon.png", 20, 20, 20, 20);
+		image.setWidth(right - left);
+		image.setHeight(bottom - top);
+		SceneElement balloon = new SceneElement(image);
+		balloon.setPosition(Corner.CENTER, 0, 0);
+		repr.addSceneElement(balloon);
+
+		// Add text
+		EAdCaption textCaption = effect.getCaption();
+		textCaption.setPadding(MARGIN);
+		textCaption.setPreferredWidth(right - left);
+		textCaption.setPreferredHeight(bottom - top);
+		caption = (RuntimeCaption) assetHandler.getRuntimeAsset(textCaption);
+		caption.loadAsset();
+		caption.reset();
+		SceneElement text = new SceneElement(textCaption);
+		text.setPosition(Corner.CENTER, 0, 0);
+		repr.addSceneElement(text);
+
+		// Add dots
+		FramesAnimation f = new FramesAnimation();
+		f.addFrame(new Frame(new Image("@drawable/dots.png"), 500));
+		f.addFrame(new Frame(new RectangleShape(1, 1, ColorFill.TRANSPARENT),
+				500));
+		if (dots == null) {
+			dots = new SceneElement(f);
+			dots.setAppearance("done", new Image("@drawable/dot.png"));
+		}
+		game.getGameState().setValue(dots, SceneElement.VAR_BUNDLE_ID,
+				SceneElementDef.INITIAL_BUNDLE);
+		dots.setPosition(new Position(Corner.CENTER, (right - left) / 2 - 20,
+				(bottom - top) / 2 - 20));
+		repr.addSceneElement(dots);
+
+		repr.setPosition(Corner.CENTER, width / 2, height / 2);
+		return repr;
 	}
 
 	protected GroupElement getVisualRepresentation() {
@@ -224,7 +265,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 				1000));
 		dots = new SceneElement(f);
 		dots.setAppearance("done", new Image("@drawable/dot.png"));
-		dots.setPosition(new Position(Corner.CENTER, right - 20, bottom - 15));
+		dots.setPosition(new Position(Corner.CENTER, right - 35, bottom - 35));
 
 		complex.getSceneElements().add(dots);
 
@@ -255,7 +296,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 			}
 		} else {
 			if (alpha >= 1.0f) {
-				finished = finished || caption.getTimesRead() > 0;
+				finished = caption.getTimesRead() > 0;
 			} else {
 				alpha += 0.003f * game.getSkippedMilliseconds();
 				if (alpha > 1.0f) {
