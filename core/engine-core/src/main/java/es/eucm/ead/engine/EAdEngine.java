@@ -40,12 +40,8 @@ package es.eucm.ead.engine;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.google.inject.Inject;
@@ -145,8 +141,6 @@ public class EAdEngine implements ApplicationListener {
 
 		Gdx.input.setInputProcessor(stage);
 
-		stage.addActor(new Logo());
-
 		gameLoader.loadGame(this);
 		addDebug();
 		for (ApplicationListener a : applicationListeners) {
@@ -240,39 +234,6 @@ public class EAdEngine implements ApplicationListener {
 
 	public void setDebug(boolean debug) {
 		this.debug = debug;
-	}
-
-	public class Logo extends Actor {
-
-		private TextureRegion textureRegion = null;
-
-		private float alpha = 0.0f;
-
-		private float initialTime = 1000f;
-
-		public Logo() {
-			Texture texture = new Texture(Gdx.files
-					.internal("eadventurelogo.png"));
-			textureRegion = new TextureRegion(texture);
-			textureRegion.flip(false, true);
-		}
-
-		@Override
-		public void draw(SpriteBatch batch, float parentAlpha) {
-			batch.setColor(1.0f, 1.0f, 1.0f, alpha);
-			batch.draw(textureRegion, stage.getWidth() / 2
-					- textureRegion.getRegionWidth() / 2, stage.getHeight() / 2
-					- textureRegion.getRegionHeight() / 2);
-		}
-
-		public void act(float delta) {
-			if (initialTime > 0.0f) {
-				initialTime -= delta;
-			} else if (initialTime <= 0.0f) {
-				alpha += delta / 2000.0f;
-				alpha = Math.min(1.0f, alpha);
-			}
-		}
 	}
 
 }

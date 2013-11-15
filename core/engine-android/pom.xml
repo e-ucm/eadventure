@@ -11,7 +11,7 @@
     </parent>
 
 	<artifactId>ead-engine-android</artifactId>
-	<packaging>apklib</packaging>
+	<packaging>jar</packaging>
 	<name>eAdventure Android Engine</name>
 	<description>
 		Android engine;

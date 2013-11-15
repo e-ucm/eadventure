@@ -234,7 +234,7 @@
         <!-- used in launch4j exes -->
         <launcher.copyright>(C) 2005-2011 e-UCM Research Group</launcher.copyright>
         <launcher.minJvmVersion>1.6.0</launcher.minJvmVersion>
-        <launcher.maxJvmVersion>1.7.0</launcher.maxJvmVersion>
+        <launcher.maxJvmVersion>1.6.0</launcher.maxJvmVersion>
         <launcher.initialHeapSize>128</launcher.initialHeapSize>
         <launcher.maxHeapSize>512</launcher.maxHeapSize>
         <launcher.numericalVersion>2.0.1.0</launcher.numericalVersion>

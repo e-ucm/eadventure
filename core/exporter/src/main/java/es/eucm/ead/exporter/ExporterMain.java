@@ -38,6 +38,7 @@
 package es.eucm.ead.exporter;
 
 import es.eucm.ead.importer.AdventureConverter;
+import es.eucm.ead.tools.java.utils.FileUtils;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -54,9 +55,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Properties;
 
-import static es.eucm.ead.exporter.ExporterMain.Verbosity.Normal;
-import static es.eucm.ead.exporter.ExporterMain.Verbosity.Quiet;
-import static es.eucm.ead.exporter.ExporterMain.Verbosity.Verbose;
+import static es.eucm.ead.exporter.ExporterMain.Verbosity.*;
 
 public class ExporterMain {
 
@@ -99,6 +98,7 @@ public class ExporterMain {
 
 	private static Verbosity verbosity = Normal;
 
+	@SuppressWarnings("all")
 	public static void main(String args[]) {
 
 		Options options = new Options();
@@ -107,10 +107,9 @@ public class ExporterMain {
 		Option quiet = new Option("q", "quiet", false, "be extra quiet");
 		Option verbose = new Option("v", "verbose", false, "be extra verbose");
 
-		Option legacy = OptionBuilder.withArgName("target> <s> <t").hasArgs(3)
+		Option legacy = OptionBuilder.withArgName("s> <t").hasArgs(3)
 				.withDescription(
 						"source is a version 1.x game; must specify\n"
-								+ "<target> folder for imported game \n"
 								+ "<simplify> if 'true', simplifies result\n"
 								+ "<translate> if 'true', enables translation")
 				.withLongOpt("import").create("i");
@@ -134,6 +133,11 @@ public class ExporterMain {
 								+ "<deploy> ('true' to install & deploy)")
 				.withLongOpt("apk").create("a");
 
+		// EAD option
+		Option ead = OptionBuilder
+				.withDescription("EAD packaging (eAdventure)").withLongOpt(
+						"ead").create("e");
+
 		options.addOption(legacy);
 		options.addOption(help);
 		options.addOption(quiet);
@@ -141,6 +145,7 @@ public class ExporterMain {
 		options.addOption(jar);
 		options.addOption(war);
 		options.addOption(apk);
+		options.addOption(ead);
 
 		CommandLineParser parser = new PosixParser();
 		CommandLine cmd;
@@ -175,20 +180,17 @@ public class ExporterMain {
 		// optional import step
 		if (cmd.hasOption(legacy.getOpt())) {
 			String[] values = cmd.getOptionValues(legacy.getOpt());
-			String target = values[0];
 
 			AdventureConverter converter = new AdventureConverter();
-			if (values.length > 0 && values[1].equalsIgnoreCase("true")) {
+			if (values.length > 0 && values[0].equalsIgnoreCase("true")) {
 				converter.setEnableSimplifications(true);
 			}
-			if (values.length > 1 && values[2].equalsIgnoreCase("true")) {
+			if (values.length > 1 && values[1].equalsIgnoreCase("true")) {
 				converter.setEnableTranslations(true);
 			}
 
-			converter.convert(source, target);
-
 			// set source for next steps to import-target
-			source = target;
+			source = converter.convert(source, null);
 		}
 
 		if (cmd.hasOption(jar.getOpt())) {
@@ -222,6 +224,12 @@ public class ExporterMain {
 				e.setWarPath(cmd.getOptionValue(war.getOpt()));
 				e.export(source, extras[1]);
 			}
+		} else if (cmd.hasOption(ead.getOpt())) {
+			String destiny = extras[1];
+			if (!destiny.endsWith(".ead")) {
+				destiny += ".ead";
+			}
+			FileUtils.zip(new File(destiny), new File(source));
 		} else {
 			showHelp(options);
 		}

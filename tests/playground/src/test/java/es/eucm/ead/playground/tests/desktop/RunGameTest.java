@@ -72,7 +72,8 @@ public class RunGameTest {
 		Tester tester = new Tester(g.getInjector().getInstance(
 				CommandInterpreter.class));
 		String commands = reader.read(path + "/test");
-		for (String command : commands.split(System.lineSeparator())) {
+		for (String command : commands.split(System
+				.getProperty("line.separator"))) {
 			String parts[] = command.split(";");
 			tester.addCommandTest(new CommandTest(Integer.parseInt(parts[0]),
 					parts[1], parts.length == 3 ? parts[2] : null));

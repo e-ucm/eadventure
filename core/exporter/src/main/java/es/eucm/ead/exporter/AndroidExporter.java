@@ -96,7 +96,7 @@ public class AndroidExporter {
 		this.stdErr = stdErr;
 	}
 
-	public void export(String projectFolder, String destination,
+	public void export(String projectPath, String destination,
 			Properties properties, boolean installAndDeploy) {
 		// Copy android-pom.xml to android folder
 		InputStream apkpom = ClassLoader
@@ -105,25 +105,27 @@ public class AndroidExporter {
 		InputStream manifest = generateManifest(properties);
 		OutputStream os = null;
 		try {
+			File projectFolder = new File(projectPath);
+			File mavenFolder = FileUtils.createTempDir("eadmaven", "");
 			File androidFolder = FileUtils.createTempDir("eadandroid", "");
 			FileUtils.deleteRecursive(androidFolder);
 			androidFolder.mkdirs();
-			addTitle(androidFolder, properties);
-			addIcon(androidFolder, properties);
+			addTitle(mavenFolder, properties);
+			addIcon(mavenFolder, properties);
 
-			logger.info("Finished adding title & icon to {}", androidFolder
+			logger.info("Finished adding title & icon to {}", mavenFolder
 					.getAbsolutePath());
 
-			FileUtils.copy(apkpom, new FileOutputStream(new File(androidFolder,
+			FileUtils.copy(apkpom, new FileOutputStream(new File(mavenFolder,
 					"pom.xml")));
-			FileUtils.copy(manifest, new FileOutputStream(new File(
-					androidFolder, "AndroidManifest.xml")));
+			FileUtils.copy(manifest, new FileOutputStream(new File(mavenFolder,
+					"AndroidManifest.xml")));
 
 			logger.info("Added manifest and pom; now copying game assets...");
 
 			// Copy game assets to folder
-			FileUtils.copyRecursive(new File(projectFolder), androidFolder,
-					null);
+			FileUtils
+					.copyRecursive(projectFolder, androidFolder, androidFolder);
 			// Copy engine assets to folder
 			for (String s : R.RESOURCES) {
 				InputStream ris = ClassLoader.getSystemResourceAsStream(s);
@@ -155,8 +157,6 @@ public class AndroidExporter {
 			if (installAndDeploy) {
 				mavenArguments = new String[] {
 						"-Dresources=" + androidFolder.getAbsolutePath(),
-						"-DfailIfNoTests=false",
-						"-Dandroid.extractDuplicates=true",
 						"-Dandroid.sdk.path="
 								+ properties.getProperty(SDK_HOME), "-X",
 						"clean", "compile", "install", "android:deploy",
@@ -164,8 +164,6 @@ public class AndroidExporter {
 			} else {
 				mavenArguments = new String[] {
 						"-Dresources=" + androidFolder.getAbsolutePath(),
-						"-DfailIfNoTests=false",
-						"-Dandroid.extractDuplicates=true",
 						"-Dandroid.sdk.path="
 								+ properties.getProperty(SDK_HOME), "-X",
 						"clean", "compile", "install", };
@@ -174,7 +172,7 @@ public class AndroidExporter {
 			logger.info("Starting maven build of game .apk...");
 
 			MavenCli maven = new MavenCli();
-			maven.doMain(mavenArguments, androidFolder.getAbsolutePath(),
+			maven.doMain(mavenArguments, mavenFolder.getAbsolutePath(),
 					getStdOut(), getStdErr());
 
 			logger.info("... finished. Now copying .apk to final destination");
@@ -189,7 +187,7 @@ public class AndroidExporter {
 					destination += ".apk";
 					destinationFile = new File(destination);
 				}
-				FileUtils.copy(new File(androidFolder.getAbsolutePath()
+				FileUtils.copy(new File(mavenFolder.getAbsolutePath()
 						+ "/target", "game-android.apk"), destinationFile);
 			}
 		} catch (Exception e) {
@@ -221,12 +219,12 @@ public class AndroidExporter {
 		}
 	}
 
-	private void addIcon(File androidFolder, Properties properties) {
+	private void addIcon(File mavenFolder, Properties properties) {
 		String icon = properties.getProperty(ICON);
 		if (icon != null) {
 			File iconFile = new File(icon);
 			if (iconFile.exists()) {
-				File drawable = new File(androidFolder, "res/drawable/");
+				File drawable = new File(mavenFolder, "res/drawable/");
 				drawable.mkdirs();
 				try {
 					FileUtils.copy(iconFile, new File(drawable, "icon.png"));
@@ -237,7 +235,7 @@ public class AndroidExporter {
 			}
 		} else {
 			logger.warn("File {} for icon not found; making one up", icon);
-			File drawable = new File(androidFolder, "res/drawable/");
+			File drawable = new File(mavenFolder, "res/drawable/");
 			drawable.mkdirs();
 			try {
 				int w = 36;
@@ -258,10 +256,10 @@ public class AndroidExporter {
 		}
 	}
 
-	private void addTitle(File androidFolder, Properties properties) {
+	private void addTitle(File mavenFolder, Properties properties) {
 		String title = properties.getProperty(AndroidExporter.TITLE,
 				"eAdventure game");
-		File values = new File(androidFolder, "res/values/");
+		File values = new File(mavenFolder, "res/values/");
 		values.mkdirs();
 		File strings = new File(values, "strings.xml");
 		Map<String, String> substitutions = new HashMap<String, String>();

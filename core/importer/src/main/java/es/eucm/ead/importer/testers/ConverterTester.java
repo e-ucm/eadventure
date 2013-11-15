@@ -108,7 +108,7 @@ public class ConverterTester {
 	public void write(String file, TextFileWriter writer) {
 		String text = "";
 		for (String s : instructions) {
-			text += s + System.lineSeparator();
+			text += s + System.getProperty("line.separator");
 		}
 		writer.write(text, file);
 	}
