@@ -1,6 +1,9 @@
-![eAdventure logo](http://img18.imageshack.us/img18/8782/logoeditor.png)
+# eAdventure it is now uAdventure
 
-# eAdventure: creating and running adventure games
+Few years ago we started to rebuild eAdventure with the same spirit: 1) low technical knowledge to use the tool, 2) Interoperability, 3) Open Source philosophy; but trying to address the technical debt and platform limitations we had with eAdventure. If you were interested in eAdventure, please **have a look to [uAdventure](https://github.com/e-ucm/uAdventure)**.
+
+## Old eAdventure info
+### eAdventure: creating and running adventure games
 
 The eAdventure platform is a **free and open source game framework** based on Java, 
 with an emphasis on educational uses. eAdventure uses a declarative XML language to create 
@@ -14,9 +17,4 @@ to provide support for many new features.
 
 You can dowlonad [the latest release of eAdventure from here](http://e-adventure.e-ucm.es/download/).
 
-# [eAdventure Official Site](http://e-adventure.e-ucm.es/)
-
-# [Google +](https://plus.google.com/b/105192112768097933442/105192112768097933442/)
-
-# [Trying out](https://github.com/anserran/eadventure/wiki/Trying-it-out)
-
+### [eAdventure Official Site](http://e-adventure.e-ucm.es/)
